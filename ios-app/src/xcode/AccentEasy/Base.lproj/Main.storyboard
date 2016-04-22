@@ -4272,53 +4272,6 @@ about this lesson</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQj-zh-Tl6">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="4lZ-1J-TKE" appends="YES" id="ia1-G2-Y9r"/>
-                                </connections>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83d-6h-jq5">
-                                <rect key="frame" x="0.0" y="100" width="375" height="567"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ek6-at-N5H">
-                                        <rect key="frame" x="0.0" y="40" width="375" height="527"/>
-                                        <subviews>
-                                            <containerView opaque="NO" contentMode="bottom" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dOk-Sr-0K7">
-                                                <rect key="frame" x="0.0" y="5" width="375" height="522"/>
-                                                <connections>
-                                                    <segue destination="t93-HT-Mrj" kind="embed" id="6wU-8z-TLT"/>
-                                                </connections>
-                                            </containerView>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.70980392160000005" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FXB-ry-x63">
-                                        <rect key="frame" x="148" y="1" width="80" height="40"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="FXB-ry-x63" secondAttribute="height" multiplier="2:1" id="nd2-E0-YWE"/>
-                                        </constraints>
-                                        <state key="normal" image="ic_slider.png"/>
-                                        <connections>
-                                            <action selector="sliderClick:" destination="kpv-xE-MOX" eventType="touchUpInside" id="yIw-n4-GwW"/>
-                                            <outletCollection property="gestureRecognizers" destination="NkV-Os-jkP" appends="YES" id="6cU-dv-poY"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="FXB-ry-x63" firstAttribute="centerX" secondItem="83d-6h-jq5" secondAttribute="centerX" id="1gX-3X-LrA"/>
-                                    <constraint firstItem="ek6-at-N5H" firstAttribute="width" secondItem="83d-6h-jq5" secondAttribute="width" id="5Js-n0-PIY"/>
-                                    <constraint firstItem="FXB-ry-x63" firstAttribute="height" secondItem="83d-6h-jq5" secondAttribute="height" multiplier="0.07" id="9LZ-FB-z0U"/>
-                                    <constraint firstItem="ek6-at-N5H" firstAttribute="centerX" secondItem="83d-6h-jq5" secondAttribute="centerX" id="AD3-YU-Bn0"/>
-                                    <constraint firstItem="ek6-at-N5H" firstAttribute="height" secondItem="83d-6h-jq5" secondAttribute="height" multiplier="9.3/10" id="KSA-Op-YsI"/>
-                                    <constraint firstItem="ek6-at-N5H" firstAttribute="bottom" secondItem="83d-6h-jq5" secondAttribute="bottom" id="ONQ-76-Ncp"/>
-                                    <constraint firstItem="FXB-ry-x63" firstAttribute="top" secondItem="83d-6h-jq5" secondAttribute="top" constant="1" id="RZR-Wx-q4L"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jm-Ds-MlM">
                                 <rect key="frame" x="303" y="110" width="56" height="56"/>
                                 <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -4455,6 +4408,55 @@ about this lesson</string>
                                     <action selector="btnNextLessonTouchUp:" destination="kpv-xE-MOX" eventType="touchUpInside" id="kcW-d2-L0o"/>
                                 </connections>
                             </button>
+                            <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQj-zh-Tl6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="4lZ-1J-TKE" appends="YES" id="ia1-G2-Y9r"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83d-6h-jq5">
+                                <rect key="frame" x="0.0" y="100" width="375" height="567"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ek6-at-N5H">
+                                        <rect key="frame" x="0.0" y="40" width="375" height="527"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.70980392160000005" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FXB-ry-x63">
+                                        <rect key="frame" x="148" y="1" width="80" height="40"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="FXB-ry-x63" secondAttribute="height" multiplier="2:1" id="nd2-E0-YWE"/>
+                                        </constraints>
+                                        <state key="normal" image="ic_slider.png"/>
+                                        <connections>
+                                            <action selector="sliderClick:" destination="kpv-xE-MOX" eventType="touchUpInside" id="yIw-n4-GwW"/>
+                                            <outletCollection property="gestureRecognizers" destination="NkV-Os-jkP" appends="YES" id="6cU-dv-poY"/>
+                                        </connections>
+                                    </button>
+                                    <containerView opaque="NO" contentMode="bottom" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dOk-Sr-0K7">
+                                        <rect key="frame" x="0.0" y="23" width="375" height="522"/>
+                                        <connections>
+                                            <segue destination="t93-HT-Mrj" kind="embed" id="6wU-8z-TLT"/>
+                                        </connections>
+                                    </containerView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="FXB-ry-x63" firstAttribute="centerX" secondItem="83d-6h-jq5" secondAttribute="centerX" id="1gX-3X-LrA"/>
+                                    <constraint firstItem="ek6-at-N5H" firstAttribute="width" secondItem="83d-6h-jq5" secondAttribute="width" id="5Js-n0-PIY"/>
+                                    <constraint firstItem="FXB-ry-x63" firstAttribute="height" secondItem="83d-6h-jq5" secondAttribute="height" multiplier="0.07" id="9LZ-FB-z0U"/>
+                                    <constraint firstItem="ek6-at-N5H" firstAttribute="centerX" secondItem="83d-6h-jq5" secondAttribute="centerX" id="AD3-YU-Bn0"/>
+                                    <constraint firstAttribute="bottom" secondItem="dOk-Sr-0K7" secondAttribute="bottom" id="AE5-jD-nmc"/>
+                                    <constraint firstItem="dOk-Sr-0K7" firstAttribute="width" secondItem="83d-6h-jq5" secondAttribute="width" id="Clt-Hn-WiJ"/>
+                                    <constraint firstItem="ek6-at-N5H" firstAttribute="height" secondItem="83d-6h-jq5" secondAttribute="height" multiplier="9.3/10" id="KSA-Op-YsI"/>
+                                    <constraint firstItem="ek6-at-N5H" firstAttribute="bottom" secondItem="83d-6h-jq5" secondAttribute="bottom" id="ONQ-76-Ncp"/>
+                                    <constraint firstItem="dOk-Sr-0K7" firstAttribute="height" secondItem="ek6-at-N5H" secondAttribute="height" constant="-5" id="Pv2-Zg-zBW"/>
+                                    <constraint firstItem="FXB-ry-x63" firstAttribute="top" secondItem="83d-6h-jq5" secondAttribute="top" constant="1" id="RZR-Wx-q4L"/>
+                                    <constraint firstItem="dOk-Sr-0K7" firstAttribute="centerX" secondItem="83d-6h-jq5" secondAttribute="centerX" id="naR-J4-0IV"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
