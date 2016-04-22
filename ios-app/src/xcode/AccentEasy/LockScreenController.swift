@@ -10,6 +10,8 @@ import UIKit
 
 class LockScreenController: UIView {
     
+    var isShowing = false
+    
     @IBOutlet var contentView: UIView!
     /*
     // MARK: - Navigation
@@ -42,6 +44,7 @@ class LockScreenController: UIView {
 
     func close() {
         self.removeFromSuperview()
+        isShowing = false
     }
     
     func show(rect: CGRect) {
@@ -50,6 +53,7 @@ class LockScreenController: UIView {
             window.addSubview(self)
             self.contentView?.frame = rect
             self.clipsToBounds = true
+            isShowing = true
         }
     }
 }

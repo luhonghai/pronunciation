@@ -34,6 +34,7 @@ public class GlobalData {
         }
         return instance!
     }
+    
 }
 
 func delay(delay:Double, closure:()->()) {

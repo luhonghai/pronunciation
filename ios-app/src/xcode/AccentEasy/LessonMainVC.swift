@@ -533,7 +533,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func openDetailView(model: UserVoiceModel) {
-        NSNotificationCenter.defaultCenter().postNotificationName("showLockScreen", object: nil)
+        DeviceManager.showLockScreen()
         let lessonDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("LessonDetailVC") as! LessonDetailVC
         lessonDetailVC.userVoiceModelResult = model
         lessonDetailVC.arrQuestionOfLC = arrQuestionOfLC
@@ -805,7 +805,6 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     @IBAction func clickBack(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
     }
-    
     
     
     /*colection view setup
@@ -1158,9 +1157,13 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             self.cvQuestionList.reloadData()
             weak var weakSelf = self
             //move detail screen
-            if self.isShowDetail {
-                weakSelf!.openDetailView(weakSelf!.currentMode)
-            }
+            DeviceManager.showLockScreen()
+            delay(0.8, closure: { 
+                if self.isShowDetail {
+                    weakSelf!.openDetailView(weakSelf!.currentMode)
+                }
+            })
+           
             self.analyzingView.didCompleteDisplayScore = false
         }
     }

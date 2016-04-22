@@ -63,12 +63,16 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         if indexObjectiveSelected < objectives.count - 1 {
             indexObjectiveSelected = indexObjectiveSelected + 1
         }
-        
-        //show popup
-        lessonTipPopupVC.contentPopup = objectives[indexObjectiveSelected].description
-        lessonTipPopupVC.delegate = self
-        lessonTipPopupVC.isShow = true
-        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+        weak var weakSelf = self
+        DeviceManager.showLockScreen()
+        delay(0.3) { 
+            //show popup
+            DeviceManager.hideLockScreen()
+            weakSelf!.lessonTipPopupVC.contentPopup = weakSelf!.objectives[weakSelf!.indexObjectiveSelected].description
+            weakSelf!.lessonTipPopupVC.delegate = weakSelf!
+            weakSelf!.lessonTipPopupVC.isShow = true
+            weakSelf!.presentpopupViewController(weakSelf!.lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+        }
     }
     
     func loadData() {

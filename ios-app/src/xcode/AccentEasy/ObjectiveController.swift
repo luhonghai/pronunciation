@@ -91,10 +91,14 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func showPopupObj(notification: NSNotification) {
-        let lessonTipPopupVC:LessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
-        lessonTipPopupVC.contentPopup = "Take the test to progress to the next level or you can return to any of the lessons for more practise"
-        lessonTipPopupVC.delegate = self
-        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+        DeviceManager.showLockScreen()
+        delay(0.3) {
+            DeviceManager.hideLockScreen()
+            let lessonTipPopupVC:LessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+            lessonTipPopupVC.contentPopup = "Take the test to progress to the next level or you can return to any of the lessons for more practise"
+            lessonTipPopupVC.delegate = self
+            self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+        }
     }
     
     func closeLessonTipPopup(sender: LessonTipPopupVC) {

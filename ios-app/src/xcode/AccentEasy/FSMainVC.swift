@@ -604,7 +604,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func openDetailView(model: UserVoiceModel) {
-        NSNotificationCenter.defaultCenter().postNotificationName("showLockScreen", object: nil)
+        DeviceManager.showLockScreen()
         let fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
         fsDetailVC.userVoiceModelResult = model
         self.navigationController?.pushViewController(fsDetailVC, animated: true)
@@ -936,7 +936,10 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.analyzingView.didCompleteDisplayScore = false
             //move detail screen
             weak var weakSelf = self
-            weakSelf!.openDetailView(weakSelf!.currentMode)
+            DeviceManager.showLockScreen()
+            delay(0.8, closure: { 
+                weakSelf!.openDetailView(weakSelf!.currentMode)
+            })
         }
     }
     

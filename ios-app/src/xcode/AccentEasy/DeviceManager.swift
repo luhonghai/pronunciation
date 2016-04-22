@@ -139,4 +139,12 @@ class DeviceManager {
             
         }
     }
+    
+    class func showLockScreen() {
+        NSNotificationCenter.defaultCenter().postNotificationName("showLockScreen", object: nil)
+    }
+    
+    class func hideLockScreen() {
+        NSNotificationCenter.defaultCenter().postNotificationName("hideLockScreen", object: nil)
+    }
 }
