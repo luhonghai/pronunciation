@@ -144,6 +144,9 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         btnPlay.hidden = true
         setNavigationBarTransparent()
         
+        if !GlobalData.getInstance().isShowHelpFreestyle && AccountManager.currentUser().helpStatus != UserProfile.HELP_NEVER {
+            self.initHelpContext()
+        }
     }
     
     @IBOutlet weak var helpContext: UIView!
@@ -308,9 +311,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         //activateAudioSession()
         GlobalData.getInstance().selectedWord = ""
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-        if !GlobalData.getInstance().isShowHelpFreestyle && AccountManager.currentUser().helpStatus != UserProfile.HELP_NEVER {
-            self.initHelpContext()
-        }
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -603,6 +604,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func openDetailView(model: UserVoiceModel) {
+        NSNotificationCenter.defaultCenter().postNotificationName("showLockScreen", object: nil)
         let fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
         fsDetailVC.userVoiceModelResult = model
         self.navigationController?.pushViewController(fsDetailVC, animated: true)
@@ -718,7 +720,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             DeviceManager.doIfConnectedToNetwork({ () -> Void in
                 Logger.log("link mp3: " + self.linkFile)
                 //playSound(LinkFile)
-                HttpDownloader.loadFileAsync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
+                HttpDownloader.loadFileSync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
                     self.playSound(NSURL(fileURLWithPath: path))
                 })
             })
@@ -769,6 +771,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         lblIPA.textColor = ColorHelper.APP_GREEN
         tvDescription.textColor = ColorHelper.APP_GREEN
         tvDescription.becomeFirstResponder()
+        btnPlayDemo.enabled = true
     }
     
     func changeColorRed(){
@@ -779,6 +782,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         tvDescription.textColor = ColorHelper.APP_RED
         tvDescription.becomeFirstResponder()
         btnRecord.enabled = true
+        btnPlayDemo.enabled = true
     }
     
     func changeColorOrange(){
@@ -789,6 +793,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         tvDescription.textColor = ColorHelper.APP_ORANGE
         tvDescription.becomeFirstResponder()
         btnRecord.enabled = true
+        btnPlayDemo.enabled = true
     }
     
     func changeColorGreen(){
@@ -799,6 +804,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         tvDescription.textColor = ColorHelper.APP_GREEN
         tvDescription.becomeFirstResponder()
         btnRecord.enabled = true
+        btnPlayDemo.enabled = true
     }
     
     func disableViewPlay(){
@@ -930,9 +936,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.analyzingView.didCompleteDisplayScore = false
             //move detail screen
             weak var weakSelf = self
-            delay (1) {
-                weakSelf!.openDetailView(weakSelf!.currentMode)
-            }
+            weakSelf!.openDetailView(weakSelf!.currentMode)
         }
     }
     

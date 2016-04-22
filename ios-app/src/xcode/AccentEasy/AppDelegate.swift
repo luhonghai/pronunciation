@@ -16,7 +16,9 @@ import ImageLoader
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
-
+    
+    var lockScreen: LockScreenController!
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         //fb login
@@ -39,7 +41,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //window!.rootViewController = FreestyleSwipeVC()
         //window!.makeKeyAndVisible()
         //Logger.startService()
+        
+        lockScreen = LockScreenController()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showLockScreen:", name: "showLockScreen", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideLockScreen:", name: "hideLockScreen", object: nil)
+        
         return true
+    }
+    
+    func showLockScreen(notification: NSNotification)
+    {
+        lockScreen.show(UIScreen.mainScreen().applicationFrame)
+    }
+    
+    func hideLockScreen(notification: NSNotification)
+    {
+        lockScreen.close()
     }
     
     func logUser() {

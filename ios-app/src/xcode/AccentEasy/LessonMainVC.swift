@@ -188,6 +188,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         
         currentSession = StringHelper.uuid()
         resetHistory()
+        if !GlobalData.getInstance().isShowHelpLesson && AccountManager.currentUser().helpStatusLesson != UserProfile.HELP_NEVER {
+            self.initHelpContext()
+        }
     }
     
     
@@ -370,9 +373,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
        // activateAudioSession()
         GlobalData.getInstance().selectedWord = ""
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-        if !GlobalData.getInstance().isShowHelpLesson && AccountManager.currentUser().helpStatusLesson != UserProfile.HELP_NEVER {
-            self.initHelpContext()
-        }
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -532,6 +533,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func openDetailView(model: UserVoiceModel) {
+        NSNotificationCenter.defaultCenter().postNotificationName("showLockScreen", object: nil)
         let lessonDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("LessonDetailVC") as! LessonDetailVC
         lessonDetailVC.userVoiceModelResult = model
         lessonDetailVC.arrQuestionOfLC = arrQuestionOfLC
@@ -695,6 +697,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
         lblIPA.textColor = ColorHelper.APP_GREEN
         tvDescription.textColor = ColorHelper.APP_GREEN
+        btnPlayDemo.enabled = true
     }
     
     func changeColorRed(){
@@ -703,6 +706,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.setTitleColor(ColorHelper.APP_RED, forState: UIControlState.Normal)
         lblIPA.textColor = ColorHelper.APP_RED
         tvDescription.textColor = ColorHelper.APP_RED
+        btnPlayDemo.enabled = true
     }
     
     func changeColorOrange(){
@@ -711,6 +715,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.setTitleColor(ColorHelper.APP_ORANGE, forState: UIControlState.Normal)
         lblIPA.textColor = ColorHelper.APP_ORANGE
         tvDescription.textColor = ColorHelper.APP_ORANGE
+        btnPlayDemo.enabled = true
     }
     
     func changeColorGreen(){
@@ -719,6 +724,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
         lblIPA.textColor = ColorHelper.APP_GREEN
         tvDescription.textColor = ColorHelper.APP_GREEN
+        btnPlayDemo.enabled = true
     }
     
     func disableViewPlay(){
@@ -737,6 +743,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.enabled = true
         cvQuestionList.userInteractionEnabled = true
         btnLessonTip.enabled = true
+        
     }
     
     func disableViewRecord(){
@@ -1151,10 +1158,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             self.cvQuestionList.reloadData()
             weak var weakSelf = self
             //move detail screen
-            delay (1) {
-                if self.isShowDetail {
-                    weakSelf!.openDetailView(weakSelf!.currentMode)
-                }
+            if self.isShowDetail {
+                weakSelf!.openDetailView(weakSelf!.currentMode)
             }
             self.analyzingView.didCompleteDisplayScore = false
         }

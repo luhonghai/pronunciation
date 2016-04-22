@@ -62,6 +62,11 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeDetail:",name:"closeDetail", object: nil)
         btnPlay.hidden = true
         showDetail()
+        self.navigationController!.view.userInteractionEnabled = false
+        delay(1) {
+            NSNotificationCenter.defaultCenter().postNotificationName("hideLockScreen", object: nil)
+            self.navigationController!.view.userInteractionEnabled = true
+        }
     }
     
     func activateAudioSession() {

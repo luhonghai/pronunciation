@@ -66,6 +66,8 @@
 		9B5526411C9A6911000AB7E8 /* select_prev_level_of_level.sql in Resources */ = {isa = PBXBuildFile; fileRef = 9B5526361C9A6911000AB7E8 /* select_prev_level_of_level.sql */; };
 		9B5526431C9A709E000AB7E8 /* AETest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5526421C9A709E000AB7E8 /* AETest.swift */; };
 		9B5526451C9AA5B4000AB7E8 /* ObjectiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */; };
+		9B56BD7A1CC9CD58005AE0C8 /* LockScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56BD781CC9CD58005AE0C8 /* LockScreenController.swift */; };
+		9B56BD7B1CC9CD58005AE0C8 /* LockScreenController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B56BD791CC9CD58005AE0C8 /* LockScreenController.xib */; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
 		9B5F334A1C77129A00E85629 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C21C77129A00E85629 /* BarChartView.swift */; };
@@ -597,6 +599,8 @@
 		9B5526361C9A6911000AB7E8 /* select_prev_level_of_level.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = select_prev_level_of_level.sql; sourceTree = "<group>"; };
 		9B5526421C9A709E000AB7E8 /* AETest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AETest.swift; path = Data/Entity/Lesson/AETest.swift; sourceTree = "<group>"; };
 		9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveController.swift; sourceTree = "<group>"; };
+		9B56BD781CC9CD58005AE0C8 /* LockScreenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenController.swift; sourceTree = "<group>"; };
+		9B56BD791CC9CD58005AE0C8 /* LockScreenController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LockScreenController.xib; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
 		9B5F32C21C77129A00E85629 /* BarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
@@ -1107,6 +1111,15 @@
 			);
 			name = queries;
 			path = Data/SQLite/queries;
+			sourceTree = "<group>";
+		};
+		9B56BD771CC9CCD4005AE0C8 /* LockScreen */ = {
+			isa = PBXGroup;
+			children = (
+				9B56BD781CC9CD58005AE0C8 /* LockScreenController.swift */,
+				9B56BD791CC9CD58005AE0C8 /* LockScreenController.xib */,
+			);
+			name = LockScreen;
 			sourceTree = "<group>";
 		};
 		9B5F32A81C77128100E85629 /* Charts */ = {
@@ -1720,6 +1733,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				9B56BD771CC9CCD4005AE0C8 /* LockScreen */,
 				9B34082A1CB767D4002F80A1 /* HelpContent */,
 				C153223B1CBA5E0700629085 /* InfoController */,
 				C1D59D621CB4EB3E00127FF4 /* SettingsController */,
@@ -2345,6 +2359,7 @@
 				C141C8061C3E203C001D1F9C /* Main.storyboard in Resources */,
 				C16CD2E01C44B1EC00537461 /* global_bg.png in Resources */,
 				C16CD2F21C44B1EC00537461 /* pointing_tilting_app.png in Resources */,
+				9B56BD7B1CC9CD58005AE0C8 /* LockScreenController.xib in Resources */,
 				C16CD2C21C44B1EC00537461 /* p_menu_lesson.png in Resources */,
 				C16CD2E91C44B1EC00537461 /* ic_play.png in Resources */,
 				C1FAD5101C55DCCC00385D74 /* GoogleService-Info.plist in Resources */,
@@ -2584,6 +2599,7 @@
 				9B5F33E41C771B5A00E85629 /* ToJSON.swift in Sources */,
 				9B5F33891C77129A00E85629 /* IBarChartDataSet.swift in Sources */,
 				9B5F33711C77129A00E85629 /* BarChartDataEntry.swift in Sources */,
+				9B56BD7A1CC9CD58005AE0C8 /* LockScreenController.swift in Sources */,
 				C141C8381C3E49B6001D1F9C /* OurItem3ViewController.swift in Sources */,
 				9B5F34271C771E6000E85629 /* FormData.swift in Sources */,
 				9B5F33961C77129A00E85629 /* ChartDefaultXAxisValueFormatter.swift in Sources */,

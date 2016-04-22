@@ -36,16 +36,15 @@ class TestPassPopupVC: UIViewController {
         switch AccountManager.currentUser().loginType {
         case UserProfile.TYPE_FACEBOOK:
              btnGoogleShare.backgroundColor = Multimedia.colorWithHexString("#3b5998")
-             btnGoogleShare.imageView?.image = UIImage(named: "ic_facebook_white.png")
+             btnGoogleShare.setImage(UIImage(named: "ic_facebook_white.png"), forState: .Normal)
             break
         case UserProfile.TYPE_EASYACCENT:
             btnGoogleShare.backgroundColor = ColorHelper.APP_PURPLE
-            btnGoogleShare.imageView?.image = UIImage(named: "share-100.png")
+            btnGoogleShare.setImage(UIImage(named: "share-100.png")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: .Normal)
             break
         case UserProfile.TYPE_GOOGLE_PLUS:
             btnGoogleShare.backgroundColor = Multimedia.colorWithHexString("#d34836")
-            btnGoogleShare.imageView?.image = UIImage(named: "ic_google_plus_white.png")
-            
+            btnGoogleShare.setImage(UIImage(named: "ic_google_plus_white.png"), forState: .Normal)
             break
         default:
             break
@@ -57,6 +56,7 @@ class TestPassPopupVC: UIViewController {
 
     }
     @IBAction func btnShareTouchUp(sender: AnyObject) {
+        delegate?.closeTestPassPopup!(self)
         DeviceManager.shareApp(self, title: "accenteasy - English pronunciation app", message: "I scored \(toltalScore) in my pronunciation test for speaking English with a good accent. How did you do?", url: NSURL(string: "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1091441266&mt=8")!)
     }
 

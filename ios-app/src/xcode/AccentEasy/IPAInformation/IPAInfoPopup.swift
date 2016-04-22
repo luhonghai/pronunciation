@@ -22,6 +22,8 @@ class IPAInfoPopup: UIViewController {
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
     
+    var isShowing = true
+    
     @IBAction func clickClose(sender: AnyObject) {
         delegate!.pressShowChart(nil)
     }
@@ -63,6 +65,10 @@ class IPAInfoPopup: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        isShowing = false
     }
 
     override func didReceiveMemoryWarning() {

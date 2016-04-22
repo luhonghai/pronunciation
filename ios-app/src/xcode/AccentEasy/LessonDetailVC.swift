@@ -95,6 +95,12 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         btnNextLesson.hidden = true
         
         saveScore()
+        
+        self.navigationController!.view.userInteractionEnabled = false
+        delay(1) {
+            NSNotificationCenter.defaultCenter().postNotificationName("hideLockScreen", object: nil)
+            self.navigationController!.view.userInteractionEnabled = true
+        }
     }
     
     func saveScore(){

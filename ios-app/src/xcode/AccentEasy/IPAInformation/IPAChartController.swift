@@ -27,6 +27,8 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     
     var swiper: SloppySwiper!
     
+    var popup:IPAInfoPopup!
+    
     @IBOutlet weak var lblTitle: UILabel!
     
     @IBAction func clickBack(sender: AnyObject) {
@@ -138,7 +140,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
             Logger.log("long press item \(indexPath.item)")
             selectedIpa = ipaList[indexPath.item]
 
-            let popup:IPAInfoPopup = IPAInfoPopup(nibName:"IPAInfoPopup", bundle: nil)
+            popup = IPAInfoPopup(nibName:"IPAInfoPopup", bundle: nil)
             popup.selectedIpa = selectedIpa
             popup.delegate = self
             self.presentpopupViewController(popup, animationType: SLpopupViewAnimationType.Fade, completion: { () -> Void in
@@ -171,7 +173,17 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     }
     
     func pressShowChart(sender: IPAPopupVC?) {
-        self.dismissPopupViewController(SLpopupViewAnimationType.Fade)
+        weak var weakSelf = self
+        if weakSelf != nil && popup != nil && popup.isShowing {
+            weakSelf!.dismissPopupViewController(SLpopupViewAnimationType.Fade)
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        weak var weakSelf = self
+        if weakSelf != nil && popup != nil && popup.isShowing {
+            weakSelf!.dismissPopupViewController(SLpopupViewAnimationType.Fade)
+        }
     }
     
     func setNavigationBarTransparent() {
