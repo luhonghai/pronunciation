@@ -269,3 +269,12 @@ function initHelpTopDataReviewCourse(){
         "The course name will initially be prefixed with the words “copy of”. If you do not want to change any content, you can simply edit the name to remove the extra text.</p>");
     return $html;
 }
+
+
+function initHelpTopWelcome(){
+    var $html = $("<div class='row' style='padding:0px 10px 0px 10px'>");
+    $html.html("<div style='padding-bottom:10px' class='col-sm-12'>Use the side menu to navigate around the console.</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-2'><img style='float:right' src='/images/teacher/classes48x48.gif' style='width: 24px;height: 24px;'> </div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-5'></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-5'></div>");
+}

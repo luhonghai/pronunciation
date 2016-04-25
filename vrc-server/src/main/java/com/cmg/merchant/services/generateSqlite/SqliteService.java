@@ -135,6 +135,22 @@ public class SqliteService extends Thread{
     private File tmpDir = new File(FileUtils.getTempDirectory(), "database_generator");
 
 
+    private void clearDataTable(Connection conn,String sql){
+        Statement statement = null;
+        try {
+            appendMessage("execute query " + sql);
+            statement = conn.createStatement();
+            statement.executeUpdate(sql);
+            appendMessage("Completed.");
+        } catch (Exception e) {
+            appendError("Could not execute query " + sql + e.getMessage());
+        } finally {
+            try {
+                if (statement != null) statement.close();
+            } catch (Exception e) {}
+        }
+    }
+
     /**
      *
      * @throws Exception
@@ -220,26 +236,21 @@ public class SqliteService extends Thread{
                 try {
                     Sqlite lite = new Sqlite(idCourse);
                     appendMessage("Clean unnecessary data in table ");
-                    statement = conn.createStatement();
-                    statement.executeUpdate(lite.deleteCourse());
-                    statement.executeUpdate(lite.deleteCourseMapLevel());
-                    statement.executeUpdate(lite.deleteLevel());
-                    statement.executeUpdate(lite.deleteCourseMapDetail());
-                    statement.executeUpdate(lite.deleteObj());
-                    statement.executeUpdate(lite.deleteTest());
-                    statement.executeUpdate(lite.deleteObjMapping());
-                    statement.executeUpdate(lite.deleteTestMapping());
-                    statement.executeUpdate(lite.deleteLesson());
-                    statement.executeUpdate(lite.deleteLessonMap());
-                    statement.executeUpdate(lite.deleteQuestion());
-                    statement.executeUpdate(lite.deleteWordOfQuestion());
+                    clearDataTable(conn, lite.deleteCourse());
+                    clearDataTable(conn,lite.deleteCourseMapLevel());
+                    clearDataTable(conn,lite.deleteLevel());
+                    clearDataTable(conn,lite.deleteCourseMapDetail());
+                    clearDataTable(conn,lite.deleteObj());
+                    clearDataTable(conn,lite.deleteTest());
+                    clearDataTable(conn,lite.deleteObjMapping());
+                    clearDataTable(conn,lite.deleteTestMapping());
+                    clearDataTable(conn,lite.deleteLesson());
+                    clearDataTable(conn,lite.deleteLessonMap());
+                    clearDataTable(conn,lite.deleteQuestion());
+                    clearDataTable(conn,lite.deleteWordOfQuestion());
                     appendMessage("Completed.");
                 } catch (Exception e) {
                     appendError("Could not clean unnecessary data in table " + e.getMessage());
-                } finally {
-                    try {
-                        if (statement != null) statement.close();
-                    } catch (Exception e) {}
                 }
             } catch (Exception e) {
                 appendError("Could not clean database " + lessonDb.getAbsolutePath() + e.getMessage());

@@ -28,7 +28,7 @@ public class Sqlite {
         this.idCourse = idCourse;
     }
 
-    private String deleteCourse = "Delete from COURSE where id != 'paramIdCourse'";
+    private String deleteCourse = "Delete from COURSE where id !='paramIdCourse'";
 
     private String deleteCourseMapLevel = "Delete from COURSEMAPPINGLEVEL where idCourse!='paramIdCourse'";
 
@@ -37,10 +37,10 @@ public class Sqlite {
     private String deleteCourseMapDetail = "Delete from COURSEMAPPINGDETAIL where idLevel not in (Select id from LEVEL)";
 
     private String deleteObj = "Delete from OBJECTIVE where id not in " +
-            "(Select idChild from COURSEMAPPINGDETAIL where cmd.isTest='//1' )";
+            "(Select idChild from COURSEMAPPINGDETAIL where isTest='\\0' )";
 
     private String deleteTest = "Delete from TEST where id not in " +
-            "(Select idChild from COURSEMAPPINGDETAIL where cmd.isTest='//0' )";
+            "(Select idChild from COURSEMAPPINGDETAIL where isTest!='\\0' )";
 
     private String deleteObjMapping = "Delete from OBJECTIVEMAPPING where idObjective not in (Select id from OBJECTIVE)";
 
