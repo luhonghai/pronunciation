@@ -427,6 +427,7 @@
 		C18B1D1B1CAA8BB50092502E /* QuestionCVDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */; };
 		C1AC71411CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC713F1CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift */; };
 		C1AC71421CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1AC71401CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib */; };
+		C1D372951CCDFB5F001D56B4 /* btn_send.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372941CCDFB5F001D56B4 /* btn_send.png */; };
 		C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */; };
 		C1D59D641CB4EB7600127FF4 /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D59D631CB4EB7600127FF4 /* SettingsTVC.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
@@ -979,6 +980,7 @@
 		C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCVDatasource.swift; sourceTree = "<group>"; };
 		C1AC713F1CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnglishProficiencyPopupVC.swift; sourceTree = "<group>"; };
 		C1AC71401CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnglishProficiencyPopupVC.xib; sourceTree = "<group>"; };
+		C1D372941CCDFB5F001D56B4 /* btn_send.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_send.png; sourceTree = "<group>"; };
 		C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainVC.swift; sourceTree = "<group>"; };
 		C1D59D631CB4EB7600127FF4 /* SettingsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
@@ -1812,6 +1814,7 @@
 		C1648FE11CB512AE00C8DFE0 /* control-icon */ = {
 			isa = PBXGroup;
 			children = (
+				C1D372941CCDFB5F001D56B4 /* btn_send.png */,
 				C1236CF71CBBA3FF003F30A0 /* No-image-found.gif */,
 				C15976591CB624A000FA3B40 /* unchecked_checkbox.png */,
 				9B1F081B1CC8D94100B542BD /* help-context-freestyle.png */,
@@ -2297,6 +2300,7 @@
 				C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */,
 				C16CD2BB1C44B1EC00537461 /* p_hour_glass.png in Resources */,
 				C15EDBFE1C97B68A006E7BA3 /* LSPopupTVC.xib in Resources */,
+				C1D372951CCDFB5F001D56B4 /* btn_send.png in Resources */,
 				C16CD2D51C44B1EC00537461 /* sl_dog.png in Resources */,
 				9B5F35A41CB5FF92000A0A3F /* p_menu_ipa_gray.png in Resources */,
 				C16CD2F61C44B1EC00537461 /* help_content_1.png in Resources */,

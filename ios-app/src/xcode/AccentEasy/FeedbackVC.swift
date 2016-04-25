@@ -13,6 +13,7 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnOpenLink: UIButton!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var btnSend: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,8 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
         
         //textView.becomeFirstResponder()
         //textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
+        
+        btnSend.layer.cornerRadius = btnSend.frame.size.width/2
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,6 +75,7 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
     
     /*
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
