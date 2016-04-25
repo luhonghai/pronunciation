@@ -4,6 +4,7 @@ import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
+import com.cmg.merchant.services.generateSqlite.SqliteService;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
@@ -158,7 +159,7 @@ public class ClassService {
         return list;
     }
     public String addClassToDb(String teacherName,String className,String definition,String jsonClient){
-        ClassJDO classs=new ClassJDO();
+        ClassJDO classs = new ClassJDO();
         int version=0;
         String uuid="";
         String message=null;
@@ -198,7 +199,10 @@ public class ClassService {
                     courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
                     courseMappingClass.setIsDeleted(false);
                     courseMappingClassDAO.put(courseMappingClass);
+                    SqliteService generateSqlite = new SqliteService(s);
+                    generateSqlite.start();
                 }
+
                 message= "success";
             }else{
                 message= "exist";
@@ -291,6 +295,8 @@ public class ClassService {
                         courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
                         courseMappingClass.setIsDeleted(false);
                         courseMappingClassDAO.put(courseMappingClass);
+                        SqliteService generateSqlite = new SqliteService(s);
+                        generateSqlite.start();
                     }
                     message = "success";
                 }else{
