@@ -35,6 +35,81 @@ public class DatabaseVersion: Mappable {
 
 public class DatabaseHelper {
     
+    class func getCourseSessionFilePath(username: String) -> String {
+        return FileHelper.getFilePath("database/course_session/\(StringHelper.md5(string: username)).json")
+    }
+    
+    class func updateCourses(courseSession: AECourseSession) -> Bool {
+        FileHelper.getFilePath("database", directory: true)
+        FileHelper.getFilePath("database/course_session", directory: true)
+        let courseSessionFilePath = getCourseSessionFilePath(courseSession.username)
+        var oldSession = AECourseSession()
+        if FileHelper.isExists(courseSessionFilePath) {
+            oldSession = try! JSONHelper.fromJson(FileHelper.readFile(courseSessionFilePath))
+        }
+        var status = true
+        if courseSession.courses.count > 0 {
+            for course in courseSession.courses {
+                var versionChanged = false
+                var found = false
+                if oldSession.courses.count > 0 {
+                    for oldCourse in oldSession.courses {
+                        if oldCourse.idString == course.idString {
+                            found = true
+                            if (oldCourse.version != course.version) {
+                                versionChanged = true
+                                Logger.log("found version change. from \(oldCourse.idString) to \(course.version). Course id \(course.idString)")
+                            }
+                        }
+                    }
+                    
+                }
+                if versionChanged || !found {
+                    if !downloadCourseDatabase(course) {
+                        status = false
+                        break
+                    }
+                }
+            }
+        }
+        if status {
+            try! FileHelper.writeFile(courseSessionFilePath, content: JSONHelper.toJson(courseSession))
+        }
+        return status
+    }
+    
+    class func getCourseDbPath(course: AECourse) -> String {
+        return FileHelper.getFilePath("database/\(course.idString)/lesson.db")
+    }
+    
+    class func downloadCourseDatabase(course: AECourse) -> Bool {
+        FileHelper.getFilePath("database", directory: true)
+        let dbDirPath = FileHelper.getFilePath("database/\(course.idString)", directory: true)
+        let tmpZip = FileHelper.getFilePath("database/\(course.idString)/tmp.zip")
+        let dbPath = getCourseDbPath(course)
+        FileHelper.deleteFile(tmpZip)
+        Logger.log("Download course version \(course.version). name \(course.name). url \(course.dbURL)")
+        HttpDownloader.loadFileSync(NSURL(string: course.dbURL)!, skipCache: true, destPath: tmpZip) { (path, error) -> Void in
+            do {
+                if (FileHelper.isExists(tmpZip)) {
+                    FileHelper.deleteFile(dbPath)
+                    Logger.log("Try to unzip database \(tmpZip)")
+                    SSZipArchive.unzipFileAtPath(tmpZip, toDestination: dbDirPath)
+                    if FileHelper.isExists(dbPath) {
+                        Logger.log("Course database found. \(dbPath)")
+                    } else {
+                        Logger.log("No course database found at path \(dbPath)")
+                    }
+                } else {
+                    Logger.log("No zip file found at path \(tmpZip)")
+                }
+            } catch {
+                
+            }
+        }
+        return FileHelper.isExists(dbPath)
+    }
+    
     class func checkDatabaseVersion(completion:(success: Bool) -> Void) {
         let fileManager = NSFileManager.defaultManager()
         // Create database folder if not exist

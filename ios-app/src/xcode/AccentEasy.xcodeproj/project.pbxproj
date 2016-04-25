@@ -235,6 +235,7 @@
 		9BA896651C7417D700BEE9CE /* AnalyzingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA896641C7417D700BEE9CE /* AnalyzingView.swift */; };
 		9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */; };
 		9BC162E61CBCDE8E00EEAF83 /* share-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC162E51CBCDE8E00EEAF83 /* share-100.png */; };
+		9BCF9D531CCDFDEF00445FE8 /* AECourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF9D521CCDFDEF00445FE8 /* AECourse.swift */; settings = {ASSET_TAGS = (); }; };
 		9BEF044E1C59B6D200E474F3 /* RecordingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044B1C59B6D200E474F3 /* RecordingView.m */; };
 		9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */; };
 		9BEF04501C59B81800E474F3 /* EZAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */; };
@@ -777,6 +778,7 @@
 		9BC5E0E11C507DF2003CF8E9 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SSZipArchive.framework; path = "Pods/../build/Debug-iphoneos/SSZipArchive.framework"; sourceTree = "<group>"; };
 		9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		9BC8BE2485A09CDC45C09187 /* Pods-AccentEasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.debug.xcconfig"; sourceTree = "<group>"; };
+		9BCF9D521CCDFDEF00445FE8 /* AECourse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AECourse.swift; path = Data/Entity/Lesson/AECourse.swift; sourceTree = "<group>"; };
 		9BEF044A1C59B6D200E474F3 /* RecordingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingView.h; path = RecordingView/RecordingView.h; sourceTree = "<group>"; };
 		9BEF044B1C59B6D200E474F3 /* RecordingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingView.m; path = RecordingView/RecordingView.m; sourceTree = "<group>"; };
 		9BEF044C1C59B6D200E474F3 /* RecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingViewController.h; path = RecordingView/RecordingViewController.h; sourceTree = "<group>"; };
@@ -1985,6 +1987,7 @@
 				9B5526421C9A709E000AB7E8 /* AETest.swift */,
 				C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */,
 				C10ACF081CAE5AEB009676C1 /* TestScore.swift */,
+				9BCF9D521CCDFDEF00445FE8 /* AECourse.swift */,
 			);
 			name = Lesson;
 			sourceTree = "<group>";
@@ -2490,6 +2493,7 @@
 				9BA3AB2E1C4F839800C6631D /* BaseDatabaseAdapter.swift in Sources */,
 				9B5526221C9A65D6000AB7E8 /* AEObjective.swift in Sources */,
 				9B5F33531C77129A00E85629 /* PieRadarChartViewBase.swift in Sources */,
+				9BCF9D531CCDFDEF00445FE8 /* AECourse.swift in Sources */,
 				9B5F34291C771E6000E85629 /* Response.swift in Sources */,
 				9B4849EE1C991BE7002F193F /* IPAInfoPopup.swift in Sources */,
 				9B5F33B31C77129A00E85629 /* ChartYAxisRendererRadarChart.swift in Sources */,
