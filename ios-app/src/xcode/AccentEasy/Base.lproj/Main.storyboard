@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -3766,7 +3766,7 @@ definition</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u8X-1K-wUG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1785.5" y="-35.5"/>
+            <point key="canvasLocation" x="1827.5" y="-133.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="imJ-hr-hYM">
@@ -4537,7 +4537,7 @@ about this lesson</string>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5035.5" y="821.5"/>
+            <point key="canvasLocation" x="5205.5" y="1019.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="369-BJ-ub9">
@@ -4556,7 +4556,7 @@ about this lesson</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mk8-Bj-buK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4577.5" y="821.5"/>
+            <point key="canvasLocation" x="4709.5" y="943.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sZ7-eg-cpo">
@@ -4685,9 +4685,9 @@ about this lesson</string>
     <inferredMetricsTieBreakers>
         <segue reference="w7l-a7-zju"/>
         <segue reference="t7Q-vO-CVy"/>
-        <segue reference="Udu-EY-icj"/>
-        <segue reference="WR5-An-sLd"/>
         <segue reference="y7T-RE-Gak"/>
-        <segue reference="6wU-8z-TLT"/>
+        <segue reference="4c6-2C-7Wp"/>
+        <segue reference="VlK-rN-iWT"/>
+        <segue reference="WR5-An-sLd"/>
     </inferredMetricsTieBreakers>
 </document>

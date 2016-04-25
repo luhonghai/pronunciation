@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import EZAudio
 import Darwin
+import SloppySwiper
 
 class QuestionCVCell: UICollectionViewCell {
     @IBOutlet weak var lblQuestion: UILabel!
@@ -35,6 +36,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     var recorder: EZRecorder!
     
     var currentMode: UserVoiceModel!
+    
+    var swiper: SloppySwiper!
     
     //@IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnRecord: UIButton!
@@ -120,6 +123,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     override func viewDidLoad() {
         GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
+        swiper = SloppySwiper(navigationController: self.navigationController)
+        self.navigationController?.delegate = swiper
         DeviceManager.requestMicrophonePermission { 
             self.microphone = EZMicrophone(delegate: self)
         }
