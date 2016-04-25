@@ -115,6 +115,9 @@ function helpLicenceStudent(){
     });
 }
 
+function collapseMenu(){
+    $("#li-students").find('ul').addClass('in');
+}
 
 $(document).ready(function(){
     $('#checkAll').click(function (e) {
@@ -126,6 +129,7 @@ $(document).ready(function(){
     $('#help-icons').show();
     helpLicenceStudent();
     addStudent();
+    collapseMenu();
     listLicensedStudent();
 });
 

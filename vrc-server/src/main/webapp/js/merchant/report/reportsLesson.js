@@ -101,10 +101,13 @@ function loadInfo(){
         }
     })
 }
-
+function collapseMenu(){
+    $("#li-reports").find('ul').addClass('in');
+}
 $(document).ready(function(){
     $('#help-icons').show();
     onChangeClass();
     loadInfo();
     listClasses();
+    collapseMenu();
 });

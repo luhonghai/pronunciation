@@ -538,7 +538,7 @@
                         <div class="col-md-6" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddWord" style="padding-left: 0px;" src="/images/popup/help_50_50.png"
+                            <img id="helpAddWord" class="helpInfor" style="padding-left: 0px;" src="/images/popup/help_50_50.png"
                                  width="36px" height="36px"/>
 
                         </div>

@@ -76,7 +76,9 @@ function reloadSearch(){
     });
 }
 
-
+function collapseMenu(){
+    $("#li-courses").find('ul').addClass('in');
+}
 
 $(document).ready(function(){
     initDate();
@@ -91,4 +93,5 @@ $(document).ready(function(){
     showTopHelp();
     clickTopHelp();
     reloadSearch();
+    collapseMenu();
 });

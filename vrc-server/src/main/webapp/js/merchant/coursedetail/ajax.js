@@ -780,7 +780,7 @@ function loadPhonemes(){
                     getWeightLable().html("");
                     $("#yesadd").attr("disabled", true);
                     getAddWord().focus();
-                    getWordValidateMessage().html("<i>Sorry this word is not in our dictionary, please try a different word</i>");
+                    getWordValidateMessage().html("Sorry this word is not in our dictionary, please try a different word");
                     getWordValidateMessage().show();
                 }
             },

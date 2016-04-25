@@ -64,7 +64,7 @@ public class Sqlite {
      */
     public String deleteCourse(){
         String sqlite = deleteCourse;
-        sqlite.replaceAll("paramIdCourse",idCourse);
+        sqlite = sqlite.replaceAll("paramIdCourse",idCourse);
         return sqlite;
     }
 
@@ -75,7 +75,7 @@ public class Sqlite {
      */
     public String deleteCourseMapLevel(){
         String sqlite = deleteCourseMapLevel;
-        sqlite.replaceAll("paramIdCourse",idCourse);
+        sqlite = sqlite.replaceAll("paramIdCourse",idCourse);
         return sqlite;
     }
 

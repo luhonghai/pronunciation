@@ -339,8 +339,13 @@ function helpEditMyClass(){
     });
 }
 
+function collapseMenu(){
+    $("#li-class").find('ul').addClass('in');
+}
+
 $(document).ready(function(){
     $('#help-icons').show();
+    collapseMenu();
     editClass();
     cancelDelete();
     deletes();

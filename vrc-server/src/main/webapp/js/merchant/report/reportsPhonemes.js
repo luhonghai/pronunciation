@@ -182,6 +182,10 @@ function dateTo(){
     });
 }
 
+function collapseMenu(){
+    $("#li-reports").find('ul').addClass('in');
+}
+
 $(document).ready(function(){
     $('#help-icons').show();
     dateFrom();
@@ -191,5 +195,6 @@ $(document).ready(function(){
     listPhonemes();
     openReportPreview();
     mouseOverChart();
+    collapseMenu();
 });
 

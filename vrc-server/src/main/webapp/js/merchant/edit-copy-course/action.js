@@ -662,7 +662,12 @@ function confirmDelete(){
 
 }
 
+function collapseMenu(){
+    $("#li-courses").find('ul').addClass('in');
+}
+
 $(document).ready(function(){
+    collapseMenu();
     btnDeleteQuestionForTest();
     btnSaveQuestionForTest();
     showAddWordForTest();

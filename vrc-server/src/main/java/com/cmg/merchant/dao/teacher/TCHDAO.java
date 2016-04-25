@@ -35,12 +35,8 @@ public class TCHDAO extends DataAccess<TeacherCourseHistory> {
         Query q = pm.newQuery("SELECT max(version) FROM " + TeacherCourseHistory.class.getCanonicalName());
         q.setFilter("idCourse == paramIdCourse");
         q.declareParameters("String paramIdCourse");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("paramIdCourse", idCourse);
         try {
-            if (q != null) {
-                version = (int) q.execute(params);
-            }
+            version = (int) q.execute(idCourse);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

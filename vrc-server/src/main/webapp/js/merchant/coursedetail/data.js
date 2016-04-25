@@ -190,6 +190,7 @@ function getLoadPhoneme(){
     return loadPhoneme;
 }
 
+/*
 function initHelpAddLevel(){
     var $html = $("<div>");
     $html.html("<p>1. Enter the name of the level that you wish to create.</p>");
@@ -229,8 +230,9 @@ function initHelpAddLesson(){
 
     return $html;
 }
+*/
 
-function initHelpAddQuestion(){
+/*function initHelpAddQuestion(){
     var $html = $("<div>");
     $html.html("<p>1. When you select the ‘add word’ button, the ‘manage word function will be displayed.</p>");
     $html.append("<p>This will vary slightly according to the lesson type.</p>");
@@ -242,53 +244,10 @@ function initHelpAddQuestion(){
     $html.append("<p>When you click on the button, you will be able to edit or delete the question.</p>");
 
     return $html;
-}
+}*/
 
-function initHelpAddWordForQuestion(){
-    var $html = $("<div>");
-    $html.html("<p>1. Enter a word and load the associated phonemes.</p>");
-    $html.append("<p>The phonemes will be displayed in Arpabet and IPA format.</p>");
-    $html.append("<p>2. Enter a numeric weight value in the text boxes below each phoneme according to the percentage of the score that you wish to assign.</p>");
-    $html.append("<p>3. Select ‘save’.</p>");
-    $html.append("<p>You will not be able to save the details until you have entered a weight for each of the phonemes.</p>");
-    $html.append("<p>The word will be added to the list for the current question and you will be able to add another word if you choose to do so.</p>");
-    $html.append("<p>If the word you are trying to add is not available in the accenteasy dictionary an error message will be displayed.</p>");
-    $html.append("<p>When you hold the mouse over a question on the course administration page, a pop up will be displayed enabling you to see which words you have added. </p>");
 
-    return $html;
-}
-
-function initHelpAddTest(){
-    var $html = $("<div>");
-    $html.html("<p>1. Add an explanation for the question.</p>");
-    $html.append("<p>This will be displayed on the test page when the question is selected.</p>");
-    $html.append("<p>2. Select the question type.</p>");
-    $html.append("<p>This will determine the scoring functionality for the question’.</p>");
-    $html.append("<p>You will be guided through some steps to set up the scoring.</p>");
-    $html.append("<p>Each question will appear in the order that you add them.</p>");
-    $html.append("<p>You can drag and drop them to re-order them and the numbering will change automatically.</p>");
-    $html.append("<p>A button will be added to the administration page. </p>");
-    $html.append("<p>When you hold the mouse over a test question a pop up will be displayed enabling you to see which test words you have added. </p>");
-    $html.append("<p>When you click on the button, you will be able to edit or delete the test question. </p>");
-
-    return $html;
-}
-
-function initHelpAddWordForTest(){
-    var $html = $("<div>");
-    $html.html("<p>1. Enter a word and load the associated phonemes.</p>");
-    $html.append("<p>The phonemes will be displayed in Arpabet and IPA format.</p>");
-    $html.append("<p>2. Enter a numeric weight value in the text boxes below each phoneme according to the percentage of the score that you wish to assign.</p>");
-    $html.append("<p>3. Select 'save'.</p>");
-    $html.append("<p>You will not be able to save the details until you have entered a weight for each of the phonemes.</p>");
-    $html.append("<p>The word will be added to the list for the current question and you will be able to add another word if you choose to do so.</p>");
-    $html.append("<p>If the word you are trying to add is not available in the accenteasy dictionary an error message will be displayed.</p>");
-    $html.append("<p>When you hold the mouse over a question on the course administration page, a pop up will be displayed enabling you to see which words you have added. </p>");
-
-    return $html;
-}
-
-function initHelpAddCourse(){
+/*function initHelpAddCourse(){
     var $html = $("<div>");
     $html.html("<p>1. Enter the name of the course that you wish to create." +
         "This is the title that will be displayed on the app.</p>");
@@ -305,9 +264,9 @@ function initHelpAddCourse(){
         "However,if you have shared the course previously, it will be removed from the main courses page, " +
         "but if other users have saved it in ‘my courses’, you will not be able to stop them from using it. </p>");
     return $html;
-}
+}*/
 
-function initHelpCourseADM(){
+/*function initHelpCourseADM(){
     var $html = $("<div>");
     $html.html("<p><strong>course content display</strong></p>");
     $html.append("<p>Course content is displayed in a ‘tree’ type directory structure with the following content:</p>");
@@ -340,8 +299,8 @@ function initHelpCourseADM(){
     $html.append("<p>Note: You will not be able to publish your course until you have added at least one lesson with at least one question.</p>");
 
     return $html;
-}
-function initHelpAddWord(){
+}*/
+/*function initHelpAddWord(){
     var $html = $("<div>");
     $html.html("<p>1. Enter a word and load the associated phonemes.</p>");
     $html.append("<p>The phonemes will be displayed in Arpabet and IPA format.</p>");
@@ -352,7 +311,7 @@ function initHelpAddWord(){
     $html.append("<p>If the word you are trying to add is not available in the accenteasy dictionary an error message will be displayed.</p>");
     $html.append("<p>When you hold the mouse over a question on the course administration page, a pop up will be displayed enabling you to see which words you have added. </p>");
     return $html;
-}
+}*/
 function getLabelDeleted(){
     return $('#lbl_deleted');
 }
@@ -368,7 +327,7 @@ function btnHelpConfirmDelete(){
     return $('#helpDeleteBtn');
 }
 
-function initHelpDelete(){
+/*function initHelpDelete(){
     var $html = $("<div>");
     $html.html("<p>When you delete a file, " +
         "any content you have added at lower stages within the structure will also be deleted. </p>");
@@ -384,7 +343,7 @@ function initHelpDelete(){
     $html.append("<p class='delete-header'>course </p>");
     $html.append("<p>If you delete a course, all associated, levels, objectives, lessons, tests and questions will be removed. The course will also be removed from your ‘my courses’ page and from ‘all courses’. If you shared the course, other users will still be able to use it if they added it to their own ‘my courses’ list before you deleted it. </p>");
     return $html;
-}
+}*/
 
 function getHeader(){
     return $('#header-company');

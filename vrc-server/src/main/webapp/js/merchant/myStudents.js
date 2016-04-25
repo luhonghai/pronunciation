@@ -319,8 +319,13 @@ function closeConfirmPopUp(){
         $('#'+popup).modal('hide');
     });
 }
+
+function collapseMenu(){
+    $("#li-students").find('ul').addClass('in');
+}
 $(document).ready(function(){
     $('#help-icons').show();
+    collapseMenu();
     closeConfirmPopUp();
     info();
     rejects();

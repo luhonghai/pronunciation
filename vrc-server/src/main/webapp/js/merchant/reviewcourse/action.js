@@ -158,9 +158,12 @@ function openEditWords(){
     });
 }
 
-
+function collapseMenu(){
+    $("#li-courses").find('ul').addClass('in');
+}
 $(document).ready(function(){
     showHelpIconTop();
+    collapseMenu();
     clickTopHelp();
     clickCopyCourse();
     openEditWords();
