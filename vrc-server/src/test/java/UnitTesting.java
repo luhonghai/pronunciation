@@ -26,10 +26,12 @@ import com.cmg.lesson.services.level.LevelService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.common.Sqlite;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.dao.report.ReportPhoneDao;
+import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.QuestionServices;
@@ -51,6 +53,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -152,16 +157,48 @@ public class UnitTesting {
             cmt.setId("temp");
             ClassMappingTeacherDAO dao = new ClassMappingTeacherDAO();
             dao.put(cmt);*/
-            CourseMappingClass cmc = new CourseMappingClass();
+          /*  CourseMappingClass cmc = new CourseMappingClass();
             cmc.setId("temp");
             CourseMappingClassDAO cmcdao = new CourseMappingClassDAO();
-            cmcdao.put(cmc);
+            cmcdao.put(cmc);*/
+          /*  TCHDAO dao = new TCHDAO();
+            int version = dao.getLatestVersion("8b473661-6347-4864-a707-6037b7fdd59b")+1;
+            System.out.println(version);*/
+            Class.forName("org.sqlite.JDBC");
+            Connection conn = DriverManager.getConnection("jdbc:sqlite:C:/lesson.db");
+            Sqlite lite = new Sqlite("8b473661-6347-4864-a707-6037b7fdd59b");
+            clearDataTable(conn, lite.deleteCourse());
+            clearDataTable(conn,lite.deleteCourseMapLevel());
+            clearDataTable(conn,lite.deleteLevel());
+            clearDataTable(conn,lite.deleteCourseMapDetail());
+            clearDataTable(conn,lite.deleteObj());
+            clearDataTable(conn,lite.deleteTest());
+            clearDataTable(conn,lite.deleteObjMapping());
+            clearDataTable(conn,lite.deleteTestMapping());
+            clearDataTable(conn,lite.deleteLesson());
+            clearDataTable(conn,lite.deleteLessonMap());
+            clearDataTable(conn,lite.deleteQuestion());
+            clearDataTable(conn,lite.deleteWordOfQuestion());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-
+    public static void clearDataTable(Connection conn,String sql){
+        Statement statement = null;
+        try {
+            //appendMessage("execute query " + sql);
+            statement = conn.createStatement();
+            statement.executeUpdate(sql);
+           // appendMessage("Completed.");
+        } catch (Exception e) {
+            //appendError("Could not execute query " + sql + e.getMessage());
+        } finally {
+            try {
+                if (statement != null) statement.close();
+            } catch (Exception e) {}
+        }
+    }
 
 }

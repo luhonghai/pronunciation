@@ -63,7 +63,7 @@ public class Sqlite {
      */
     public String deleteCourse(){
         String sqlite = deleteCourse;
-        sqlite.replaceAll("paramIdCourse",idCourse);
+        sqlite = sqlite.replaceAll("paramIdCourse",idCourse);
         return sqlite;
     }
 
@@ -74,7 +74,7 @@ public class Sqlite {
      */
     public String deleteCourseMapLevel(){
         String sqlite = deleteCourseMapLevel;
-        sqlite.replaceAll("paramIdCourse",idCourse);
+        sqlite = sqlite.replaceAll("paramIdCourse",idCourse);
         return sqlite;
     }
 
@@ -169,31 +169,6 @@ public class Sqlite {
         return sqlite;
     }
 
-    /**
-     *
-     * @param table
-     * @return sqlite to delete all data unnecessary in table
-     */
-    public String getSqlite(String table){
-        if(table.equalsIgnoreCase(getTableName(Course.class))){
-            return deleteCourse();
-        }else if(table.equalsIgnoreCase(getTableName(CourseMappingLevel.class))){
-            return deleteCourseMapLevel();
-        }else if(table.equalsIgnoreCase(getTableName(Level.class))){
-            return deleteLevel();
-        }else if(table.equalsIgnoreCase(getTableName(Objective.class))){
-
-        }else if(table.equalsIgnoreCase(getTableName(Test.class))){
-
-        }else if(table.equalsIgnoreCase(getTableName(LessonCollection.class))){
-
-        }else if(table.equalsIgnoreCase(getTableName(Question.class))){
-
-        }else if(table.equalsIgnoreCase(getTableName(WordOfQuestion.class))){
-
-        }
-        return null;
-    }
 
     /**
      *
