@@ -123,9 +123,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     override func viewDidLoad() {
         GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
-        swiper = SloppySwiper(navigationController: self.navigationController)
-        self.navigationController?.delegate = swiper
-        DeviceManager.requestMicrophonePermission { 
+//        swiper = SloppySwiper(navigationController: self.navigationController)
+//        self.navigationController?.delegate = swiper
+        DeviceManager.requestMicrophonePermission {
             self.microphone = EZMicrophone(delegate: self)
         }
         //self.edgesForExtendedLayout = UIRectEdge.None;

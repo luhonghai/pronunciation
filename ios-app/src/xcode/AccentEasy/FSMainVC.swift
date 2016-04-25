@@ -97,9 +97,9 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     override func viewDidLoad() {
         GlobalData.getInstance().isOnLessonMain = false
         super.viewDidLoad()
-        swiper = SloppySwiper(navigationController: self.navigationController)
-        self.navigationController?.delegate = swiper
-        DeviceManager.requestMicrophonePermission { 
+//        swiper = SloppySwiper(navigationController: self.navigationController)
+//        self.navigationController?.delegate = swiper
+        DeviceManager.requestMicrophonePermission {
             self.microphone = EZMicrophone(delegate: self)
             
         }
