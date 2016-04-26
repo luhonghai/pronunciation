@@ -45,8 +45,6 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         
         DeviceManager.setNavigationBarTransparent(self)
     }
-
-
     
     override func viewWillAppear(animated: Bool) {
         userProfile = AccountManager.currentUser()
