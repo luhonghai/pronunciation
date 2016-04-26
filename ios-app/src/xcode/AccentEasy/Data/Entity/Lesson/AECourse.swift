@@ -12,6 +12,7 @@ public class AECourseSession: Mappable {
     
     var courses = Array<AECourse>()
     var username: String!
+    var selectedCourse: AECourse!
     
     required public init?(_ map: Map) {
         
@@ -34,6 +35,9 @@ public class AECourse: AELiteEntity, Mappable {
     var version: Int!
     var imageURL: String!
     var dbURL: String!
+    
+    var active: Bool = true
+    var score: Int!
     
     required public init(){
         super.init()

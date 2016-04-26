@@ -50,6 +50,8 @@ public class UserProfile: Mappable {
     public var isExpired:Bool!
     public var licenseData = [LicenseData]()
     
+    public var courseSession = AECourseSession()
+    
     /*private String ;
     private List<LicenseData> ;*/
     
@@ -57,6 +59,10 @@ public class UserProfile: Mappable {
         public var latitude:Double!
         public var longitude:Double!
         
+    }
+    
+    public func getSelectedCourseId() -> String {
+        return courseSession.selectedCourse.idString
     }
     
     public class DeviceInfo: Mappable{

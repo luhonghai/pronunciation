@@ -11,6 +11,7 @@ import Foundation
 public class TestScore: LiteEntity {
     
     var username:String!
+    // changed to ID of course
     var idCountry:String!
     var idLevel:String!
     var score:Int!

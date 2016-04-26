@@ -28,6 +28,8 @@
 		9B1F081E1CC8D94100B542BD /* help-context-freestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1F081B1CC8D94100B542BD /* help-context-freestyle.png */; };
 		9B1F081F1CC8D94100B542BD /* help-context-lesson.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1F081C1CC8D94100B542BD /* help-context-lesson.png */; };
 		9B1F08201CC8D94100B542BD /* help-context-test.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1F081D1CC8D94100B542BD /* help-context-test.png */; };
+		9B23353D1CCF07AD004E5818 /* CourseDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23353C1CCF07AD004E5818 /* CourseDBAdapter.swift */; settings = {ASSET_TAGS = (); }; };
+		9B23354D1CCF26F9004E5818 /* CoursesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B23354C1CCF26F9004E5818 /* CoursesViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		9B287B2E1CB747E200C761A1 /* ArchitectsDaughter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B287B2D1CB747E200C761A1 /* ArchitectsDaughter.ttf */; };
 		9B287B301CB747EA00C761A1 /* hand-draw-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
@@ -564,6 +566,8 @@
 		9B1F081B1CC8D94100B542BD /* help-context-freestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "help-context-freestyle.png"; path = "drawable/help-context-freestyle.png"; sourceTree = "<group>"; };
 		9B1F081C1CC8D94100B542BD /* help-context-lesson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "help-context-lesson.png"; path = "drawable/help-context-lesson.png"; sourceTree = "<group>"; };
 		9B1F081D1CC8D94100B542BD /* help-context-test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "help-context-test.png"; path = "drawable/help-context-test.png"; sourceTree = "<group>"; };
+		9B23353C1CCF07AD004E5818 /* CourseDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CourseDBAdapter.swift; path = Data/SQLite/CourseDBAdapter.swift; sourceTree = "<group>"; };
+		9B23354C1CCF26F9004E5818 /* CoursesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesViewController.swift; sourceTree = "<group>"; };
 		9B287B2D1CB747E200C761A1 /* ArchitectsDaughter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ArchitectsDaughter.ttf; path = font/ArchitectsDaughter.ttf; sourceTree = "<group>"; };
 		9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow.png"; path = "AccentEasy/font/hand-draw-arrow.png"; sourceTree = SOURCE_ROOT; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
@@ -1487,6 +1491,7 @@
 				90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */,
 				C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */,
 				90F430811C86904800D6DF81 /* LiteCommon.swift */,
+				9B23353C1CCF07AD004E5818 /* CourseDBAdapter.swift */,
 			);
 			name = SQLite;
 			sourceTree = "<group>";
@@ -2010,6 +2015,7 @@
 				C115C5451CB7662000B3258B /* TestFailPopupVC.xib */,
 				C115C5541CB76AD600B3258B /* TestPassPopupVC.swift */,
 				C115C5551CB76AD600B3258B /* TestPassPopupVC.xib */,
+				9B23354C1CCF26F9004E5818 /* CoursesViewController.swift */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -2603,6 +2609,7 @@
 				9B5F33E41C771B5A00E85629 /* ToJSON.swift in Sources */,
 				9B5F33891C77129A00E85629 /* IBarChartDataSet.swift in Sources */,
 				9B5F33711C77129A00E85629 /* BarChartDataEntry.swift in Sources */,
+				9B23353D1CCF07AD004E5818 /* CourseDBAdapter.swift in Sources */,
 				9B56BD7A1CC9CD58005AE0C8 /* LockScreenController.swift in Sources */,
 				C141C8381C3E49B6001D1F9C /* OurItem3ViewController.swift in Sources */,
 				9B5F34271C771E6000E85629 /* FormData.swift in Sources */,
@@ -2613,6 +2620,7 @@
 				C1410BA51C4762E200E781B4 /* ResetPassVC.swift in Sources */,
 				9B5F33AF1C77129A00E85629 /* ChartXAxisRendererHorizontalBarChart.swift in Sources */,
 				9B5F33501C77129A00E85629 /* HorizontalBarChartView.swift in Sources */,
+				9B23354D1CCF26F9004E5818 /* CoursesViewController.swift in Sources */,
 				C13D48591C896BAD00D630A4 /* FSDetailSwipeVC.swift in Sources */,
 				9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */,
 				9B5F33931C77129A00E85629 /* IScatterChartDataSet.swift in Sources */,

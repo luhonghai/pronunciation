@@ -81,7 +81,7 @@ class LaunchImageVC: UIViewController {
                     AccountManager.auth(currentUser, isCheck: true, completion: { (userProfile, success, message) -> Void in
                         dispatch_async(dispatch_get_main_queue(),{
                             if success {
-                                weakSelf!.gotoMainPage()
+                                weakSelf!.fetchCourses(weakSelf!.currentUser)
                             } else {
                                 weakSelf!.gotoLoginPage()
                             }
@@ -91,6 +91,20 @@ class LaunchImageVC: UIViewController {
             } else {
                gotoLoginPage()
             }
+        }
+    }
+    
+    func fetchCourses(userProfile: UserProfile) {
+        weak var weakSelf = self
+        AccountManager.fetchCourses(userProfile) { (userProfile, success, message) -> Void in
+            //TODO show error message
+            if success {
+                
+            }
+            AccountManager.updateProfile(userProfile)
+            dispatch_async(dispatch_get_main_queue(),{
+                weakSelf!.gotoMainPage()
+            })
         }
     }
     

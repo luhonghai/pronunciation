@@ -52,6 +52,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     var freestyleDBAdapter:LessonDBAdapter!
     var wordCollectionDbApdater: WordCollectionDbApdater!
+    var courseDbAdapter: CourseDBAdapter!
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -156,7 +157,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         //loginParameter = NSUserDefaults()
         userProfileSaveInApp = NSUserDefaults()
         userProfile = AccountManager.currentUser()
-        
+        courseDbAdapter = CourseDBAdapter.newInstance()
         //load word default
         wordCollectionDbApdater = WordCollectionDbApdater()
         freestyleDBAdapter = LessonDBAdapter()
@@ -475,6 +476,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 .field("idWord", weakSelf!.selectedWord.idString)
                 .field("idQuestion", question.idString)
                 .field("idCountry", weakSelf!.selectedCountry.idString)
+                .field("idCourse", weakSelf!.userProfile.getSelectedCourseId())
                 .field("session", weakSelf!.currentSession)
                 .field("idLessonCollection", weakSelf!.selectedLessonCollection.idString)
                 .field("type", weakSelf!.isLessonCollection ? "Q" : "T")
@@ -828,9 +830,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         
         Logger.log(selectedLessonCollection.idString)
         
-        arrQuestionOfLC = try! wordCollectionDbApdater.getQuestionByLessionCollection(selectedLessonCollection.idString)
+        arrQuestionOfLC = try! courseDbAdapter.getQuestionByLessionCollection(selectedLessonCollection.idString)
         for index in 0...arrQuestionOfLC.count-1 {
-            arrQuestionOfLC[index].listWord = try! wordCollectionDbApdater.getWordsOfQuestion(arrQuestionOfLC[index].idString)
+            arrQuestionOfLC[index].listWord = try! courseDbAdapter.getWordsOfQuestion(arrQuestionOfLC[index].idString)
         }
         arrQuestionOfLC[0].enabled = true
         Logger.log("arrQuestionOfLesson")

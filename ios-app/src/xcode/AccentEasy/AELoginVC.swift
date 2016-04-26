@@ -135,6 +135,21 @@ class AELoginVC: UIViewController, UITextFieldDelegate {
 
     }
 
+    func fetchCourses(userProfile: UserProfile) {
+        weak var weakSelf = self
+        AccountManager.fetchCourses(userProfile) { (userProfile, success, message) -> Void in
+            //TODO show error message
+            if success {
+                
+            }
+            AccountManager.updateProfile(userProfile)
+            dispatch_async(dispatch_get_main_queue(),{
+                weakSelf!.hidenLoadding()
+                weakSelf!.performSegueWithIdentifier("AELoginGoToMain", sender: weakSelf!)
+            })
+        }
+    }
+    
     func getUserProfile () {
         weak var weakSelf = self
         AccountManager.fetchProfile(currentUser) { (userProfile, success, message) -> Void in
@@ -142,8 +157,7 @@ class AELoginVC: UIViewController, UITextFieldDelegate {
                 if success {
                     userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
-                    weakSelf!.hidenLoadding()
-                    weakSelf!.performSegueWithIdentifier("AELoginGoToMain", sender: weakSelf!)
+                    weakSelf!.fetchCourses(userProfile)
                 } else {
                     AccountManager.showError("could not fetch user data")
                     weakSelf!.hidenLoadding()

@@ -73,8 +73,11 @@ public class DatabaseHelper {
             }
         }
         if status {
-            try! FileHelper.writeFile(courseSessionFilePath, content: JSONHelper.toJson(courseSession))
+            
+        } else {
+            Logger.log("no course database changed. skip by default")
         }
+        try! FileHelper.writeFile(courseSessionFilePath, content: JSONHelper.toJson(courseSession))
         return status
     }
     
