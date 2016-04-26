@@ -114,6 +114,7 @@ function openPopup(itemData){
         var level = treeAPI.itemData(currentParent);
         var row=nameOfCourse +" > "+level.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
     }else if(itemData._actionClick == action_edit_question_test){
         listWord=[];
         clearForm();
@@ -130,6 +131,7 @@ function openPopup(itemData){
         var levelItem = treeAPI.itemData(level);
         var row= nameOfCourse +" > "+levelItem.label+ " > "+test.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
     }
 
     currentPopup.modal('show');

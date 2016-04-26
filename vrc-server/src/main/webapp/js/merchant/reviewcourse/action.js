@@ -78,6 +78,7 @@ function openPopup(itemData){
         var levelItem = treeAPI.itemData(level);
         var row= nameOfCourse +" > " + levelItem.label+ " > "+test.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
     }
     currentPopup.modal('show');
 }

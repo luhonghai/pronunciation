@@ -112,8 +112,9 @@ function openPopup(itemData){
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
         var level = treeAPI.itemData(currentParent);
-        var row=nameOfCourse +" > "+level.label;
+        var row= nameOfCourse +" > " + level.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
     }else if(itemData._actionClick == action_edit_question_test){
         listWord=[];
         clearForm();
@@ -128,8 +129,9 @@ function openPopup(itemData){
         var test = treeAPI.itemData(currentParent);
         var level = treeAPI.parent(currentParent);
         var levelItem = treeAPI.itemData(level);
-        var row= nameOfCourse +" > "+levelItem.label+ " > "+test.label;
+        var row= nameOfCourse +" > "+levelItem.label+ " > " + test.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
     }
 
     currentPopup.modal('show');
