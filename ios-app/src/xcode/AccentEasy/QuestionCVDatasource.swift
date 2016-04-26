@@ -92,8 +92,8 @@ class QuestionCVDatasource: NSObject, UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
         Logger.log("You selected cell #\(indexPath.item)!")
-        delegateMain?.selectedCellQuestionInDetail?(indexPath.item)
         delegateDetail?.backToMain?()
+        delegateMain?.selectedCellQuestionInDetail?(indexPath.item)
         //self.navigationController?.popViewControllerAnimated(true)
     }
     

@@ -699,7 +699,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func changeColorLoadWord(){
-        btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+            btnRecord.backgroundColor = ColorHelper.APP_GRAY
+        } else {
+            btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        }
+        //btnRecord.backgroundColor = ColorHelper.APP_GREEN
         btnPlay.backgroundColor = ColorHelper.APP_GRAY
         btnPlay.enabled = false
         btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Disabled)
@@ -710,7 +715,13 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func changeColorRed(){
-        btnRecord.backgroundColor = ColorHelper.APP_RED
+        if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+            btnRecord.backgroundColor = ColorHelper.APP_GRAY
+        } else {
+            btnRecord.backgroundColor = ColorHelper.APP_RED
+        }
+
+        //btnRecord.backgroundColor = ColorHelper.APP_RED
         btnPlay.backgroundColor = ColorHelper.APP_RED
         btnPlayDemo.setTitleColor(ColorHelper.APP_RED, forState: UIControlState.Normal)
         lblIPA.textColor = ColorHelper.APP_RED
@@ -719,7 +730,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func changeColorOrange(){
-        btnRecord.backgroundColor = ColorHelper.APP_ORANGE
+        if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+            btnRecord.backgroundColor = ColorHelper.APP_GRAY
+        } else {
+            btnRecord.backgroundColor = ColorHelper.APP_ORANGE
+        }
+        //btnRecord.backgroundColor = ColorHelper.APP_ORANGE
         btnPlay.backgroundColor = ColorHelper.APP_ORANGE
         btnPlayDemo.setTitleColor(ColorHelper.APP_ORANGE, forState: UIControlState.Normal)
         lblIPA.textColor = ColorHelper.APP_ORANGE
@@ -728,7 +744,11 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func changeColorGreen(){
-        btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+            btnRecord.backgroundColor = ColorHelper.APP_GRAY
+        } else {
+            btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        }
         btnPlay.backgroundColor = ColorHelper.APP_GREEN
         btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
         lblIPA.textColor = ColorHelper.APP_GREEN
@@ -791,7 +811,16 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.enabled = true
         cvQuestionList.userInteractionEnabled = true
         btnLessonTip.enabled = true
-        btnRecord.enabled = true
+        //lock record test
+        //print("ennableViewSelectQuestion--------------")
+        //print(arrQuestionOfLC[indexCurrentQuestion].isTestLook)
+        if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+            btnRecord.backgroundColor = ColorHelper.APP_GRAY
+            btnRecord.enabled = false
+        } else {
+            btnRecord.enabled = true
+        }
+
     }
     
     /*
@@ -931,7 +960,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         if question.enabled {
             if !isLessonCollection{
                 //test lesson colection, one recoder per test
-                if indexPath.item <= indexCurrentQuestion && question.recorded{
+                if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+                    indexCurrentQuestion = indexPath.item
+                    reloadQuestion(indexCurrentQuestion)
                     return
                 }
             }
@@ -956,30 +987,40 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         //ennableViewRecord()
     }
     
+
     //process when click question cell on detail screen
     func selectedCellQuestionInDetail(cellIndex: Int) {
         Logger.log("Detail cell selected is \(cellIndex)")
-        
-        //test lesson colection, one recoder per test
-        if !isLessonCollection {
-            if cellIndex <= indexCurrentQuestion {
-                return
-            }
-        }
-        
         //disableViewSelectQuestion()
         
         indexCurrentQuestion = cellIndex
+        
+        //test lesson colection, one recoder per test
+        /*if !isLessonCollection {
+            if arrQuestionOfLC[indexCurrentQuestion].enabled && arrQuestionOfLC[indexCurrentQuestion].recorded {
+                //return
+                isLookRecordTest = true
+            }
+            else {
+                isLookRecordTest = false
+            }
+        }*/
+        
+        reloadQuestion(cellIndex)
+    }
+    
+    func reloadQuestion(cellIndex:Int) {
         if let word = arrQuestionOfLC[cellIndex].selectedWord {
             currentMode = arrQuestionOfLC[cellIndex].currentMode
             selectedWord = word
             //self.chooseWord(selectedWord.word)
             //var score =  arrQuestionOfLesson[cellIndex].listScore[arrQuestionOfLesson[cellIndex].listScore.count-1]
-            
-
-            NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: currentMode.word)
-            NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-            NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: currentMode.word)
+            delay(1, closure: {
+                GlobalData.getInstance().selectedWord = self.currentMode.word
+                NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.currentMode.word)
+                NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+                NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: self.currentMode.word)
+            })
             
             scoreResult = round(currentMode.score)
             showColorOfScoreResult(currentMode.score)
@@ -988,7 +1029,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
             //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
             isRecording = false
-
+            
             //selectedWord = wordCollection
             btnPlayDemo.setTitle(selectedWord.word.lowercaseString, forState: UIControlState.Normal)
             lblIPA.text = selectedWord.pronunciation
@@ -1001,6 +1042,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         } else{
             randomWord(arrQuestionOfLC[cellIndex])
         }
+        ennableViewSelectQuestion()
     }
     
     //process when click redo on detail screen
@@ -1158,6 +1200,11 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             self.arrQuestionOfLC[self.indexCurrentQuestion].currentMode = self.currentMode
             self.arrQuestionOfLC[self.indexCurrentQuestion].recorded = true
             self.arrQuestionOfLC[self.indexCurrentQuestion].listScore.append(round(self.scoreResult))
+            if !isLessonCollection {
+                //print("run in test---------")
+                self.arrQuestionOfLC[self.indexCurrentQuestion].isTestLook = true
+                //print(self.arrQuestionOfLC[self.indexCurrentQuestion].isTestLook)
+            }
             
             if self.indexCurrentQuestion+1 < self.arrQuestionOfLC.count {
                 self.arrQuestionOfLC[self.indexCurrentQuestion+1].enabled = true

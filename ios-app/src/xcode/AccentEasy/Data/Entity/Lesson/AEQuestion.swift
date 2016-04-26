@@ -17,6 +17,7 @@ public class AEQuestion : AELiteEntity {
     var listWord = [WordCollection]()
     var listScore = [Float]()
     var currentMode: UserVoiceModel!
+    var isTestLook:Bool = false
     
     override public func parse(row: Row) {
         self.idString = row[LiteColumn.IDSTRING]
