@@ -69,7 +69,7 @@ public class CourseServices {
         String idLevel = UUIDGenerator.generateUUID().toString();
         String message = lvServices.addLevelToDB(idLevel,nameLv, descriptionLv);
         if (message.indexOf(ERROR) != -1) {
-            return ERROR;
+            return ERROR + " : an error has been occurred in server";
         }
         message = addMappingLevel(idCourse, idLevel);
         return message;
@@ -241,7 +241,7 @@ public class CourseServices {
         } catch (Exception e) {
             logger.error("can not get name of course : " + e);
         }
-        return ERROR;
+        return ERROR + ": an error has been occurred in server";
     }
 
     /**
@@ -261,7 +261,7 @@ public class CourseServices {
         } catch (Exception e) {
             logger.error("can not get name of course : " + e);
         }
-        return ERROR;
+        return ERROR + ": an error has been occurred in server";
     }
 
     /**

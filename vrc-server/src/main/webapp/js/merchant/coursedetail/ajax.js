@@ -109,7 +109,7 @@ function addLevel(){
                 swal("", "You have added Level successfully", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -143,7 +143,7 @@ function editLevel(){
                 swal("", "You have updated Level successfully", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -179,7 +179,7 @@ function deleteLevel(){
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -215,7 +215,7 @@ function addObj(){
                 swal("", "You have added objective successfully", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -249,7 +249,7 @@ function editObj(){
                 swal("", "You have updated objective successfully", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -283,7 +283,7 @@ function deleteObj(){
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -316,7 +316,7 @@ function addTest(){
                 swal("", "You have added test successfully", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -349,7 +349,7 @@ function editTest(){
                 swal("", "You have updated test successfully", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -383,7 +383,7 @@ function deleteTest(){
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -419,7 +419,7 @@ function addLesson(){
                 swal("", "You have added lesson successfully!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -453,7 +453,7 @@ function editLesson(){
                 swal("", "You have updated lesson successfully", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -483,7 +483,7 @@ function deleteLesson(){
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -496,6 +496,10 @@ function deleteLesson(){
 
 function addQuestions(listWord){
     myObject.listWord = listWord;
+    currentPopup.find(".validateMsg").html("Your question is being saved..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6")
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveQuestion").attr("disabled","disabled");
     $.ajax({
         url : servletAdd,
         type : "POST",
@@ -509,23 +513,35 @@ function addQuestions(listWord){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add question successfully!", "success");
+                swal("Success!", "You have added question successfully!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveQuestion").removeAttr("disabled");
         },
         error: function () {
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red")
             currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveQuestion").removeAttr("disabled");
         }
     });
 }
 
 function editQuestions(listWord){
     myObject.listWord = listWord;
+    currentPopup.find(".validateMsg").html("Your question is being edited..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6")
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveQuestion").attr("disabled","disabled");
     $.ajax({
         url : servletEdit,
         type : "POST",
@@ -538,17 +554,25 @@ function editQuestions(listWord){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 reloadTree();
+                currentPopup.find(".validateMsg").css("color","red");
+                currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("Success!", "You have edit question successfully!", "success");
+                swal("Success!", "You have edited question successfully!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveQuestion").removeAttr("disabled");
         },
         error: function () {
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
             currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveQuestion").removeAttr("disabled");
         }
     });
 }
@@ -589,6 +613,10 @@ function deleteQuestion(){
 
 function addQuestionsForTest(listWord){
     myObject.listWord = listWord;
+    currentPopup.find(".validateMsg").html("Your question is being saved..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6")
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveTestWord").attr("disabled","disabled");
     $.ajax({
         url : servletAdd,
         type : "POST",
@@ -605,28 +633,39 @@ function addQuestionsForTest(listWord){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add question for test successfully!", "success");
+                swal("Success!", "You have added question for test successfully!", "success");
             }else{
-                //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveTestWord").removeAttr("disabled");
         },
         error: function () {
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red")
             currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveTestWord").removeAttr("disabled");
         }
     });
 }
 
 function editQuestionsForTest(listWord){
     myObject.listWord = listWord;
+    currentPopup.find(".validateMsg").html("Your question is being edited..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6")
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveTestWord").attr("disabled","disabled");
     $.ajax({
         url : servletEdit,
         type : "POST",
         data : {
-            action: action_edit_question,
+            action: action_edit_question_test,
             listWord: JSON.stringify(myObject),
             idQuestion: currentPopup.find(".idHidden").val(),
             type:$("#testType").val(),
@@ -636,17 +675,25 @@ function editQuestionsForTest(listWord){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 reloadTree();
+                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("Success!", "You have edit question for test successfully!", "success");
+                swal("Success!", "You have edited question for test successfully!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveTestWord").removeAttr("disabled");
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red")
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveTestWord").removeAttr("disabled");
         }
     });
 }
@@ -672,7 +719,7 @@ function deleteQuestionForTest(){
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -701,7 +748,7 @@ function removeWords(word){
                     getListWordForTest().find("div:contains('"+word+"')").remove();
                 }
             }else{
-                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
         },
@@ -715,9 +762,9 @@ function removeWords(word){
 
 
 function loadWeightForWordEdit(word){
-    $("#addWordModal").modal('show');
-    getAddWord().val(word);
-    $("#loadPhonemes").hide();
+    //$("#addWordModal").modal('show');
+    //getAddWord().val(word);
+    //$("#loadPhonemes").hide();
     $.ajax({
         url: "ManagementWordOfQuestionServlet",
         type: "POST",
@@ -730,13 +777,32 @@ function loadWeightForWordEdit(word){
         success: function (data) {
             var message = data.message;
             if(message.indexOf("success") != -1){
-                drawWord(data);
+                //drawWord(data);
+                var idWord = data.idWord;
+                var output = [];
+                $.each(data.listWeightPhoneme, function (idx, obj) {
+                    var phonemeName = obj.phoneme;
+                    var weightOfPhoneme = obj.weight;
+                    var ipa = obj.ipa;
+                    var index = obj.index;
+                    output.push({
+                        index: parseInt(index),
+                        phoneme: phonemeName,
+                        ipa: ipa,
+                        weight: parseFloat(weightOfPhoneme)
+                    });
+                });
+                listWord.push({
+                    idWord: idWord,
+                    nameWord: word,
+                    listWeightPhoneme: output
+                });
             }else{
-                swal("Error!",message.split(":")[1], "error");
+               // swal("",message.split(":")[1], "error");
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            //swal("", "Could not connect to server", "error");
         }
 
     });

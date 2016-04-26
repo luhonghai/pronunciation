@@ -91,7 +91,6 @@ function reloadTree(){
             treeAPI.ajaxLoad(currentParent, {
                 success: function(item) {
                     this.open(item);
-
                 }
             });
         }

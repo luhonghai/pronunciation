@@ -94,19 +94,19 @@ public class QuestionServices {
         String idQuestion = UUIDGenerator.generateUUID().toString();
 
         if(addQuestionToDB(idQuestion,null, null).indexOf(ERROR) != -1){
-            return ERROR;
+            return ERROR + ": an error has been occurred in server";
         }
         if(addMappingQuestionToLesson(idQuestion,idLesson).indexOf(ERROR)!= -1){
-            return ERROR;
+            return ERROR + ": an error has been occurred in server";
         }
         if(list!=null){
             for(int i=0;i<list.size();i++){
                 WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
                if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
-                   return ERROR;
+                   return ERROR + ": an error has been occurred in server";
                }
                 if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
-                    return ERROR;
+                    return ERROR + ": an error has been occurred in server";
                 }
             }
         }
@@ -128,19 +128,19 @@ public class QuestionServices {
         String idQuestion = UUIDGenerator.generateUUID().toString();
 
         if(addQuestionToDB(idQuestion,type,description).indexOf(ERROR) != -1){
-            return ERROR;
+            return ERROR + ": an error has been occurred in server";
         }
         if(addMappingQuestionToLesson(idQuestion,idLesson).indexOf(ERROR)!= -1){
-            return ERROR;
+            return ERROR + ": an error has been occurred in server";
         }
         if(list!=null){
             for(int i=0;i<list.size();i++){
                 WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
                 if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
-                    return ERROR;
+                    return ERROR + ": an error has been occurred in server";
                 }
                 if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
-                    return ERROR;
+                    return ERROR + ": an error has been occurred in server";
                 }
             }
         }
@@ -480,18 +480,16 @@ public class QuestionServices {
                 boolean check = woqDAO.checkExistedWord(idQuestion, list.get(i).getIdWord());
                 if (check) {
                     if ( addMapping(list.get(i), idQuestion).indexOf(ERROR)!=-1) {
-                        return  ERROR;
-                    } else if(deleteWordOfQuestion(idQuestion, list.get(i).getIdWord()).indexOf(ERROR)!=-1) {
-                        return ERROR;
+                        return ERROR + ": an error has been occurred in server";
                     }
                 } else {
                     WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
 
                     if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
-                        return ERROR;
+                        return ERROR + ": an error has been occurred in server";
                     }
                     if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
-                        return ERROR;
+                        return ERROR + ": an error has been occurred in server";
                     }
                 }
             }
@@ -574,15 +572,15 @@ public class QuestionServices {
         try {
             boolean check = dao.removeMappingQuestionWithLesson(idLesson, idQuestion);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
              check = dao.deletedQuestion(idQuestion);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
 
         }catch (Exception e){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
@@ -600,11 +598,11 @@ public class QuestionServices {
             WordCollection wordCollection=wordCollectionDAO.getByWord(word);
             boolean check = dao.updateDeletedWordOfQuestion(wordCollection.getId(), idQuestion);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
 
         }catch (Exception e){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
@@ -622,19 +620,16 @@ public class QuestionServices {
                 boolean check = woqDAO.checkExistedWord(idQuestion, list.get(i).getIdWord());
                 if (check) {
                     if ( addMapping(list.get(i), idQuestion).indexOf(ERROR)!=-1) {
-                        return  ERROR;
-                    } else if(deleteWordOfQuestion(idQuestion, list.get(i).getIdWord()).indexOf(ERROR)!=-1) {
-                        return ERROR;
+                        return ERROR + ": an error has been occurred in server";
                     }
 
                 } else {
                     WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
-
                     if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
-                        return ERROR;
+                        return ERROR + ": an error has been occurred in server";
                     }
                     if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
-                        return ERROR;
+                        return ERROR + ": an error has been occurred in server";
                     }
                 }
             }

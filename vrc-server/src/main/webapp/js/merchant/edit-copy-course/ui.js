@@ -9,6 +9,8 @@ function drawWord(data){
     getListIPA().html("");
     getListWeight().html("");
     getAddWord().attr("readonly","readonly");
+    getAddWord().attr("check-duplicated", "not check");
+    getAddWord().val(data.nameWord);
     $.each(data.listWeightPhoneme, function (idx, obj) {
         var phonemeName = obj.phoneme;
         var weightOfPhoneme = obj.weight;

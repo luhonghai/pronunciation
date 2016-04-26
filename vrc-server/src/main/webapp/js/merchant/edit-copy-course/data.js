@@ -208,7 +208,7 @@ function btnHelpConfirmDelete(){
 
 
 function getHeader(){
-    return $('#header-company');
+    return $('.header-company');
 }
 
 function changeHeaderCourseName(cName){

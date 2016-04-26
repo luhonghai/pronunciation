@@ -120,16 +120,49 @@ function validateWord(){
         getWordValidateMessage().show();
         return false;
     }
+    var size = $('input', $('#listWeight')).length;
+    if(size > 0){
+        for(var i = 0 ; i < size;i++){
+            var weightValue = $("#weight"+i).val();
+            if (weightValue == null || typeof weightValue == "undefined" || weightValue.length == 0){
+                getWordValidateMessage().html("please enter weight");
+                getWordValidateMessage().show();
+                $("#weigth"+i).focus();
+                return false;
+            }
+        }
+    }
+    /*var checkDuplicated = $("#addWordModal").attr('type');
+    if(checkDuplicated == "add-new-word"){
+        var check = true;
+        currentPopup.find("#word").each(function(i){
+            var tmp = $(this).html();
+            if(tmp == word){
+                check = false;
+            }
+        });
+        if(!check){
+            getWordValidateMessage().html("You already have that word in this question");
+            getWordValidateMessage().show();
+            $("#loadPhonemes").attr("disabled",false);
+            return false;
+        }
+    }*/
+
+
+    getWordValidateMessage().hide();
     return true;
 }
 
+
+
 function validateSaveQuestion(listWord){
-    var word = getAddWord().val();
     if (listWord == null || listWord.length == 0){
         getQuestionValidateMessage().html("please add word");
         getQuestionValidateMessage().show();
         return false;
     }
+    getQuestionValidateMessage().hide();
     return true;
 }
 
@@ -140,6 +173,7 @@ function validateSaveQuestionForTest(listWord){
         getQuestionForTestValidateMessage().show();
         return false;
     }
+    getQuestionForTestValidateMessage().hide();
     return true;
 }
 function validateFormLesson(){

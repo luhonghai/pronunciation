@@ -4,6 +4,10 @@
         color : #A6A6A6;
         font-size: 12px;
     }
+    #listWord , #listWordTests{
+        max-height : 200px;
+        overflow-y: auto;
+    }
 </style>
 <div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
@@ -273,9 +277,9 @@
                         <div class="col-md-8">
                             <select id="lessonType" class="form-control" style="padding: 2px; width: 150px;;">
                                 <option value="accuracy">accuracy</option>
-                                <option value="pace" disabled="disabled">pace</option>
-                                <option value="power" disabled="disabled">power</option>
-                                <option value="pitch" disabled="disabled">pitch</option>
+                                <option value="pace" disabled="disabled">pace coming soon </option>
+                                <option value="power" disabled="disabled">power coming soon </option>
+                                <option value="pitch" disabled="disabled">pitch coming soon </option>
                             </select>
                         </div>
                     </div>
@@ -363,7 +367,7 @@
                             <img id="btnDeleteQuestion" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveQuestion" src="/images/popup/Save_50x50.gif"
+                            <img class="btn-info" style="float: right;background-color: transparent;"  id="btnSaveQuestion" src="/images/popup/Save_50x50.gif"
                                  width="36px" height="36px"/>
 
                         </div>
@@ -404,9 +408,9 @@
                         <div class="col-md-8">
                             <select id="testType" class="form-control" style="padding: 2px; width: 150px;;">
                                 <option value="accuracy">accuracy</option>
-                                <option value="pace" disabled="disabled">pace</option>
-                                <option value="power" disabled="disabled">power</option>
-                                <option value="pitch" disabled="disabled">pitch</option>
+                                <option value="pace" disabled="disabled">pace - coming soon</option>
+                                <option value="power" disabled="disabled">power - coming soon</option>
+                                <option value="pitch" disabled="disabled">pitch - coming soon</option>
                             </select>
                         </div>
                     </div>
@@ -446,7 +450,7 @@
                                  width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif"
+                            <img class="btn-info" style="float: right;background-color: transparent;" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif"
                                  width="36px" height="36px"/>
                         </div>
                     </div>
