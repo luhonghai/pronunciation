@@ -428,16 +428,21 @@ class AccountManager {
                 } else {
                     Logger.log("getInvitationData response: \(res.text)")
                     if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
+                        
+                        var currentUser = AccountManager.currentUser()
                         if  result.data != nil {
                             //userProfile.token = result.data.token
                             //Logger.log("login token \(userProfile.token)")
-                            let currentUser = AccountManager.currentUser()
                             currentUser.invitationData = result.data
                             AccountManager.updateProfile(currentUser)
                         } else {
                             Logger.log("\(result.message)")
+                            //fix data
+                            var fakeData = "{\"invitationData\":[{\"name\":\"hoang.nguyen1\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen2\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen3\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen4\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen5\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen6\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen7\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen8\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen9\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen10\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen11\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen12\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen13\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen14\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen15\",\"status\":\"pending\"}]}"
+                            currentUser = Mapper<UserProfile>().map(fakeData)!
+                            AccountManager.updateProfile(currentUser)
                         }
-                        completion(userProfile: userProfile, success: result.status, message:  result.message)
+                        completion(userProfile: currentUser, success: result.status, message:  result.message)
                     } else {
                         completion(userProfile: userProfile, success: false, message:  DEFAULT_ERROR_MESSAGE)
                         
