@@ -1,9 +1,13 @@
 package com.cmg.merchant.services.Sync;
 
+import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.vrc.common.Constant;
+import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
+import com.cmg.vrc.data.jdo.DatabaseVersion;
 import com.cmg.vrc.util.AWSHelper;
+import com.cmg.vrc.util.StringUtil;
 
 import java.util.ArrayList;
 
@@ -22,20 +26,52 @@ public class CourseSyncService {
         TCHDAO dao = new TCHDAO();
         ArrayList<TeacherCourseHistory> list = new ArrayList<>();
         try {
-            list = dao.getListCourseByStudent(username);
-            if(list!=null && list.size() > 0){
+            TeacherCourseHistory cmg = courseCMG();
+            if(cmg!=null){
+                list.add(cmg);
+            }
+            ArrayList<TeacherCourseHistory> listTmp = dao.getListCourseByStudent(username);
+            if(listTmp!=null && listTmp.size() > 0){
                 AWSHelper awsHelper = new AWSHelper();
-                for(int i= 0 ; i < list.size(); i++){
-                    TeacherCourseHistory tmp  = dao.getLatestFile(list.get(i).getIdCourse());
+                for(int i= 0 ; i < listTmp.size(); i++){
+                    TeacherCourseHistory tmp  = dao.getLatestFile(listTmp.get(i).getIdCourse());
                     if(tmp!=null){
-                        list.get(i).setUrlDownload(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
+                        listTmp.get(i).setUrlDownload(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
                                 + "/" + tmp.getPathAws()));
-                        list.get(i).setVersion(tmp.getVersion());
+                        listTmp.get(i).setVersion(tmp.getVersion());
                     }
                 }
+                list.addAll(listTmp);
             }
         }catch (Exception e){
         }
         return list;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public TeacherCourseHistory courseCMG(){
+        AWSHelper awsHelper = new AWSHelper();
+        DatabaseVersionDAO databaseVersionDAO = new DatabaseVersionDAO();
+        CDAO cDao = new CDAO();
+        try {
+            String idCourse = (String)StringUtil.isNull(cDao.getByName(com.cmg.merchant.common.Constant.CMG_COURSE_DEMO),"");
+            if(idCourse!=""){
+                DatabaseVersion db = databaseVersionDAO.getSelectedVersion();
+                TeacherCourseHistory tmp = new TeacherCourseHistory();
+                int version = db.getVersion();
+                String url = awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
+                        + "/"
+                        + db.getFileName());
+                tmp.setVersion(version);
+                tmp.setUrlDownload(url);
+                tmp.setIdCourse(idCourse);
+                return tmp;
+            }
+        }catch (Exception e){
+        }
+        return null;
     }
 }

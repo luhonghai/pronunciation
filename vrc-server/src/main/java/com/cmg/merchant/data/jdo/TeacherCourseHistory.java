@@ -30,6 +30,17 @@ public class TeacherCourseHistory implements Mirrorable {
     @NotPersistent
     private String urlDownload;
 
+    @NotPersistent
+    private boolean cmgCourse;
+
+    public boolean isCmgCourse() {
+        return cmgCourse;
+    }
+
+    public void setCmgCourse(boolean cmgCourse) {
+        this.cmgCourse = cmgCourse;
+    }
+
     public String getName() {
         return name;
     }

@@ -74,7 +74,7 @@ public class LevelServices {
             lv.setIsDeleted(false);
             lv.setVersion(getMaxVersion());
             lv.setIsDemo(false);
-            lv.setIsDefaultActivated(false);
+            lv.setIsDefaultActivated(true);
             dao.create(lv);
             message = SUCCESS;
         }catch(Exception e){
