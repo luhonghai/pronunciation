@@ -140,7 +140,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         //cell.bg.tag = indexPath.row
         //cell.bg.addGestureRecognizer(tapGusture)
         
-        cell.lblTitle.text = invitationCellData.firstTeacherName + invitationCellData.lastTeacherName + ", " + invitationCellData.companyName
+        cell.lblTitle.text = invitationCellData.firstTeacherName + " " + invitationCellData.lastTeacherName + ", " + invitationCellData.companyName
         
         var bImage:UIImage!
         if invitationCellData.status == InvitationStatus.accept {
