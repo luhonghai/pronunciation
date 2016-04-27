@@ -5,4 +5,5 @@
   <%--<x:admin pageTitle="admin"></x:admin>--%>
   <x:edit-copy-course pageTitle="admin"></x:edit-copy-course>
   <x:popup_management></x:popup_management>
+  <x:preview></x:preview>
 </t:main>

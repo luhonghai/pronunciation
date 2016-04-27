@@ -72,15 +72,15 @@ public class OServices {
     public String updateObj(String idLevel, String idObj,String name, String description){
         ODAO dao = new ODAO();
         if(isExistedObjInLv(idLevel,name,idObj)){
-            return ERROR + ": name already existed in level!";
+            return ERROR + ": You already have an objective with that name in this level";
         }
         try {
             boolean check = dao.updateObjective(idObj,name,description);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
         }catch (Exception e){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
@@ -99,16 +99,16 @@ public class OServices {
             if(check){
                 check = dao.deletedObjective(idObj);
                 if(!check){
-                    return ERROR + ": an error has been occurred in server!";
+                    return ERROR + ": an error has been occurred in server";
                 }
             }else{
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
 
 
 
         }catch (Exception e){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }

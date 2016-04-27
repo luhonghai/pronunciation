@@ -52,14 +52,14 @@ public class TestServices {
         try {
             boolean check = lvmtDAO.removeMappingTestWithLevel(idTest, idLevel);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
             check = tDAO.deletedTest(idTest);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
         }catch (Exception e){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
@@ -75,7 +75,7 @@ public class TestServices {
          try {
             boolean check =  tdao.updateTest(idTest, percentPass);
             if(!check){
-                return ERROR + " : an error has been occurred in server!";
+                return ERROR + " : an error has been occurred in server";
             }
          }catch (Exception e){
             logger.error("can not update test : " + e);
@@ -94,19 +94,19 @@ public class TestServices {
         String idLessons = UUIDGenerator.generateUUID().toString();
         String message = addTestToDb(idTest,percentPass);
         if(message.equalsIgnoreCase(ERROR)){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         message = addLessonsForTest(idLessons);
         if(message.equalsIgnoreCase(ERROR)){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         message = addTESTMappingLESSON(idTest, idLessons);
         if(message.equalsIgnoreCase(ERROR)){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         message = addTESTMappingLEVEL(idLevel,idTest);
         if(message.equalsIgnoreCase(ERROR)){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }

@@ -5,4 +5,5 @@
   <%--<x:admin pageTitle="admin"></x:admin>--%>
   <x:welcomeTeacher pageTitle="class"></x:welcomeTeacher>
   <x:notification></x:notification>
+  <x:popup_management></x:popup_management>
 </t:main>

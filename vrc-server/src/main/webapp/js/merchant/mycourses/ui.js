@@ -10,8 +10,10 @@ function buildCourse(dto){
 
     var $lblInfor = $("<label>");
     $lblInfor.addClass("lbl_cinfor");
-    if(dto.state == "duplicated" || dto.state == "edited"){
-        $lblInfor.html(dto.state + " by " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
+    if(dto.state == "edited"){
+        $lblInfor.html(dto.state + " from " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
+    }else if (dto.state == "duplicated" ) {
+        $lblInfor.html(dto.state  + " " + dto.dateCreated.split(" ")[0]);
     }else{
         $lblInfor.html(dto.sr + " "  + dto.dateCreated.split(" ")[0]);
     }

@@ -378,8 +378,8 @@
             <div class="modal-body">
                 <form name="add" class="form-horizontal">
                     <div class="form-group">
-                        <div class="col-sm-12">
-                            <label align="center" id="classNameDelete" class="textNormal"></label>
+                        <div style="text-align: center" class="col-sm-12">
+                            <label style="color : red" id="classNameDelete" class="textNormal"></label>
                         </div>
                     </div>
                     <div class="form-group">

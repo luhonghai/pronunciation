@@ -55,6 +55,7 @@
 		<class>com.cmg.vrc.data.jdo.StudentMappingTeacher</class>
 		<class>com.cmg.vrc.data.jdo.TeacherMappingCompany</class>
 		<class>com.cmg.merchant.data.jdo.CourseMappingTeacher</class>
+		<class>com.cmg.merchant.data.jdo.TeacherCourseHistory</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

@@ -358,7 +358,9 @@ function parseToArray(str){
     var array = str.split(",");
     return array;
 }
-
+function collapseMenu(){
+    $("#li-reports").find('ul').addClass('in');
+}
 $(document).ready(function () {
     mouseOverChart();
     clickToThumbnail();
@@ -370,6 +372,7 @@ $(document).ready(function () {
     listCourse();
     changeCourse();
     changeLevel();
+    collapseMenu();
 
 });
 

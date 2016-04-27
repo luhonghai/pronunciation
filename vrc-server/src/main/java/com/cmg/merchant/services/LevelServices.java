@@ -94,17 +94,17 @@ public class LevelServices {
      */
     public String updateLevel(String idCourse, String idLevel, String name, String description){
         if(existedName(idCourse,idLevel,name)){
-           return ERROR + ": name already existed!";
+           return ERROR + ": You already have a level with that name in this course";
         }
         LvDAO dao = new LvDAO();
         try {
             boolean check  = dao.updateLevel(idLevel,name,description);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
@@ -173,7 +173,7 @@ public class LevelServices {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return ERROR + ": an error has been occurred in server!";
+        return ERROR + ": an error has been occurred in server";
 
     }
 
@@ -187,12 +187,12 @@ public class LevelServices {
     public String addObjToLv(String idLevel, String nameObj, String descriptionObj){
         OServices oServices = new OServices();
         if(oServices.isExistedObjInLv(idLevel, nameObj, null)){
-            return ERROR + ": name already existed in level!";
+            return ERROR + ": You already have a objective with that name in this level";
         }
         String idObj = UUIDGenerator.generateUUID().toString();
         String message = oServices.addObjToDB(idObj,nameObj,descriptionObj);
         if(message.equalsIgnoreCase(ERROR)){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         message = addMappingObjToLv(idLevel,idObj);
         return message;
