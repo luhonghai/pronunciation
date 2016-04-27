@@ -139,6 +139,8 @@ function openPopup(itemData){
 
 function drawListWord(listWord){
     var list=readListMail(listWord);
+    getListWord().html("");
+    getListWordTest().html();
     if(list!=null && list.length>0){
         for(var i=0;i<list.length;i++){
             if(currentPopup.find(".action").val() == action_edit_question){

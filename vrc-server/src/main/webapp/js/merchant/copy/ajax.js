@@ -7,6 +7,30 @@ var servletCopy = "/CopyServlet";
  * @param idCourse
  * @param idLevel
  */
+/**
+ *
+ */
+function enableAddLevel(){
+    $.ajax({
+        url : servletPublish,
+        type : "POST",
+        data : {
+            action: "checkButtonAddLv",
+            idCourse : idCourse
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                $("#addlevel").find('.aciTreeItem').removeAttr('disabled');
+            }else{
+                $("#addlevel").find('.aciTreeItem').attr('disabled','disabled');
+            }
+        },
+        error: function () {
+            swal("","Could not connect to server","error");
+        }
+    });
+}
 function copyLevel(idCourse, idLevel){
     getDivContainTree().hide();
     getProcessBar().show();

@@ -20,6 +20,7 @@ import com.cmg.merchant.dao.test.TDAO;
 import com.cmg.merchant.dao.test.TMLDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.services.treeview.DataServices;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
@@ -336,6 +337,27 @@ public class CourseServices {
         return SUCCESS;
     }
 
+    public String enableAddLvButton(String idCourse){
+        LvDAO dao = new LvDAO();
+        DataServices services = new DataServices();
+        try {
+            ArrayList<Level> listLv = (ArrayList<Level>) dao.listIn(idCourse);
+            if(listLv!=null && listLv.size()>0){
+                for(Level lv : listLv){
+                    Test t  =services.getTestDB(lv.getId());
+                    if(t == null){
+                        return ERROR;
+                    }
+                }
+            }else{
+                return SUCCESS;
+            }
+
+        }catch (Exception e){
+            return ERROR;
+        }
+        return SUCCESS;
+    }
 
 }
 

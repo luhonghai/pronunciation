@@ -79,13 +79,20 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <p>Select a report type from the side menu to view scores for a student and compare with other students in their classes.</p>
-                    <p><strong>lessons</strong></p>
-                    <p>Select a student from the drop down list to view charts with scores for phonemes or words in all lessons that they have completed in the last 3 months.</p>
-                    <p>Detail for the most recent lesson will be displayed at the top of the page.</p>
-                    <p><img src="">Select to expand the chart to fill page view.</p>
-                    <p>Only the phonemes or words used in the lesson will be displayed on the chart. If you wish to check overall scores for specific phonemes for a student, you will need to select the 'phonemes' report type from the side menu.</p>
-                    <p>Class averages are only displayed on the chart when the student has a score to compare. If the student has a zero score, it is assumed that they have not attempted to pronounce the phoneme in the lesson.</p>
+                    <p>Select a report type from the side menu to view scores
+                        for a student and compare with other students in their classes.</p>
+                    <p><strong>lessons reports</strong></p>
+                    <p>Select a student from the drop down list to view charts with scores for phonemes or words in lessons that they have completed.</p>
+                    <p>Note: Details will not be available until the student has attempted all questions in the lesson.</p>
+                    <p>Use the filters to select the lesson that you would like to see.</p>
+                    <p>Select the phonemes or words thumbnail to view the related report.</p>
+                    <p>Only the phonemes or words used in the lesson will be displayed on the chart. If you wish to check overall scores for specific phonemes for a student,
+                        you will need to select the ‘phonemes’ report type from the side menu.</p>
+                    <p>Class averages are only displayed on the chart when the student has a score to compare.
+                        If the student has a zero score, it is assumed that
+                        they have not attempted to pronounce the phoneme in the lesson.</p>
+                    <p><strong>phonemes reports</strong></p>
+                    <p>Select a student, phoneme and time period to view the scores and compare with the class average.</p>
                     <%--<p><strong style="color: red;">phonemes</strong></p>
                     <p style="color: red;">1.Select a student.</p>
                     <p style="color: red;">2.Select a phoneme.</p>

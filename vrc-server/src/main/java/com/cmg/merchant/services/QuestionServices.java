@@ -594,8 +594,10 @@ public class QuestionServices {
     public String deleteWordMappingQuestion(String word, String idQuestion ){
         QDAO dao = new QDAO();
         WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+        WeightForPhonemeDAO wqDao = new WeightForPhonemeDAO();
         try {
             WordCollection wordCollection=wordCollectionDAO.getByWord(word);
+            wqDao.updateDeletedBy(idQuestion,wordCollection.getId());
             boolean check = dao.updateDeletedWordOfQuestion(wordCollection.getId(), idQuestion);
             if(!check){
                 return ERROR + ": an error has been occurred in server";
