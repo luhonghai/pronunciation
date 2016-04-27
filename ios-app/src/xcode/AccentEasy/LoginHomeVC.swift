@@ -310,6 +310,13 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         }
     }
     
+    func getInvitationData (){
+        weak var weakSelf = self
+        AccountManager.getInvitationData(currentUser) { (userProfile, success, message) in
+            <#code#>
+        }
+    }
+    
     
     @IBAction func btnLoginACTouchUp(sender: AnyObject) {
         Logger.log("run in here")

@@ -14,6 +14,7 @@ public class ColorHelper {
     public static let APP_GREEN = Multimedia.colorWithHexString("#579e11")
     public static let APP_ORANGE = Multimedia.colorWithHexString("#ff7548")
     public static let APP_RED = Multimedia.colorWithHexString("#ff3333")
+    public static let APP_RED_MAGENTA = Multimedia.colorWithHexString("#a74a44")
     public static let APP_DEFAULT = Multimedia.colorWithHexString("#003da7")
     public static let APP_BLUE_SKY = Multimedia.colorWithHexString("#33b5e5")
     public static let APP_PURPLE = Multimedia.colorWithHexString("#7030a0")

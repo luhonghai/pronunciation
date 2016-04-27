@@ -61,6 +61,25 @@ class ProfileResponse: Mappable {
     }
 }
 
+class InvitationDataResponse: Mappable {
+    var status:Bool!
+    var message:String!
+    var data:[InvitationData]!
+    
+    required init?(_ map: Map) {
+        
+    }
+    
+    required init(){}
+    
+    // Mappable
+    func mapping(map: Map) {
+        status    <= map["status"]
+        message   <= map["message"]
+        data   <= map["data"]
+    }
+}
+
 class AccountManager {
     
     static var currentUsername = ""
@@ -348,6 +367,42 @@ class AccountManager {
                     completion(userProfile: userProfile, success: success, message: message)
                 }
             })
+    }
+    
+    
+    class func getInvitationData(userProfile: UserProfile, isCheck: Bool = false, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        userProfile.deviceInfo = DeviceManager.deviceInfo()
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in Logger.log(e)
+                Logger.log("run in getInvitationData")
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        client.post("/InvitationServlet").type("form").send(["profile":JSONHelper.toJson(userProfile), "action":"getdata" ])
+            .end({(res:Response) -> Void in
+                if(res.error) {
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                } else {
+                    Logger.log("getInvitationData response: \(res.text)")
+                    if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
+                        if  result.data != nil {
+                            //userProfile.token = result.data.token
+                            //Logger.log("login token \(userProfile.token)")
+                            let currentUser = AccountManager.currentUser()
+                            currentUser.invitationData = result.data
+                            AccountManager.updateProfile(currentUser)
+                        } else {
+                            Logger.log("\(result.message)")
+                        }
+                        completion(userProfile: userProfile, success: result.status, message:  result.message)
+                    } else {
+                        completion(userProfile: userProfile, success: false, message:  DEFAULT_ERROR_MESSAGE)
+                        
+                    }
+                    
+                }
+            })
+        
     }
 
 }

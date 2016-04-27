@@ -161,8 +161,10 @@ class MenuTVC: UITableViewController {
                 Logger.log(rowMenu)
             case 8:
                 Logger.log(rowMenu)
-                DeviceManager.shareApp(self, title: "accenteasy - English pronunciation app", message: "I thought you might find this app useful to help you with English pronunciation", url: NSURL(string: "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1091441266&mt=8")!)
             case 9:
+                Logger.log(rowMenu)
+                DeviceManager.shareApp(self, title: "accenteasy - English pronunciation app", message: "I thought you might find this app useful to help you with English pronunciation", url: NSURL(string: "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1091441266&mt=8")!)
+            case 10:
                 Logger.log(rowMenu)
                 SweetAlert().showAlert("logout account?", subTitle: "are you sure you want to logout this account?", style: AlertStyle.Warning, buttonTitle:"no", buttonColor:Multimedia.colorWithHexString("D0D0D0") , otherButtonTitle:  "logout", otherButtonColor: Multimedia.colorWithHexString("DD6B55")) { (isOtherButton) -> Void in
                     if isOtherButton == true {

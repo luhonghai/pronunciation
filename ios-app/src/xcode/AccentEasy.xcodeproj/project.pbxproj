@@ -252,6 +252,19 @@
 		C10ACEFB1CAE5ACE009676C1 /* ObjectiveScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */; };
 		C10ACF091CAE5AEB009676C1 /* TestScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF081CAE5AEB009676C1 /* TestScore.swift */; };
 		C10ACF0B1CAE5EA4009676C1 /* LessonDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */; };
+		C11531791CCF00EC00511E6B /* InvitationMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11531781CCF00EC00511E6B /* InvitationMainVC.swift */; };
+		C115318C1CCF15A300511E6B /* InvitationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115318B1CCF15A300511E6B /* InvitationData.swift */; };
+		C115318F1CCF69B000511E6B /* InviHelpPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115318D1CCF69B000511E6B /* InviHelpPopupVC.swift */; };
+		C11531901CCF69B000511E6B /* InviHelpPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C115318E1CCF69B000511E6B /* InviHelpPopupVC.xib */; };
+		C11531931CCF6BFD00511E6B /* InvitationPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11531911CCF6BFD00511E6B /* InvitationPopupVC.swift */; };
+		C11531941CCF6BFD00511E6B /* InvitationPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C11531921CCF6BFD00511E6B /* InvitationPopupVC.xib */; };
+		C11531971CCF6DF900511E6B /* InviAcceptPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11531951CCF6DF900511E6B /* InviAcceptPopupVC.swift */; };
+		C11531981CCF6DF900511E6B /* InviAcceptPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C11531961CCF6DF900511E6B /* InviAcceptPopupVC.xib */; };
+		C115319B1CCF706800511E6B /* InviPopupOverviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11531991CCF706800511E6B /* InviPopupOverviewVC.swift */; };
+		C115319C1CCF706800511E6B /* InviPopupOverviewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C115319A1CCF706800511E6B /* InviPopupOverviewVC.xib */; };
+		C115319F1CCF72F400511E6B /* NewInvitationPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115319D1CCF72F400511E6B /* NewInvitationPopupVC.swift */; };
+		C11531A01CCF72F400511E6B /* NewInvitationPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C115319E1CCF72F400511E6B /* NewInvitationPopupVC.xib */; };
+		C11531A21CCF789B00511E6B /* InvitationPopupDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11531A11CCF789B00511E6B /* InvitationPopupDelegate.swift */; };
 		C115C5461CB7662000B3258B /* TestFailPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115C5441CB7662000B3258B /* TestFailPopupVC.swift */; };
 		C115C5471CB7662000B3258B /* TestFailPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C115C5451CB7662000B3258B /* TestFailPopupVC.xib */; };
 		C115C5561CB76AD600B3258B /* TestPassPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115C5541CB76AD600B3258B /* TestPassPopupVC.swift */; };
@@ -428,6 +441,16 @@
 		C1AC71411CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC713F1CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift */; };
 		C1AC71421CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1AC71401CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib */; };
 		C1D372951CCDFB5F001D56B4 /* btn_send.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372941CCDFB5F001D56B4 /* btn_send.png */; };
+		C1D372AE1CCE210B001D56B4 /* challenge friends.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372A41CCE210B001D56B4 /* challenge friends.png */; };
+		C1D372AF1CCE210B001D56B4 /* connect.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372A51CCE210B001D56B4 /* connect.png */; };
+		C1D372B01CCE210B001D56B4 /* help.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372A61CCE210B001D56B4 /* help.png */; };
+		C1D372B11CCE210B001D56B4 /* invite button waiting.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372A71CCE210B001D56B4 /* invite button waiting.png */; };
+		C1D372B21CCE210B001D56B4 /* invite button.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372A81CCE210B001D56B4 /* invite button.png */; };
+		C1D372B31CCE210B001D56B4 /* invite teacher.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372A91CCE210B001D56B4 /* invite teacher.png */; };
+		C1D372B41CCE210B001D56B4 /* teacher's course.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372AA1CCE210B001D56B4 /* teacher's course.png */; };
+		C1D372B51CCE210B001D56B4 /* teacher.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372AB1CCE210B001D56B4 /* teacher.png */; };
+		C1D372B61CCE210B001D56B4 /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372AC1CCE210B001D56B4 /* tick.png */; };
+		C1D372B71CCE210B001D56B4 /* x grey.png in Resources */ = {isa = PBXBuildFile; fileRef = C1D372AD1CCE210B001D56B4 /* x grey.png */; };
 		C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */; };
 		C1D59D641CB4EB7600127FF4 /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D59D631CB4EB7600127FF4 /* SettingsTVC.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
@@ -797,6 +820,19 @@
 		C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveScore.swift; sourceTree = "<group>"; };
 		C10ACF081CAE5AEB009676C1 /* TestScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScore.swift; sourceTree = "<group>"; };
 		C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LessonDBAdapter.swift; path = Data/SQLite/queries/LessonDBAdapter.swift; sourceTree = "<group>"; };
+		C11531781CCF00EC00511E6B /* InvitationMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationMainVC.swift; path = InvitationController/InvitationMainVC.swift; sourceTree = "<group>"; };
+		C115318B1CCF15A300511E6B /* InvitationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationData.swift; path = Data/InvitationData.swift; sourceTree = "<group>"; };
+		C115318D1CCF69B000511E6B /* InviHelpPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviHelpPopupVC.swift; path = InvitationController/InviHelpPopupVC.swift; sourceTree = "<group>"; };
+		C115318E1CCF69B000511E6B /* InviHelpPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InviHelpPopupVC.xib; path = InvitationController/InviHelpPopupVC.xib; sourceTree = "<group>"; };
+		C11531911CCF6BFD00511E6B /* InvitationPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationPopupVC.swift; path = InvitationController/InvitationPopupVC.swift; sourceTree = "<group>"; };
+		C11531921CCF6BFD00511E6B /* InvitationPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InvitationPopupVC.xib; path = InvitationController/InvitationPopupVC.xib; sourceTree = "<group>"; };
+		C11531951CCF6DF900511E6B /* InviAcceptPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviAcceptPopupVC.swift; path = InvitationController/InviAcceptPopupVC.swift; sourceTree = "<group>"; };
+		C11531961CCF6DF900511E6B /* InviAcceptPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InviAcceptPopupVC.xib; path = InvitationController/InviAcceptPopupVC.xib; sourceTree = "<group>"; };
+		C11531991CCF706800511E6B /* InviPopupOverviewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InviPopupOverviewVC.swift; path = InvitationController/InviPopupOverviewVC.swift; sourceTree = "<group>"; };
+		C115319A1CCF706800511E6B /* InviPopupOverviewVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InviPopupOverviewVC.xib; path = InvitationController/InviPopupOverviewVC.xib; sourceTree = "<group>"; };
+		C115319D1CCF72F400511E6B /* NewInvitationPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewInvitationPopupVC.swift; sourceTree = "<group>"; };
+		C115319E1CCF72F400511E6B /* NewInvitationPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewInvitationPopupVC.xib; sourceTree = "<group>"; };
+		C11531A11CCF789B00511E6B /* InvitationPopupDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationPopupDelegate.swift; path = InvitationController/InvitationPopupDelegate.swift; sourceTree = "<group>"; };
 		C115C5441CB7662000B3258B /* TestFailPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestFailPopupVC.swift; sourceTree = "<group>"; };
 		C115C5451CB7662000B3258B /* TestFailPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestFailPopupVC.xib; sourceTree = "<group>"; };
 		C115C5541CB76AD600B3258B /* TestPassPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPassPopupVC.swift; sourceTree = "<group>"; };
@@ -981,6 +1017,16 @@
 		C1AC713F1CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnglishProficiencyPopupVC.swift; sourceTree = "<group>"; };
 		C1AC71401CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnglishProficiencyPopupVC.xib; sourceTree = "<group>"; };
 		C1D372941CCDFB5F001D56B4 /* btn_send.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_send.png; sourceTree = "<group>"; };
+		C1D372A41CCE210B001D56B4 /* challenge friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "challenge friends.png"; sourceTree = "<group>"; };
+		C1D372A51CCE210B001D56B4 /* connect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = connect.png; sourceTree = "<group>"; };
+		C1D372A61CCE210B001D56B4 /* help.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help.png; sourceTree = "<group>"; };
+		C1D372A71CCE210B001D56B4 /* invite button waiting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invite button waiting.png"; sourceTree = "<group>"; };
+		C1D372A81CCE210B001D56B4 /* invite button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invite button.png"; sourceTree = "<group>"; };
+		C1D372A91CCE210B001D56B4 /* invite teacher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invite teacher.png"; sourceTree = "<group>"; };
+		C1D372AA1CCE210B001D56B4 /* teacher's course.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "teacher's course.png"; sourceTree = "<group>"; };
+		C1D372AB1CCE210B001D56B4 /* teacher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = teacher.png; sourceTree = "<group>"; };
+		C1D372AC1CCE210B001D56B4 /* tick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick.png; sourceTree = "<group>"; };
+		C1D372AD1CCE210B001D56B4 /* x grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x grey.png"; sourceTree = "<group>"; };
 		C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainVC.swift; sourceTree = "<group>"; };
 		C1D59D631CB4EB7600127FF4 /* SettingsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
@@ -1639,6 +1685,7 @@
 				C13CDA831C48E19A009E649F /* UserProfile.swift */,
 				C13E44BF1C60902F00EB6075 /* UserVoiceModel.swift */,
 				C13E44C11C6093C300EB6075 /* SphinxResult.swift */,
+				C115318B1CCF15A300511E6B /* InvitationData.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -1735,6 +1782,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				C1D372B81CCE256A001D56B4 /* InvitationController */,
 				9B56BD771CC9CCD4005AE0C8 /* LockScreen */,
 				9B34082A1CB767D4002F80A1 /* HelpContent */,
 				C153223B1CBA5E0700629085 /* InfoController */,
@@ -1830,6 +1878,7 @@
 		C16CD2431C44B01B00537461 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C1D372A31CCE210B001D56B4 /* invitation */,
 				C153224A1CBA5F9E00629085 /* info */,
 				C1648FE11CB512AE00C8DFE0 /* control-icon */,
 				C13E44A91C6051ED00EB6075 /* audio */,
@@ -2012,6 +2061,42 @@
 				C115C5551CB76AD600B3258B /* TestPassPopupVC.xib */,
 			);
 			name = LessonController;
+			sourceTree = "<group>";
+		};
+		C1D372A31CCE210B001D56B4 /* invitation */ = {
+			isa = PBXGroup;
+			children = (
+				C1D372A41CCE210B001D56B4 /* challenge friends.png */,
+				C1D372A51CCE210B001D56B4 /* connect.png */,
+				C1D372A61CCE210B001D56B4 /* help.png */,
+				C1D372A71CCE210B001D56B4 /* invite button waiting.png */,
+				C1D372A81CCE210B001D56B4 /* invite button.png */,
+				C1D372A91CCE210B001D56B4 /* invite teacher.png */,
+				C1D372AA1CCE210B001D56B4 /* teacher's course.png */,
+				C1D372AB1CCE210B001D56B4 /* teacher.png */,
+				C1D372AC1CCE210B001D56B4 /* tick.png */,
+				C1D372AD1CCE210B001D56B4 /* x grey.png */,
+			);
+			path = invitation;
+			sourceTree = "<group>";
+		};
+		C1D372B81CCE256A001D56B4 /* InvitationController */ = {
+			isa = PBXGroup;
+			children = (
+				C11531781CCF00EC00511E6B /* InvitationMainVC.swift */,
+				C115318D1CCF69B000511E6B /* InviHelpPopupVC.swift */,
+				C115318E1CCF69B000511E6B /* InviHelpPopupVC.xib */,
+				C11531911CCF6BFD00511E6B /* InvitationPopupVC.swift */,
+				C11531921CCF6BFD00511E6B /* InvitationPopupVC.xib */,
+				C11531951CCF6DF900511E6B /* InviAcceptPopupVC.swift */,
+				C11531961CCF6DF900511E6B /* InviAcceptPopupVC.xib */,
+				C11531991CCF706800511E6B /* InviPopupOverviewVC.swift */,
+				C115319A1CCF706800511E6B /* InviPopupOverviewVC.xib */,
+				C115319D1CCF72F400511E6B /* NewInvitationPopupVC.swift */,
+				C115319E1CCF72F400511E6B /* NewInvitationPopupVC.xib */,
+				C11531A11CCF789B00511E6B /* InvitationPopupDelegate.swift */,
+			);
+			name = InvitationController;
 			sourceTree = "<group>";
 		};
 		C1D59D621CB4EB3E00127FF4 /* SettingsController */ = {
@@ -2240,6 +2325,7 @@
 			files = (
 				C16CD2AA1C44B1EC00537461 /* app_icon.png in Resources */,
 				C153224F1CBA5F9E00629085 /* help.html in Resources */,
+				C1D372B01CCE210B001D56B4 /* help.png in Resources */,
 				C16CD2AB1C44B1EC00537461 /* below_shadow.xml in Resources */,
 				C16CD2C11C44B1EC00537461 /* p_menu_ipa.png in Resources */,
 				9B5526411C9A6911000AB7E8 /* select_prev_level_of_level.sql in Resources */,
@@ -2260,6 +2346,7 @@
 				C16CD2D41C44B1EC00537461 /* sl_background.png in Resources */,
 				C16CD2BC1C44B1EC00537461 /* p_logout_red.png in Resources */,
 				9BC162E61CBCDE8E00EEAF83 /* share-100.png in Resources */,
+				C1D372B21CCE210B001D56B4 /* invite button.png in Resources */,
 				C10906831C75B5DB0071206D /* Menu-20.png in Resources */,
 				C159765A1CB624A000FA3B40 /* unchecked_checkbox.png in Resources */,
 				C16CD2E71C44B1EC00537461 /* ic_menu.png in Resources */,
@@ -2299,9 +2386,12 @@
 				9B55263E1C9A6911000AB7E8 /* select_all_words_by_question.sql in Resources */,
 				C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */,
 				C16CD2BB1C44B1EC00537461 /* p_hour_glass.png in Resources */,
+				C1D372AF1CCE210B001D56B4 /* connect.png in Resources */,
+				C11531901CCF69B000511E6B /* InviHelpPopupVC.xib in Resources */,
 				C15EDBFE1C97B68A006E7BA3 /* LSPopupTVC.xib in Resources */,
 				C1D372951CCDFB5F001D56B4 /* btn_send.png in Resources */,
 				C16CD2D51C44B1EC00537461 /* sl_dog.png in Resources */,
+				C1D372B71CCE210B001D56B4 /* x grey.png in Resources */,
 				9B5F35A41CB5FF92000A0A3F /* p_menu_ipa_gray.png in Resources */,
 				C16CD2F61C44B1EC00537461 /* help_content_1.png in Resources */,
 				C16CD2CA1C44B1EC00537461 /* question_gray.png in Resources */,
@@ -2313,11 +2403,13 @@
 				C16CD2B31C44B1EC00537461 /* p_btn_login_googleplus.png in Resources */,
 				C16CD2B91C44B1EC00537461 /* p_history_blue.png in Resources */,
 				C16CD2E81C44B1EC00537461 /* ic_next.png in Resources */,
+				C1D372B61CCE210B001D56B4 /* tick.png in Resources */,
 				C16CD2F11C44B1EC00537461 /* ic_up.png in Resources */,
 				C16CD2FC1C44B1EC00537461 /* help_content_5.png in Resources */,
 				C159764C1CB6249500FA3B40 /* checked_checkbox.png in Resources */,
 				C16CD2D91C44B1EC00537461 /* tab_graph.xml in Resources */,
 				C16CD2C41C44B1EC00537461 /* p_menu_setting.png in Resources */,
+				C115319C1CCF706800511E6B /* InviPopupOverviewVC.xib in Resources */,
 				C16CD2AD1C44B1EC00537461 /* ic_menu_accenteasy.png in Resources */,
 				C1648FED1CB6083A00C8DFE0 /* DataPopupVC.xib in Resources */,
 				C16CD3031C44B1EC00537461 /* icon_popover_arrow_right.png in Resources */,
@@ -2339,6 +2431,7 @@
 				C16CD3011C44B1EC00537461 /* icon_popover_arrow_down.png in Resources */,
 				C15322501CBA5F9E00629085 /* license.html in Resources */,
 				C16CD2D01C44B1EC00537461 /* rounded_corner_color_orange_dialog.xml in Resources */,
+				C1D372B41CCE210B001D56B4 /* teacher's course.png in Resources */,
 				C153224E1CBA5F9E00629085 /* about.html in Resources */,
 				C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */,
 				C15EDC021C97B85F006E7BA3 /* LSPopupVC.xib in Resources */,
@@ -2352,14 +2445,18 @@
 				C16CD2AF1C44B1EC00537461 /* my_background.xml in Resources */,
 				C16CD2B01C44B1EC00537461 /* p_btn_close.png in Resources */,
 				C1304D2E1C981E3A00CE72C5 /* LSPopupCell.xib in Resources */,
+				C11531981CCF6DF900511E6B /* InviAcceptPopupVC.xib in Resources */,
+				C1D372AE1CCE210B001D56B4 /* challenge friends.png in Resources */,
 				9B3408171CB76461002F80A1 /* hand-draw-arrow-1.png in Resources */,
 				9B287B301CB747EA00C761A1 /* hand-draw-arrow.png in Resources */,
 				C13A5D611C58CBD80036A5E9 /* london-sunset-1920x1080.jpg in Resources */,
 				C16CD2D21C44B1EC00537461 /* rounded_corner_color_red_dialog.xml in Resources */,
 				9B287B2E1CB747E200C761A1 /* ArchitectsDaughter.ttf in Resources */,
+				C1D372B31CCE210B001D56B4 /* invite teacher.png in Resources */,
 				C16CD2DB1C44B1EC00537461 /* tab_tip.xml in Resources */,
 				C16CD2BF1C44B1EC00537461 /* p_menu_freestyle.png in Resources */,
 				C16CD2A81C44B1EC00537461 /* ae_icon.png in Resources */,
+				C1D372B51CCE210B001D56B4 /* teacher.png in Resources */,
 				C141C8061C3E203C001D1F9C /* Main.storyboard in Resources */,
 				C16CD2E01C44B1EC00537461 /* global_bg.png in Resources */,
 				C16CD2F21C44B1EC00537461 /* pointing_tilting_app.png in Resources */,
@@ -2375,6 +2472,7 @@
 				C13D485A1C896BAD00D630A4 /* FSDetailSwipeVC.xib in Resources */,
 				C16CD2A91C44B1EC00537461 /* ae_phone_detail.png in Resources */,
 				C1236CF81CBBA3FF003F30A0 /* No-image-found.gif in Resources */,
+				C11531A01CCF72F400511E6B /* NewInvitationPopupVC.xib in Resources */,
 				C16CD2EA1C44B1EC00537461 /* ic_question.png in Resources */,
 				C16CD2C81C44B1EC00537461 /* p_tip_blue_blur.png in Resources */,
 				C13E44BA1C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav in Resources */,
@@ -2387,7 +2485,9 @@
 				C16CD2F51C44B1EC00537461 /* background_popover.9.png in Resources */,
 				9B4849EF1C991BE7002F193F /* IPAInfoPopup.xib in Resources */,
 				C16CD2C51C44B1EC00537461 /* p_next.png in Resources */,
+				C1D372B11CCE210B001D56B4 /* invite button waiting.png in Resources */,
 				C16CD2E51C44B1EC00537461 /* ic_graph.png in Resources */,
+				C11531941CCF6BFD00511E6B /* InvitationPopupVC.xib in Resources */,
 				C16CD2B21C44B1EC00537461 /* p_btn_login_facebook.png in Resources */,
 				C16CD2F91C44B1EC00537461 /* help_content_2.png in Resources */,
 				C16CD2CE1C44B1EC00537461 /* rounded_corner_color_green_dialog.xml in Resources */,
@@ -2523,6 +2623,7 @@
 				C1648FEC1CB6083A00C8DFE0 /* DataPopupVC.swift in Sources */,
 				9B5F33C01C77129A00E85629 /* ChartTransformerHorizontalBarChart.swift in Sources */,
 				9B5F33831C77129A00E85629 /* PieChartData.swift in Sources */,
+				C115319F1CCF72F400511E6B /* NewInvitationPopupVC.swift in Sources */,
 				9BA3AB301C4F840300C6631D /* DatabaseHelper.swift in Sources */,
 				90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */,
 				C15F02841CB016AF00C39808 /* LessonTipPopupVC.swift in Sources */,
@@ -2531,6 +2632,7 @@
 				9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */,
 				9B5F339C1C77129A00E85629 /* ChartRange.swift in Sources */,
 				C172A5831C97F70200BBBEC4 /* AECountry.swift in Sources */,
+				C11531971CCF6DF900511E6B /* InviAcceptPopupVC.swift in Sources */,
 				9B5F340A1C771D6800E85629 /* Connection.swift in Sources */,
 				9B5F33521C77129A00E85629 /* PieChartView.swift in Sources */,
 				9B5F33701C77129A00E85629 /* BarChartData.swift in Sources */,
@@ -2597,6 +2699,7 @@
 				9B5F340D1C771D6800E85629 /* Value.swift in Sources */,
 				9B5F335D1C77129A00E85629 /* ChartBaseDataSet.swift in Sources */,
 				9B5F33581C77129A00E85629 /* ChartLegend.swift in Sources */,
+				C11531931CCF6BFD00511E6B /* InvitationPopupVC.swift in Sources */,
 				9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */,
 				C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */,
 				9B5F33591C77129A00E85629 /* ChartLimitLine.swift in Sources */,
@@ -2613,10 +2716,12 @@
 				C1410BA51C4762E200E781B4 /* ResetPassVC.swift in Sources */,
 				9B5F33AF1C77129A00E85629 /* ChartXAxisRendererHorizontalBarChart.swift in Sources */,
 				9B5F33501C77129A00E85629 /* HorizontalBarChartView.swift in Sources */,
+				C11531A21CCF789B00511E6B /* InvitationPopupDelegate.swift in Sources */,
 				C13D48591C896BAD00D630A4 /* FSDetailSwipeVC.swift in Sources */,
 				9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */,
 				9B5F33931C77129A00E85629 /* IScatterChartDataSet.swift in Sources */,
 				9B5F34281C771E6000E85629 /* Request.swift in Sources */,
+				C115318C1CCF15A300511E6B /* InvitationData.swift in Sources */,
 				9B5F33C21C77129A00E85629 /* ChartViewPortHandler.swift in Sources */,
 				9B5F33801C77129A00E85629 /* LineChartDataSet.swift in Sources */,
 				9B5F34101C771D6800E85629 /* Foundation.swift in Sources */,
@@ -2626,6 +2731,7 @@
 				9BA3AB831C4F98C600C6631D /* HttpDownloader.swift in Sources */,
 				9B5F338E1C77129A00E85629 /* ILineChartDataSet.swift in Sources */,
 				C115C5461CB7662000B3258B /* TestFailPopupVC.swift in Sources */,
+				C11531791CCF00EC00511E6B /* InvitationMainVC.swift in Sources */,
 				9B5F33B51C77129A00E85629 /* HorizontalBarChartRenderer.swift in Sources */,
 				C141C8341C3E27F1001D1F9C /* FSMainVC.swift in Sources */,
 				9B5F33511C77129A00E85629 /* LineChartView.swift in Sources */,
@@ -2652,6 +2758,7 @@
 				9B5526141C9A6483000AB7E8 /* AELevel.swift in Sources */,
 				9053C27A1C9004D6009BA3DF /* JSONHelper.swift in Sources */,
 				9B5F33981C77129A00E85629 /* ChartXAxisValueFormatter.swift in Sources */,
+				C115319B1CCF706800511E6B /* InviPopupOverviewVC.swift in Sources */,
 				9B5F33E91C771B5A00E85629 /* EnumTransform.swift in Sources */,
 				9B5F335A1C77129A00E85629 /* ChartMarker.swift in Sources */,
 				C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */,
@@ -2690,6 +2797,7 @@
 				C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */,
 				9B5F33EC1C771B5A00E85629 /* TransformType.swift in Sources */,
 				9053C2871C902598009BA3DF /* AccountManager.swift in Sources */,
+				C115318F1CCF69B000511E6B /* InviHelpPopupVC.swift in Sources */,
 				9B17BBBC1C9FB537000761FC /* StringHelper.swift in Sources */,
 				9B5F340E1C771D6800E85629 /* FTS4.swift in Sources */,
 				9B5F34121C771D6800E85629 /* AggregateFunctions.swift in Sources */,

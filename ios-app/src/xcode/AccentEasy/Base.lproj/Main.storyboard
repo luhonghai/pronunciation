@@ -994,7 +994,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g1Y-1H-gru" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="92" y="5795"/>
+            <point key="canvasLocation" x="-1356" y="4931"/>
         </scene>
         <!--settings-->
         <scene sceneID="7cp-Ye-cDs">
@@ -1381,6 +1381,91 @@
             </objects>
             <point key="canvasLocation" x="1152.5" y="4683.5"/>
         </scene>
+        <!--Invitation MainVC-->
+        <scene sceneID="cTe-cT-Idg">
+            <objects>
+                <viewController id="2f4-3C-BmS" customClass="InvitationMainVC" customModule="accenteasy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NcG-Dj-u9H"/>
+                        <viewControllerLayoutGuide type="bottom" id="n2h-WF-1Gg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lat-2n-7eC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XWO-7l-1CM">
+                                <rect key="frame" x="127" y="72" width="120" height="120"/>
+                                <state key="normal" title="Button" image="teacher.png"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uga-aT-xTi">
+                                <rect key="frame" x="20" y="168" width="50" height="50"/>
+                                <state key="normal" title="Button" image="challenge friends.png"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLH-6e-kb1">
+                                <rect key="frame" x="305" y="168" width="50" height="50"/>
+                                <state key="normal" title="Button" image="invite teacher.png"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A1I-ON-r9t">
+                                <rect key="frame" x="305" y="242" width="50" height="50"/>
+                                <state key="normal" title="Button" image="help.png"/>
+                                <connections>
+                                    <action selector="btnHelpTouchUp:" destination="2f4-3C-BmS" eventType="touchUpInside" id="uk3-Fd-I5H"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="invitations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ju-6v-YtV">
+                                <rect key="frame" x="20" y="256" width="135" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <color key="textColor" red="0.4392156862745098" green="0.18823529411764706" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Kjb-9j-tD7">
+                                <rect key="frame" x="20" y="315" width="335" height="332"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InvitationCell" id="JBB-Fx-yY9" customClass="InvitationTableViewCell" customModule="accenteasy" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="335" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="-1" contentMode="center" tableViewCell="JBB-Fx-yY9" id="LgK-uK-NIe">
+                                            <rect key="frame" x="0.0" y="0.0" width="335" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hoang Nguyen CMG" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U7v-oA-D2O">
+                                                    <rect key="frame" x="8" y="11" width="281" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5L-ES-a9L">
+                                                    <rect key="frame" x="297" y="7" width="30" height="30"/>
+                                                    <state key="normal" image="tick.png"/>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnIcon" destination="b5L-ES-a9L" id="LRT-TM-2g8"/>
+                                            <outlet property="lblTitle" destination="U7v-oA-D2O" id="twf-E4-tqD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="sNU-Pd-jGB">
+                        <barButtonItem key="leftBarButtonItem" image="Menu-25.png" id="akX-yQ-SUs"/>
+                    </navigationItem>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="menuButton" destination="akX-yQ-SUs" id="aAq-Uy-ZXw"/>
+                        <outlet property="tableView" destination="Kjb-9j-tD7" id="aSl-Wf-yeL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yiy-F9-x7Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1152.5" y="5447.5"/>
+        </scene>
         <!--SearchTVC-->
         <scene sceneID="2MJ-iQ-0GP">
             <objects>
@@ -1416,7 +1501,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uUq-cC-Cu3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="936" y="5841"/>
+            <point key="canvasLocation" x="-632" y="4937"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -1961,8 +2046,30 @@ definition</string>
                                             <segue destination="7Yt-Zd-c7X" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="OtF-Ax-8Lx"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="8sO-Rw-cKJ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nx3-n5-YX8">
                                         <rect key="frame" x="0.0" y="330" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nx3-n5-YX8" id="ceo-LN-eee">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="invitations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4G-5l-23a">
+                                                    <rect key="frame" x="48" y="8" width="319" height="27"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="p_logout_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="wte-Gw-Cf5">
+                                                    <rect key="frame" x="8" y="2" width="40" height="40"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="c6y-LR-Ary" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="Jr6-Py-pIg"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="8sO-Rw-cKJ">
+                                        <rect key="frame" x="0.0" y="374" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8sO-Rw-cKJ" id="cT3-eM-7NN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -1984,7 +2091,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="3Sg-cE-bjI">
-                                        <rect key="frame" x="0.0" y="374" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="418" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Sg-cE-bjI" id="axW-SU-DO6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2006,7 +2113,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="gxN-pz-CCd">
-                                        <rect key="frame" x="0.0" y="418" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="462" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gxN-pz-CCd" id="quT-QW-dDi">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2028,7 +2135,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="hsm-Wk-uAK">
-                                        <rect key="frame" x="0.0" y="462" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="506" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsm-Wk-uAK" id="ySX-35-sC6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2050,7 +2157,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="SHo-sG-L7A">
-                                        <rect key="frame" x="0.0" y="506" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="550" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SHo-sG-L7A" id="dtF-fd-Jiz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2068,22 +2175,22 @@ definition</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nx3-n5-YX8">
-                                        <rect key="frame" x="0.0" y="550" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="b7S-aU-0Qd">
+                                        <rect key="frame" x="0.0" y="594" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nx3-n5-YX8" id="ceo-LN-eee">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b7S-aU-0Qd" id="3XQ-xN-VyY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4G-5l-23a">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="p_logout_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="4O4-ex-g1N">
+                                                    <rect key="frame" x="8" y="2" width="40" height="40"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEh-nh-T5o">
                                                     <rect key="frame" x="48" y="8" width="319" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="p_logout_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="wte-Gw-Cf5">
-                                                    <rect key="frame" x="8" y="2" width="40" height="40"/>
-                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -3297,7 +3404,7 @@ definition</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zJc-BU-NFK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-854" y="5841"/>
+            <point key="canvasLocation" x="-2206" y="4953"/>
         </scene>
         <!--DetailVC-->
         <scene sceneID="pVa-KI-1Cq">
@@ -4642,6 +4749,26 @@ about this lesson</string>
             </objects>
             <point key="canvasLocation" x="688.5" y="4683.5"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="pHW-9E-OKD">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c6y-LR-Ary" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="P8O-8g-b7f">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2f4-3C-BmS" kind="relationship" relationship="rootViewController" id="4bo-4X-oHe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wyg-BK-rEy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="688.5" y="5447.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Back-25.png" width="25" height="25"/>
@@ -4649,12 +4776,14 @@ about this lesson</string>
         <image name="accenteasy_icon_text.png" width="745" height="100"/>
         <image name="ae_icon.png" width="90" height="90"/>
         <image name="btn_send.png" width="128" height="128"/>
+        <image name="challenge friends.png" width="500" height="500"/>
         <image name="default_avatar.png" width="338" height="338"/>
         <image name="hand-draw-arrow-2.png" width="350" height="350"/>
         <image name="hand-draw-arrow-3.png" width="350" height="350"/>
         <image name="hand-draw-arrow-4.png" width="350" height="350"/>
         <image name="hand-draw-arrow-5.png" width="350" height="350"/>
         <image name="hand-draw-arrow.png" width="350" height="350"/>
+        <image name="help.png" width="500" height="500"/>
         <image name="ic_lesson_tip.png" width="100" height="100"/>
         <image name="ic_menu.png" width="128" height="128"/>
         <image name="ic_next.png" width="100" height="100"/>
@@ -4664,6 +4793,7 @@ about this lesson</string>
         <image name="ic_redo.png" width="128" height="128"/>
         <image name="ic_slider.png" width="110" height="46"/>
         <image name="ic_up.png" width="128" height="128"/>
+        <image name="invite teacher.png" width="500" height="500"/>
         <image name="london_3.jpg" width="1024" height="576"/>
         <image name="p_btn_login_accenteasy.png" width="505" height="89"/>
         <image name="p_btn_login_facebook.png" width="505" height="89"/>
@@ -4688,13 +4818,15 @@ about this lesson</string>
         <image name="sl_background.png" width="1242" height="2208"/>
         <image name="sl_dog.png" width="308" height="376"/>
         <image name="sl_dog_1.png" width="308" height="376"/>
+        <image name="teacher.png" width="500" height="500"/>
+        <image name="tick.png" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="w7l-a7-zju"/>
         <segue reference="t7Q-vO-CVy"/>
         <segue reference="y7T-RE-Gak"/>
-        <segue reference="4c6-2C-7Wp"/>
-        <segue reference="jBR-S3-rOW"/>
+        <segue reference="VlK-rN-iWT"/>
         <segue reference="WR5-An-sLd"/>
+        <segue reference="4c6-2C-7Wp"/>
     </inferredMetricsTieBreakers>
 </document>

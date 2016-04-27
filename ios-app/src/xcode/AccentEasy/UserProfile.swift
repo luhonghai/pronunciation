@@ -49,6 +49,7 @@ public class UserProfile: Mappable {
     public var isSubscription:Bool!
     public var isExpired:Bool!
     public var licenseData = [LicenseData]()
+    public var invitationData = [InvitationData]()
     
     /*private String ;
     private List<LicenseData> ;*/
@@ -152,6 +153,7 @@ public class UserProfile: Mappable {
         isSubscription    <= map["isSubscription"]
         isExpired    <= map["isExpired"]
         licenseData    <= map["licenseData"]
+        invitationData    <= map["invitationData"]
     }
 
 }
