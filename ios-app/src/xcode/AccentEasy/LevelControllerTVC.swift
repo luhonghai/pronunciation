@@ -91,7 +91,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
                         }
                     }
                     //TODO should check if activate
-                    levels[index].active = true
+                    //levels[index].active = true
                 }
                 
                 self.tableView.reloadData()
