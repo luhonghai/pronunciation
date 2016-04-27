@@ -477,7 +477,7 @@
                 <input type="hidden" id="idLesson">
                 <input type="hidden" id="AddOrEditWord">
 
-                <h2 style="text-align: center" class="modal-title">add word</h2>
+                <h2 id="title-add-word" style="text-align: center" class="modal-title">word management</h2>
                 <h4 id="validateWordMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
             </div>

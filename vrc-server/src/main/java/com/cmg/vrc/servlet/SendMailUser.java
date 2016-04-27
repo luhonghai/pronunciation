@@ -301,15 +301,17 @@ public class SendMailUser extends HttpServlet{
             Gson gson=new Gson();
             try {
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
-                if(studentMappingTeacher.isLicence()==true){
-                 /*   StudentMappingTeacher smt=studentMappingTeacher;*/
+                studentMappingTeacher.setIsDeleted(true);
+                studentMappingTeacherDAO.put(studentMappingTeacher);
+                /*if(studentMappingTeacher.isLicence()==true){
+                 *//*   StudentMappingTeacher smt=studentMappingTeacher;*//*
                     studentMappingTeacher.setStatus(Constant.STATUS_PENDING);
                     studentMappingTeacherDAO.put(studentMappingTeacher);
                 }else{
                     studentMappingTeacher.setIsDeleted(true);
                     studentMappingTeacherDAO.put(studentMappingTeacher);
 
-                }
+                }*/
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");

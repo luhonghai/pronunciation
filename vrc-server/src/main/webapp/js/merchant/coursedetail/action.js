@@ -69,7 +69,7 @@ function openPopup(itemData){
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }else if(itemData._actionClick == action_edit_lesson){
         clearForm();
-        currentPopup.find("#titlePopupLesson").html("edit lesson");
+        currentPopup.find("#titlePopupLesson").html("lesson management");
         getNameLesson().val(itemData.label);
         getDescriptionLesson().val(itemData._description);
         getTypeLesson().val(itemData._type);
@@ -114,7 +114,7 @@ function openPopup(itemData){
         var level = treeAPI.itemData(currentParent);
         var row= nameOfCourse +" > " + level.label;
         getExplanationTest().attr("row",row);
-        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
     }else if(itemData._actionClick == action_edit_question_test){
         listWord=[];
         clearForm();
@@ -124,7 +124,7 @@ function openPopup(itemData){
         getTypeTest().val(itemData._type);
         getExplanationTest().val(itemData._description)
         currentPopup.find("#btnDeleteTestWord").show();
-        currentPopup.find("#titlePopupTestWord").html("edit test question");
+        currentPopup.find("#titlePopupTestWord").html("test question management");
         getExplanationTest().attr("idLesson",lesson._idLessonForTest);
         var test = treeAPI.itemData(currentParent);
         var level = treeAPI.parent(currentParent);
@@ -315,6 +315,7 @@ function showAddWord(){
         $("#addWord").attr("disabled",false);
         $("#addWordModal").attr("type","add-new-word");
         $("#addWordModal").modal('show');
+        $("#addWordModal").find('#title-add-word').html("word management");
 
     });
 }
@@ -341,6 +342,7 @@ function showAddWordForTest(){
         getAddWord().removeAttr('readonly');
         $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
+        $("#addWordModal").find('#title-add-word').html("add test word");
 
     });
 }
@@ -531,6 +533,7 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#title-add-word').html("test word management");
                         drawWord(data);
                     }
                 });
@@ -544,6 +547,7 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#title-add-word').html("word management");
                         drawWord(data);
                     }
                 });

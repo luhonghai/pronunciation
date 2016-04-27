@@ -23,7 +23,7 @@ function listMyClasses(){
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            swal("", "Could not connect to server", "error");
         }
 
     });
@@ -49,7 +49,11 @@ function openAdd(){
                     if(data.courses!=null && data.courses.length>0){
                         var items=data.courses;
                         $(items).each(function(){
-                            $("#addCourses").append('<option title="'+this.description+'" value="' + this.id + '">' + this.name + '</option>');
+                            var name = this.name;
+                            if(name.length > 40){
+                                name = name.substring(0, 40) + '...';
+                            }
+                            $("#addCourses").append('<option title="'+this.name+'" value="' + this.id + '">' + name + '</option>');
                         });
                     }
                     $('#addCourses').multiselect('destroy');
@@ -71,7 +75,7 @@ function openAdd(){
                 }
             },
             error: function () {
-                swal("Error!", "Could not connect to server", "error");
+                swal("", "Could not connect to server", "error");
             }
 
         });
@@ -110,14 +114,14 @@ function addClass(){
                         $("#add").modal('hide');
                         $("#listMyClass").empty();
                         listMyClasses();
-                        swal("", "add class successfully", "success");
+                        swal("", "You have added class successfully", "success");
                     }else{
                         $("#classExits").find("#invalidClass").html(classname);
                         $("#classExits").modal('show');
                     }
                 },
                 error: function () {
-                    swal("Error!", "Could not connect to server", "error");
+                    swal("", "Could not connect to server", "error");
                 }
 
             });
@@ -190,7 +194,7 @@ function deleteClass(){
                         listMyClasses();
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
-                        swal("", "delete class successfully", "success");
+                        swal("", "You have deleted class successfully", "success");
                     }else if (data == "not exist"){
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
@@ -302,7 +306,7 @@ function editClass(){
                     $("#listMyClass").empty();
                     listMyClasses();
                     $("#edits").modal('hide');
-                    swal("", "update class successfully", "success");
+                    swal("", "You have updated class successfully", "success");
                 }else if (data == "not exist"){
                     $("#deletes").modal('hide');
                     swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });

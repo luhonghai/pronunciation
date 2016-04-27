@@ -80,7 +80,7 @@ function listMyStudent(){
             }
         },
         error:function(e){
-            swal("Error!", "Could not connect to server", "error");
+            swal("", "Could not connect to server", "error");
         }
 
     });
@@ -224,7 +224,7 @@ function deleteStudent(){
 
             },
             error:function(e){
-                swal("Error!", "Could not connect to server", "error");
+                swal("", "Could not connect to server", "error");
             }
 
         })
@@ -289,8 +289,9 @@ function readListMail(txt) {
     var data =  txt.split(',');
     var output = [];
     for (var i = 0; i < data.length; i++) {
-        output.push(data[i]);
-
+        if(data[i].length > 0 && data[i]!="" && typeof data[i] !== 'undefined'){
+            output.push(data[i]);
+        }
     }
     return output;
 }
