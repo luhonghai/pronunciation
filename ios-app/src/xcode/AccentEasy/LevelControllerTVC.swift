@@ -50,11 +50,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         userProfile = AccountManager.currentUser()
      //   print(userProfile)
      //   print(userProfile.selectedCountry.name)
-        if userProfile.selectedCountry == nil {
-           // self.displayViewController(.Fade)
-        } else {
-            loadTableData()
-        }
+        loadTableData()
     }
     
     func loadLevel(notification: NSNotification){

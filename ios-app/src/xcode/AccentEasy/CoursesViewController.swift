@@ -36,6 +36,12 @@ class CoursesViewController: UITableViewController {
         courses = AccountManager.currentUser().courseSession.courses
         DeviceManager.setNavigationBarTransparent(self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadLevel:",name:"loadLevel", object: nil)
+        if let user:UserProfile = AccountManager.currentUser() {
+            if user.selectedCountry == nil {
+                user.selectedCountry = try! WordCollectionDbApdater().getDefaultCountry()
+                AccountManager.updateProfile(user)
+            }
+        }
     }
     
     func loadLevel(notification: NSNotification){
@@ -47,6 +53,7 @@ class CoursesViewController: UITableViewController {
     }
 
     func loadTableData() {
+        Logger.log("reload course table")
         userProfile = AccountManager.currentUser()
         self.tableView.reloadData()
     }
@@ -89,6 +96,8 @@ class CoursesViewController: UITableViewController {
         if let score = course.score {
             cell?.lblScore.text = String(score)
             cell?.lblScore.backgroundColor = ColorHelper.returnColorOfScore(score)
+            cell?.imgCourse.hidden = true
+            cell?.lblScore.hidden = false
         } else {
             if course.imageURL != nil && !course.imageURL.isEmpty {
                 cell?.imgCourse.hidden = false
