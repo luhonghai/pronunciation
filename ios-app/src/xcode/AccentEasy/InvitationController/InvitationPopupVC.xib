@@ -35,6 +35,9 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqX-A6-Jpc">
                     <rect key="frame" x="170" y="124" width="50" height="50"/>
                     <state key="normal" title="Button" image="tick.png"/>
+                    <connections>
+                        <action selector="btnOKTouchUp:" destination="-1" eventType="touchUpInside" id="gHR-z2-jUg"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOc-5P-HcB">
                     <rect key="frame" x="81" y="124" width="50" height="50"/>

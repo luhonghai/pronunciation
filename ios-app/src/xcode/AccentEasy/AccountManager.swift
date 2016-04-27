@@ -413,7 +413,7 @@ class AccountManager {
             })
     }
     
-    class func getInvitationData(userProfile: UserProfile, isCheck: Bool = false, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+    class func getInvitationData(userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
         userProfile.deviceInfo = DeviceManager.deviceInfo()
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
@@ -455,5 +455,99 @@ class AccountManager {
             })
         
     }
+    
+    
+    class func updateRejectData(userProfile: UserProfile, id: String, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        userProfile.deviceInfo = DeviceManager.deviceInfo()
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in Logger.log(e)
+                Logger.log("run in updateRejectData")
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        client.post("/InvitationServlet").type("form").send(["profile":JSONHelper.toJson(userProfile), "action":"updatereject", "id": id])
+            .end({(res:Response) -> Void in
+                if(res.error) {
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                } else {
+                    Logger.log("updateRejectData response: \(res.text)")
+                    if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
+                        if  (result.status != nil) && result.status {
+                            Logger.log("updateRejectData \(id) ok")
+                        } else {
+                            Logger.log("\(result.message)")
+                        }
+                        completion(userProfile: userProfile, success: result.status, message:  result.message)
+                    } else {
+                        completion(userProfile: userProfile, success: false, message:  DEFAULT_ERROR_MESSAGE)
+                        
+                    }
+                    
+                }
+            })
+        
+    }
+    
+    class func updateAcceptData(userProfile: UserProfile, id: String, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        userProfile.deviceInfo = DeviceManager.deviceInfo()
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in Logger.log(e)
+                Logger.log("run in updateAcceptData")
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        client.post("/InvitationServlet").type("form").send(["profile":JSONHelper.toJson(userProfile), "action":"updateaccept", "id": id])
+            .end({(res:Response) -> Void in
+                if(res.error) {
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                } else {
+                    Logger.log("updateAcceptData response: \(res.text)")
+                    if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
+                        if  (result.status != nil) && result.status {
+                            Logger.log("updateAcceptData \(id) ok")
+                        } else {
+                            Logger.log("\(result.message)")
+                        }
+                        completion(userProfile: userProfile, success: result.status, message:  result.message)
+                    } else {
+                        completion(userProfile: userProfile, success: false, message:  DEFAULT_ERROR_MESSAGE)
+                        
+                    }
+                    
+                }
+            })
+        
+    }
+
+    class func updateDeleteData(userProfile: UserProfile, id: String, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        userProfile.deviceInfo = DeviceManager.deviceInfo()
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in Logger.log(e)
+                Logger.log("run in deleteData")
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        client.post("/InvitationServlet").type("form").send(["profile":JSONHelper.toJson(userProfile), "action":"updateDeleteData", "id": id])
+            .end({(res:Response) -> Void in
+                if(res.error) {
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                } else {
+                    Logger.log("deleteData response: \(res.text)")
+                    if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
+                        if  (result.status != nil) && result.status {
+                            Logger.log("deleteData \(id) ok")
+                        } else {
+                            Logger.log("\(result.message)")
+                        }
+                        completion(userProfile: userProfile, success: result.status, message:  result.message)
+                    } else {
+                        completion(userProfile: userProfile, success: false, message:  DEFAULT_ERROR_MESSAGE)
+                        
+                    }
+                    
+                }
+            })
+    }
+
 
 }

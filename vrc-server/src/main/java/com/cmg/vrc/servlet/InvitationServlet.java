@@ -19,7 +19,12 @@ import java.util.List;
 public class InvitationServlet extends HttpServlet {
 
     public static class InvitationData {
-        public String name;
+        public String id;
+        public String studentName;
+        public String teacherName;
+        public String firstTeacherName;
+        public String lastTeacherName;
+        public String companyName;
         public String status;
     }
 

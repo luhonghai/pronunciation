@@ -24,8 +24,8 @@
                     </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="wUI-2L-BE7">
-                    <rect key="frame" x="8" y="32" width="284" height="64"/>
-                    <string key="text">Are you sure you want to disable this teacher? Swipe left to permanently remove 
+                    <rect key="frame" x="8" y="32" width="284" height="67"/>
+                    <string key="text">Are you sure you want to disable this teacher? 
 </string>
                     <color key="textColor" red="0.43921568630000002" green="0.18823529410000001" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
