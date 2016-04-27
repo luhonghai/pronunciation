@@ -34,9 +34,15 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IiA-eR-BuV">
                     <rect key="frame" x="170" y="104" width="50" height="50"/>
                     <state key="normal" title="Button" image="tick.png"/>
+                    <connections>
+                        <action selector="btnOKTouchUp:" destination="-1" eventType="touchUpInside" id="8e4-DK-QYU"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YNw-s3-2LC">
                     <rect key="frame" x="81" y="104" width="50" height="50"/>
+                    <connections>
+                        <action selector="btnClose:" destination="-1" eventType="touchUpInside" id="iab-U2-oV0"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

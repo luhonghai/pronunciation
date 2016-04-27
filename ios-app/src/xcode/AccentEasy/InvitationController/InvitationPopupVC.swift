@@ -11,9 +11,13 @@ import UIKit
 class InvitationPopupVC: UIViewController {
 
     var delegate:InvitationPopupDelegate?
+    var firstTeacherName:String!
+    var lastTeacherName:String!
+    var companyName:String!
     
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnReject: UIButton!
+    @IBOutlet weak var tvTitle: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +40,8 @@ class InvitationPopupVC: UIViewController {
         btnReject.layer.cornerRadius = btnReject.frame.size.width/2
         btnReject.setImage(rImage, forState: UIControlState.Normal)
         btnReject.tintColor = ColorHelper.APP_RED_MAGENTA
+        
+        tvTitle.text = "\(firstTeacherName) \(lastTeacherName) from \(companyName) would like to  invite you to their classroom, please accept or reject."
     }
 
     override func didReceiveMemoryWarning() {

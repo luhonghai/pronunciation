@@ -143,6 +143,13 @@ class AELoginVC: UIViewController, UITextFieldDelegate {
                 
             }
             AccountManager.updateProfile(userProfile)
+            weakSelf!.getInvitationData()
+        }
+    }
+    
+    func getInvitationData() {
+        weak var weakSelf = self
+        AccountManager.getInvitationData(AccountManager.currentUser()) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(),{
                 weakSelf!.hidenLoadding()
                 weakSelf!.performSegueWithIdentifier("AELoginGoToMain", sender: weakSelf!)

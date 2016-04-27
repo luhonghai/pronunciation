@@ -35,7 +35,7 @@ class InvitationTableViewCell: UITableViewCell {
 class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, InvitationPopupDelegate{
     
     var arrShow = ["hoang","nguyen","minh","hoang","nguyen","minh","hoang","nguyen","minh"]
-    var fakeData = "{\"invitationData\":[{\"name\":\"hoang.nguyen1\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen2\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen3\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen4\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen5\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen6\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen7\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen8\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen9\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen10\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen11\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen12\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen13\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen14\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen15\",\"status\":\"pending\"}]}"
+    //var fakeData = "{\"invitationData\":[{\"name\":\"hoang.nguyen1\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen2\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen3\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen4\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen5\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen6\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen7\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen8\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen9\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen10\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen11\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen12\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen13\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen14\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen15\",\"status\":\"pending\"}]}"
     var userProfile:UserProfile =  UserProfile()
     var countInvitation:Int=0
 
@@ -60,7 +60,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         userProfile = AccountManager.currentUser()
         
-        userProfile = Mapper<UserProfile>().map(fakeData)!
+        //userProfile = Mapper<UserProfile>().map(fakeData)!
         
         print(userProfile.invitationData)
         
@@ -71,11 +71,18 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
             userProfile.invitationData.append(data)
         }*/
         
+        //caculate count invitation and sort array
         for invitation in userProfile.invitationData {
             if invitation.status == InvitationStatus.pending {
                 countInvitation += 1
+                invitation.groupId = 1
+            } else if invitation.status == InvitationStatus.reject {
+                invitation.groupId = 2
+            } else {
+                invitation.groupId = 3
             }
         }
+        userProfile.invitationData.sortInPlace({ $0.groupId < $1.groupId })
         
         //show popup overview or popup new invitation
         if countInvitation == 0 {
@@ -128,7 +135,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         //cell.bg.tag = indexPath.row
         //cell.bg.addGestureRecognizer(tapGusture)
         
-        cell.lblTitle.text = invitationCellData.name
+        cell.lblTitle.text = invitationCellData.firstTeacherName + invitationCellData.lastTeacherName + ", " + invitationCellData.companyName
         
         var bImage:UIImage!
         if invitationCellData.status == InvitationStatus.accept {
@@ -177,18 +184,23 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func touchCellIcon(sender: UIButton) {
         print(sender.tag)
-        var invitationCellData = userProfile.invitationData[sender.tag]
+        let indexCell = sender.tag
+        var invitationCellData = userProfile.invitationData[indexCell]
         
         if invitationCellData.status == InvitationStatus.accept {
             //show popup when click icon accept
             let inviAcceptPopupVC:InviAcceptPopupVC = InviAcceptPopupVC(nibName: "InviAcceptPopupVC", bundle: nil)
             inviAcceptPopupVC.delegate = self
+            inviAcceptPopupVC.indexSelected = indexCell
             self.presentpopupViewController(inviAcceptPopupVC, animationType: .Fade, completion: {() -> Void in })
             
         } else if invitationCellData.status == InvitationStatus.pending {
             //show popup when click icon invitation
             let invitationPopupVC:InvitationPopupVC = InvitationPopupVC(nibName: "InvitationPopupVC", bundle: nil)
             invitationPopupVC.delegate = self
+            invitationPopupVC.firstTeacherName = invitationCellData.firstTeacherName
+            invitationPopupVC.lastTeacherName = invitationCellData.lastTeacherName
+            invitationPopupVC.companyName = invitationCellData.companyName
             self.presentpopupViewController(invitationPopupVC, animationType: .Fade, completion: {() -> Void in })
             
         } else {
@@ -230,5 +242,12 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func closePopup(sender: AnyObject) {
         self.dismissPopupViewController(.Fade)
+    }
+    
+    //touch ok in InviAcceptPopupVC
+    func inviAcceptPopupVCTouchOK(sender: AnyObject){
+        print(sender)
+        let index = sender as! Int
+        print(userProfile.invitationData[index].studentName)
     }
 }

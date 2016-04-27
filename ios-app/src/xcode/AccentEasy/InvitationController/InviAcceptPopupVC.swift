@@ -11,6 +11,8 @@ import UIKit
 class InviAcceptPopupVC: UIViewController {
 
     var delegate:InvitationPopupDelegate?
+    var indexSelected:Int!
+    
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnReject: UIButton!
 
@@ -57,5 +59,10 @@ class InviAcceptPopupVC: UIViewController {
     @IBAction func btnClose(sender: AnyObject) {
         delegate?.closePopup(self)
     }
+    
+    @IBAction func btnOKTouchUp(sender: AnyObject) {
+        delegate?.inviAcceptPopupVCTouchOK(indexSelected)
+    }
+    
 
 }
