@@ -24,6 +24,8 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     
     var adapter = WordCollectionDbApdater()
     
+    var courseDbAdapter: CourseDBAdapter!
+    
     var objectiveScore = ObjectiveScore()
     
     var lessonDBAdapter = LessonDBAdapter()
@@ -37,7 +39,8 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     var testScore = TestScore()
     
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
+        courseDbAdapter = CourseDBAdapter.newInstance()
         //scoreTest.layer.cornerRadius = scoreTest.frame.width / 2
         
         testContainer.layer.cornerRadius = 5
@@ -118,19 +121,19 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     
     func loadData() {
         do {
-            try objectives = adapter.getObjective(selectedCountry.idString, levelId: selectedLevel.idString)
+            try objectives = courseDbAdapter.getObjective(selectedLevel.idString)
             
             //set value for testScore obj
-            try! tests = adapter.getTest(selectedCountry.idString, levelId: selectedLevel.idString)
+            try! tests = courseDbAdapter.getTest(selectedLevel.idString)
             
             testScore.username = AccountManager.currentUser().username
-            testScore.idCountry = selectedCountry.idString
+            testScore.idCountry = AccountManager.currentUser().getSelectedCourseId()
             testScore.idLevel = selectedLevel.idString
             testScore.passScore = Int((tests[0].percentPass))
             
             //set value for objectiveScore obj
             objectiveScore.username = AccountManager.currentUser().username
-            objectiveScore.idCountry = selectedCountry.idString
+            objectiveScore.idCountry = AccountManager.currentUser().getSelectedCourseId()
             objectiveScore.idLevel = selectedLevel.idString
             //var arrObjScore = [ObjectiveScore]()
             
@@ -190,15 +193,16 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let obj = objectives[indexPath.row]
         let identifier = "levelRowCell"
-        var cell: LessonTableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier) as! LessonTableViewCell
+        let cell: LessonTableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier) as! LessonTableViewCell
         cell.lblScore.layer.cornerRadius = cell.lblScore.frame.width / 2
         cell.lblScore.layer.masksToBounds = true
         cell.bg.layer.cornerRadius = 5
         let tapGusture = UITapGestureRecognizer(target: self, action: Selector("tapItem:"))
         tapGusture.numberOfTapsRequired = 1
-        cell.bg.tag = indexPath.row
-        cell.bg.addGestureRecognizer(tapGusture)
-        
+        if cell.bg.tag == 0 {
+            cell.bg.addGestureRecognizer(tapGusture)
+        }
+        cell.bg.tag = indexPath.row + 1
         cell?.lblTitle.text = obj.name
         if let score = obj.score {
             cell?.lblScore.text = String(score)
@@ -225,7 +229,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tapItem(sender: UITapGestureRecognizer) {
-        let row: Int = sender.view!.tag
+        let row: Int = sender.view!.tag - 1
         Logger.log("Select row id \(row)")
         //let obj = objectives[row]
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonCollectionController") as! LessonCollectionController
@@ -240,7 +244,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func testTapped(sender: AnyObject) {
         let obj = tests[0]
         print("test name is \(obj.name)")
-        try! lessionCollections = adapter.getLessonCollectionByTest(testScore.idCountry, levelId: testScore.idLevel, testId: obj.idString)
+        try! lessionCollections = courseDbAdapter.getLessonCollectionByTest(testScore.idLevel, testId: obj.idString)
         
         
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonMainVC") as! LessonMainVC

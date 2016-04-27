@@ -592,26 +592,26 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     func closeTestFailPopup(sender: AnyObject){
         self.dismissPopupViewController(.Fade)
         //pop view
-        weak var weakSelf = self
-        if weakSelf != nil && weakSelf!.navigationController != nil {
-            let viewControllers: [UIViewController] = weakSelf!.navigationController!.viewControllers as [UIViewController];
-            weakSelf!.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
-        }
+        backToView(3)
     }
     
     func testFailMove(notification: NSNotification) {
         //pop view
         Logger.log("testFailMove")
+        backToView(3)
+    }
+    
+    func backToView(leftIndex: Int) {
         weak var weakSelf = self
         if weakSelf != nil && weakSelf!.navigationController != nil {
             let viewControllers: [UIViewController] = weakSelf!.navigationController!.viewControllers as [UIViewController];
-            weakSelf!.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+            weakSelf!.navigationController!.popToViewController(viewControllers[viewControllers.count - leftIndex], animated: false);
         }
     }
     
     func testPassMove(notification: NSNotification) {
         Logger.log("testPassMove")
-        self.navigationController?.popToRootViewControllerAnimated(false)
+        backToView(4)
     }
     
     func backToMain() {

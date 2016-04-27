@@ -27,6 +27,8 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     var adapter = WordCollectionDbApdater()
     
+    var courseDbAdapter: CourseDBAdapter!
+    
     var lessionCollections = Array<AELessonCollection>()
     
     var objectives = Array<AEObjective>()
@@ -34,6 +36,8 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     var indexObjectiveSelected:Int!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        courseDbAdapter = CourseDBAdapter.newInstance()
         bgObjectiveHelp.layer.cornerRadius = 5
         viewObjectiveQuestion.layer.cornerRadius = viewObjectiveQuestion.frame.width / 2
         tableView.dataSource = self
@@ -81,11 +85,11 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         
         do {
             objectiveScore.username = AccountManager.currentUser().username
-            objectiveScore.idCountry = selectedCountry.idString
+            objectiveScore.idCountry = AccountManager.currentUser().getSelectedCourseId()
             objectiveScore.idLevel = selectedLevel.idString
             objectiveScore.idObjective = objectives[indexObjectiveSelected].idString
             
-            try lessionCollections = adapter.getLessonCollectionByObjective(selectedCountry.idString, levelId: selectedLevel.idString, objectiveId: objectives[indexObjectiveSelected].idString)
+            try lessionCollections = courseDbAdapter.getLessonCollectionByObjective(selectedLevel.idString, objectiveId: objectives[indexObjectiveSelected].idString)
             
             
             for lessonCollection in lessionCollections {
@@ -100,11 +104,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
                     
                 }
                 
-                
-                
             }
-            
-            
             
             tableView.reloadData()
         } catch {
@@ -175,8 +175,11 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         cell.bg.layer.cornerRadius = 5
         let tapGusture = UITapGestureRecognizer(target: self, action: Selector("tapItem:"))
         tapGusture.numberOfTapsRequired = 1
-        cell.bg.tag = indexPath.row
-        cell.bg.addGestureRecognizer(tapGusture)
+        if cell.bg.tag == 0 {
+            cell.bg.addGestureRecognizer(tapGusture)
+        }
+        cell.bg.tag = indexPath.row + 1
+        
         
         cell?.lblTitle.text = obj.title
         if let score = obj.score {
@@ -202,7 +205,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tapItem(sender: UITapGestureRecognizer) {
-        let row: Int = sender.view!.tag
+        let row: Int = sender.view!.tag - 1
         Logger.log("Select row id \(row)")
         
         let obj = lessionCollections[row]

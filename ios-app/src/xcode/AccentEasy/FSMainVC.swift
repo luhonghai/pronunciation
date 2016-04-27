@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import EZAudio
 import Darwin
+import SloppySwiper
 
 class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, HelpButtonDelegate {
     
@@ -65,6 +66,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         toggleSlider()
     }
     
+    var swiper: SloppySwiper!
+    
     @IBOutlet weak var sliderConstraint: NSLayoutConstraint!
     
     func toggleSlider() {
@@ -94,8 +97,9 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     override func viewDidLoad() {
         GlobalData.getInstance().isOnLessonMain = false
         super.viewDidLoad()
-        
-        DeviceManager.requestMicrophonePermission { 
+//        swiper = SloppySwiper(navigationController: self.navigationController)
+//        self.navigationController?.delegate = swiper
+        DeviceManager.requestMicrophonePermission {
             self.microphone = EZMicrophone(delegate: self)
             
         }

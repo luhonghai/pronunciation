@@ -18,10 +18,15 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
     
     var dbAdapter: WordCollectionDbApdater!
     
+    var courseDbAdapter: CourseDBAdapter!
+    
     var lessonDBAdapter = LessonDBAdapter()
     
     var userProfile:UserProfile!
     
+    @IBAction func clickBack(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,37 +36,21 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = "revealToggle:"
-            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
-        dbAdapter = WordCollectionDbApdater()
         
-    
+        dbAdapter = WordCollectionDbApdater()
+        courseDbAdapter = CourseDBAdapter.newInstance()
+        navigationItem.title = AccountManager.currentUser().courseSession.selectedCourse.name
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadLevel:",name:"loadLevel", object: nil)
         
-        setNavigationBarTransparent() 
+        DeviceManager.setNavigationBarTransparent(self)
     }
-    
-    func setNavigationBarTransparent() {
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.translucent = true
-        self.navigationController?.view.backgroundColor = UIColor.clearColor()
-    }
-
     
     override func viewWillAppear(animated: Bool) {
         userProfile = AccountManager.currentUser()
      //   print(userProfile)
      //   print(userProfile.selectedCountry.name)
-        if userProfile.selectedCountry == nil {
-            self.displayViewController(.Fade)
-        } else {
-            loadTableData()
-        }
+        loadTableData()
     }
     
     func loadLevel(notification: NSNotification){
@@ -70,12 +59,12 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
     
     func loadTableData() {
         userProfile = AccountManager.currentUser()
-        if let country = userProfile.selectedCountry {
+      //  if let country = userProfile.selectedCountry {
             do {
                 testScore.username = AccountManager.currentUser().username
-                testScore.idCountry = AccountManager.currentUser().selectedCountry.idString
+                testScore.idCountry = AccountManager.currentUser().getSelectedCourseId()
                 
-                levels = try dbAdapter.getLevelByCountry(country.idString)
+                levels = try courseDbAdapter.getLevelByCountry()
                 Logger.log("Number of level \(levels.count)")
                 
                 //print(DatabaseHelper.getLessonUserScoreDatabaseFile())
@@ -101,6 +90,8 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
                             }
                         }
                     }
+                    //TODO should check if activate
+                    levels[index].active = true
                 }
                 
                 self.tableView.reloadData()
@@ -108,7 +99,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
             } catch {
                 
             }
-        }
+      //  }
     }
 
     override func didReceiveMemoryWarning() {
@@ -136,8 +127,11 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         cell.bg.layer.cornerRadius = 5
         let tapGusture = UITapGestureRecognizer(target: self, action: Selector("tapItem:"))
         tapGusture.numberOfTapsRequired = 1
-        cell.bg.tag = indexPath.row
-        cell.bg.addGestureRecognizer(tapGusture)
+        if cell.bg.tag == 0 {
+            cell.bg.addGestureRecognizer(tapGusture)
+        }
+        cell.bg.tag = indexPath.row + 1
+        
         
         cell?.lblTitle.text = level.name
         if let score = level.score {
@@ -151,7 +145,10 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         //
         var bgColor = ColorHelper.APP_LIGHT_GRAY
         var titleColor = ColorHelper.APP_GRAY
-        if level.getBoolValue(level.isDemo) || level.getBoolValue(level.isDefaultActivated) || level.active {
+        if
+            level.getBoolValue(level.isDemo)
+            || level.getBoolValue(level.isDefaultActivated)
+            || level.active {
             bgColor = ColorHelper.APP_LIGHT_AQUA
             titleColor = ColorHelper.APP_AQUA
         }
@@ -160,6 +157,23 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         cell.bg.backgroundColor = bgColor
         cell.lblTitle.textColor = titleColor
         return cell
+    }
+    
+    func tapItem(sender: UITapGestureRecognizer) {
+        let row: Int = sender.view!.tag - 1
+        Logger.log("Select row id \(row)")
+        let level = levels[row]
+        
+        if
+            level.getBoolValue(level.isDemo)
+                || level.getBoolValue(level.isDefaultActivated)
+                || level.active {
+                    let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("ObjectiveController") as! ObjectiveController
+                    nextController.selectedLevel = level
+                    nextController.selectedCountry = AccountManager.currentUser().selectedCountry
+                    
+                    self.navigationController?.pushViewController(nextController, animated: true)
+        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -184,18 +198,6 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         self.dismissPopupViewController(.Fade)
     }
 
-    func tapItem(sender: UITapGestureRecognizer) {
-        let row: Int = sender.view!.tag
-        Logger.log("Select row id \(row)")
-        let level = levels[row]
-        
-        if level.getBoolValue(level.isDemo) || level.getBoolValue(level.isDefaultActivated) || level.active {
-            let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("ObjectiveController") as! ObjectiveController
-            nextController.selectedLevel = level
-            nextController.selectedCountry = AccountManager.currentUser().selectedCountry
-            
-            self.navigationController?.pushViewController(nextController, animated: true)
-        }
-    }
+    
 
 }

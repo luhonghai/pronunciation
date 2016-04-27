@@ -25,6 +25,18 @@ class LessonDBAdapter: BaseDatabaseAdapter {
         }
     }
     
+    func getCourseScore(username: String, idCourse: String) -> Int {
+        let count:Int = (db?.scalar(LiteTable.TEST_SCORE.filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCourse).count))!
+        if count > 0 {
+            for row in try! (db?.prepare("SELECT AVG(SCORE) FROM TestScore WHERE USERNAME=? AND IDCOUNTRY=? AND ISLEVELPASS=?").bind(username, idCourse, true))! {
+                if row[0] != nil {
+                    return Int(round(row[0] as! Double))
+                }
+            }
+        }
+        return -1
+    }
+    
     func getLessonScore(username: String, idCountry: String, idLevel:String, idObjective:String, idLesson: String) throws -> ObjectiveScore? {
         return try find(LiteTable.OBJECTIVE_SCORE
             .filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCountry && LiteColumn.IDLEVEL == idLevel && LiteColumn.IDOBJECTIVE == idObjective && LiteColumn.IDLESSON == idLesson))
@@ -76,5 +88,7 @@ class LessonDBAdapter: BaseDatabaseAdapter {
         return try find(LiteTable.TEST_SCORE
             .filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCountry && LiteColumn.IDLEVEL == idLevel))
     }
+    
+    
     
 }

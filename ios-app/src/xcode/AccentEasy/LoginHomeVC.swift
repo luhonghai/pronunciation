@@ -264,6 +264,21 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         })
     }
 
+    func fetchCourses(userProfile: UserProfile) {
+        weak var weakSelf = self
+        AccountManager.fetchCourses(userProfile) { (userProfile, success, message) -> Void in
+            //TODO show error message
+            if success {
+                
+            }
+            AccountManager.updateProfile(userProfile)
+            dispatch_async(dispatch_get_main_queue(),{
+                weakSelf!.getUserProfile()
+                weakSelf!.hidenLoadding()
+                weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+            })
+        }
+    }
     
     func registerUserProfile() {
         weak var weakSelf = self;
@@ -282,9 +297,8 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 if success {
                     userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
-                    weakSelf!.getUserProfile()
-                    weakSelf!.hidenLoadding()
-                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                    //
+                    weakSelf!.fetchCourses(userProfile)
                 } else {
                     weakSelf!.hidenLoadding()
                     AccountManager.showError("could not login", message: message)

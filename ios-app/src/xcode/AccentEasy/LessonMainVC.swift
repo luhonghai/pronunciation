@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import EZAudio
 import Darwin
+import SloppySwiper
 
 class QuestionCVCell: UICollectionViewCell {
     @IBOutlet weak var lblQuestion: UILabel!
@@ -36,6 +37,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     var currentMode: UserVoiceModel!
     
+    var swiper: SloppySwiper!
+    
     //@IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnRecord: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
@@ -49,6 +52,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     var freestyleDBAdapter:LessonDBAdapter!
     var wordCollectionDbApdater: WordCollectionDbApdater!
+    var courseDbAdapter: CourseDBAdapter!
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -120,7 +124,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     override func viewDidLoad() {
         GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
-        DeviceManager.requestMicrophonePermission { 
+//        swiper = SloppySwiper(navigationController: self.navigationController)
+//        self.navigationController?.delegate = swiper
+        DeviceManager.requestMicrophonePermission {
             self.microphone = EZMicrophone(delegate: self)
         }
         //self.edgesForExtendedLayout = UIRectEdge.None;
@@ -151,7 +157,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         //loginParameter = NSUserDefaults()
         userProfileSaveInApp = NSUserDefaults()
         userProfile = AccountManager.currentUser()
-        
+        courseDbAdapter = CourseDBAdapter.newInstance()
         //load word default
         wordCollectionDbApdater = WordCollectionDbApdater()
         freestyleDBAdapter = LessonDBAdapter()
@@ -470,6 +476,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 .field("idWord", weakSelf!.selectedWord.idString)
                 .field("idQuestion", question.idString)
                 .field("idCountry", weakSelf!.selectedCountry.idString)
+                .field("idCourse", weakSelf!.userProfile.getSelectedCourseId())
                 .field("session", weakSelf!.currentSession)
                 .field("idLessonCollection", weakSelf!.selectedLessonCollection.idString)
                 .field("type", weakSelf!.isLessonCollection ? "Q" : "T")
@@ -501,6 +508,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                         //  print (userVoiceModel.word)
                         if status {
                             userVoiceModel.score = round(userVoiceModel.score)
+                            //TODO remove it
+                            userVoiceModel.score = 99
                             self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
                             weakSelf!.currentMode = userVoiceModel
                             weakSelf!.saveDatabase(userVoiceModel)
@@ -852,9 +861,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         
         Logger.log(selectedLessonCollection.idString)
         
-        arrQuestionOfLC = try! wordCollectionDbApdater.getQuestionByLessionCollection(selectedLessonCollection.idString)
+        arrQuestionOfLC = try! courseDbAdapter.getQuestionByLessionCollection(selectedLessonCollection.idString)
         for index in 0...arrQuestionOfLC.count-1 {
-            arrQuestionOfLC[index].listWord = try! wordCollectionDbApdater.getWordsOfQuestion(arrQuestionOfLC[index].idString)
+            arrQuestionOfLC[index].listWord = try! courseDbAdapter.getWordsOfQuestion(arrQuestionOfLC[index].idString)
         }
         arrQuestionOfLC[0].enabled = true
         Logger.log("arrQuestionOfLesson")
