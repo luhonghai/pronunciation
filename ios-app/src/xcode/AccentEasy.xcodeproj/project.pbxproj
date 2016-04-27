@@ -2728,6 +2728,7 @@
 				9B5F33AF1C77129A00E85629 /* ChartXAxisRendererHorizontalBarChart.swift in Sources */,
 				9B5F33501C77129A00E85629 /* HorizontalBarChartView.swift in Sources */,
 				C11531A21CCF789B00511E6B /* InvitationPopupDelegate.swift in Sources */,
+				9B23354D1CCF26F9004E5818 /* CoursesViewController.swift in Sources */,
 				C13D48591C896BAD00D630A4 /* FSDetailSwipeVC.swift in Sources */,
 				9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */,
 				9B5F33931C77129A00E85629 /* IScatterChartDataSet.swift in Sources */,

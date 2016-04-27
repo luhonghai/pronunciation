@@ -272,11 +272,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 
             }
             AccountManager.updateProfile(userProfile)
-            dispatch_async(dispatch_get_main_queue(),{
-                weakSelf!.getUserProfile()
-                weakSelf!.hidenLoadding()
-                weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-            })
+            weakSelf!.getInvitationData()
         }
     }
     
@@ -324,10 +320,14 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         }
     }
     
-    func getInvitationData (){
+    func getInvitationData() {
         weak var weakSelf = self
         AccountManager.getInvitationData(currentUser) { (userProfile, success, message) in
-            <#code#>
+            dispatch_async(dispatch_get_main_queue(),{
+                weakSelf!.getUserProfile()
+                weakSelf!.hidenLoadding()
+                weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+            })
         }
     }
     
