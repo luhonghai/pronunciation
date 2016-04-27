@@ -102,6 +102,13 @@ class LaunchImageVC: UIViewController {
                 
             }
             AccountManager.updateProfile(userProfile)
+            weakSelf!.getInvitationData()
+        }
+    }
+    
+    func getInvitationData() {
+        weak var weakSelf = self
+        AccountManager.getInvitationData(AccountManager.currentUser()) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(),{
                 weakSelf!.gotoMainPage()
             })

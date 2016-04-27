@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="btnClose" destination="S2N-1g-vQs" id="uJa-aO-HiE"/>
                 <outlet property="btnReject" destination="SOc-5P-HcB" id="ZeC-xX-OhC"/>
+                <outlet property="tvTitle" destination="IYP-Vy-eBA" id="mbX-0W-c5Y"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -37,6 +38,9 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOc-5P-HcB">
                     <rect key="frame" x="81" y="124" width="50" height="50"/>
+                    <connections>
+                        <action selector="btnCloseTouchUp:" destination="-1" eventType="touchUpInside" id="dsm-U7-iQG"/>
+                    </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="IYP-Vy-eBA">
                     <rect key="frame" x="8" y="33" width="284" height="83"/>
