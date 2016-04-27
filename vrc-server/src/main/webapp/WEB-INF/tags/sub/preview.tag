@@ -81,7 +81,7 @@
                                         <div class='container-selection'>
                                             <a class="btn selection selection-popup-obj">
                                                 <label class="name">objectives</label>
-                                                <div class="circle circle-question">?</div>
+                                                <div id="circle-popup-obj" class="circle circle-question">?</div>
                                             </a>
                                         </div>
                                     </div>

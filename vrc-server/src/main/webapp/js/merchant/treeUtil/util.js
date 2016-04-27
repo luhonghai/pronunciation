@@ -12,6 +12,15 @@ function ClickOnTree(){
         openPopup(itemData);
     });
 }
+
+
+function checkTestExistLevel(api,item){
+    var allChild = api.children (item, true, true);
+    allChild.each(function (index, item) {
+        var $item = $(item);
+        var data = api.itemData($item);// itemData return json object for the selected item.
+    });
+}
 /**
  * drag&drop
  */
@@ -25,6 +34,7 @@ function drag2drop(){
                 }
                 return true;
             case 'checkdrop':
+
                 if (options.isContainer) {
                     return false;
                 } else {
@@ -61,7 +71,6 @@ function drag2drop(){
                         var action = dragData._targetLoad;
                         var childId = dragData.id;
                         var indexDrop = api.getIndex(drop);
-                        console.log(indexDrop);
                         var indexDrag = api.getIndex(item);
                         console.log(indexDrag);
                         var move = "down";
