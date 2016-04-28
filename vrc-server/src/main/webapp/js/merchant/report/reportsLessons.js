@@ -55,7 +55,7 @@ function listCourse() {
             }
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
@@ -89,7 +89,7 @@ function listLevels(idCourse) {
             }
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
@@ -118,11 +118,11 @@ function listObjectives(idLevel) {
                 $('#listObj').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                 $('#listObj').multiselect('refresh');
             } else {
-                swal("Error!", data.message.split(":")[1], "error");
+                swal("", data.message.split(":")[1], "error");
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
@@ -159,7 +159,7 @@ function changeCourse() {
                 }
             },
             error: function () {
-                swal("", "Could not connect to server", "error");
+                swal("", "could not connect to server", "error");
             }
 
         });
@@ -193,7 +193,7 @@ function changeLevel() {
                 }
             },
             error: function () {
-                swal("", "Could not connect to server", "error");
+                swal("", "could not connect to server", "error");
             }
 
         });
@@ -236,7 +236,7 @@ function loadLesson(idObj) {
             }
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
