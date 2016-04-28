@@ -52,9 +52,9 @@ function copyCourse(){
 }
 
 function loadWeightForWordEdit(word){
-    $("#addWordModal").modal('show');
-    getAddWord().val(word);
-    $("#loadPhonemes").hide();
+   // $("#addWordModal").modal('show');
+   // getAddWord().val(word);
+    //$("#loadPhonemes").hide();
     $.ajax({
         url: "ManagementWordOfQuestionServlet",
         type: "POST",
@@ -67,13 +67,32 @@ function loadWeightForWordEdit(word){
         success: function (data) {
             var message = data.message;
             if(message.indexOf("success") != -1){
-                drawWord(data);
+                //drawWord(data);
+                var idWord = data.idWord;
+                var output = [];
+                $.each(data.listWeightPhoneme, function (idx, obj) {
+                    var phonemeName = obj.phoneme;
+                    var weightOfPhoneme = obj.weight;
+                    var ipa = obj.ipa;
+                    var index = obj.index;
+                    output.push({
+                        index: parseInt(index),
+                        phoneme: phonemeName,
+                        ipa: ipa,
+                        weight: parseFloat(weightOfPhoneme)
+                    });
+                });
+                listWord.push({
+                    idWord: idWord,
+                    nameWord: word,
+                    listWeightPhoneme: output
+                });
             }else{
-                swal("Error!",message.split(":")[1], "error");
+                //swal("Error!",message.split(":")[1], "error");
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            //swal("Error!", "Could not connect to server", "error");
         }
 
     });

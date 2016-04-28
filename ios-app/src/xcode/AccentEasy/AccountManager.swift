@@ -475,7 +475,7 @@ class AccountManager {
                 } else {
                     Logger.log("updateRejectData response: \(res.text)")
                     if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
-                        if  (result.status != nil) && result.status {
+                        if  ((result.status != nil) && result.status != nil) {
                             Logger.log("updateRejectData \(id) ok")
                         } else {
                             Logger.log("\(result.message)")
@@ -506,7 +506,7 @@ class AccountManager {
                 } else {
                     Logger.log("updateAcceptData response: \(res.text)")
                     if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
-                        if  (result.status != nil) && result.status {
+                        if  ((result.status != nil) && result.status != nil) {
                             Logger.log("updateAcceptData \(id) ok")
                         } else {
                             Logger.log("\(result.message)")
@@ -537,7 +537,7 @@ class AccountManager {
                 } else {
                     Logger.log("deleteData response: \(res.text)")
                     if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
-                        if  (result.status != nil) && result.status {
+                        if  ((result.status != nil) && result.status != nil) {
                             Logger.log("deleteData \(id) ok")
                         } else {
                             Logger.log("\(result.message)")

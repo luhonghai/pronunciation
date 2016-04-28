@@ -208,12 +208,12 @@ function btnHelpConfirmDelete(){
 
 
 function getHeader(){
-    return $('#header-company');
+    return $('.header-company');
 }
 
 function changeHeaderCourseName(cName){
     var html = getHeader().html();
-    var change = html.split('>')[0] + " > " + html.split('>')[1] + " > " + cName;
-    getHeader().html(html);
+    var change = html.split('&gt;')[0] + " > " + html.split('&gt;')[1] + " > " + cName;
+    getHeader().html(change);
 
 }

@@ -358,18 +358,27 @@ function parseToArray(str){
     var array = str.split(",");
     return array;
 }
-
+function collapseMenu(){
+    $("#li-reports").find('ul').addClass('in');
+}
+function help(){
+    $('#help-icons').show();
+    $(document).on("click","#help-icons",function() {
+        $("#helpReportModal").modal('show');
+    });
+}
 $(document).ready(function () {
     mouseOverChart();
     clickToThumbnail();
     openReportPreview();
-    $('#help-icons').show();
+    help();
     loadInfo();
     listStudent();
     listClass();
     listCourse();
     changeCourse();
     changeLevel();
+    collapseMenu();
 
 });
 

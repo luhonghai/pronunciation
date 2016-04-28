@@ -181,7 +181,11 @@ public class CMTSERVICES {
                             dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
                         String cpCloneName = cpDao.getById(dto.getCpCloneId()).getCompanyName();
                         dto.setCompanyName(cpCloneName);
-                        dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                        if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED)){
+                            dto.setBackgroundColor(Color.MY_COURSE_EDITED_COLOR);
+                        }else{
+                            dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                        }
                         dto.setTextColor(Color.TEXT_COLOR);
                         if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
                             dto.setPageLink("/edit-copy-course.jsp?idCourse=" + dto.getIdCourse());

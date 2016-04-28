@@ -61,14 +61,8 @@ function listLicensedStudent(){
                 $.each(listStudent, function(i, item){
                     drawStudent(item);
                 });
-                /*
-                for(var i=0;i<listStudent.length;i++){
-                    $("#listStudent").append('<div style="display: block; margin-top: 5px;">' +
-                        '<input type="checkbox" id="check" style="width: 20px;height: 20px;" ' +
-                        'id-column='+listStudent[i].id+'> ' +
-                        '<button class="btn btn-default" style="background-color: #003366;color: #ffffff;border-radius: 5px;">' +
-                        '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listStudent[i].studentName+'</button></div>');
-                }*/
+            }else{
+                clearContentListStudent();
             }
         },
         error:function(e){
@@ -121,6 +115,9 @@ function helpLicenceStudent(){
     });
 }
 
+function collapseMenu(){
+    $("#li-students").find('ul').addClass('in');
+}
 
 $(document).ready(function(){
     $('#checkAll').click(function (e) {
@@ -132,6 +129,7 @@ $(document).ready(function(){
     $('#help-icons').show();
     helpLicenceStudent();
     addStudent();
+    collapseMenu();
     listLicensedStudent();
 });
 

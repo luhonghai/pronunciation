@@ -204,7 +204,7 @@ function edit(){
         $("#editUserName").val(username);
         $("#idedit").val(idd);
         $("#editpassword").val("");
-        $("#editrole").val(role);
+        $("#editrole").val(role).change();
         $("#roleold").val(role);
 
     });

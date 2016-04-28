@@ -1,7 +1,7 @@
 /**
  * Created by lantb on 2016-02-22.
  */
-var currentPopup;
+/*var currentPopup;
 function openPopup(itemData){
     currentPopup = $('#'+ itemData._popupId);
     currentPopup.find(".validateMsg").hide();
@@ -38,7 +38,7 @@ function openPopup(itemData){
         currentPopup.find("#arrowTest").html(nameOfCourse+">" + level.label + ">" + itemData.label);
     }else if(itemData._actionClick == action_edit_lesson){
         clearForm();
-        currentPopup.find("#titlePopupLesson").html("edit lesson");
+        currentPopup.find("#titlePopupLesson").html("lesson management");
         getNameLesson().val(itemData.label);
         getDescriptionLesson().val(itemData._description);
         getTypeLesson().val(itemData._type);
@@ -71,13 +71,14 @@ function openPopup(itemData){
         getTypeTest().val(itemData._type);
         getExplanationTest().val(itemData._description)
         currentPopup.find("#btnDeleteTestWord").show();
-        currentPopup.find("#titlePopupTestWord").html("edit test question");
+        currentPopup.find("#titlePopupTestWord").html("test question management");
         getExplanationTest().attr("idLesson",lesson._idLessonForTest);
         var test = treeAPI.itemData(currentParent);
         var level = treeAPI.parent(currentParent);
         var levelItem = treeAPI.itemData(level);
         var row= nameOfCourse +" > " + levelItem.label+ " > "+test.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
     }
     currentPopup.modal('show');
 }
@@ -91,7 +92,7 @@ function drawListWord(listWord){
             }else if(currentPopup.find(".action").val() == action_edit_question_test){
                 getListWordForTest().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
             }
-
+            loadWeightForWordEdit(list[i]);
         }
 
     }
@@ -105,7 +106,7 @@ function readListMail(txt) {
         output.push(data[i]);
     }
     return output;
-}
+}*/
 function showHelpIconTop(){
     $("#help-icons").show();
 }
@@ -123,7 +124,7 @@ function clickTopHelp(){
     });
 }
 
-function openEditWords(){
+/*function openEditWords(){
     $(document).on("click","#word",function() {
         getListPhonemes().html("");
         getListWeight().html("");
@@ -135,11 +136,12 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#title-add-word').html("word management");
                         drawWord(data);
                     }
                 });
             }else {
-                loadWeightForWordEdit(word);
+                //loadWeightForWordEdit(word);
             }
         } else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
@@ -148,20 +150,24 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#title-add-word').html("word management");
                         drawWord(data);
                     }
                 });
             }else {
-                loadWeightForWordEdit(word);
+                //loadWeightForWordEdit(word);
             }
         }
     });
+}*/
+
+function collapseMenu(){
+    $("#li-courses").find('ul').addClass('in');
 }
-
-
 $(document).ready(function(){
     showHelpIconTop();
+    collapseMenu();
     clickTopHelp();
     clickCopyCourse();
-    openEditWords();
+    //openEditWords();
 });

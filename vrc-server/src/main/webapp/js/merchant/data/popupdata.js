@@ -58,7 +58,7 @@ function initHelpCourseADM(){
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
         "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/test_question_icon.gif'></div>" +
         "<div class='col-sm-11'>7. test questions- you can add one or more questions for each test.</div></div>");
-    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can drag and drop content to move it around within the defined structure current level E.g. you can move lessons around to change the order. Questions and test questions will always be numbered in sequence when you move them. (Q1 is the top question in the tree).</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can drag and drop content to move it around within the current level E.g. you can move lessons around to change the order. Questions and test questions will always be numbered in sequence when you move them. (Q1 is the top question in the tree).</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select the arrows to the left of the buttons to view more or less of the structure as required. </div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>adding and editing course content</strong></div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select a 'file' button in the tree to: </div>");
@@ -68,6 +68,7 @@ function initHelpCourseADM(){
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
         "<label style='border-radius:5px;width: 20px;height: 20px;background-color: #F7964A'>" +
         "</label> add new details</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>Note : </strong> Courses can not be edited while they are assigned to one or more classes. If you need to change course content you will need to remove it from the relevant classes to update, then re-assign. </div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>Copy/paste</strong></div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can right mouse click on an item to copy and paste" +
         " to an appropriate directory file.</div>");
@@ -128,16 +129,16 @@ function initHelpAddWordForTest(){
 
 function initHelpAddTest(){
     var $html = $("<div>");
-    $html.html("<p>1. Add an explanation for the question.</p>");
-    $html.append("<p>This will be displayed on the test page when the question is selected.</p>");
-    $html.append("<p>2. Select the question type.</p>");
-    $html.append("<p>This will determine the scoring functionality for the question’.</p>");
-    $html.append("<p>You will be guided through some steps to set up the scoring.</p>");
-    $html.append("<p>Each question will appear in the order that you add them.</p>");
-    $html.append("<p>You can drag and drop them to re-order them and the numbering will change automatically.</p>");
-    $html.append("<p>A button will be added to the administration page. </p>");
-    $html.append("<p>When you hold the mouse over a test question a pop up will be displayed enabling you to see which test words you have added. </p>");
-    $html.append("<p>When you click on the button, you will be able to edit or delete the test question. </p>");
+    $html.html("<p>Add the percentage score that students will need to attain before they can move to the next level. </p>");
+    $html.append("<p>When the student achieves a percentage equal to or higher than the value specified, the next level will become available for them to select. </p>");
+    $html.append("<p>You can only add one test for each level</p>");
+    $html.append("<p>Test questions are added in a similar way to lesson questions.</p>");
+    //$html.append("<p>You will be guided through some steps to set up the scoring.</p>");
+   // $html.append("<p>Each question will appear in the order that you add them.</p>");
+    //$html.append("<p>You can drag and drop them to re-order them and the numbering will change automatically.</p>");
+   // $html.append("<p>A button will be added to the administration page. </p>");
+   // $html.append("<p>When you hold the mouse over a test question a pop up will be displayed enabling you to see which test words you have added. </p>");
+  //  $html.append("<p>When you click on the button, you will be able to edit or delete the test question. </p>");
 
     return $html;
 }
@@ -243,7 +244,7 @@ function initHelpTopDataMyCourse(){
         "<div style='padding-left:30px;'>created by you or copied and edited</div></p>");
     $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #558ED5'></div>" +
         "<div style='padding-left:30px;'>copied without editing</div></p>");
-    $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #558ED5'></div>" +
+    $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #7030A0'></div>" +
         "<div style='padding-left:30px;'>duplicate of a course you already have in your list" +
         "(You will not be able to publish an exact copy of a course that you already have in ‘my courses’ ." +
         "You need to edit something and publish it to make it available to add to your classes).</div></p>");
@@ -264,5 +265,52 @@ function initHelpTopDataReviewCourse(){
         "You can edit the content and you will need to " +
         "publish it to make it available to add to your classes." +
         "<img style='float:right' src='/images/treeview/duplicated_button.gif' width='30px' height='30px'> </p>");
+    $html.append("<p><strong>Note : </strong>  When you duplicate a course, you will ned to edit something to be able to publish it. " +
+        "The course name will initially be prefixed with the words “copy of”. If you do not want to change any content, you can simply edit the name to remove the extra text.</p>");
+    return $html;
+}
+
+
+function initHelpTopWelcome(){
+    var $html = $("<div class='row' style='padding:0px 10px 0px 10px'>");
+    $html.html("<div style='padding-bottom:10px' class='col-sm-12'>Use the side menu to navigate around the console.</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/classes48x48.gif' style='width: 24px;height: 24px;'> </div>");
+        $html.append("<div class='col-sm-10'><label>classes</label> – see an explanation about class management.</div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/my%20classes48x48.gif' style='width: 24px;height: 24px;'> </div>");
+        $html.append("<div class='col-sm-10'><label>my classes</label> – set up classes and allocate students and courses.</div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/courses48x48.gif' style='width: 24px;height: 24px;'> </div>");
+        $html.append("<div class='col-sm-10'><label>courses</label>  – select from a list of courses that have been shared or create your own course. </div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/my%20courses48x48.gif' style='width: 24px;height: 24px;'> </div>");
+        $html.append("<div class='col-sm-10'><label>my courses</label> – create a set of courses that you can allocate to your classes </div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/reports48x48.gif' style='width: 24px;height: 24px;'> </div>");
+        $html.append("<div class='col-sm-10'><label>reports</label> – view your students' progress :  </div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-1'></div>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/report_help_phonemes.png'> </div>");
+        $html.append("<div class='col-sm-9'><label>lessons</label> – scores for words and phonemes from all lessons taken in the last 3 months. </div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-1'></div>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/report_help_lessons.png'> </div>");
+        $html.append("<div class='col-sm-9'><label>phonemes</label> – scores for phonemes for individual students over a selected time period. </div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div  class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/student48x48.gif' style='width: 24px;height: 24px;'> </div>");
+        $html.append("<div  class='col-sm-10'><label>students</label> – view students that are licenced with your school and add to 'my students'.</div>");
+    $html.append("</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/my%20students48x48.gif' style='width: 24px;height: 24px;'> </div>");
+        $html.append("<div class='col-sm-10'><label>my students</label> – create a list of students that you are teaching invite students to link with you if they do not have a licence.</div>");
+    $html.append("</div>");
     return $html;
 }

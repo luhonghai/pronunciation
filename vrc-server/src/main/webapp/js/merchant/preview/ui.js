@@ -97,10 +97,12 @@ function parseList(words){
 }
 
 function randomWords(words){
-    var array = words.split("-");
-    var rand = Math.floor(Math.random() * array.length);
-    console.log("random : " + rand);
-    return array[rand];
+    if(typeof words != "undefined"){
+        var array = words.split("-");
+        var rand = Math.floor(Math.random() * array.length);
+        return array[rand];
+    }
+
 }
 
 function drawRandomWord(words){
