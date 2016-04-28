@@ -262,7 +262,8 @@ function inviteStudents(){
                     if (data.message == "success") {
                         $("#listMyStudent").empty();
                         listMyStudent();
-                        swal("", "invite student successfully!", "success");
+                        swal("", "invited student successfully", "success");
+                        $("#inviteModal").modal('hide');
                     }else{
                         var listMailError=data.mailError;
                         if(listMailError!=null && listMailError.length>0){
