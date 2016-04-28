@@ -1,11 +1,11 @@
 /**
  * Created by lantb on 2016-02-22.
  */
-var servletAdd = "/TreeAddNodeServlet";
+/*var servletAdd = "/TreeAddNodeServlet";
 var currentPopup;
 var listWord=[];
-var myObject = new Object();
-function openPopup(itemData){
+var myObject = new Object();*/
+/*function openPopup(itemData){
     currentPopup = $('#'+ itemData._popupId);
     currentPopup.find(".validateMsg").hide();
     currentPopup.find(".action").val(itemData._actionClick);
@@ -69,7 +69,7 @@ function openPopup(itemData){
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }else if(itemData._actionClick == action_edit_lesson){
         clearForm();
-        currentPopup.find("#titlePopupLesson").html("edit lesson");
+        currentPopup.find("#titlePopupLesson").html("lesson management");
         getNameLesson().val(itemData.label);
         getDescriptionLesson().val(itemData._description);
         getTypeLesson().val(itemData._type);
@@ -114,6 +114,7 @@ function openPopup(itemData){
         var level = treeAPI.itemData(currentParent);
         var row=nameOfCourse +" > "+level.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
     }else if(itemData._actionClick == action_edit_question_test){
         listWord=[];
         clearForm();
@@ -123,13 +124,14 @@ function openPopup(itemData){
         getTypeTest().val(itemData._type);
         getExplanationTest().val(itemData._description)
         currentPopup.find("#btnDeleteTestWord").show();
-        currentPopup.find("#titlePopupTestWord").html("edit test question");
+        currentPopup.find("#titlePopupTestWord").html("test question management");
         getExplanationTest().attr("idLesson",lesson._idLessonForTest);
         var test = treeAPI.itemData(currentParent);
         var level = treeAPI.parent(currentParent);
         var levelItem = treeAPI.itemData(level);
         var row= nameOfCourse +" > "+levelItem.label+ " > "+test.label;
         getExplanationTest().attr("row",row);
+        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
     }
 
     currentPopup.modal('show');
@@ -144,7 +146,7 @@ function drawListWord(listWord){
             }else if(currentPopup.find(".action").val() == action_edit_question_test){
                 getListWordTest().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
             }
-
+            loadWeightForWordEdit(list[i]);
         }
 
     }
@@ -160,7 +162,7 @@ function readListMail(txt) {
         output.push(data[i]);
     }
     return output;
-}
+}*/
 
 
 
@@ -288,7 +290,7 @@ function showHelpIconTop(){
     $("#help-icons").show();
 }
 
-function showAddWord(){
+/*function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
         getWordValidateMessage().hide();
         var idLesson= treeAPI.itemData(currentParent).id;
@@ -311,6 +313,7 @@ function showAddWord(){
         getAddWord().removeAttr('readonly');
         $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
+        $("#addWordModal").find('#title-add-word').html("word management");
     });
 }
 
@@ -336,12 +339,15 @@ function showAddWordForTest(){
         getAddWord().removeAttr('readonly');
         $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
+        $("#addWordModal").find('#title-add-word').html("add test word");
     });
-}
+}*/
 function loadPhoneme() {
     $(document).on("click","#loadPhonemes",function() {
         getLoadPhoneme().attr("disabled", true);
         if(validateWord()){
+            var word = getAddWord().val().toLowerCase();
+            getAddWord().val(word);
             loadPhonemes();
         }
     })
@@ -358,48 +364,37 @@ function btnPublish(){
 
 }
 
-function appendWord(addOrEdit,nameWord){
-    if(addOrEdit=="add"){
+/*function appendWord(type){
+    if(type=="add"){
         if(listWord !=null && listWord.length>0){
-            var n=0;
+            getListWord().html("");
             $.each(listWord, function(i){
-                if(listWord[i].nameWord === nameWord) {
-                    n++;
-                }
+                getListWord().append(' <div style="margin-top: 5px;">' +
+                    '<p id="word" style="display: inline;background-color: rgb(85, 142, 213);' +
+                    'color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">'
+                    + listWord[i].nameWord + '</p>' +
+                    '<i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;' +
+                    'vertical-align: middle;" ' +
+                    'title="remove word"  id="idWord" ></i> </div>');
             });
-            if(n==0){
-                getListWord().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
-            }
-        }else{
-            getListWord().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
         }
-
-
-    }else if(addOrEdit=="addWordTest") {
+    }else if(type=="addWordTest") {
         if(listWord !=null && listWord.length>0){
-            var n=0;
+            getListWordForTest().html("");
             $.each(listWord, function (i) {
-                if (listWord[i].nameWord === nameWord) {
-                    n++;
-                }
+                getListWordForTest().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + listWord[i].nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
             });
-            if(n==0){
-                getListWordForTest().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
-            }
-        }else{
-            getListWordForTest().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
+
         }
-
     }
-}
+}*/
 
-function saveWord(){
+/*function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var addOrEdit=$("#AddOrEditWord").val();
         var nameWord=$("#addWord").val();
         var idWord=$("#addWord").attr("idWord");
         if(validateWord()) {
-            appendWord(addOrEdit, nameWord);
             var listPhonemeName = getListPhonemes();
             var output = [];
 
@@ -416,19 +411,42 @@ function saveWord(){
                 });
             });
             $("#addWordModal").modal('hide');
-            //output.clear();
-            listWord.push({
-                idWord: idWord,
-                nameWord: nameWord,
-                listWeightPhoneme: output
-            });
-            console.log(listWord);
+            pushToList(idWord,nameWord,output);
+            appendWord(addOrEdit);
+
         }
     });
 
-}
+}*/
+/*function pushToList(idWord,word,listWeight){
+    if(listWord !=null && listWord.length>0){
+        var existed = false;
+        var index_update = 0;
+        $.each(listWord, function(i){
+            if(listWord[i].nameWord === word) {
+                existed = true;
+                index_update = i;
+            }
+        });
+        if(existed){
+            listWord[index_update].listWeightPhoneme = listWeight;
+        }else{
+            listWord.push({
+                idWord: idWord,
+                nameWord: word,
+                listWeightPhoneme: listWeight
+            });
+        }
+    }else{
+        listWord.push({
+            idWord: idWord,
+            nameWord: word,
+            listWeightPhoneme: listWeight
+        });
+    }
+}*/
 
-function removeWord(){
+/*function removeWord(){
     $(document).on("click","#idWord",function() {
         if(currentPopup.find(".action").val() == action_add_question) {
             var word= $(this).closest("div").find('p').text();
@@ -465,9 +483,8 @@ function removeWord(){
                         return false;
                     }
                 });
-                $(this).closest("div").remove();
-            }else{
                 removeWords(word);
+                $(this).closest("div").remove();
             }
         }else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
@@ -478,15 +495,14 @@ function removeWord(){
                         return false;
                     }
                 });
-                $(this).closest("div").remove();
-            }else{
                 removeWords(word);
+                $(this).closest("div").remove();
             }
         }
     });
-}
+}*/
 
-function openEditWords(){
+/*function openEditWords(){
     $(document).on("click","#word",function() {
         getListPhonemes().html("");
         getListWeight().html("");
@@ -520,11 +536,12 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#title-add-word').html("test word management");
                         drawWord(data);
                     }
                 });
             }else {
-                loadWeightForWordEdit(word);
+                /!*loadWeightForWordEdit(word);*!/
             }
         } else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
@@ -533,15 +550,16 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#title-add-word').html("word management");
                         drawWord(data);
                     }
                 });
             }else {
-                loadWeightForWordEdit(word);
+                /!*loadWeightForWordEdit(word);*!/
             }
         }
     });
-}
+}*/
 
 function btnSaveQuestion(){
     $(document).on("click","#btnSaveQuestion",function() {
@@ -631,7 +649,12 @@ function clickHelpAdd(){
             getPopUpHelp().find(".modal-body").empty();
             getPopUpHelp().find(".modal-body").html(initHelpDelete());
         }else if(id=="helpAddWord"){
-            getPopUpHelp().find(".modal-title").html("test word management");
+            var id = currentPopup.attr('id');
+            if(id == 'popupQuestion'){
+                getPopUpHelp().find(".modal-title").html("word management");
+            }else{
+                getPopUpHelp().find(".modal-title").html("test word management");
+            }
             getPopUpHelp().find(".modal-body").empty();
             getPopUpHelp().find(".modal-body").html(initHelpAddWord());
         }
@@ -662,21 +685,26 @@ function confirmDelete(){
 
 }
 
+function collapseMenu(){
+    $("#li-courses").find('ul').addClass('in');
+}
+
 $(document).ready(function(){
+    collapseMenu();
     btnDeleteQuestionForTest();
     btnSaveQuestionForTest();
-    showAddWordForTest();
-    openEditWords();
-    removeWord();
+    //showAddWordForTest();
+    //openEditWords();
+    //removeWord();
     btnDeleteQuestion();
     //openEditWord();
     closePopupQuestion();
     btnSaveQuestion();
-    saveWord();
+    //saveWord();
     clickTopHelp();
     clickHelpAdd();
     loadPhoneme();
-    showAddWord();
+    //showAddWord();
     btnSaveCourse();
     btnDeleteCourse();
     btnSaveLesson();
@@ -688,7 +716,7 @@ $(document).ready(function(){
     btnSaveTest();
     btnDeleteTest();
     showHelpIconTop();
-    enablePublishBtn();
+    //enablePublishBtn();
     btnPublish();
     confirmDelete();
 });

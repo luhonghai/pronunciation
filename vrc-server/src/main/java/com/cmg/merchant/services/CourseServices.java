@@ -9,6 +9,7 @@ import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.dao.company.CPDAO;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.course.CMLDAO;
 import com.cmg.merchant.dao.lessons.LMODAO;
@@ -19,6 +20,7 @@ import com.cmg.merchant.dao.test.TDAO;
 import com.cmg.merchant.dao.test.TMLDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.services.treeview.DataServices;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
@@ -63,12 +65,12 @@ public class CourseServices {
     public String addLevelToCourse(String idCourse, String nameLv, String descriptionLv) {
         LevelServices lvServices = new LevelServices();
         if(lvServices.existedName(idCourse,null,nameLv)){
-           return ERROR + " : name already existed!";
+           return ERROR + " : You already have a level with this name in your course";
         }
         String idLevel = UUIDGenerator.generateUUID().toString();
         String message = lvServices.addLevelToDB(idLevel,nameLv, descriptionLv);
         if (message.indexOf(ERROR) != -1) {
-            return ERROR;
+            return ERROR + " : an error has been occurred in server";
         }
         message = addMappingLevel(idCourse, idLevel);
         return message;
@@ -212,6 +214,22 @@ public class CourseServices {
      * @param idCourse
      * @return
      */
+    public String getCompanyCreatedCourse(String idCourse){
+        CMTDAO dao = new CMTDAO();
+        CPDAO cpDao = new CPDAO();
+        try {
+            CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+            String idCompany = cmt.getCpID();
+            return cpDao.getById(idCompany).getCompanyName();
+        }catch (Exception e){}
+        return null;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
     public String deleteCourse(String idCourse){
         CDAO cDao = new CDAO();
         CMTDAO mapDao = new CMTDAO();
@@ -224,7 +242,7 @@ public class CourseServices {
         } catch (Exception e) {
             logger.error("can not get name of course : " + e);
         }
-        return ERROR;
+        return ERROR + ": an error has been occurred in server";
     }
 
     /**
@@ -244,7 +262,7 @@ public class CourseServices {
         } catch (Exception e) {
             logger.error("can not get name of course : " + e);
         }
-        return ERROR;
+        return ERROR + ": an error has been occurred in server";
     }
 
     /**
@@ -319,6 +337,27 @@ public class CourseServices {
         return SUCCESS;
     }
 
+    public String enableAddLvButton(String idCourse){
+        LvDAO dao = new LvDAO();
+        DataServices services = new DataServices();
+        try {
+            ArrayList<Level> listLv = (ArrayList<Level>) dao.listIn(idCourse);
+            if(listLv!=null && listLv.size()>0){
+                for(Level lv : listLv){
+                    Test t  =services.getTestDB(lv.getId());
+                    if(t == null){
+                        return ERROR;
+                    }
+                }
+            }else{
+                return SUCCESS;
+            }
+
+        }catch (Exception e){
+            return ERROR;
+        }
+        return SUCCESS;
+    }
 
 }
 

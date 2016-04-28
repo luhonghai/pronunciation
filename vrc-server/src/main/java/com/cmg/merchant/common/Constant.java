@@ -5,6 +5,8 @@ package com.cmg.merchant.common;
  */
 public class Constant {
 
+    public static String CMG_COURSE_DEMO = "Claybourne McGregor Consulting demo";
+
     public static String STATUS_PUBLISH = "publish";
     public static String STATUS_NOT_PUBLISH = "unpublish";
 

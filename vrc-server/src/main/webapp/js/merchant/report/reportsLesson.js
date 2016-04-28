@@ -37,7 +37,9 @@ function listClasses(){
                 $('#listClass').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
                 $('#listClass').multiselect('refresh');
             }else{
-                swal("", "an error has been occurred in server", "error");
+                getDivSelectionFilter().hide();
+                getDivNotification().show();
+                //swal("", "an error has been occurred in server", "error");
             }
         },
         error: function () {
@@ -99,10 +101,19 @@ function loadInfo(){
         }
     })
 }
-
-$(document).ready(function(){
+function collapseMenu(){
+    $("#li-reports").find('ul').addClass('in');
+}
+function help(){
     $('#help-icons').show();
+    $(document).on("click","#help-icons",function() {
+        $("#helpReportModal").modal('show');
+    });
+}
+$(document).ready(function(){
+    help();
     onChangeClass();
     loadInfo();
     listClasses();
+    collapseMenu();
 });

@@ -54,7 +54,7 @@ import java.io.IOException;
                     session.setAttribute("password",admin.getPassword());
                     session.setAttribute("role",admin.getRole());
                     if(admin.getRole()== Constant.ROLE_STAFF || admin.getRole()==Constant.ROLE_TEACHER){
-                        TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
+                        TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
                         teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
                         if(teacherMappingCompany!=null) {
                             session.setAttribute(SessionUtil.ATT_CPNAME, teacherMappingCompany.getCompany());

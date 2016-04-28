@@ -50,6 +50,11 @@ function showPoUpObjDescription(){
         getLessonScreen().find('.body-popup-obj').find('.obj-description').html(description);
         getLessonScreen().find('.body-popup-obj').show();
     });
+    $(document).on('click','#circle-popup-obj',function(){
+        var description = $(this).attr('description');
+        getLessonScreen().find('.body-popup-obj').find('.obj-description').html(description);
+        getLessonScreen().find('.body-popup-obj').show();
+    });
 }
 function previewCourse(){
     $(document).on("click","#preview",function(){

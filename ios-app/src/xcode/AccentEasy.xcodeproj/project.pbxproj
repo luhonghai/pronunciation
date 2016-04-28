@@ -220,6 +220,7 @@
 		9B72D1401C9C03EB00297470 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B72D13F1C9C03EB00297470 /* Logger.swift */; };
 		9B72D1511C9C093200297470 /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B72D1501C9C093200297470 /* NSLogger.framework */; };
 		9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */; };
+		9B83ED701CD1C1B50059288A /* menu-invitation.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B83ED6F1CD1C1B50059288A /* menu-invitation.png */; settings = {ASSET_TAGS = (); }; };
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
 		9B961CD31C60BC29001FB87E /* WordCollectionDbApdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */; };
@@ -784,6 +785,7 @@
 		9B72D1201C9BABD600297470 /* LessonCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonCollectionController.swift; sourceTree = "<group>"; };
 		9B72D13F1C9C03EB00297470 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhonemeScore.swift; path = Data/Entity/PhonemeScore.swift; sourceTree = "<group>"; };
+		9B83ED6F1CD1C1B50059288A /* menu-invitation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-invitation.png"; sourceTree = "<group>"; };
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollectionDbApdater.swift; path = Data/SQLite/WordCollectionDbApdater.swift; sourceTree = "<group>"; };
@@ -2079,6 +2081,7 @@
 				C1D372A51CCE210B001D56B4 /* connect.png */,
 				C1D372A61CCE210B001D56B4 /* help.png */,
 				C1D372A71CCE210B001D56B4 /* invite button waiting.png */,
+				9B83ED6F1CD1C1B50059288A /* menu-invitation.png */,
 				C1D372A81CCE210B001D56B4 /* invite button.png */,
 				C1D372A91CCE210B001D56B4 /* invite teacher.png */,
 				C1D372AA1CCE210B001D56B4 /* teacher's course.png */,
@@ -2442,6 +2445,7 @@
 				C16CD2D01C44B1EC00537461 /* rounded_corner_color_orange_dialog.xml in Resources */,
 				C1D372B41CCE210B001D56B4 /* teacher's course.png in Resources */,
 				C153224E1CBA5F9E00629085 /* about.html in Resources */,
+				9B83ED701CD1C1B50059288A /* menu-invitation.png in Resources */,
 				C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */,
 				C15EDC021C97B85F006E7BA3 /* LSPopupVC.xib in Resources */,
 				C16CD2EF1C44B1EC00537461 /* ic_slider_down.png in Resources */,

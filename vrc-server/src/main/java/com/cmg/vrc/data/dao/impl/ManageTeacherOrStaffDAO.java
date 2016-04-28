@@ -17,27 +17,19 @@ import java.util.List;
 public class ManageTeacherOrStaffDAO {
     public List<TeacherOrStaffList> listAll(int start, int length,String search,int column,String order,String idCompany) {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
-        TypeMetadata metaStaff = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        StringBuffer first = new StringBuffer();
-        StringBuffer second = new StringBuffer();
-        String firstQuery = "select id,teacherName as username , idCompany, company ,'Teacher' as role  from  " + metaTeacher.getTable() + " where idCompany='"+idCompany+"' and isDeleted=false";
-        String secondQuery = "select id,StaffName as username , idCompany, company , 'Staff' as role from  " + metaStaff.getTable() + " where idCompany='"+idCompany+"' and isDeleted=false";
-        first.append(firstQuery);
-        second.append(secondQuery);
-        first.append(" and (teacherName LIKE '%" + search + "%')");
-        second.append(" and (StaffName LIKE '%" + search + "%')");
-        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
+        query.append("Select id,username , idCompany, company,type from TEACHERMAPPINGCOMPANY ");
+        query.append( " where idCompany='"+idCompany+"' and isDeleted=false" );
+        query.append(" and username LIKE '%" + search + "%'");
         if (column == 0 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.username ASC");
+            query.append(" ORDER BY username ASC");
         } else if (column == 0 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.username DESC");
+            query.append(" ORDER BY username DESC");
         }
         if (column == 1 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.role ASC");
+            query.append(" ORDER BY type ASC");
         } else if (column == 1 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.role DESC");
+            query.append(" ORDER BY type DESC");
         }
         query.append(" limit " + start + "," + length);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
@@ -72,15 +64,14 @@ public class ManageTeacherOrStaffDAO {
                 } else {
                     teacherOrStaffList.setRole(null);
                 }
-
                 teacherOrStaffLists.add(teacherOrStaffList);
             }
 
             return teacherOrStaffLists;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         } finally {
-
             q.closeAll();
             pm.close();
         }
@@ -89,28 +80,10 @@ public class ManageTeacherOrStaffDAO {
 
     public List<TeacherOrStaffList> listAll(String search,int column,String order,String idCompany) {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
-        TypeMetadata metaStaff = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        StringBuffer first = new StringBuffer();
-        StringBuffer second = new StringBuffer();
-        String firstQuery = "select id,teacherName as username, idCompany, company ,'Teacher' as role  from  " + metaTeacher.getTable() + " where idCompany='"+idCompany+"' and isDeleted=false ";
-        String secondQuery = "select id,StaffName as username, idCompany, company , 'Staff' as role from  " + metaStaff.getTable() + " where idCompany='"+idCompany+"' and isDeleted=false";
-        first.append(firstQuery);
-        second.append(secondQuery);
-        first.append(" and (teacherName LIKE '%" + search + "%')");
-        second.append(" and (StaffName LIKE '%" + search + "%')");
-        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
-        if (column == 0 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.username ASC");
-        } else if (column == 0 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.username DESC");
-        }
-        if (column == 1 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.role ASC");
-        } else if (column == 1 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.role DESC");
-        }
+        query.append("Select id,username , idCompany, company,type from TEACHERMAPPINGCOMPANY ");
+        query.append( " where idCompany='"+idCompany+"' and isDeleted=false" );
+        query.append(" and username LIKE '%" + search + "%'");
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         List<TeacherOrStaffList> teacherOrStaffLists=new ArrayList<>();
         try {
@@ -149,6 +122,7 @@ public class ManageTeacherOrStaffDAO {
 
             return teacherOrStaffLists;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         } finally {
 

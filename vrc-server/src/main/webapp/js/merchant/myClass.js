@@ -7,8 +7,8 @@ function listMyClasses(){
            action:"listMyClass"
         },
         success: function (data) {
-            if(data.message=="success" && data.listclass!=null){
-                var listMyClass=data.listclass;
+            if(data.message=="success" && data.list!=null){
+                var listMyClass=data.list;
                 for(var i=0;i<listMyClass.length;i++){
                     var definition=listMyClass[i].definition;
                     var $button = $('<div class="col-sm-12" style="padding-bottom: 20px;padding-left:0px">' +
@@ -23,7 +23,7 @@ function listMyClasses(){
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            swal("", "Could not connect to server", "error");
         }
 
     });
@@ -49,7 +49,11 @@ function openAdd(){
                     if(data.courses!=null && data.courses.length>0){
                         var items=data.courses;
                         $(items).each(function(){
-                            $("#addCourses").append('<option title="'+this.description+'" value="' + this.id + '">' + this.name + '</option>');
+                            var name = this.name;
+                            if(name.length > 40){
+                                name = name.substring(0, 40) + '...';
+                            }
+                            $("#addCourses").append('<option title="'+this.name+'" value="' + this.id + '">' + name + '</option>');
                         });
                     }
                     $('#addCourses').multiselect('destroy');
@@ -71,7 +75,7 @@ function openAdd(){
                 }
             },
             error: function () {
-                swal("Error!", "Could not connect to server", "error");
+                swal("", "Could not connect to server", "error");
             }
 
         });
@@ -110,14 +114,14 @@ function addClass(){
                         $("#add").modal('hide');
                         $("#listMyClass").empty();
                         listMyClasses();
-                        swal("", "add class successfully", "success");
+                        swal("", "You have added class successfully", "success");
                     }else{
                         $("#classExits").find("#invalidClass").html(classname);
                         $("#classExits").modal('show');
                     }
                 },
                 error: function () {
-                    swal("Error!", "Could not connect to server", "error");
+                    swal("", "Could not connect to server", "error");
                 }
 
             });
@@ -141,7 +145,20 @@ function validateFormAdd(){
     }else{
         $("#add").find(".validateMsg").hide();
     }
-
+    var courses=[];
+    var students = [];
+    $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
+    $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
+    if(courses.length == 0 ){
+        $("#add").find(".validateMsg").html("please choose a course");
+        $("#add").find(".validateMsg").show();
+        return false;
+    }
+    if(students.length == 0 ){
+        $("#add").find(".validateMsg").html("please choose a student");
+        $("#add").find(".validateMsg").show();
+        return false;
+    }
     return true;
 }
 
@@ -177,7 +194,7 @@ function deleteClass(){
                         listMyClasses();
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
-                        swal("", "delete class successfully", "success");
+                        swal("", "You have deleted class successfully", "success");
                     }else if (data == "not exist"){
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
@@ -206,7 +223,6 @@ function openEdit(){
         $("#editDefinition").val(difinition);
         $("#edits").find("#delete").attr("name", classname);
         $("#edits").find("#delete").attr("idClass", idd);
-        $("#edits").modal('show');
         $.ajax({
             url: "ClassServlet",
             type: "POST",
@@ -217,6 +233,7 @@ function openEdit(){
             },
             success: function (data) {
                 if(data.message=="success"){
+
                     $("#editCourses").empty();
                     if((data.courses!=null && data.courses.length>0) || (data.coursesOnClass!=null && data.coursesOnClass.length>0) ){
                         var item=data.coursesOnClass;
@@ -246,8 +263,9 @@ function openEdit(){
                     $('#editStudents').multiselect('destroy');
                     $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     $('#editStudents').multiselect('refresh');
+                    $("#edits").modal('show');
                 }else{
-                    swal("", "Could not connect to server", "error");
+                    swal("", "an error has been occured in server", "error");
                 }
             },
             error: function () {
@@ -288,7 +306,7 @@ function editClass(){
                     $("#listMyClass").empty();
                     listMyClasses();
                     $("#edits").modal('hide');
-                    swal("", "update class successfully", "success");
+                    swal("", "You have updated class successfully", "success");
                 }else if (data == "not exist"){
                     $("#deletes").modal('hide');
                     swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
@@ -325,8 +343,13 @@ function helpEditMyClass(){
     });
 }
 
+function collapseMenu(){
+    $("#li-class").find('ul').addClass('in');
+}
+
 $(document).ready(function(){
     $('#help-icons').show();
+    collapseMenu();
     editClass();
     cancelDelete();
     deletes();

@@ -134,49 +134,36 @@
 						<a href="teacher-management.jsp"><i class="fa fa-users"></i> Teacher Management </a>
 						</li>
 					<%}%>
-						<li>
-							<a href="#"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> class </a>
+						<li id="li-class">
+							<a href="class.jsp"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> classes </a>
 							<ul>
-								<li>
-									<a href="class.jsp"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> classes </a>
-								</li>
 								<li>
 									<a href="my-classes.jsp"><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px;">  my classes </a>
 								</li>
 							</ul>
 						</li>
-						<li>
-							<a href="#"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> course </a>
+						<li id="li-courses">
+							<a href="main-courses.jsp"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> courses </a>
 							<ul>
-								<li>
-									<a href="main-courses.jsp"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> courses </a>
-								</li>
 								<li>
 									<a href="my-courses.jsp"><img src="/images/teacher/my%20courses48x48.gif" style="width: 24px;height: 24px;">  my courses </a>
 								</li>
 							</ul>
 						</li>
-						<li>
-							<a href="#"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> report </a>
+						<li id="li-reports">
+							<a href="reports.jsp"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> reports </a>
 							<ul>
 								<li>
-									<a href="reports.jsp"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> reports </a>
+									<a href="reports-lesson.jsp"><img src="/images/teacher/report_help_lessons.png" style="width: 24px;height: 24px;">  lessons </a>
 								</li>
 								<li>
-									<a href="reports-lesson.jsp"><i class="fa fa-envelope-o"></i>  lessons </a>
-								</li>
-								<li>
-									<a href="reports-phonemes.jsp"><i class="fa fa-envelope-o"></i>  phonemes </a>
+									<a href="reports-phonemes.jsp"><img src="/images/teacher/report_help_phonemes.png" style="width: 24px;height: 24px;">  phonemes </a>
 								</li>
 							</ul>
 						</li>
-
-						<li>
-							<a href="#"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> student </a>
+						<li id="li-students">
+							<a href="licensed-students.jsp"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> students </a>
 							<ul>
-								<li>
-									<a href="licensed-students.jsp"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> students </a>
-								</li>
 								<li>
 									<a href="my-students.jsp"><img src="/images/teacher/my%20students48x48.gif" style="width: 24px;height: 24px;">  my students</a>
 								</li>
@@ -213,4 +200,12 @@
 </nav>
 <!-- /Header -->
 
-
+<script>
+	$('#side-menu li').on('click', function() {
+		var $el = $(this);
+		var $a = $el.find('a');
+		if ($a.length && $a.attr('href')) {
+			location.href = $a.attr('href');
+		}
+	});
+</script>

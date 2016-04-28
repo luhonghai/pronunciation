@@ -12,6 +12,7 @@ function listStudents(){
             success: function (data) {
                 if(data.message=="success"){
                     $("#listUsers").empty();
+                    $('#listUsers').removeAttr("disabled");
                     if(data.listStudent!=null && data.listStudent.length>0){
                         var items=data.listStudent;
                         for(var i=0;i<items.length;i++){
@@ -23,7 +24,10 @@ function listStudents(){
                     $('#listUsers').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
                     $('#listUsers').multiselect('refresh');
                 }else{
-                    swal("", data.message.split(":")[1], "error");
+                    $('#listUsers').attr("disabled","disabled");
+                    $('#listUsers').multiselect('destroy');
+                    $('#listUsers').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
+                    $('#listUsers').multiselect('refresh');
                 }
             },
             error: function () {
@@ -55,6 +59,8 @@ function listPhonemes(){
                 $('#listPhonemes').multiselect('destroy');
                 $('#listPhonemes').multiselect({ enableFiltering: true, buttonWidth: '50px'});
                 $('#listPhonemes').multiselect('refresh');
+                swal("", "an error has been occurred in server", "error");
+                $('.row').hide();
             }
 
         },
@@ -150,7 +156,10 @@ function dateFrom(){
         var dateF = $(this).val();
         var dateT = $('#dateTo').val();
         if(dateF!= "" && dateF.length > 0 && dateT!="" && dateT.length > 0){
-            $("#loadInfo").removeAttr("disabled");
+            var sName = $('#listUsers option:selected').val();
+            if(sName!=null && typeof sName !="undefined"){
+                $("#loadInfo").removeAttr("disabled");
+            }
         }else{
             $("#loadInfo").attr("disabled","disabled");
         }
@@ -163,15 +172,27 @@ function dateTo(){
         var dateF =  $('#dateFrom').val();
         var dateT = $(this).val();
         if(dateF!= "" && dateF.length > 0 && dateT!="" && dateT.length > 0){
-            $("#loadInfo").removeAttr("disabled");
+            var sName = $('#listUsers option:selected').val();
+            if(sName!=null && typeof sName !="undefined"){
+                $("#loadInfo").removeAttr("disabled");
+            }
         }else{
             $("#loadInfo").attr("disabled","disabled");
         }
     });
 }
 
-$(document).ready(function(){
+function collapseMenu(){
+    $("#li-reports").find('ul').addClass('in');
+}
+function help(){
     $('#help-icons').show();
+    $(document).on("click","#help-icons",function() {
+        $("#helpReportModal").modal('show');
+    });
+}
+$(document).ready(function(){
+    help();
     dateFrom();
     dateTo();
     loadInfo();
@@ -179,5 +200,6 @@ $(document).ready(function(){
     listPhonemes();
     openReportPreview();
     mouseOverChart();
+    collapseMenu();
 });
 

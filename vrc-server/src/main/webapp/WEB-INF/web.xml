@@ -751,6 +751,16 @@
         <url-pattern>/DragDropServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SyncCoursePerStudentServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.SyncCoursePerStudentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SyncCoursePerStudentServlet</servlet-name>
+        <url-pattern>/SyncCoursePerStudentServlet</url-pattern>
+    </servlet-mapping>
+
+
 
 
 

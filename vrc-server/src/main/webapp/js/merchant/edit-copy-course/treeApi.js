@@ -63,6 +63,7 @@ function initTree(){
     treeAPI.init({
         success: function(item) {
             this.open(item);
+            enableAddLevel();
         }
     });
     theTree.removeClass("aciTree0");

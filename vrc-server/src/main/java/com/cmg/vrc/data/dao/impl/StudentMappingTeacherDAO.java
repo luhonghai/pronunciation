@@ -38,11 +38,6 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         List<StudentMappingTeacher> listStudent = list("WHERE teacherName == :1 && status == :2", teacherName, "accept");
         return listStudent;
     }
-//    public List<StudentMappingTeacher> getByPending(String studentName) throws Exception {
-//        List<StudentMappingTeacher> listStudent = list("WHERE studentName == :1 && status == :2 && mappingBy == :3", studentName,"pending","teacher");
-//        return listStudent;
-//    }
-
 
     public StudentMappingTeacher getByStudentAndTeacher(String student,String teacherName) throws Exception {
         List<StudentMappingTeacher> listStudent = list("WHERE studentName == :1 && teacherName == :2 && isDeleted == :3",student, teacherName,false);
@@ -171,15 +166,15 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
     public List<StudentMappingTeacher> getMyStudents(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
-        StringBuffer first=new StringBuffer();
-        StringBuffer second=new StringBuffer();
+        //StringBuffer first=new StringBuffer();
+        //StringBuffer second=new StringBuffer();
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' or status='reject'";
-        String secondQuery = "select id, studentName, status, licence, mappingBy from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=false";
-        first.append(firstQuery);
-        second.append(secondQuery);
-        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
-        query.append(" ORDER BY tmp.studentName ASC");
+        query.append("select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and  isDeleted=false");
+       // String secondQuery = "select id, studentName, status, licence, mappingBy from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and licence=false and isDeleted=false";
+        //first.append(firstQuery);
+       // second.append(secondQuery);
+        //query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
+        query.append(" ORDER BY studentName");
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();

@@ -81,7 +81,7 @@
                                         <div class='container-selection'>
                                             <a class="btn selection selection-popup-obj">
                                                 <label class="name">objectives</label>
-                                                <div class="circle circle-question">?</div>
+                                                <div id="circle-popup-obj" class="circle circle-question">?</div>
                                             </a>
                                         </div>
                                     </div>
@@ -102,11 +102,10 @@
                                             <div class="big-circle center-block"></div>
                                         </div>
                                         <div class="col-sm-12 contain-word">
-                                            <label>SAT</label>
+                                            <label></label>
                                         </div>
                                         <div class="col-sm-12 description-question">
-                                            <label>Practise words with /t/ at
-                                                the end e.g. f-e-e-t</label>
+                                            <label></label>
                                         </div>
                                         <div class="col-sm-12 contain-circle-right-label">
                                             <div class="circle circle-right-label"></div>
