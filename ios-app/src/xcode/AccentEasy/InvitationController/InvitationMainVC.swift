@@ -282,12 +282,8 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
-        weakSelf!.showLoadding()
-        DeviceManager.showLockScreen()
         AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
-                DeviceManager.hideLockScreen()
-                weakSelf!.hidenLoadding()
                 weakSelf!.dismissPopupViewController(.Fade)
                 if success {
                     userProfile.invitationData[index].status = InvitationStatus.reject
@@ -308,12 +304,8 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
-        weakSelf!.showLoadding()
-        DeviceManager.showLockScreen()
         AccountManager.updateAcceptData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
-                DeviceManager.hideLockScreen()
-                weakSelf!.hidenLoadding()
                 weakSelf!.dismissPopupViewController(.Fade)
                 if success {
                     userProfile.invitationData[index].status = InvitationStatus.accept
