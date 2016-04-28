@@ -265,14 +265,29 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         self.dismissPopupViewController(.Fade)
     }
     
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+    
     //touch ok in InviAcceptPopupVC
     func inviAcceptPopupVCTouchOK(sender: AnyObject){
         Logger.log(sender)
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
+        DeviceManager.showLockScreen()
         AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
+                DeviceManager.hideLockScreen()
+                weakSelf!.hidenLoadding()
                 weakSelf!.dismissPopupViewController(.Fade)
                 if success {
                     userProfile.invitationData[index].status = InvitationStatus.reject
@@ -293,8 +308,12 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
+        DeviceManager.showLockScreen()
         AccountManager.updateAcceptData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
+                DeviceManager.hideLockScreen()
+                weakSelf!.hidenLoadding()
                 weakSelf!.dismissPopupViewController(.Fade)
                 if success {
                     userProfile.invitationData[index].status = InvitationStatus.accept
@@ -314,8 +333,12 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         Logger.log(index)
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
+        DeviceManager.showLockScreen()
         AccountManager.updateDeleteData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
+                DeviceManager.hideLockScreen()
+                weakSelf!.hidenLoadding()
                 if success {
                     //userProfile.invitationData[index].status = InvitationStatus.accept
                     userProfile.invitationData.removeAtIndex(index)
