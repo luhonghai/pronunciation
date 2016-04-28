@@ -1,7 +1,7 @@
 /**
  * Created by lantb on 2016-02-22.
  */
-var currentPopup;
+/*var currentPopup;
 function openPopup(itemData){
     currentPopup = $('#'+ itemData._popupId);
     currentPopup.find(".validateMsg").hide();
@@ -106,7 +106,7 @@ function readListMail(txt) {
         output.push(data[i]);
     }
     return output;
-}
+}*/
 function showHelpIconTop(){
     $("#help-icons").show();
 }
@@ -124,7 +124,7 @@ function clickTopHelp(){
     });
 }
 
-function openEditWords(){
+/*function openEditWords(){
     $(document).on("click","#word",function() {
         getListPhonemes().html("");
         getListWeight().html("");
@@ -159,7 +159,7 @@ function openEditWords(){
             }
         }
     });
-}
+}*/
 
 function collapseMenu(){
     $("#li-courses").find('ul').addClass('in');
@@ -169,5 +169,5 @@ $(document).ready(function(){
     collapseMenu();
     clickTopHelp();
     clickCopyCourse();
-    openEditWords();
+    //openEditWords();
 });

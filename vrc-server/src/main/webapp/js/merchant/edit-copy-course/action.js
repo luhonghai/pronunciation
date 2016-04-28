@@ -1,11 +1,11 @@
 /**
  * Created by lantb on 2016-02-22.
  */
-var servletAdd = "/TreeAddNodeServlet";
+/*var servletAdd = "/TreeAddNodeServlet";
 var currentPopup;
 var listWord=[];
-var myObject = new Object();
-function openPopup(itemData){
+var myObject = new Object();*/
+/*function openPopup(itemData){
     currentPopup = $('#'+ itemData._popupId);
     currentPopup.find(".validateMsg").hide();
     currentPopup.find(".action").val(itemData._actionClick);
@@ -162,7 +162,7 @@ function readListMail(txt) {
         output.push(data[i]);
     }
     return output;
-}
+}*/
 
 
 
@@ -290,7 +290,7 @@ function showHelpIconTop(){
     $("#help-icons").show();
 }
 
-function showAddWord(){
+/*function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
         getWordValidateMessage().hide();
         var idLesson= treeAPI.itemData(currentParent).id;
@@ -341,7 +341,7 @@ function showAddWordForTest(){
         $("#addWord").attr("disabled",false);
         $("#addWordModal").find('#title-add-word').html("add test word");
     });
-}
+}*/
 function loadPhoneme() {
     $(document).on("click","#loadPhonemes",function() {
         getLoadPhoneme().attr("disabled", true);
@@ -364,7 +364,7 @@ function btnPublish(){
 
 }
 
-function appendWord(type){
+/*function appendWord(type){
     if(type=="add"){
         if(listWord !=null && listWord.length>0){
             getListWord().html("");
@@ -387,9 +387,9 @@ function appendWord(type){
 
         }
     }
-}
+}*/
 
-function saveWord(){
+/*function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var addOrEdit=$("#AddOrEditWord").val();
         var nameWord=$("#addWord").val();
@@ -417,8 +417,8 @@ function saveWord(){
         }
     });
 
-}
-function pushToList(idWord,word,listWeight){
+}*/
+/*function pushToList(idWord,word,listWeight){
     if(listWord !=null && listWord.length>0){
         var existed = false;
         var index_update = 0;
@@ -444,9 +444,9 @@ function pushToList(idWord,word,listWeight){
             listWeightPhoneme: listWeight
         });
     }
-}
+}*/
 
-function removeWord(){
+/*function removeWord(){
     $(document).on("click","#idWord",function() {
         if(currentPopup.find(".action").val() == action_add_question) {
             var word= $(this).closest("div").find('p').text();
@@ -500,9 +500,9 @@ function removeWord(){
             }
         }
     });
-}
+}*/
 
-function openEditWords(){
+/*function openEditWords(){
     $(document).on("click","#word",function() {
         getListPhonemes().html("");
         getListWeight().html("");
@@ -541,7 +541,7 @@ function openEditWords(){
                     }
                 });
             }else {
-                /*loadWeightForWordEdit(word);*/
+                /!*loadWeightForWordEdit(word);*!/
             }
         } else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
@@ -555,11 +555,11 @@ function openEditWords(){
                     }
                 });
             }else {
-                /*loadWeightForWordEdit(word);*/
+                /!*loadWeightForWordEdit(word);*!/
             }
         }
     });
-}
+}*/
 
 function btnSaveQuestion(){
     $(document).on("click","#btnSaveQuestion",function() {
@@ -693,18 +693,18 @@ $(document).ready(function(){
     collapseMenu();
     btnDeleteQuestionForTest();
     btnSaveQuestionForTest();
-    showAddWordForTest();
-    openEditWords();
-    removeWord();
+    //showAddWordForTest();
+    //openEditWords();
+    //removeWord();
     btnDeleteQuestion();
     //openEditWord();
     closePopupQuestion();
     btnSaveQuestion();
-    saveWord();
+    //saveWord();
     clickTopHelp();
     clickHelpAdd();
     loadPhoneme();
-    showAddWord();
+    //showAddWord();
     btnSaveCourse();
     btnDeleteCourse();
     btnSaveLesson();

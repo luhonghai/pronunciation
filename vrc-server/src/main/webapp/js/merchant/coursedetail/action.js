@@ -1,10 +1,11 @@
 /**
  * Created by lantb on 2016-02-22.
  */
-var servletAdd = "/TreeAddNodeServlet";
+/*var servletAdd = "/TreeAddNodeServlet";
 var currentPopup;
 var listWord=[];
-var myObject = new Object();
+var myObject = new Object();*/
+/*
 function openPopup(itemData){
     currentPopup = $('#'+ itemData._popupId);
     currentPopup.find(".validateMsg").hide();
@@ -166,6 +167,7 @@ function readListMail(txt) {
     }
     return output;
 }
+*/
 
 
 
@@ -293,7 +295,7 @@ function showHelpIconTop(){
     $("#help-icons").show();
 }
 
-function showAddWord(){
+/*function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
         getWordValidateMessage().hide();
         var idLesson= treeAPI.itemData(currentParent).id;
@@ -347,7 +349,8 @@ function showAddWordForTest(){
         $("#addWordModal").find('#title-add-word').html("add test word");
         $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
-}
+}*/
+
 function loadPhoneme() {
     $(document).on("click","#loadPhonemes",function() {
         getLoadPhoneme().attr("disabled", true);
@@ -365,7 +368,7 @@ function btnPublish(){
 
 }
 
-function appendWord(type){
+/*function appendWord(type){
     if(type=="add"){
         if(listWord !=null && listWord.length>0){
             getListWord().html("");
@@ -388,9 +391,9 @@ function appendWord(type){
 
         }
     }
-}
+}*/
 
-function saveWord(){
+/*function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var addOrEdit=$("#AddOrEditWord").val();
         var nameWord=$("#addWord").val();
@@ -415,10 +418,9 @@ function saveWord(){
             $("#addWordModal").modal('hide');
         }
     });
+}*/
 
-}
-
-function pushToList(idWord,word,listWeight){
+/*function pushToList(idWord,word,listWeight){
     if(listWord !=null && listWord.length>0){
         var existed = false;
         var index_update = 0;
@@ -444,8 +446,8 @@ function pushToList(idWord,word,listWeight){
             listWeightPhoneme: listWeight
         });
     }
-}
-function removeWord(){
+}*/
+/*function removeWord(){
     $(document).on("click","#idWord",function() {
         if(currentPopup.find(".action").val() == action_add_question) {
             var word= $(this).closest("div").find('p').text();
@@ -498,14 +500,13 @@ function removeWord(){
             }
         }
     });
-}
+}*/
 
-function openEditWords(){
+/*function openEditWords(){
     $(document).on("click","#word",function() {
         getListPhonemes().html("");
         getListWeight().html("");
         getListIPA().html("");
-        $("#addWordModal").attr('type','edit-word');
         if(currentPopup.find(".action").val() == action_add_question) {
             var word= $(this).closest("div").find('p').text();
             if(listWord !=null && listWord.length>0){
@@ -543,7 +544,7 @@ function openEditWords(){
                     }
                 });
             }else {
-                /*loadWeightForWordEdit(word);*/
+                /!*loadWeightForWordEdit(word);*!/
             }
         } else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
@@ -558,11 +559,11 @@ function openEditWords(){
                     }
                 });
             }else {
-                /*loadWeightForWordEdit(word);*/
+                /!*loadWeightForWordEdit(word);*!/
             }
         }
     });
-}
+}*/
 
 function btnSaveQuestion(){
     $(document).on("click","#btnSaveQuestion",function() {
@@ -697,17 +698,17 @@ $(document).ready(function(){
     previewCourse();
     btnDeleteQuestionForTest();
     btnSaveQuestionForTest();
-    showAddWordForTest();
-    openEditWords();
-    removeWord();
+    //showAddWordForTest();
+    //openEditWords();
+    //removeWord();
     btnDeleteQuestion();
     closePopupQuestion();
     btnSaveQuestion();
-    saveWord();
+    //saveWord();
     clickTopHelp();
     clickHelpAdd();
     loadPhoneme();
-    showAddWord();
+    //showAddWord();
     btnSaveCourse();
     btnDeleteCourse();
     btnSaveLesson();

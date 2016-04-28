@@ -21,12 +21,29 @@
     var targetLoadLesson = "<%=Constant.TARGET_LOAD_LESSONS%>";
     var loadCourse = "<%=Constant.TARGET_LOAD_COURSE%>";
     var action_edit_course = "<%=Constant.ACTION_EDIT_COURSE%>";
+    var action_delete_course = "<%=Constant.ACTION_DELETE_COURSE%>";
+    var action_add_level = "<%=Constant.ACTION_ADD_LEVEL%>";
     var action_edit_level = "<%=Constant.ACTION_EDIT_LEVEL%>";
+    var action_delete_level = "<%=Constant.ACTION_DELETE_LEVEL%>";
+    var action_add_obj = "<%=Constant.ACTION_ADD_OBJ%>";
+    var action_delete_obj = "<%=Constant.ACTION_DELETE_OBJ%>";
     var action_edit_obj = "<%=Constant.ACTION_EDIT_OBJ%>";
+    var action_add_test = "<%=Constant.ACTION_ADD_TEST%>";
     var action_edit_test = "<%=Constant.ACTION_EDIT_TEST%>";
+    var action_delete_test = "<%=Constant.ACTION_DELETE_TEST%>";
+    var action_add_lesson = "<%=Constant.ACTION_ADD_LESSON%>";
     var action_edit_lesson = "<%=Constant.ACTION_EDIT_LESSON%>";
+    var action_delete_lesson = "<%=Constant.ACTION_DELETE_LESSON%>";
+    var action_add_question = "<%=Constant.ACTION_ADD_QUESTION%>";
     var action_edit_question = "<%=Constant.ACTION_EDIT_QUESTION%>";
+    var action_delete_question = "<%=Constant.ACTION_DELETE_QUESTION%>";
+    var action_add_question_test = "<%=Constant.ACTION_ADD_QUESTION_TEST%>";
     var action_edit_question_test = "<%=Constant.ACTION_EDIT_QUESTION_TEST%>";
+    var action_delete_question_test = "<%=Constant.ACTION_DELETE_QUESTION_TEST%>";
+    var action_delete_word = "<%=Constant.ACTION_DELETE_WORD%>";
+    var action_add_question_test = "<%=Constant.ACTION_ADD_QUESTION_TEST%>";
+    var action_edit_question_test = "<%=Constant.ACTION_EDIT_QUESTION_TEST%>";
+    var action_delete_question_test = "<%=Constant.ACTION_DELETE_QUESTION_TEST%>";
 </script>
 <style>
     .contain-button{
