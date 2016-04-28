@@ -59,7 +59,7 @@
 <script src="<%=request.getContextPath() %>/js/Chart.min.js"></script>
 
 
-<script>
+<%--<script>
 	Function.prototype.clone = function() {
 		var that = this;
 		var temp = function temporary() { return that.apply(this, arguments); };
@@ -77,4 +77,4 @@
 	$(document).ready(function(){
 
 	});
-</script>
+</script>--%>

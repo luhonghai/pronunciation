@@ -77,8 +77,8 @@
             <img title="preview course" id="preview" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
         </div>
         <div class="col-lg-1">
-            <img title="publish course" id="publish" class="btn" style="float:right;padding:0px;cursor: pointer"
-                 src="/images/treeview/publish_button.gif" width="50px" height="50px"/>
+            <img title="publish course" disabled="disabled" id="publish" class="btn" style="float:right;padding:0px;cursor: pointer"
+                 src="/images/treeview/publish_button_disable.gif" width="50px" height="50px"/>
         </div>
     </div>
 </div>

@@ -187,7 +187,7 @@ public class LevelServices {
     public String addObjToLv(String idLevel, String nameObj, String descriptionObj){
         OServices oServices = new OServices();
         if(oServices.isExistedObjInLv(idLevel, nameObj, null)){
-            return ERROR + ": You already have a objective with that name in this level";
+            return ERROR + ": You already have an objective with that name in this level";
         }
         String idObj = UUIDGenerator.generateUUID().toString();
         String message = oServices.addObjToDB(idObj,nameObj,descriptionObj);
