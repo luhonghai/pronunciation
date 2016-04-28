@@ -72,17 +72,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         }*/
         
         //caculate count invitation and sort array
-        for invitation in userProfile.invitationData {
-            if invitation.status == InvitationStatus.pending {
-                countInvitation += 1
-                invitation.groupId = 1
-            } else if invitation.status == InvitationStatus.reject {
-                invitation.groupId = 2
-            } else {
-                invitation.groupId = 3
-            }
-        }
-        userProfile.invitationData.sortInPlace({ $0.groupId < $1.groupId })
+        sortTable()
         
         //show popup overview or popup new invitation
         if countInvitation == 0 {
@@ -98,6 +88,21 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
             self.presentpopupViewController(newInvitationPopupVC, animationType: .Fade, completion: {() -> Void in })
         }
         
+    }
+    
+    func sortTable(){
+        //caculate count invitation and sort array
+        for invitation in userProfile.invitationData {
+            if invitation.status == InvitationStatus.pending {
+                countInvitation += 1
+                invitation.groupId = 1
+            } else if invitation.status == InvitationStatus.reject {
+                invitation.groupId = 2
+            } else {
+                invitation.groupId = 3
+            }
+        }
+        userProfile.invitationData.sortInPlace({ $0.groupId < $1.groupId })
     }
 
     override func didReceiveMemoryWarning() {
@@ -135,7 +140,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         //cell.bg.tag = indexPath.row
         //cell.bg.addGestureRecognizer(tapGusture)
         
-        cell.lblTitle.text = invitationCellData.firstTeacherName + invitationCellData.lastTeacherName + ", " + invitationCellData.companyName
+        cell.lblTitle.text = invitationCellData.firstTeacherName + " " + invitationCellData.lastTeacherName + ", " + invitationCellData.companyName
         
         var bImage:UIImage!
         if invitationCellData.status == InvitationStatus.accept {
@@ -201,6 +206,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
             invitationPopupVC.firstTeacherName = invitationCellData.firstTeacherName
             invitationPopupVC.lastTeacherName = invitationCellData.lastTeacherName
             invitationPopupVC.companyName = invitationCellData.companyName
+            invitationPopupVC.indexSelected = indexCell
             self.presentpopupViewController(invitationPopupVC, animationType: .Fade, completion: {() -> Void in })
             
         } else {
@@ -223,6 +229,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
             
         } else {
             //remove
+            updateDeleteData(row)
         }
 
 
@@ -246,8 +253,66 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     //touch ok in InviAcceptPopupVC
     func inviAcceptPopupVCTouchOK(sender: AnyObject){
-        print(sender)
+        Logger.log(sender)
         let index = sender as! Int
-        print(userProfile.invitationData[index].studentName)
+        let id = userProfile.invitationData[index].id
+        weak var weakSelf = self
+        AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
+            dispatch_async(dispatch_get_main_queue(), {
+                weakSelf!.dismissPopupViewController(.Fade)
+                if success {
+                    userProfile.invitationData[index].status = InvitationStatus.reject
+                    weakSelf!.sortTable()
+                    weakSelf!.tableView.reloadData()
+                } else {
+                    AccountManager.showError("could not update", message: message)
+                }
+
+            })
+            
+        }
+    }
+    
+    //touch ok in InvitationPopupVC
+    func invitationPopupVCTouchOK(sender: AnyObject){
+        Logger.log(sender)
+        let index = sender as! Int
+        let id = userProfile.invitationData[index].id
+        weak var weakSelf = self
+        AccountManager.updateAcceptData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
+            dispatch_async(dispatch_get_main_queue(), {
+                weakSelf!.dismissPopupViewController(.Fade)
+                if success {
+                    userProfile.invitationData[index].status = InvitationStatus.accept
+                    weakSelf!.sortTable()
+                    weakSelf!.tableView.reloadData()
+                } else {
+                    AccountManager.showError("could not update", message: message)
+                }
+                
+            })
+            
+        }
+    }
+    
+    //swipe left remove
+    func updateDeleteData(index: Int){
+        Logger.log(index)
+        let id = userProfile.invitationData[index].id
+        weak var weakSelf = self
+        AccountManager.updateDeleteData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
+            dispatch_async(dispatch_get_main_queue(), {
+                if success {
+                    //userProfile.invitationData[index].status = InvitationStatus.accept
+                    userProfile.invitationData.removeAtIndex(index)
+                    weakSelf!.sortTable()
+                    weakSelf!.tableView.reloadData()
+                } else {
+                    AccountManager.showError("could not update", message: message)
+                }
+                
+            })
+            
+        }
     }
 }

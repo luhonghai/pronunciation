@@ -14,6 +14,7 @@ class InvitationPopupVC: UIViewController {
     var firstTeacherName:String!
     var lastTeacherName:String!
     var companyName:String!
+    var indexSelected:Int!
     
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnReject: UIButton!
@@ -62,5 +63,9 @@ class InvitationPopupVC: UIViewController {
 
     @IBAction func btnCloseTouchUp(sender: AnyObject) {
         delegate?.closePopup(self)
+    }
+    
+    @IBAction func btnOKTouchUp(sender: AnyObject) {
+        delegate?.invitationPopupVCTouchOK(indexSelected)
     }
 }
