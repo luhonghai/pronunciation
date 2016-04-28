@@ -96,11 +96,11 @@ function addStudent(){
                     if (data == "success") {
                         $("#listStudent").empty();
                         listLicensedStudent();
-                        swal("Success!", "Add success", "success");
+                        swal("", "added successfully", "success");
                     }
                 },
                 error: function (e) {
-                    swal("Error!", "Could not connect to server", "error");
+                    swal("", "Could not connect to server", "error");
                 }
 
             });

@@ -228,24 +228,24 @@ function copyLesson(idObj, idLesson){
                     UpdateStateCourse();
                 }
                 reloadTree();
-                swal("","Copy lesson successfully","success");
+                swal("","copy lesson successfully","success");
             }else{
                 getProcessBar().hide();
                 getDivContainTree().show();
-                swal("","Copy lesson fail","error");
+                swal("","copy lesson fail","error");
             }
         },
         error: function () {
             getProcessBar().hide();
             getDivContainTree().show();
-            swal("","Copy lesson fail","error");
+            swal("","copy lesson fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
                 getDivContainTree().show();
-                swal("","Copy lesson fail","error");
+                swal("","copy lesson fail","error");
             }
         });
     }).done(function(){
@@ -285,16 +285,16 @@ function copyQuestion(idLesson, idQuestion){
                     UpdateStateCourse();
                 }
                 reloadTree();
-                swal("","Copy question successfully","success");
+                swal("","copy question successfully","success");
             }else{
                 getDivContainTree().show();
-                swal("","Copy question fail","error");
+                swal("","copy question fail","error");
             }
         },
         error: function () {
             getProcessBar().hide();
             getDivContainTree().show();
-            swal("","Copy question fail","error");
+            swal("","copy question fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {
@@ -302,7 +302,7 @@ function copyQuestion(idLesson, idQuestion){
             onFinish:function(){
                 getProcessBar().hide();
                 getDivContainTree().show();
-                swal("","Copy question fail","error");
+                swal("","copy question fail","error");
             }
         });
     }).done(function(){

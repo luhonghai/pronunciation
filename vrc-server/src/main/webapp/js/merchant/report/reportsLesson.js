@@ -43,7 +43,7 @@ function listClasses(){
             }
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
@@ -79,7 +79,7 @@ function listStudents(idClass){
             }
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
