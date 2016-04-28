@@ -323,7 +323,7 @@ function closeConfirmPopUp(){
 }
 
 function collapseMenu(){
-    $("#li-students").find('ul').addClass('in');
+    /*$("#li-students").find('ul').addClass('in');*/
 }
 $(document).ready(function(){
     $('#help-icons').show();
