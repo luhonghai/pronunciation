@@ -69,7 +69,7 @@ public class CourseSyncService {
                         + db.getFileName());
                 tmp.setVersion(version);
                 tmp.setUrlDownload(url);
-                tmp.setName(course.getName());
+                tmp.setName("demo");
                 tmp.setIdCourse(course.getId());
                 return tmp;
             }
