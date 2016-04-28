@@ -431,7 +431,9 @@ class AccountManager {
                 } else {
                     Logger.log("getInvitationData response: \(res.text)")
                     if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
-                        
+                        if result.message == nil {
+                            result.message = ""
+                        }
                         var currentUser = AccountManager.currentUser()
                         //print(result.data)
                         if  result.data != nil && result.data.count != 0{
