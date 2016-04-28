@@ -433,9 +433,9 @@ class AccountManager {
                     if let result:InvitationDataResponse = JSONHelper.fromJson(res.text!) as InvitationDataResponse {
                         
                         var currentUser = AccountManager.currentUser()
-                        print(result.data)
+                        //print(result.data)
                         if  result.data != nil && result.data.count != 0{
-                            print("run in update data")
+                            //print("run in update data")
                             //userProfile.token = result.data.token
                             //Logger.log("login token \(userProfile.token)")
                             currentUser.invitationData = result.data
