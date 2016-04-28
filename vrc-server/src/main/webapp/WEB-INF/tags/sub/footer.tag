@@ -58,12 +58,23 @@
 <%--<script src="<%=request.getContextPath() %>/js/jsapi.js"></script>--%>
 <script src="<%=request.getContextPath() %>/js/Chart.min.js"></script>
 
-<%--
+
 <script>
+	Function.prototype.clone = function() {
+		var that = this;
+		var temp = function temporary() { return that.apply(this, arguments); };
+		for(var key in this) {
+			if (this.hasOwnProperty(key)) {
+				temp[key] = this[key];
+			}
+		}
+		return temp;
+	};
+	oldSwal = swal.clone();
 	function swal(title,text,type){
-		swal({   allowOutsideClick : true, title: title,   text: text,   timer: 300,   showConfirmButton: false,type : type });
+		oldSwal({   allowOutsideClick : true, title: title,   text: text,   timer: 300,   showConfirmButton: false,type : type });
 	}
 	$(document).ready(function(){
 
 	});
-</script>--%>
+</script>
