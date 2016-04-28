@@ -262,7 +262,8 @@ function inviteStudents(){
                     if (data.message == "success") {
                         $("#listMyStudent").empty();
                         listMyStudent();
-                        swal("", "invite student successfully!", "success");
+                        swal("", "invited student successfully", "success");
+                        $("#inviteModal").modal('hide');
                     }else{
                         var listMailError=data.mailError;
                         if(listMailError!=null && listMailError.length>0){
@@ -322,7 +323,7 @@ function closeConfirmPopUp(){
 }
 
 function collapseMenu(){
-    $("#li-students").find('ul').addClass('in');
+    /*$("#li-students").find('ul').addClass('in');*/
 }
 $(document).ready(function(){
     $('#help-icons').show();

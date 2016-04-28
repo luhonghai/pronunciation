@@ -77,5 +77,5 @@ $(function() {
     ClickOnTree();
     drag2drop();
     initTree();
-    enablePublishBtn();
+    //enablePublishBtn();
 });
