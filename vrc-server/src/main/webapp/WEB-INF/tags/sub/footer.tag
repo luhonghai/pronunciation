@@ -58,6 +58,7 @@
 <%--<script src="<%=request.getContextPath() %>/js/jsapi.js"></script>--%>
 <script src="<%=request.getContextPath() %>/js/Chart.min.js"></script>
 
+<%--
 <script>
 	function swal(title,text,type){
 		swal({   allowOutsideClick : true, title: title,   text: text,   timer: 300,   showConfirmButton: false,type : type });
@@ -65,4 +66,4 @@
 	$(document).ready(function(){
 
 	});
-</script>
+</script>--%>
