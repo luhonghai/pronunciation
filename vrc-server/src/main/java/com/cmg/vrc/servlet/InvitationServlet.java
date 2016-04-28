@@ -90,6 +90,7 @@ public class InvitationServlet extends HttpServlet {
             }
         } catch (Exception e) {
             log("could not fetch invitation", e);
+            e.printStackTrace();
             responseData.setMessage("error: " + e.getMessage());
         }
         out.print(gson.toJson(responseData));
