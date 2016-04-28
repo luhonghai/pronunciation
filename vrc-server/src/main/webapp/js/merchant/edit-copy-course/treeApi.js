@@ -33,7 +33,7 @@ function initTree(){
                 settings.url = settings.url + "?target=" + loadCourse + "&idTarget=" + idCourse +"&firstLoad=" + firstLoad + "&showBtnAction="+showBtnAction;
                 firstLoad = false;
             }
-            enablePublishBtn();
+            //enablePublishBtn();
         },
         itemHook: function(parent, item, itemData, level){
             item.attr("id",itemData['id']);
