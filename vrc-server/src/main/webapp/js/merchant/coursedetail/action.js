@@ -318,7 +318,7 @@ function showAddWord(){
         $("#addWordModal").attr("type","add-new-word");
         $("#addWordModal").modal('show');
         $("#addWordModal").find('#title-add-word').html("word management");
-
+        $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
 }
 
@@ -345,7 +345,7 @@ function showAddWordForTest(){
         $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
         $("#addWordModal").find('#title-add-word').html("add test word");
-
+        $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
 }
 function loadPhoneme() {
@@ -513,6 +513,7 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                        var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
                         drawWord(data);
                     }
                 });
@@ -524,6 +525,7 @@ function openEditWords(){
                     if(listWord[i].nameWord === word) {
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
+                        $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
                         drawWord(data);
                     }
                 });
@@ -536,6 +538,7 @@ function openEditWords(){
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
                         $("#addWordModal").find('#title-add-word').html("test word management");
+                        $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
                         drawWord(data);
                     }
                 });
@@ -550,6 +553,7 @@ function openEditWords(){
                         var data=listWord[i];
                         $("#addWordModal").modal('show');
                         $("#addWordModal").find('#title-add-word').html("word management");
+                        $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
                         drawWord(data);
                     }
                 });

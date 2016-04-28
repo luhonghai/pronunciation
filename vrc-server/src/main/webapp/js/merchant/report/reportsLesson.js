@@ -104,8 +104,14 @@ function loadInfo(){
 function collapseMenu(){
     $("#li-reports").find('ul').addClass('in');
 }
-$(document).ready(function(){
+function help(){
     $('#help-icons').show();
+    $(document).on("click","#help-icons",function() {
+        $("#helpReportModal").modal('show');
+    });
+}
+$(document).ready(function(){
+    help();
     onChangeClass();
     loadInfo();
     listClasses();
