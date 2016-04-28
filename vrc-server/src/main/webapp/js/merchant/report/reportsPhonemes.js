@@ -31,7 +31,7 @@ function listStudents(){
                 }
             },
             error: function () {
-                swal("", "Could not connect to server", "error");
+                swal("", "could not connect to server", "error");
             }
 
         });
@@ -65,7 +65,7 @@ function listPhonemes(){
 
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
@@ -114,7 +114,7 @@ function loadDataReport(studentName,phoneme,dateFrom,dateTo){
             }
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
