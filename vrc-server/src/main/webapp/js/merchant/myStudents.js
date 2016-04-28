@@ -80,7 +80,7 @@ function listMyStudent(){
             }
         },
         error:function(e){
-            swal("", "Could not connect to server", "error");
+            swal("", "could not connect to server", "error");
         }
 
     });
@@ -144,12 +144,12 @@ function rejects(){
                     ("#confirmReject").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("", "Reject student success!", "success");
+                    swal("", "rejected student successfully", "success");
                 }
 
             },
             error:function(e){
-                swal("", "Could not connect to server", "error");
+                swal("", "could not connect to server", "error");
             }
 
         })
@@ -173,12 +173,12 @@ function accept(){
                     $("#invitationFromStudent").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("Success!", "Accept student success!", "success");
+                    swal("", "accepted student successfully", "success");
                 }
 
             },
             error:function(e){
-                swal("Error!", "Could not connect to server", "error");
+                swal("", "could not connect to server", "error");
             }
 
         })
@@ -214,12 +214,12 @@ function deleteStudent(){
                     $("#confirmRemove").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("", "delete student successfully", "success");
+                    swal("", "deleted student successfully", "success");
                 }else{
                     $("#remove").modal('hide');
                     $("#confirmRemove").modal('hide');
                     $("#listMyStudent").empty();
-                    swal("", "delete student fail", "success");
+                    swal("", "deleted student fail", "success");
                 }
 
             },
@@ -262,7 +262,8 @@ function inviteStudents(){
                     if (data.message == "success") {
                         $("#listMyStudent").empty();
                         listMyStudent();
-                        swal("", "invite student successfully!", "success");
+                        swal("", "invited student successfully", "success");
+                        $("#inviteModal").modal('hide');
                     }else{
                         var listMailError=data.mailError;
                         if(listMailError!=null && listMailError.length>0){
@@ -322,7 +323,7 @@ function closeConfirmPopUp(){
 }
 
 function collapseMenu(){
-    $("#li-students").find('ul').addClass('in');
+    /*$("#li-students").find('ul').addClass('in');*/
 }
 $(document).ready(function(){
     $('#help-icons').show();

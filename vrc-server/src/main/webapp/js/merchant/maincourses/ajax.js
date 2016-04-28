@@ -17,7 +17,7 @@ function addCourse(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("error") !=-1) {
-                getMsgAddCourse().html("An error has been occurred in server!");
+                getMsgAddCourse().html("an error has been occurred in server");
                 getMsgAddCourse().show();
             }else{
                 //add success will draw again the list or redirect to the new page
@@ -25,7 +25,7 @@ function addCourse(){
             }
         },
         error: function () {
-            getMsgAddCourse().html("An error has been occurred in server!");
+            getMsgAddCourse().html("an error has been occurred in server");
             getMsgAddCourse().show();
         }
     });
@@ -61,13 +61,13 @@ function loadAllCourse(){
             }
         },
         error: function () {
-            getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
+            getDivContainCourse().html("<label class='welcome'>could not connect to server</label>");
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
-                getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
+                getDivContainCourse().html("<label class='welcome'>could not connect to server</label>");
                 getDivContainCourse().show();
             }
         });
@@ -107,13 +107,13 @@ function searchCourseHeader(){
             }
         },
         error: function () {
-            getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
+            getDivContainCourse().html("<label class='welcome'>could not connect to server</label>");
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
-                getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
+                getDivContainCourse().html("<label class='welcome'>could not connect to server</label>");
                 getDivContainCourse().show();
             }
         });
@@ -156,14 +156,14 @@ function searchCourseDetail(){
             closeDropdown();
         },
         error: function () {
-            getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
+            getDivContainCourse().html("<label class='welcome'>could not connect to server</label>");
             closeDropdown();
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
-                getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
+                getDivContainCourse().html("<label class='welcome'>could not connect to server</label>");
                 getDivContainCourse().show();
                 closeDropdown();
             }

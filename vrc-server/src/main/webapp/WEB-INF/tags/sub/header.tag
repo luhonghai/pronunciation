@@ -162,12 +162,13 @@
 							</ul>
 						</li>
 						<li id="li-students">
-							<a href="licensed-students.jsp"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> students </a>
+							<a href="my-students.jsp"><img src="/images/teacher/my%20students48x48.gif" style="width: 24px;height: 24px;">  my students</a>
+							<%--<a href="licensed-students.jsp"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> students </a>
 							<ul>
 								<li>
 									<a href="my-students.jsp"><img src="/images/teacher/my%20students48x48.gif" style="width: 24px;height: 24px;">  my students</a>
 								</li>
-							</ul>
+							</ul>--%>
 						</li>
 					<%}
 				}%>
