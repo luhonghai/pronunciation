@@ -2136,7 +2136,7 @@ definition</string>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="p_logout_red.png" translatesAutoresizingMaskIntoConstraints="NO" id="wte-Gw-Cf5">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="menu-invitation.png" translatesAutoresizingMaskIntoConstraints="NO" id="wte-Gw-Cf5">
                                                     <rect key="frame" x="8" y="2" width="40" height="40"/>
                                                 </imageView>
                                             </subviews>
@@ -4992,6 +4992,7 @@ about this lesson</string>
         <image name="ic_up.png" width="128" height="128"/>
         <image name="invite teacher.png" width="500" height="500"/>
         <image name="london_3.jpg" width="1024" height="576"/>
+        <image name="menu-invitation.png" width="128" height="128"/>
         <image name="p_btn_login_accenteasy.png" width="505" height="89"/>
         <image name="p_btn_login_facebook.png" width="505" height="89"/>
         <image name="p_btn_login_googleplus.png" width="505" height="89"/>
