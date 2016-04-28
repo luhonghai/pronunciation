@@ -28,6 +28,9 @@ public class TeacherCourseHistory implements Mirrorable {
     private String name;
 
     @NotPersistent
+    private String urlImage;
+
+    @NotPersistent
     private String urlDownload;
 
     @NotPersistent
@@ -89,5 +92,13 @@ public class TeacherCourseHistory implements Mirrorable {
 
     public void setVersion(int index) {
         this.version = index;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 }

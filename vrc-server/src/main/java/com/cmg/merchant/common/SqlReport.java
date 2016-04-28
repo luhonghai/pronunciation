@@ -22,9 +22,9 @@ public class SqlReport {
 
     private String SQL_LIST_COURSE_BY_STUDENT ="SELECT "+
                     "  c.id,c.name "+
-                    "FROM course as c  inner join coursemappingclass AS cmc "+
+                    "FROM COURSE as c  inner join COURSEMAPPINGCLASS AS cmc "+
                     "  on c.id = cmc.IDCOURSE "+
-                    "  INNER JOIN studentmappingclass AS smc "+
+                    "  INNER JOIN STUDENTMAPPINGCLASS AS smc "+
                     "    ON cmc.idClass = smc.idClass "+
                     "WHERE smc.STUDENTNAME = 'paramStudent' AND c.isDeleted=False AND cmc.isDeleted = FALSE "+
                     " AND smc.isDeleted = FALSE;";

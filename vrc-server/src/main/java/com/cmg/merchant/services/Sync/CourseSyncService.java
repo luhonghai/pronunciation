@@ -1,5 +1,6 @@
 package com.cmg.merchant.services.Sync;
 
+import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
@@ -44,6 +45,7 @@ public class CourseSyncService {
                 list.addAll(listTmp);
             }
         }catch (Exception e){
+            e.printStackTrace();
         }
         return list;
     }
@@ -57,8 +59,8 @@ public class CourseSyncService {
         DatabaseVersionDAO databaseVersionDAO = new DatabaseVersionDAO();
         CDAO cDao = new CDAO();
         try {
-            String idCourse = (String)StringUtil.isNull(cDao.getByName(com.cmg.merchant.common.Constant.CMG_COURSE_DEMO),"");
-            if(idCourse!=""){
+            Course course = cDao.getByName(com.cmg.merchant.common.Constant.CMG_COURSE_DEMO);
+            if(course != null){
                 DatabaseVersion db = databaseVersionDAO.getSelectedVersion();
                 TeacherCourseHistory tmp = new TeacherCourseHistory();
                 int version = db.getVersion();
@@ -67,10 +69,12 @@ public class CourseSyncService {
                         + db.getFileName());
                 tmp.setVersion(version);
                 tmp.setUrlDownload(url);
-                tmp.setIdCourse(idCourse);
+                tmp.setName(course.getName());
+                tmp.setIdCourse(course.getId());
                 return tmp;
             }
         }catch (Exception e){
+            e.printStackTrace();
         }
         return null;
     }
