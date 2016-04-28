@@ -204,7 +204,7 @@
       <button id="inviteStudents" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> invite students <i class="fa fa-plus"></i> </button>
     </div>
     <div class="col-sm-12">
-      <p>Use this page o manage the student that you want to assign to classes.</p>
+      <p>Use this page to manage the student that you want to assign to classes.</p>
       <p>Select the button above to invite students that have installed the application without a company licence.</p>
     </div>
   </div>
@@ -256,7 +256,7 @@
           </div>
           <p>If a student's licence key expires or if it is revoked, they will be removed from all lists and will no loger have access to any courses that have been shared with them.</p>
           <p> Select a student and follow the instructions to remove them from your list. Licenced students will still be available on your company list (students page) to add again Later. If you remove external students, the invitation process will need to be used.(Teacher to student or student to teacher)</p>
-          <p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>
+          <%--<p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>--%>
         </div>
       </div>
     </div>
@@ -464,8 +464,7 @@
           <div style="margin-bottom: 0px" class="form-group">
             <div class="col-sm-6"><label class="cancelLbl" popup-id="confirmRemove"
                                          id="cancelRemove" style="font-weight:200;float:left;cursor: pointer;padding-top:15px"><u>cancel</u></label></div>
-            <div class="col-sm-6"><span type="button" id="yesRemove" style="color:green;float: right;"
-                                        class="fa fa-check-circle fa-3x"> </span></div>
+            <div class="col-sm-6"><img  id="yesRemove" style="color:green;float: right;" src="/images/popup/trash_50x50.gif" width="36px" height="36px" /></div>
           </div>
         </form>
       </div>

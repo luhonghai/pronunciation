@@ -9,6 +9,8 @@ var servlet = "/TreeLoadServlet";
 var currentParent;
 var nodeCopied;
 var dragDrop = null;
+var totalLevel = 0;
+var totalTest = 0;
 /**
  *  init the tree view.
  */
@@ -49,20 +51,28 @@ function initTree(){
                     label:  itemData.label + '<i style="vertical-align: middle;padding-left: 5px" class="fa fa-plus"/>'
                 });
             }
-
+            if(itemData['_targetLoad'] == targetLoadLevel){
+                totalLevel = totalLevel +1;
+            }
+            if(itemData['_targetLoad'] == targetLoadTest){
+                totalTest = totalTest+1;
+            }
         }
     });
     treeAPI = theTree.aciTree('api');
     treeAPI.init({
         success: function(item) {
             this.open(item);
+            enableAddLevel();
         }
     });
     theTree.removeClass("aciTree0");
     theTree.addClass("aciTreeArrow");
     theTree.addClass("aciTreeNoBranches");
     theTree.addClass("aciTreeBig");
+
 }
+
 
 $(function() {
     copyAndPaste();

@@ -279,7 +279,7 @@ public class TreeUtil {
      */
     public String listWordOnQuestion(String idQuestion){
         String listWord="";
-        List<String> lists=wdao.getWordByIdQuestion(idQuestion);
+        List<String> lists= wdao.getWordByIdQuestion(idQuestion);
         listWord= StringUtil.convertListToString(lists, ",");
         return listWord;
     }

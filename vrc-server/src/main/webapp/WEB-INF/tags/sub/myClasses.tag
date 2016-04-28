@@ -378,8 +378,8 @@
             <div class="modal-body">
                 <form name="add" class="form-horizontal">
                     <div class="form-group">
-                        <div class="col-sm-12">
-                            <label align="center" id="classNameDelete" class="textNormal"></label>
+                        <div style="text-align: center" class="col-sm-12">
+                            <label style="color : red !important;" id="classNameDelete" class="textNormal"></label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -399,7 +399,7 @@
                         </div>
                         <div class="col-sm-6">
                             <img style="float: right;cursor: pointer" id="deleteItems"
-                                 src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                                 src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                         </div>
                     </div>
                 </form>
@@ -413,7 +413,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 align="center" class="modal-title" style="color: red">invalid class name</h2>
+                <h2 align="center" class="modal-title" style="color: red;font-weight: 200;">invalid class name</h2>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal"

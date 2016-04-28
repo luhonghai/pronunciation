@@ -41,6 +41,10 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var btnTeacher: UIButton!
+    @IBOutlet weak var btnStudent: UIButton!
+    @IBOutlet weak var btnChallenge: UIButton!
+    @IBOutlet weak var btnHelp: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +92,16 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
             self.presentpopupViewController(newInvitationPopupVC, animationType: .Fade, completion: {() -> Void in })
         }
         
+        //menu style
+        navigationItem.title = "invitations"
+        setNavigationBarTransparent()
+    }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
     
     func sortTable(){

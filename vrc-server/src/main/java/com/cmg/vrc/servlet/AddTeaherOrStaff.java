@@ -50,7 +50,9 @@ public class AddTeaherOrStaff extends HttpServlet {
             try {
                 if (search.length() > 0 || idCompany.length() > 0) {
                     List<TeacherOrStaffList> teacherOrStaffLists=manageTeacherOrStaffDAO.listAll(search, col, oder,idCompany);
-                    count = (double)teacherOrStaffLists.size();
+                    if(teacherOrStaffLists!=null){
+                        count = (double)teacherOrStaffLists.size();
+                    }
                 }
                 teacherorStaff.draw = draw;
                 teacherorStaff.recordsTotal = count;
@@ -77,11 +79,11 @@ public class AddTeaherOrStaff extends HttpServlet {
             Gson gson = new Gson();
             try{
                 int ro = 0;
-                if (role.length() > 0 && role.equals("Staff")) {
-                    ro =Constant.ROLE_STAFF;
+                if (role.length() > 0 && role.equals(Constant.STAFF)) {
+                    ro = Constant.ROLE_STAFF;
                 }
-                if (role.length() > 0 && role.equals("Teacher")) {
-                    ro =Constant.ROLE_TEACHER;
+                if (role.length() > 0 && role.equals(Constant.TEACHER)) {
+                    ro = Constant.ROLE_TEACHER;
                 }
                 Admin a = adminDAO.getUserByEmail(username);
                 if (a != null) {
@@ -109,6 +111,7 @@ public class AddTeaherOrStaff extends HttpServlet {
                     response.getWriter().write("success");
                 }
             }catch (Exception e){
+                response.getWriter().write("error");
                e.getStackTrace();
             }
         }
@@ -152,6 +155,7 @@ public class AddTeaherOrStaff extends HttpServlet {
                 response.getWriter().write("success");
 
             } catch (Exception e) {
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
 
@@ -164,9 +168,10 @@ public class AddTeaherOrStaff extends HttpServlet {
             try {
                 Admin admin=adminDAO.getUserByEmail(username);
                 adminDAO.delete(admin.getId());
-                  teacherMappingCompanyDAO.updateEdit(username);
+                teacherMappingCompanyDAO.updateEdit(username);
                 response.getWriter().write("success");
             } catch (Exception e) {
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }

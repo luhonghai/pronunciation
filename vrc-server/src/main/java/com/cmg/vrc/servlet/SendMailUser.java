@@ -246,20 +246,18 @@ public class SendMailUser extends HttpServlet{
         }else if(action.equalsIgnoreCase("listLicensedStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             student st=new student();
-            String teacher=request.getSession().getAttribute("username").toString();
+            String teacher= (String) StringUtil.isNull(request.getSession().getAttribute("username"), "");
+            Gson gson=new Gson();
             try{
-
                 st.message="success";
                 st.students=studentMappingTeacherDAO.getStudentHaveLicence(teacher);
-                Gson gson=new Gson();
                 String studentHaveLicence=gson.toJson(st);
                 response.getWriter().write(studentHaveLicence);
-
             }catch (Exception e){
-                e.printStackTrace();
+                st.message="error";
+                String studentHaveLicence=gson.toJson(st);
+                response.getWriter().write(studentHaveLicence);
             }
-
-
         }else if(action.equalsIgnoreCase("addStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             listAdd listAdd=new listAdd();
@@ -281,37 +279,42 @@ public class SendMailUser extends HttpServlet{
         }else if(action.equalsIgnoreCase("listMyStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             student st=new student();
-            String teacher=request.getSession().getAttribute("username").toString();
+            Gson gson=new Gson();
+            String teacher= (String)StringUtil.isNull(request.getSession().getAttribute("username").toString(), "");
             try{
                 st.message="success";
                 st.students=studentMappingTeacherDAO.getMyStudents(teacher);
-                Gson gson=new Gson();
                 String studentHaveLicence=gson.toJson(st);
                 response.getWriter().write(studentHaveLicence);
 
             }catch (Exception e){
+                st.message="error";
+                String studentHaveLicence=gson.toJson(st);
+                response.getWriter().write(studentHaveLicence);
                 e.printStackTrace();
             }
 
 
         }else if(action.equalsIgnoreCase("deletedStudentInMyStudent")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-            String id=request.getParameter("id");
+            String id= (String)StringUtil.isNull(request.getParameter("id"),"");
             Gson gson=new Gson();
             try {
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
-                if(studentMappingTeacher.isLicence()==true){
-                    StudentMappingTeacher smt=studentMappingTeacher;
-                    smt.setStatus(Constant.STATUS_PENDING);
-                    studentMappingTeacherDAO.put(smt);
+                studentMappingTeacher.setIsDeleted(true);
+                studentMappingTeacherDAO.put(studentMappingTeacher);
+                /*if(studentMappingTeacher.isLicence()==true){
+                 *//*   StudentMappingTeacher smt=studentMappingTeacher;*//*
+                    studentMappingTeacher.setStatus(Constant.STATUS_PENDING);
+                    studentMappingTeacherDAO.put(studentMappingTeacher);
                 }else{
-                    StudentMappingTeacher smt=studentMappingTeacher;
-                    smt.setIsDeleted(true);
-                    studentMappingTeacherDAO.put(smt);
+                    studentMappingTeacher.setIsDeleted(true);
+                    studentMappingTeacherDAO.put(studentMappingTeacher);
 
-                }
+                }*/
                 response.getWriter().write("success");
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }else if(action.equalsIgnoreCase("rejectStudent")){
@@ -325,6 +328,7 @@ public class SendMailUser extends HttpServlet{
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }else if(action.equalsIgnoreCase("acceptStudent")){
@@ -338,6 +342,7 @@ public class SendMailUser extends HttpServlet{
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }else {
@@ -346,9 +351,9 @@ public class SendMailUser extends HttpServlet{
             String status=request.getParameter("status");
             String mailTeacher=request.getParameter("mailTeacher");
             try {
-                StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
+                //StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
                 StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-                studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(username,mailTeacher);
+                StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(username,mailTeacher);
                 studentMappingTeacher.setStatus(status);
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 out.print("success");

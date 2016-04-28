@@ -43,7 +43,20 @@ public class CDAO extends DataAccess<Course> {
         }
         return version;
     }
-
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public Course getByName(String name )throws Exception{
+        boolean isExist = false;
+        List<Course> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
 
     /**
      *

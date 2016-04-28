@@ -36,6 +36,7 @@
     </div>
 </div>
 <!-- /#wrapper -->
+<script src="<%=request.getContextPath() %>/js/merchant/data/popupdata.js"></script>
 <script src="<%=request.getContextPath() %>/js/welcomeTeacher.js"></script>
 
 

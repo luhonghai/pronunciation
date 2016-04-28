@@ -134,7 +134,7 @@ public class SqlUtil {
             "inner join TESTMAPPING as tm on tm.idLESSONCOLLECTION = l.id " +
             "inner join TEST as t on t.id = tm.idTest " +
             "where t.id='paramTestId' and t.isDeleted=false and tm.isDeleted=false and lmq.isDeleted=false " +
-            "and l.isDeleted=false and q.isDeleted=false ";
+            "and l.isDeleted=false and q.isDeleted=false order by q.timeCreated";
 
 
 

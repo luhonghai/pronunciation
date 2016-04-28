@@ -1,12 +1,52 @@
+<style>
+    .count-character{
+        float: right;
+        color : #A6A6A6;
+        font-size: 12px;
+    }
+    #listWord , #listWordTests{
+        max-height : 200px;
+        overflow-y: auto;
+    }
+    #helpReportModal{
+        color: rgb(149, 127, 127);
+    }
+
+    #helpReportModal .modal-body{
+        width : 500px;
+    }
+    #helpReportModal .modal-header{
+        border-bottom: transparent;
+        padding-bottom: 0px;
+        text-align: center;
+    }
+    #helpReportModal .modal-title{
+        font-weight : 700;
+    }
+    #helpReportModal .modal-content{
+        border-radius : 20px;
+    }
+
+    #helpReportModal p{
+        color: rgb(149, 127, 127);
+        font-size: 14px;
+        font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
+    #helpMyClassModal p{
+        font-size: 14px;
+        font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
+
+</style>
 <div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <div class="contain-arrow"><label id="arrowCourse" class="modal-title"
+                <div class="contain-arrow"><marquee id="arrowCourse" class="modal-title"
                                                   style="text-align: left;">
-                </label></div>
+                </marquee></div>
 
                 <h2 id='titlePopupCourse' class="modal-title">course management</h2>
                 <h4 id="validateMsgCourse" class="modal-title validateMsg"
@@ -253,8 +293,10 @@
                         <label class="control-label col-md-4 lbl_addForm">description:</label>
 
                         <div class="col-md-8">
-                            <textarea rows="2" class="form-control" id="lessonDesc" name="description"
+                            <textarea onkeyup="countChars('lessonDesc');"  maxlength="60" rows="2"
+                                      class="form-control" id="lessonDesc" name="description"
                                       placeholder="Lesson description"></textarea>
+                            <span class="count-character" id="count-lesson-description">0 of 60 characters</span>
                         </div>
                     </div>
 
@@ -264,9 +306,9 @@
                         <div class="col-md-8">
                             <select id="lessonType" class="form-control" style="padding: 2px; width: 150px;;">
                                 <option value="accuracy">accuracy</option>
-                                <option value="pace" disabled="disabled">pace</option>
-                                <option value="power" disabled="disabled">power</option>
-                                <option value="pitch" disabled="disabled">pitch</option>
+                                <option value="pace" disabled="disabled">pace coming soon </option>
+                                <option value="power" disabled="disabled">power coming soon </option>
+                                <option value="pitch" disabled="disabled">pitch coming soon </option>
                             </select>
                         </div>
                     </div>
@@ -277,8 +319,10 @@
                              style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
 
                         <div class="col-md-8">
-                            <textarea rows="3" class="form-control" id="lessonDetail" name="details"
+                            <textarea onkeyup="countChars('lessonDetail');" maxlength="240" rows="3"
+                                      class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>
+                            <span class="count-character" id="count-lesson-details">0 of 240 characters</span>
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -314,9 +358,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
-                <div class="contain-arrow"><label id="arrowQuestion" class="modal-title"
+                <div class="contain-arrow"><marquee id="arrowQuestion" class="modal-title"
                                                   style="text-align: left;">
-                </label></div>
+                </marquee></div>
 
                 <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
                 <h4 id="validateQuestionMsg" class="modal-title validateMsg"
@@ -352,7 +396,7 @@
                             <img id="btnDeleteQuestion" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveQuestion" src="/images/popup/Save_50x50.gif"
+                            <img class="btn-info" style="float: right;background-color: transparent;"  id="btnSaveQuestion" src="/images/popup/Save_50x50.gif"
                                  width="36px" height="36px"/>
 
                         </div>
@@ -374,6 +418,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
+                <div class="contain-arrow"><marquee id="arrowQuestionTest" class="modal-title"
+                                                    style="text-align: left;">
+                </marquee></div>
                 <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
                 <h4 id="validateQuestionForTestMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
@@ -393,9 +440,9 @@
                         <div class="col-md-8">
                             <select id="testType" class="form-control" style="padding: 2px; width: 150px;;">
                                 <option value="accuracy">accuracy</option>
-                                <option value="pace" disabled="disabled">pace</option>
-                                <option value="power" disabled="disabled">power</option>
-                                <option value="pitch" disabled="disabled">pitch</option>
+                                <option value="pace" disabled="disabled">pace - coming soon</option>
+                                <option value="power" disabled="disabled">power - coming soon</option>
+                                <option value="pitch" disabled="disabled">pitch - coming soon</option>
                             </select>
                         </div>
                     </div>
@@ -435,7 +482,7 @@
                                  width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif"
+                            <img class="btn-info" style="float: right;background-color: transparent;" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif"
                                  width="36px" height="36px"/>
                         </div>
                     </div>
@@ -459,7 +506,7 @@
                 <input type="hidden" id="idLesson">
                 <input type="hidden" id="AddOrEditWord">
 
-                <h2 style="text-align: center" class="modal-title">add word</h2>
+                <h2 id="title-add-word" style="text-align: center" class="modal-title">word management</h2>
                 <h4 id="validateWordMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
             </div>
@@ -527,12 +574,12 @@
                         <div class="col-md-6" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddWord" style="padding-left: 0px;" src="/images/popup/help_50_50.png"
+                            <img id="helpAddWord" class="helpInfor" style="padding-left: 0px;" src="/images/popup/help_50_50.png"
                                  width="36px" height="36px"/>
 
                         </div>
                         <div class="col-md-6" style="padding-right: 0px;">
-                            <img style="float: right;padding-right: 0px;" id="btnSaveWord"
+                            <img class="btn btn-info" style="float: right;padding: 0px;border-color:transparent;background-color: transparent;" id="btnSaveWord"
                                  src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
 
                         </div>
@@ -611,3 +658,44 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
+<div id="helpReportModal" class="modal fade">
+    <div class="modal-dialog" style="width:500px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">report</h2>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <p>Select a report type from the side menu to view scores
+                        for a student and compare with other students in their classes.</p>
+                    <p><strong>lessons reports</strong></p>
+                    <p>Select a student from the drop down list to view charts with scores for phonemes or words in lessons that they have completed.</p>
+                    <p>Note: Details will not be available until the student has attempted all questions in the lesson.</p>
+                    <p>Use the filters to select the lesson that you would like to see.</p>
+                    <p>Select the phonemes or words thumbnail to view the related report.</p>
+                    <p>Only the phonemes or words used in the lesson will be displayed on the chart. If you wish to check overall scores for specific phonemes for a student,
+                        you will need to select the ‘phonemes’ report type from the side menu.</p>
+                    <p>Class averages are only displayed on the chart when the student has a score to compare.
+                        If the student has a zero score, it is assumed that
+                        they have not attempted to pronounce the phoneme in the lesson.</p>
+                    <p><strong>phonemes reports</strong></p>
+                    <p>Select a student, phoneme and time period to view the scores and compare with the class average.</p>
+                    <%--<p><strong style="color: red;">phonemes</strong></p>
+                    <p style="color: red;">1.Select a student.</p>
+                    <p style="color: red;">2.Select a phoneme.</p>
+                    <p style="color: red;">3.Select a time period.</p>--%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function countChars(id) {
+        var input = $("#"+id).val();
+        var length = input.length;
+        var span = $("#"+id).parent().find('span').html();
+        var html = length + " of " + span.split("of")[1];
+        $("#"+id).parent().find('span').html(html);
+    }
+</script>

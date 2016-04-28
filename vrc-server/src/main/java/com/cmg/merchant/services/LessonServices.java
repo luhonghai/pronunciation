@@ -40,11 +40,11 @@ public class LessonServices {
     public String addLessonToObj(String idObj, String name, String description,String type,String detail){
         String idLesson = UUIDGenerator.generateUUID().toString();
         if(isExistedLessonInObj(idObj, name, null)){
-            return ERROR + ": name already existed in objective!";
+            return ERROR + ": You already have a lesson with this name in your objective";
         }
         String message = addLessonToDB(idLesson,name,description,type,detail);
         if(message.equalsIgnoreCase(ERROR)){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         message = addMappingLessonToObj(idObj, idLesson);
         return message;
@@ -135,17 +135,17 @@ public class LessonServices {
             lessonCollection=dao.getById(idLesson);
             if(lessonCollection!=null) {
                 if (isExistedLessonInObj(idLesson, name, idObj)) {
-                    return ERROR + ": name already existed in objective!";
+                    return ERROR + ": You already have a lesson with that name in this objective'";
                 }
                 boolean check = dao.updateLesson(idLesson, name, description, type, detail);
                 if (!check) {
-                    return ERROR + ": an error has been occurred in server!";
+                    return ERROR + ": an error has been occurred in server";
                 }
             }else {
-                return ERROR + ": This lesson has been already deleted!";
+                return ERROR + ": This lesson has been already deleted";
             }
         }catch (Exception e){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
@@ -161,16 +161,16 @@ public class LessonServices {
         try {
             boolean check = dao.removeMappingLessonWithObj(idObj, idLesson);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
 
             check = dao.deletedLesson(idLesson);
             if(!check){
-                return ERROR + ": an error has been occurred in server!";
+                return ERROR + ": an error has been occurred in server";
             }
 
         }catch (Exception e){
-            return ERROR + ": an error has been occurred in server!";
+            return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
