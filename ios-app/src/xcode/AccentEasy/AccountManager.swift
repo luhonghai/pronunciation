@@ -377,32 +377,35 @@ class AccountManager {
                 completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
             });
         
-        client.post("/ResetPasswordHandler").type("form").send(["profile":userProfile.username, "imei": DeviceManager.imei()])
+        client.post("/SyncCoursePerStudentServlet").type("form").send(["profile":JSONHelper.toJson(userProfile)
+            , "action": "listAllCourse"])
             .end({(res:Response) -> Void in
                 Logger.log("fetch course response: \(res.text)")
                 if(res.error) { // status of 2xx
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 }
                 else {
+                    let response: AECourseResponse = JSONHelper.fromJson(res.text!)
                     let session = AECourseSession()
                     session.username = userProfile.username
-                    // DUMY SECTION
-                    let c1 = AECourse()
-                    c1.name = "course 1"
-                    c1.idString = "8b473661-6347-4864-a707-6037b7fdd59b"
-                    c1.version = 2
-                    c1.dbURL = "https://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-dev/database_data/8b473661-6347-4864-a707-6037b7fdd59b-v2.zip"
-                    c1.imageURL = ""
-                    session.courses.append(c1)
-                    let c2 = AECourse()
-                    c2.name = "course 2"
-                    c2.idString = "82e9496e-fd94-44db-9f97-0dc27dc54543"
-                    c2.version = 3
-                    c2.dbURL = "https://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-dev/database_data/82e9496e-fd94-44db-9f97-0dc27dc54543-v2.zip"
-                    c2.imageURL = "http://www.arenaandheri.co.in/demo_files/icon-calendar.png"
-                    session.courses.append(c2)
-                    session.selectedCourse = c1
+//                    // DUMY SECTION
+//                    let c1 = AECourse()
+//                    c1.name = "course 1"
+//                    c1.idString = "8b473661-6347-4864-a707-6037b7fdd59b"
+//                    c1.version = 2
+//                    c1.dbURL = "https://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-dev/database_data/8b473661-6347-4864-a707-6037b7fdd59b-v2.zip"
+//                    c1.imageURL = ""
+//                    session.courses.append(c1)
+//                    let c2 = AECourse()
+//                    c2.name = "course 2"
+//                    c2.idString = "82e9496e-fd94-44db-9f97-0dc27dc54543"
+//                    c2.version = 3
+//                    c2.dbURL = "https://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-dev/database_data/82e9496e-fd94-44db-9f97-0dc27dc54543-v2.zip"
+//                    c2.imageURL = "http://www.arenaandheri.co.in/demo_files/icon-calendar.png"
+//                    session.courses.append(c2)
+//                    session.selectedCourse = c1
                     // Remove after merge code
+                    session.courses = response.data
                     if DatabaseHelper.updateCourses(session) {
                         userProfile.courseSession = session
                         completion(userProfile: userProfile, success: true, message: "success")

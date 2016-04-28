@@ -29,6 +29,31 @@ public class AECourseSession: Mappable {
     }
 }
 
+public class AECourseResponse: AELiteEntity, Mappable {
+    var status: Bool!
+    var message: String!
+    var data: Array<AECourse>!
+    
+    required public init(){
+        super.init()
+    }
+    
+    required public init?(_ map: Map) {
+        super.init()
+    }
+    
+    public required init(id: Int64) {
+        super.init(id: id)
+    }
+    
+    // Mappable
+    public func mapping(map: Map) {
+        status    <= map["status"]
+        message   <= map["message"]
+        data      <= map["data"]
+    }
+}
+
 public class AECourse: AELiteEntity, Mappable {
     
     var name: String!
@@ -53,11 +78,11 @@ public class AECourse: AELiteEntity, Mappable {
     
     // Mappable
     public func mapping(map: Map) {
-        idString    <= map["idString"]
+        idString    <= map["idCourse"]
         name   <= map["name"]
         version      <= map["version"]
-        imageURL  <= map["imageURL"]
-        dbURL  <= map["dbURL"]
+        imageURL  <= map["urlImage"]
+        dbURL  <= map["urlDownload"]
     }
     
 }
