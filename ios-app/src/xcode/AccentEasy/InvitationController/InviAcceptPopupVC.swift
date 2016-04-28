@@ -40,12 +40,27 @@ class InviAcceptPopupVC: UIViewController {
         btnReject.tintColor = ColorHelper.APP_RED_MAGENTA
 
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        DeviceManager.hideLockScreen()
+        hidenLoadding()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
 
     /*
     // MARK: - Navigation
@@ -61,6 +76,8 @@ class InviAcceptPopupVC: UIViewController {
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
+        showLoadding()
+        DeviceManager.showLockScreen()
         delegate?.inviAcceptPopupVCTouchOK(indexSelected)
     }
     

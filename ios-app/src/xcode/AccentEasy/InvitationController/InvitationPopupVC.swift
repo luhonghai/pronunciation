@@ -44,10 +44,26 @@ class InvitationPopupVC: UIViewController {
         
         tvTitle.text = "\(firstTeacherName) \(lastTeacherName) from \(companyName) would like to  invite you to their classroom, please accept or reject."
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        DeviceManager.hideLockScreen()
+        hidenLoadding()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
     }
     
 
@@ -66,6 +82,8 @@ class InvitationPopupVC: UIViewController {
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
+        showLoadding()
+        DeviceManager.showLockScreen()
         delegate?.invitationPopupVCTouchOK(indexSelected)
     }
 }
