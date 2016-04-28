@@ -57,6 +57,7 @@ public class LessonServices {
             LessonCollection lesson = new LessonCollection();
             lesson.setId(id);
             lesson.setName(name);
+            lesson.setTitle(name);
             lesson.setNameUnique(detail);
             lesson.setType(type);
             lesson.setDescription(description);
