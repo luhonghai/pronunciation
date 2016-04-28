@@ -46,7 +46,11 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
         //textView.becomeFirstResponder()
         //textView.selectedTextRange = textView.textRangeFromPosition(textView.beginningOfDocument, toPosition: textView.beginningOfDocument)
         
+    }
+    
+    override func viewDidLayoutSubviews() {
         btnSend.layer.cornerRadius = btnSend.frame.size.width/2
+        btnSend.clipsToBounds = true
     }
 
     override func didReceiveMemoryWarning() {
