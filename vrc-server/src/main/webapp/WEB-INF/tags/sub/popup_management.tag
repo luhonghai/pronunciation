@@ -579,7 +579,7 @@
 
                         </div>
                         <div class="col-md-6" style="padding-right: 0px;">
-                            <img class="btn-info" style="float: right;padding-right: 0px;background-color: transparent;" id="btnSaveWord"
+                            <img class="btn btn-info" style="float: right;padding: 0px;border-color:transparent;background-color: transparent;" id="btnSaveWord"
                                  src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
 
                         </div>

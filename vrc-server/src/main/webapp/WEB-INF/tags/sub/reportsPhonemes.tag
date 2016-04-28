@@ -223,15 +223,6 @@
 </div>
 <!-- /#wrapper -->
 
-<div id="helpReportModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="report-popup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;color:#957F7F">
     <div class="modal-dialog" style="width:90%">

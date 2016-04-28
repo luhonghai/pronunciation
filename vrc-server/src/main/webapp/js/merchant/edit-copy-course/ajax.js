@@ -876,6 +876,7 @@ function loadPhonemes(){
                     getAddWord().attr("disabled",true);
                     drawPhonemeOfWord(data);
                     $("#yesadd").attr("disabled", false);
+                    $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
                     $("#wordModal1").show();
                     $("#wordModal2").show();
                 }else{
@@ -954,6 +955,7 @@ function UpdateStateCourse(){
         }
     });
 }
+
 /**
  *
  */
