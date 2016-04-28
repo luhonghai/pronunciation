@@ -42,12 +42,12 @@ public class InvitationServlet extends HttpServlet {
             StudentMappingTeacherDAO teacherDAO = new StudentMappingTeacherDAO();
             if (action != null && action.length() > 0 && profile != null && profile.length() > 0) {
                 UserProfile userProfile = gson.fromJson(profile, UserProfile.class);
+                log(action + " invitation of user " + userProfile.getUsername());
                 if (action.equalsIgnoreCase("getdata")) {
-                    responseData.setStatus(true);
-                    responseData.setMessage("success");
                     List<StudentMappingTeacherClient> mappingTeacherClients = teacherDAO.getStudentMappingTeaccher(userProfile.getUsername());
                     List<InvitationData> invitationDatas = new ArrayList<InvitationData>();
                     if (mappingTeacherClients  != null && mappingTeacherClients.size() > 0) {
+                        log("found mapping count " + mappingTeacherClients.size());
                         for (StudentMappingTeacherClient studentMappingTeacherClient : mappingTeacherClients) {
                             InvitationData invitationData = new InvitationData();
                             invitationData.id = studentMappingTeacherClient.getId();
@@ -61,6 +61,8 @@ public class InvitationServlet extends HttpServlet {
                         }
                     }
                     responseData.setData(invitationDatas);
+                    responseData.setStatus(true);
+                    responseData.setMessage("success");
                 } else if (action.equalsIgnoreCase("updatereject")){
                     StudentMappingTeacher studentMappingTeacher = teacherDAO.getById(request.getParameter("id"));
                     studentMappingTeacher.setStatus("reject");
@@ -88,6 +90,7 @@ public class InvitationServlet extends HttpServlet {
             }
         } catch (Exception e) {
             log("could not fetch invitation", e);
+            responseData.setMessage("error: " + e.getMessage());
         }
         out.print(gson.toJson(responseData));
     }
