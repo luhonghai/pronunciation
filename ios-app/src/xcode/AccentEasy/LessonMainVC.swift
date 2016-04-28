@@ -509,7 +509,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                         if status {
                             userVoiceModel.score = round(userVoiceModel.score)
                             //TODO remove it
-                            userVoiceModel.score = 99
+                            //userVoiceModel.score = 99
                             self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
                             weakSelf!.currentMode = userVoiceModel
                             weakSelf!.saveDatabase(userVoiceModel)
