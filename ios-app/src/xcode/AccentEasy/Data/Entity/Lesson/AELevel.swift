@@ -28,8 +28,8 @@ public class AELevel: AELiteEntity {
     }
     
     public override func parse(row: Array<Optional<Binding>>) {
-        self.idString = row[0] as! String
-        self.name = row[1] as! String
+        self.idString = row[0] as? String
+        self.name = row[1] as? String
         self.description = row[2] as? String
         self.isDemo = row[3] as? String
         self.isDefaultActivated = row[4] as? String
