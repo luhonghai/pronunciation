@@ -519,7 +519,7 @@ function drag2drop(){
                         console.log(indexDrag);
                         var move = "down";
                         if(indexDrag > indexDrop){
-                            move = "up"
+                            move = "up";
                         }
                         dragDrop.action = action;
                         dragDrop.parentId = parentId;
