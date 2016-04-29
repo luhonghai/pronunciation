@@ -144,7 +144,7 @@ function rejects(){
                     ("#confirmReject").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swalNew("", "rejected student successfully", "success");
+                    swalNew("", "rejected successfully", "success");
                 }
 
             },
@@ -173,7 +173,7 @@ function accept(){
                     $("#invitationFromStudent").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swalNew("", "accepted student successfully", "success");
+                    swalNew("", "accepted successfully", "success");
                 }
 
             },
@@ -214,12 +214,12 @@ function deleteStudent(){
                     $("#confirmRemove").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swalNew("", "deleted student successfully", "success");
+                    swalNew("", "deleted successfully", "success");
                 }else{
                     $("#remove").modal('hide');
                     $("#confirmRemove").modal('hide');
                     $("#listMyStudent").empty();
-                    swalNew("", "deleted student fail", "success");
+                    swalNew("", "deleted fail", "success");
                 }
 
             },
@@ -262,7 +262,7 @@ function inviteStudents(){
                     if (data.message == "success") {
                         $("#listMyStudent").empty();
                         listMyStudent();
-                        swalNew("", "invited student successfully", "success");
+                        swalNew("", "invited successfully", "success");
                         $("#inviteModal").modal('hide');
                     }else{
                         var listMailError=data.mailError;

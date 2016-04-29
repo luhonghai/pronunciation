@@ -300,7 +300,7 @@ public class SendMailUser extends HttpServlet{
             String id= (String)StringUtil.isNull(request.getParameter("id"),"");
             Gson gson=new Gson();
             try {
-                StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
+                StudentMappingTeacher studentMappingTeacher= studentMappingTeacherDAO.getById(id);
                 studentMappingTeacher.setIsDeleted(true);
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 /*if(studentMappingTeacher.isLicence()==true){

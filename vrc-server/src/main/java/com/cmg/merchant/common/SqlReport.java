@@ -21,13 +21,15 @@ public class SqlReport {
             "where cmc.idClass='paramIdClass' and cmc.isDeleted=false and c.isDeleted=false";
 
     private String SQL_LIST_COURSE_BY_STUDENT ="SELECT "+
-                    "  c.id,c.name "+
+                    "c.id,c.name "+
                     "FROM COURSE as c  inner join COURSEMAPPINGCLASS AS cmc "+
-                    "  on c.id = cmc.IDCOURSE "+
-                    "  INNER JOIN STUDENTMAPPINGCLASS AS smc "+
-                    "    ON cmc.idClass = smc.idClass "+
+                    "on c.id = cmc.IDCOURSE "+
+                    "INNER JOIN STUDENTMAPPINGCLASS AS smc "+
+                    "ON cmc.idClass = smc.idClass "+
+                    "INNER JOIN STUDENTMAPPINGTEACHER as tm "+
+                    "on tm.STUDENTNAME = smc.STUDENTNAME " +
                     "WHERE smc.STUDENTNAME = 'paramStudent' AND c.isDeleted=False AND cmc.isDeleted = FALSE "+
-                    " AND smc.isDeleted = FALSE;";
+                    " AND smc.isDeleted = FALSE AND tm.isDeleted=false;";
 
     private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
             "on lmq.idQuestion = q.id " +

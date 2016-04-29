@@ -51,6 +51,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -176,6 +177,12 @@ public class UnitTesting {
             c.setId("test");
             ClassDAO dao = new ClassDAO();
             dao.put(c);*/
+
+            TCHDAO dao = new TCHDAO();
+            ArrayList<TeacherCourseHistory>  list = dao.getListCourseByStudent("pablo.dropbox01@gmail.com");
+            for(TeacherCourseHistory tch : list){
+                System.out.println(tch.getIdCourse() + "-" + tch.getName());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
