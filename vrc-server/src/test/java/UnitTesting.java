@@ -178,11 +178,8 @@ public class UnitTesting {
             ClassDAO dao = new ClassDAO();
             dao.put(c);*/
 
-            TCHDAO dao = new TCHDAO();
-            ArrayList<TeacherCourseHistory>  list = dao.getListCourseByStudent("pablo.dropbox01@gmail.com");
-            for(TeacherCourseHistory tch : list){
-                System.out.println(tch.getIdCourse() + "-" + tch.getName());
-            }
+            StudentMappingClassDAO smcDao = new StudentMappingClassDAO();
+            smcDao.updateDelete("nambui","demoTeacher1@c-mg.com");
         } catch (Exception e) {
             e.printStackTrace();
         }
