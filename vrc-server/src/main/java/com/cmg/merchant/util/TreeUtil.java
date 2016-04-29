@@ -188,9 +188,9 @@ public class TreeUtil {
                /* node.setLabel(lesson.getName());*/
                 node.setLabel(lesson.getTitle());
                 node.set_type(lesson.getType());
-                node.set_description(lesson.getDescription());
-                node.set_title(lesson.getDescription());
-                node.set_details(lesson.getNameUnique());
+                node.set_description(lesson.getName());
+                node.set_title(lesson.getName());
+                node.set_details(lesson.getDescription());
                 node.setIcon(Constant.IC_LESSON);
                 node.set_targetLoad(Constant.TARGET_LOAD_LESSONS);
                 node.set_popupId(Constant.POPUP_LESSON);

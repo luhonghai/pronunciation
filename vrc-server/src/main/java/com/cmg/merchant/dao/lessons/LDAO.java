@@ -114,11 +114,10 @@ public class LDAO extends DataAccess<LessonCollection> {
         try {
             LessonCollection lc = getById(id);
             if(lc!=null){
-                lc.setName(detail);
                 lc.setTitle(name);
-                lc.setNameUnique(detail);
+                lc.setDescription(detail);
+                lc.setName(description);
                 lc.setType(type);
-                lc.setDescription(description);
                 put(lc);
                 isUpdate = true;
             }
@@ -158,7 +157,7 @@ public class LDAO extends DataAccess<LessonCollection> {
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaLessonCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
         TypeMetadata metaObjectiveMapping = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
-        String firstQuery = "select lesson.id, lesson.name , lesson.description, mapping.index from  " + metaLessonCollection.getTable()
+        String firstQuery = "select lesson.id, lesson.name , lesson.description, mapping.index,lesson.title from  " + metaLessonCollection.getTable()
                 + " lesson inner join " + metaObjectiveMapping.getTable()
                 + " mapping on mapping.idLessonCollection=lesson.id where ";
         clause.append(firstQuery);
@@ -181,6 +180,10 @@ public class LDAO extends DataAccess<LessonCollection> {
                     if(array[2]!=null){
                         lessonCollection.setDescription(array[2].toString());
                     }
+                    if(array[4]!=null){
+                        lessonCollection.setTitle(array[4].toString());
+                    }
+
                     list.add(lessonCollection);
                 }
             }

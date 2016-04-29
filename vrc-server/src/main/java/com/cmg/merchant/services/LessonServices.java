@@ -39,7 +39,7 @@ public class LessonServices {
 
     public String addLessonToObj(String idObj, String name, String description,String type,String detail){
         String idLesson = UUIDGenerator.generateUUID().toString();
-        if(isExistedLessonInObj(idObj, name, null)){
+        if(isExistedLessonInObj(null, name, idObj)){
             return ERROR + ": You already have a lesson with this name in your objective";
         }
         String message = addLessonToDB(idLesson,name,description,type,detail);
@@ -58,12 +58,13 @@ public class LessonServices {
             lesson.setId(id);
            /* lesson.setName(name);
             lesson.setTitle(name);
-            lesson.setNameUnique(detail);*/
-            lesson.setName(detail);
-            lesson.setTitle(name);
             lesson.setNameUnique(detail);
             lesson.setType(type);
-            lesson.setDescription(description);
+            lesson.setDescription(description);*/
+            lesson.setTitle(name);
+            lesson.setDescription(detail);
+            lesson.setName(description);
+            lesson.setType(type);
             lesson.setVersion(getMaxVersion());
             lesson.setDateCreated(new Date(System.currentTimeMillis()));
             lesson.setIsDeleted(false);
@@ -136,11 +137,12 @@ public class LessonServices {
         LDAO dao = new LDAO();
         LessonCollection lessonCollection=new LessonCollection();
         try {
-            lessonCollection = dao.getById(idLesson);
+            lessonCollection=dao.getById(idLesson);
             if(lessonCollection!=null) {
                 if (isExistedLessonInObj(idLesson, name, idObj)) {
                     return ERROR + ": You already have a lesson with that name in this objective'";
                 }
+                LessonCollection lc = dao.getById(idLesson);
                 boolean check = dao.updateLesson(idLesson, name, description, type, detail);
                 if (!check) {
                     return ERROR + ": an error has been occurred in server";
@@ -199,7 +201,7 @@ public class LessonServices {
                 }
             }else{
                 for(LessonCollection lesson : list){
-                    if(lesson.getName().equalsIgnoreCase(name)){
+                    if(lesson.getTitle().equalsIgnoreCase(name)){
                         return true;
                     }
                 }
@@ -255,10 +257,10 @@ public class LessonServices {
                 String newId = UUIDGenerator.generateUUID().toString();
                 tmp.setId(newId);
                 if(newName){
-                   /* tmp.setName("copy of " + lesson.getName());*/
+                    //tmp.setName("copy of " + lesson.getName());
                     tmp.setTitle("copy of " + lesson.getTitle());
                 }else{
-                    /*tmp.setName(lesson.getName());*/
+                    //tmp.setName(lesson.getName());
                     tmp.setTitle(lesson.getTitle());
                 }
                 tmp.setDescription(lesson.getDescription());
