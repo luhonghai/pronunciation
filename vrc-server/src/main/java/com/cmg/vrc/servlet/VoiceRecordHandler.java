@@ -16,6 +16,7 @@ import com.cmg.vrc.service.UserVoiceModelService;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
+import com.cmg.vrc.util.AudioHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
@@ -143,33 +144,9 @@ public class VoiceRecordHandler extends HttpServlet {
                     File targetRaw = new File(target, fileTempName);
                     //String fileClean = word + "_" + uuid + "_clean" + ".wav";
                     //File targetClean = new File(target, fileClean);
-                    AudioAttributes audio = new AudioAttributes();
-                  //  audio.setBitRate(128000);
-                    audio.setChannels(1);
-                    audio.setSamplingRate(16000);
-                    EncodingAttributes attrs = new EncodingAttributes();
-                    attrs.setFormat("wav");
-                    attrs.setAudioAttributes(audio);
-                    logger.info("Origin file path :" + tmpFileIn.getAbsolutePath());
-                    String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
-                    Encoder encoder;
-                    if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
-                            || env.equalsIgnoreCase("int")
-                            || env.equalsIgnoreCase("aws")) {
-                        encoder = new Encoder(
-                                new CustomFFMPEGLocator()
-                        );
-                    } else {
-                        encoder = new Encoder(
-                                new CustomFFMPEGLocator.MacFFMPEGLocator()
-                        );
-                    }
-                    try {
-                        encoder.encode(tmpFileIn, targetRaw, attrs);
-                    } catch (Exception e) {
-                        // ingore
-                    }
 
+                    logger.info("Origin file path :" + tmpFileIn.getAbsolutePath());
+                    AudioHelper.convertToWav(tmpFileIn, targetRaw);
                     //FileUtils.moveFile(tmpFileIn, targetRaw);
                     try {
                         if (tmpFileIn.exists())
