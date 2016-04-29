@@ -77,9 +77,9 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         TypeMetadata metaTeacherMappingCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","select student.id,student.studentName,student.teacherName,student.firstNameTeacher,student.lastNameTeacher,student.status,company.company from  " + metaStudentMappingTeacher.getTable()
+        Query q = pm.newQuery("javax.jdo.query.SQL","select student.id,student.studentName,student.teacherName,student.firstTeacherName,student.lastTeacherName,student.status,company.company from  " + metaStudentMappingTeacher.getTable()
                 + " student inner join " + metaTeacherMappingCompany.getTable()
-                + " company on student.teacherName=company.teacherName where studentName='"+studentName+"'" + " and company.isDeleted=false and student.isDeleted=false");
+                + " company on student.teacherName=company.username where student.studentName='"+studentName+"'" + " and company.isDeleted=false and student.isDeleted=false");
         try {
             List<StudentMappingTeacherClient> studentMappingTeacherClients = new ArrayList<StudentMappingTeacherClient>();
             List<Object> objects = (List<Object>) q.execute();
