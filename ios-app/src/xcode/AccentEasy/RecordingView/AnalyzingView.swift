@@ -255,40 +255,42 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     
     private func redraw()
     {
+        let lockQueue = dispatch_queue_create("com.cmg.analyzingview.LockQueue", nil)
+        dispatch_sync(lockQueue) {
         let currentTime: Double = NSDate().timeIntervalSince1970 * 1000.0
         let updateTime = 100.0
         let step = 4
-        if currentTime - lastUpdateAnimationTime > updateTime {
-            if (self.score >= self.originScore && animationState == .WAIT_FOR_MAX) {
+        if currentTime - self.lastUpdateAnimationTime > updateTime {
+            if (self.score >= self.originScore && self.animationState == .WAIT_FOR_MAX) {
                 self.score = self.originScore
-                delegate?.onAnimationMax()
-                if type == .SHOW_SCORE {
-                    animationState = .DEFAULT
-                } else if type == .ANALYZING || type == .SEARCHING {
-                    animationState = .WAIT_FOR_MIN
+                self.delegate?.onAnimationMax()
+                if self.type == .SHOW_SCORE {
+                    self.animationState = .DEFAULT
+                } else if self.type == .ANALYZING || self.type == .SEARCHING {
+                    self.animationState = .WAIT_FOR_MIN
                 }
-            } else if (self.score <= 0 && animationState == .WAIT_FOR_MIN) {
+            } else if (self.score <= 0 && self.animationState == .WAIT_FOR_MIN) {
                 self.score = 0
-                delegate?.onAnimationMin()
-                if type == .ANALYZING {
-                    animationState = .WAIT_FOR_MAX
-                } else if type == .SEARCHING {
-                    if isSearching {
-                        animationState = .WAIT_FOR_MAX
+                self.delegate?.onAnimationMin()
+                if self.type == .ANALYZING {
+                    self.animationState = .WAIT_FOR_MAX
+                } else if self.type == .SEARCHING {
+                    if self.isSearching {
+                        self.animationState = .WAIT_FOR_MAX
                     } else {
-                        switchType(.DEFAULT)
+                        self.switchType(.DEFAULT)
                     }
                 }
             }
             CATransaction.begin()
             CATransaction.setDisableActions(true)
             if (self.score > 9) {
-                scoreLayer.string = String(self.score)
+                self.scoreLayer.string = String(self.score)
             } else if (self.score >= 0) {
-                scoreLayer.string = "0\(self.score)"
+                self.scoreLayer.string = "0\(self.score)"
             }
             CATransaction.commit()
-            switch(animationState) {
+            switch(self.animationState) {
             case .DEFAULT:
                 break
             case .WAIT_FOR_MAX:
@@ -299,7 +301,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
                 break
             }
             
-            lastUpdateAnimationTime = currentTime
+            self.lastUpdateAnimationTime = currentTime
         }
         
         self.updateState()
@@ -324,6 +326,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             self.outerCircleLayer.path = outerCirclePath;
         }
         
+        }
     }
     
     private func updateState() {
@@ -577,7 +580,6 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     }
 
     public func displayLinkNeedsDisplay(displayLink: EZAudioDisplayLink!) {
-
         self.redraw()
     }
 }
