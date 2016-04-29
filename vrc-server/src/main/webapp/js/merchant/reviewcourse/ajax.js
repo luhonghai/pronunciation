@@ -31,11 +31,11 @@ function copyCourse(){
                 window.location.href = "/edit-copy-course.jsp?idCourse="+newIdCourse;
             }else{
                 //add false show the error
-                swal("","copy course fail","error");
+                swalNew("","copy course fail","error");
             }
         },
         error: function () {
-            swal("","copy course fail","error");
+            swalNew("","copy course fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {
@@ -43,7 +43,7 @@ function copyCourse(){
             onFinish:function(){
                 getDivContainTree().show();
                 progress.progressTimer('destroy');
-                swal("","copy course fail","error");
+                swalNew("","copy course fail","error");
             }
         });
     }).done(function(){
@@ -88,11 +88,11 @@ function loadWeightForWordEdit(word){
                     listWeightPhoneme: output
                 });
             }else{
-                //swal("Error!",message.split(":")[1], "error");
+                //swalNew("Error!",message.split(":")[1], "error");
             }
         },
         error: function () {
-            //swal("Error!", "Could not connect to server", "error");
+            //swalNew("Error!", "Could not connect to server", "error");
         }
 
     });

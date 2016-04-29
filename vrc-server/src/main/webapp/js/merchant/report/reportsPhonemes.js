@@ -31,7 +31,7 @@ function listStudents(){
                 }
             },
             error: function () {
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         });
@@ -59,13 +59,13 @@ function listPhonemes(){
                 $('#listPhonemes').multiselect('destroy');
                 $('#listPhonemes').multiselect({ enableFiltering: true, buttonWidth: '50px'});
                 $('#listPhonemes').multiselect('refresh');
-                swal("", "an error has been occurred in server", "error");
+                swalNew("", "an error has been occurred in server", "error");
                 $('.row').hide();
             }
 
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -106,7 +106,7 @@ function loadDataReport(studentName,phoneme,dateFrom,dateTo){
             }
 
             if(checkInValid){
-                swal("", "We could not found any data to build the report", "error");
+                swalNew("", "We could not found any data to build the report", "error");
             }else{
                 $("#report-popup").attr("times",arrayTime);
                 $("#report-popup").attr("scores",arrayScore);
@@ -114,7 +114,7 @@ function loadDataReport(studentName,phoneme,dateFrom,dateTo){
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });

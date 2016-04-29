@@ -506,6 +506,14 @@ function drag2drop(){
                         //do not move the test node
                         return false;
                     }
+                    if(dropData._targetLoad == targetLoadQuestion){
+                        //do not move the test node
+                        return false;
+                    }
+                    if(dragData._targetLoad == targetLoadQuestion){
+                        //do not move the test node
+                        return false;
+                    }
                     if (!api.sameParent(item, drop)) {
                         // mark the drop target as invalid
                         return false;
@@ -608,7 +616,7 @@ function copyAndPaste(){
                             copyQuestion (idLesson,idQuestion);
                         }
                     }else{
-                        swal("",'could not paste the data copied to this node',"error");
+                        swalNew("",'could not paste the data copied to this node',"error");
                     }
 
                 }, disabled : function(key, opt) {

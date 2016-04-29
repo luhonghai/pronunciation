@@ -44,7 +44,7 @@ function editCourse(){
                 currentPopup.modal('hide');
                 changeHeaderCourseName(getCourseName().val());
                 $("#listWord").empty();
-                swal("", "updated course successfully", "success");
+                swalNew("", "updated course successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -75,7 +75,7 @@ function deleteCourse(){
                 //reload the tree
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
-                swal("", "deleted course successfully", "success");
+                swalNew("", "deleted course successfully", "success");
                 window.history.back();
             }else{
                 //add false show the error
@@ -110,7 +110,7 @@ function addLevel(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "added level successfully", "success");
+                swalNew("", "added level successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -146,7 +146,7 @@ function editLevel(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "updated level successfully", "success");
+                swalNew("", "updated level successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -183,7 +183,7 @@ function deleteLevel(){
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
-                swal("", "deleted level successfully", "success");
+                swalNew("", "deleted level successfully", "success");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -222,7 +222,7 @@ function addObj(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "added objective successfully", "success");
+                swalNew("", "added objective successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -258,7 +258,7 @@ function editObj(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "updated objective successfully", "success");
+                swalNew("", "updated objective successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -293,7 +293,7 @@ function deleteObj(){
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
-                swal("", "deleted objective successfully", "success");
+                swalNew("", "deleted objective successfully", "success");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -329,7 +329,7 @@ function addTest(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "added test successfully", "success");
+                swalNew("", "added test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -364,7 +364,7 @@ function editTest(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "updated test successfully", "success");
+                swalNew("", "updated test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -399,7 +399,7 @@ function deleteTest(){
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
-                swal("", "deleted test successfully", "success");
+                swalNew("", "deleted test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -437,7 +437,7 @@ function addLesson(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "added lesson successfully", "success");
+                swalNew("", "added lesson successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -473,7 +473,7 @@ function editLesson(){
                 UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "updated lesson successfully", "success");
+                swalNew("", "updated lesson successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -504,7 +504,7 @@ function deleteLesson(){
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
-                swal("", "deleted lesson successfully", "success");
+                swalNew("", "deleted lesson successfully", "success");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -523,7 +523,7 @@ function deleteLesson(){
 function addQuestions(listWord){
     myObject.listWord = listWord;
     currentPopup.find(".validateMsg").html("Your question is being saved..");
-    currentPopup.find(".validateMsg").css("color","#A6A6A6")
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
     currentPopup.find(".validateMsg").show();
     currentPopup.find("#btnSaveQuestion").attr("disabled","disabled");
     $.ajax({
@@ -541,14 +541,14 @@ function addQuestions(listWord){
                 isEditedContent = true;
                 UpdateStateCourse();
                 reloadTree();
-                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("Success!", "added question successfully", "success");
+                swalNew("Success!", "added question successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
-                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
@@ -556,7 +556,7 @@ function addQuestions(listWord){
         },
         error: function () {
             currentPopup.find(".validateMsg").hide();
-            currentPopup.find(".validateMsg").css("color","red")
+            currentPopup.find(".validateMsg").css("color","red");
             currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
             currentPopup.find("#btnSaveQuestion").removeAttr("disabled");
@@ -567,7 +567,7 @@ function addQuestions(listWord){
 function editQuestions(listWord){
     myObject.listWord = listWord;
     currentPopup.find(".validateMsg").html("Your question is being edited..");
-    currentPopup.find(".validateMsg").css("color","#A6A6A6")
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
     currentPopup.find(".validateMsg").show();
     currentPopup.find("#btnSaveQuestion").attr("disabled","disabled");
     $.ajax({
@@ -587,7 +587,7 @@ function editQuestions(listWord){
                 currentPopup.find(".validateMsg").css("color","red")
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("Success!", "edited question successfully", "success");
+                swalNew("Success!", "edited question successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
@@ -626,7 +626,7 @@ function deleteQuestion(){
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
-                swal("", "deleted question successfully", "success");
+                swalNew("", "deleted question successfully", "success");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -671,7 +671,7 @@ function addQuestionsForTest(listWord){
                 currentPopup.find(".validateMsg").css("color","red")
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("Success!", "added question for test successfully", "success");
+                swalNew("", "added question for test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
@@ -684,7 +684,7 @@ function addQuestionsForTest(listWord){
         error: function () {
             currentPopup.find(".validateMsg").hide();
             currentPopup.find(".validateMsg").css("color","red")
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
             currentPopup.find("#btnSaveTestWord").removeAttr("disabled");
         }
@@ -716,7 +716,7 @@ function editQuestionsForTest(listWord){
                 currentPopup.find(".validateMsg").css("color","red")
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swal("", "edited question for test successfully", "success");
+                swalNew("", "edited question for test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
@@ -729,7 +729,7 @@ function editQuestionsForTest(listWord){
         error: function () {
             currentPopup.find(".validateMsg").hide();
             currentPopup.find(".validateMsg").css("color","red")
-            currentPopup.find(".validateMsg").html("could not connect to server!");
+            currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
             currentPopup.find("#btnSaveTestWord").removeAttr("disabled");
         }
@@ -755,7 +755,7 @@ function deleteQuestionForTest(){
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
-                swal("", "deleted question for test successfully", "success");
+                swalNew("", "deleted question for test successfully", "success");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -839,11 +839,11 @@ function loadWeightForWordEdit(word){
                     listWeightPhoneme: output
                 });
             }else{
-                //swal("Error!",message.split(":")[1], "error");
+                //swalNew("Error!",message.split(":")[1], "error");
             }
         },
         error: function () {
-            //swal("Error!", "Could not connect to server", "error");
+            //swalNew("Error!", "Could not connect to server", "error");
         }
 
     });
@@ -891,7 +891,7 @@ function loadPhonemes(){
                 }
             },
             error: function () {
-                swal("", "Could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         });
@@ -951,7 +951,7 @@ function UpdateStateCourse(){
             enablePublishBtn();
         },
         error: function () {
-            swal("","Could not connect to server","error");
+            swalNew("","could not connect to server","error");
         }
     });
 }
@@ -972,11 +972,11 @@ function publishCourse(){
             if (data.indexOf("success") !=-1) {
                 window.location.href = "/my-courses.jsp";
             }else{
-                swal("","Could not connect to server","error");
+                swalNew("","an error has been occured in server","error");
             }
         },
         error: function () {
-            swal("","Could not connect to server","error");
+            swalNew("","could not connect to server","error");
         }
     });
 }
