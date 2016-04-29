@@ -56,7 +56,10 @@ public class LessonServices {
         try {
             LessonCollection lesson = new LessonCollection();
             lesson.setId(id);
-            lesson.setName(name);
+           /* lesson.setName(name);
+            lesson.setTitle(name);
+            lesson.setNameUnique(detail);*/
+            lesson.setName(detail);
             lesson.setTitle(name);
             lesson.setNameUnique(detail);
             lesson.setType(type);
@@ -146,7 +149,6 @@ public class LessonServices {
                 return ERROR + ": This lesson has been already deleted";
             }
         }catch (Exception e){
-            e.printStackTrace();
             return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
@@ -191,7 +193,7 @@ public class LessonServices {
             List<LessonCollection> list = dao.getAllByIdObj(idObj);
             if(idLesson!=null){
                 for(LessonCollection lesson : list){
-                    if(lesson.getName().equalsIgnoreCase(name) && !lesson.getId().equals(idLesson)){
+                    if(lesson.getTitle().equalsIgnoreCase(name) && !lesson.getId().equals(idLesson)){
                         return true;
                     }
                 }
@@ -253,15 +255,15 @@ public class LessonServices {
                 String newId = UUIDGenerator.generateUUID().toString();
                 tmp.setId(newId);
                 if(newName){
-                    tmp.setName("copy of " + lesson.getName());
-                    tmp.setTitle("copy of " + lesson.getName());
+                   /* tmp.setName("copy of " + lesson.getName());*/
+                    tmp.setTitle("copy of " + lesson.getTitle());
                 }else{
-                    tmp.setName(lesson.getName());
-                    tmp.setTitle(lesson.getName());
+                    /*tmp.setName(lesson.getName());*/
+                    tmp.setTitle(lesson.getTitle());
                 }
                 tmp.setDescription(lesson.getDescription());
                 tmp.setNameUnique(lesson.getNameUnique());
-                tmp.setTitle(lesson.getTitle());
+                tmp.setName(lesson.getName());
                 tmp.setType(lesson.getType());
                 tmp.setIsDeleted(false);
                 tmp.setVersion(lesson.getVersion());

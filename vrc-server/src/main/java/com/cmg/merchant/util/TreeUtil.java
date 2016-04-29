@@ -185,7 +185,8 @@ public class TreeUtil {
             for(LessonCollection lesson : list){
                 TreeNode node = getDefaultInstance(showBtnAction);
                 node.setId(lesson.getId());
-                node.setLabel(lesson.getName());
+               /* node.setLabel(lesson.getName());*/
+                node.setLabel(lesson.getTitle());
                 node.set_type(lesson.getType());
                 node.set_description(lesson.getDescription());
                 node.set_title(lesson.getDescription());

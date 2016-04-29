@@ -114,7 +114,7 @@ public class LDAO extends DataAccess<LessonCollection> {
         try {
             LessonCollection lc = getById(id);
             if(lc!=null){
-                lc.setName(name);
+                lc.setName(detail);
                 lc.setTitle(name);
                 lc.setNameUnique(detail);
                 lc.setType(type);
@@ -123,7 +123,7 @@ public class LDAO extends DataAccess<LessonCollection> {
                 isUpdate = true;
             }
         }catch (Exception e){
-            e.printStackTrace();
+
         }
         return isUpdate;
     }
