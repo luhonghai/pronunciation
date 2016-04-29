@@ -238,6 +238,11 @@ public class ReportLessonDAO {
                 }else{
                     lessonCollection.setDateCreated(null);
                 }
+                if (data[3] != null) {
+                    lessonCollection.setTitle(data[3].toString());
+                }else{
+                    lessonCollection.setName(null);
+                }
                 lessonCollections.add(lessonCollection);
             }
             return lessonCollections;

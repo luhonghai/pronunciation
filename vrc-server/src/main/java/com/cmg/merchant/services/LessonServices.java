@@ -142,7 +142,6 @@ public class LessonServices {
                 if (isExistedLessonInObj(idLesson, name, idObj)) {
                     return ERROR + ": You already have a lesson with that name in this objective'";
                 }
-                LessonCollection lc = dao.getById(idLesson);
                 boolean check = dao.updateLesson(idLesson, name, description, type, detail);
                 if (!check) {
                     return ERROR + ": an error has been occurred in server";

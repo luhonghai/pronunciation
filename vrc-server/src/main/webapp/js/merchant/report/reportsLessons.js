@@ -222,7 +222,7 @@ function loadLesson(idObj) {
                     var items = data.listLesson;
                     $(items).each(function () {
                         var idLesson = this.id;
-                        var name = this.name;
+                        var name = this.title;
                         var date = this.dateCreated;
                         var Course = $("#listCourse option:selected").text();
                         var Level = $("#listLevel option:selected").text();

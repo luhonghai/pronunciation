@@ -106,7 +106,7 @@ public class SQL {
             "inner join COURSEMAPPINGDETAIL as cmd on obj.id=cmd.idChild " +
             "WHERE cmd.idLevel='paramIdLevel' and obj.isDeleted=false and cmd.isDeleted=false";
 
-    private String SQL_LESSON_FROM_OBJ="Select lesson.ID,lesson.NAME,lesson.DATECREATED FROM LESSONCOLLECTION as lesson " +
+    private String SQL_LESSON_FROM_OBJ="Select lesson.ID,lesson.NAME,lesson.DATECREATED,lesson.title FROM LESSONCOLLECTION as lesson " +
             "inner join OBJECTIVEMAPPING as mapping on lesson.ID=mapping.IDLESSONCOLLECTION " +
             "WHERE mapping.IDOBJECTIVE='paramIdObj' and lesson.isDeleted=false and mapping.isDeleted=false ORDER BY lesson.DATECREATED ASC";
 

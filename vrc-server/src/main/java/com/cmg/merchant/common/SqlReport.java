@@ -29,7 +29,7 @@ public class SqlReport {
                     "INNER JOIN STUDENTMAPPINGTEACHER as tm "+
                     "on tm.STUDENTNAME = smc.STUDENTNAME " +
                     "WHERE smc.STUDENTNAME = 'paramStudent' AND c.isDeleted=False AND cmc.isDeleted = FALSE "+
-                    " AND smc.isDeleted = FALSE AND tm.isDeleted=false;";
+                    " AND smc.isDeleted = FALSE AND tm.isDeleted=false GROUP BY c.ID,c.NAME";
 
     private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
             "on lmq.idQuestion = q.id " +
