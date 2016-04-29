@@ -72,7 +72,7 @@ public class NotificationServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(action.equalsIgnoreCase("closeAcccept")){
+        }else if(action.equalsIgnoreCase("closeAccept")){
             List<StudentMappingTeacher> studentMappingTeachers=studentMappingTeacherDAO.notificationAccept(teacher);
             for(StudentMappingTeacher studentMappingTeacher:studentMappingTeachers){
                 StudentMappingTeacher studentMappingTeacher1=new StudentMappingTeacher();

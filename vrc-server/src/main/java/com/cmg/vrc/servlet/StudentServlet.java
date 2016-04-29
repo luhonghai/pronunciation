@@ -156,8 +156,8 @@ public class StudentServlet extends HttpServlet {
             String idClass=request.getParameter("idClass");
             String studentName=request.getParameter("studentName");
             try {
-                StudentMappingClass studentMappingClass=new StudentMappingClass();
-                studentMappingClass=studentMappingClassDAO.getByClassAndStudent(idClass,studentName);
+              //  StudentMappingClass studentMappingClass=new StudentMappingClass();
+                StudentMappingClass studentMappingClass= studentMappingClassDAO.getByClassAndStudent(idClass,studentName);
                 studentMappingClass.setIsDeleted(true);
                 studentMappingClassDAO.put(studentMappingClass);
                 response.getWriter().write("success");
