@@ -31,11 +31,11 @@ function copyCourse(){
                 window.location.href = "/edit-copy-course.jsp?idCourse="+newIdCourse;
             }else{
                 //add false show the error
-                swalNew("","copy course fail","error");
+                swalNew("","copy fail","error");
             }
         },
         error: function () {
-            swalNew("","copy course fail","error");
+            swalNew("","copy fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {
@@ -43,7 +43,7 @@ function copyCourse(){
             onFinish:function(){
                 getDivContainTree().show();
                 progress.progressTimer('destroy');
-                swalNew("","copy course fail","error");
+                swalNew("","copy fail","error");
             }
         });
     }).done(function(){

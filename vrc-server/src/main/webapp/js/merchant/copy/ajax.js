@@ -58,16 +58,16 @@ function copyLevel(idCourse, idLevel){
                     UpdateStateCourse();
                 }
                reloadTree();
-                swalNew("","Copy level successfully","success");
+                swalNew("","copy level successfully","success");
             }else{
                 getDivContainTree().show();
-                swalNew("","Copy level fail","error");
+                swalNew("","copy level fail","error");
             }
         },
         error: function () {
             getProcessBar().hide();
             getDivContainTree().show();
-            swalNew("","Copy level fail","error");
+            swalNew("","copy level fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {
@@ -75,7 +75,7 @@ function copyLevel(idCourse, idLevel){
             onFinish:function(){
               getDivContainTree().show();
               progress.progressTimer('destroy');
-                swalNew("","Copy level fail","error");
+                swalNew("","copy level fail","error");
             }
         });
     }).done(function(){
@@ -115,24 +115,24 @@ function copyObj(idLevel, idObj){
                     UpdateStateCourse();
                 }
                 reloadTree();
-                swalNew("","Copy objective successfully","success");
+                swalNew("","copy objective successfully","success");
             }else{
                 getProcessBar().hide();
                 getDivContainTree().show();
-                swalNew("","Copy objective fail","error");
+                swalNew("","copy objective fail","error");
             }
         },
         error: function () {
             getProcessBar().hide();
             getDivContainTree().show();
-            swalNew("","Copy objective fail","error");
+            swalNew("","copy objective fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
                 getDivContainTree().show();
-                swalNew("","Copy objective fail","error");
+                swalNew("","copy objective fail","error");
             }
         });
     }).done(function(){
