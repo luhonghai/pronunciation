@@ -28,18 +28,17 @@ import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
+import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.dao.report.ReportPhoneDao;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.QuestionServices;
 import com.cmg.merchant.util.DateUtil;
-import com.cmg.vrc.data.dao.impl.AdminDAO;
-import com.cmg.vrc.data.dao.impl.ClassMappingTeacherDAO;
-import com.cmg.vrc.data.dao.impl.CourseMappingClassDAO;
-import com.cmg.vrc.data.dao.impl.StudentMappingTeacherDAO;
+import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
@@ -140,7 +139,7 @@ public class UnitTesting {
             System.out.println(json);*//*
           ReportLessonDAO dao = new ReportLessonDAO();
             dao.getClassByTeacher("");*/
-           /* StudentMappingTeacherDAO dao = new StudentMappingTeacherDAO();
+       /*     StudentMappingTeacherDAO dao = new StudentMappingTeacherDAO();
             StudentMappingTeacher smt = new StudentMappingTeacher();
             smt.setId("temp");
             smt.setFirstTeacherName("temp");
@@ -149,22 +148,34 @@ public class UnitTesting {
             smt.setLicence(true);
             smt.setMappingBy("temp");
             smt.setStudentName("temp");
-            dao.put(smt);*/
-          /*  ClassMappingTeacher cmt = new ClassMappingTeacher();
+            dao.put(smt);
+            ClassMappingTeacher cmt = new ClassMappingTeacher();
             cmt.setId("temp");
-            ClassMappingTeacherDAO dao = new ClassMappingTeacherDAO();
-            dao.put(cmt);*/
-            /*CourseMappingClass cmc = new CourseMappingClass();
+            ClassMappingTeacherDAO dao1 = new ClassMappingTeacherDAO();
+            dao1.put(cmt);*/
+           /* CourseMappingClass cmc = new CourseMappingClass();
             cmc.setId("temp");
             CourseMappingClassDAO cmcdao = new CourseMappingClassDAO();
             cmcdao.put(cmc);*/
-            TeacherCourseHistory tch = new TeacherCourseHistory();
+         /*   TeacherCourseHistory tch = new TeacherCourseHistory();
             tch.setId("abc");
             tch.setIdCourse("idcourse");
             tch.setVersion(1);
             tch.setPathAws("idcourse-v1.zip");
             TCHDAO dao = new TCHDAO();
-            dao.put(tch);
+            dao.put(tch);*/
+           /* CourseMappingTeacher cmt = new CourseMappingTeacher();
+            cmt.setId("test");
+            CMTDAO dao1 = new CMTDAO();
+            dao1.put(cmt);*/
+         /*   Double value = 19.5;
+            int i = (int) Math.round(value);
+            System.out.println(i);*/
+
+            /*ClassJDO c = new ClassJDO();
+            c.setId("test");
+            ClassDAO dao = new ClassDAO();
+            dao.put(c);*/
         } catch (Exception e) {
             e.printStackTrace();
         }

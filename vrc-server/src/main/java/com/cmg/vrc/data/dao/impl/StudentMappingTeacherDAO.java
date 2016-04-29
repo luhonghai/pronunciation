@@ -282,17 +282,18 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             for (Object object : objects) {
                 Object[] data = (Object[]) object;
                 StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
-                studentMappingTeacher.setId(data[0].toString());
-                studentMappingTeacher.setStudentName(data[1].toString());
+                if(data[0]!=null) studentMappingTeacher.setId(data[0].toString());
+                if(data[0]!=null) studentMappingTeacher.setStudentName(data[1].toString());
                 studentMappingTeachers.add(studentMappingTeacher);
             }
             return studentMappingTeachers;
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         } finally {
             q.closeAll();
             pm.close();
         }
+        return null;
     }
     public List<StudentMappingTeacher> notificationReject(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -307,17 +308,18 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             for (Object object : objects) {
                 Object[] data = (Object[]) object;
                 StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
-                studentMappingTeacher.setId(data[0].toString());
-                studentMappingTeacher.setStudentName(data[1].toString());
+                if(data[0]!=null)  studentMappingTeacher.setId(data[0].toString());
+                if(data[1]!=null) studentMappingTeacher.setStudentName(data[1].toString());
                 studentMappingTeachers.add(studentMappingTeacher);
             }
             return studentMappingTeachers;
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         } finally {
             q.closeAll();
             pm.close();
         }
+        return null;
     }
     public List<StudentMappingTeacher> notificationInvitation(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -332,17 +334,18 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             for (Object object : objects) {
                 Object[] data = (Object[]) object;
                 StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
-                studentMappingTeacher.setId(data[0].toString());
-                studentMappingTeacher.setStudentName(data[1].toString());
+                if(data[0]!=null) studentMappingTeacher.setId(data[0].toString());
+                if(data[0]!=null) studentMappingTeacher.setStudentName(data[1].toString());
                 studentMappingTeachers.add(studentMappingTeacher);
             }
             return studentMappingTeachers;
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         } finally {
             q.closeAll();
             pm.close();
         }
+        return null;
     }
 
 

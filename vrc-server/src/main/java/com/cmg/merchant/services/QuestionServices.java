@@ -403,7 +403,7 @@ public class QuestionServices {
                 tmp.setType((String)StringUtil.isNull(q.getType(),""));
                 tmp.setIsDeleted(false);
                 tmp.setVersion(q.getVersion());
-                tmp.setTimeCreated(new Date(System.currentTimeMillis()));
+                tmp.setTimeCreated(q.getTimeCreated());
                 qDao.create(tmp);
                 addMappingQuestionToLesson(newId,idLessonMapping);
                 return newId;

@@ -66,7 +66,7 @@ function listLicensedStudent(){
             }
         },
         error:function(e){
-            swal("Error!", "Could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -96,11 +96,11 @@ function addStudent(){
                     if (data == "success") {
                         $("#listStudent").empty();
                         listLicensedStudent();
-                        swal("", "added successfully", "success");
+                        swalNew("", "added successfully", "success");
                     }
                 },
                 error: function (e) {
-                    swal("", "Could not connect to server", "error");
+                    swalNew("", "could not connect to server", "error");
                 }
 
             });

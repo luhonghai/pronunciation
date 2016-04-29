@@ -542,7 +542,7 @@ public class ReportLessonDAO {
                     Object[] data = (Object[]) object;
                     if(data[1]!=null){
                         Double value = (Double)data[1];
-                        score = value.intValue();
+                        score = (int) Math.round(value);
                     }else{
                         score = 0;
                     }
@@ -579,7 +579,7 @@ public class ReportLessonDAO {
                     Object[] data = (Object[]) object;
                     if(data[1]!=null){
                         Double value = (Double)data[1];
-                        score = value.intValue();
+                        score = (int) Math.round(value);
                     }else{
                         score = 0;
                     }
@@ -654,7 +654,7 @@ public class ReportLessonDAO {
                     Object[] data = (Object[]) object;
                     if(data[1]!=null){
                         Double value = (Double)data[1];
-                        score = value.intValue();
+                        score = (int) Math.round(value);
                     }else{
                         score = 0;
                     }
@@ -690,7 +690,7 @@ public class ReportLessonDAO {
                     Object[] data = (Object[]) object;
                     if(data[1]!=null){
                         Double value = (Double)data[1];
-                        score = value.intValue();
+                        score = (int) Math.round(value);
                     }else{
                         score = 0;
                     }

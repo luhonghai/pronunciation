@@ -23,7 +23,7 @@ function listMyClasses(){
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -71,11 +71,11 @@ function openAdd(){
                     $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '100%'});
                     $('#addStudents').multiselect('refresh');
                 }else{
-                    swal("", data.message.split(":")[1], "error");
+                    swalNew("", data.message.split(":")[1], "error");
                 }
             },
             error: function () {
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         });
@@ -114,14 +114,14 @@ function addClass(){
                         $("#add").modal('hide');
                         $("#listMyClass").empty();
                         listMyClasses();
-                        swal("", "added class successfully", "success");
+                        swalNew("", "added class successfully", "success");
                     }else{
                         $("#classExits").find("#invalidClass").html(classname);
                         $("#classExits").modal('show');
                     }
                 },
                 error: function () {
-                    swal("", "could not connect to server", "error");
+                    swalNew("", "could not connect to server", "error");
                 }
 
             });
@@ -194,18 +194,18 @@ function deleteClass(){
                         listMyClasses();
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
-                        swal("", "deleted class successfully", "success");
+                        swalNew("", "deleted class successfully", "success");
                     }else if (data == "not exist"){
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
-                        swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
+                        swalNew("","this class has been already deleted","warning");
                         location.reload();
                     }else {
-                        swal("", "could not connect to server", "error");
+                        swalNew("", "could not connect to server", "error");
                     }
                 },
                 error: function () {
-                    swal("", "could not connect to server", "error");
+                    swalNew("", "could not connect to server", "error");
                 }
 
             });
@@ -265,11 +265,11 @@ function openEdit(){
                     $('#editStudents').multiselect('refresh');
                     $("#edits").modal('show');
                 }else{
-                    swal("", "an error has been occurred in server", "error");
+                    swalNew("", "an error has been occurred in server", "error");
                 }
             },
             error: function () {
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         });
@@ -306,20 +306,20 @@ function editClass(){
                     $("#listMyClass").empty();
                     listMyClasses();
                     $("#edits").modal('hide');
-                    swal("", "updated class successfully", "success");
+                    swalNew("", "updated class successfully", "success");
                 }else if (data == "not exist"){
                     $("#deletes").modal('hide');
-                    swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
+                    swalNew("","This class has been already deleted", "warning");
                     location.reload();
                 }else if(data == "name existed"){
                     $("#classExits").find("#invalidClass").html(classname);
                     $("#classExits").modal('show');
                 }else{
-                    swal("", "could not connect to server", "error");
+                    swalNew("", "could not connect to server", "error");
                 }
             },
             error: function () {
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         });
