@@ -27,6 +27,7 @@ import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
+import com.cmg.merchant.dao.lessons.LDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
@@ -36,7 +37,9 @@ import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.merchant.services.CMTSERVICES;
+import com.cmg.merchant.services.LessonServices;
 import com.cmg.merchant.services.QuestionServices;
+import com.cmg.merchant.services.Sync.CourseSyncService;
 import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
@@ -178,8 +181,14 @@ public class UnitTesting {
             ClassDAO dao = new ClassDAO();
             dao.put(c);*/
 
-            StudentMappingClassDAO smcDao = new StudentMappingClassDAO();
-            smcDao.updateDelete("nambui","demoTeacher1@c-mg.com");
+           /* CourseSyncService service = new CourseSyncService();
+            ArrayList<TeacherCourseHistory> list = service.listCourseByUser("pablo.dropbox01@gmail.com");
+            for(TeacherCourseHistory tch : list){
+                System.out.println(tch.getIdCourse() + "-" + tch.getName() + "-" + tch.getUrlDownload());
+            }*/
+            LessonServices services = new LessonServices();
+            String c = services.updateLesson("test","6f26a3ed-1d05-46bb-84f1-cf36c3d1c0ce","test"," test description"," test type"," test detail");
+            System.out.println(c);
         } catch (Exception e) {
             e.printStackTrace();
         }

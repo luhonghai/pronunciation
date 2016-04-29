@@ -268,8 +268,8 @@ public class ClassService {
     public String editClassToDb(String teacherName, String idClass,String nameClass,String definition,String jsonClient){
         String message=null;
         try {
-            ClassJDO classJDO=new ClassJDO();
-            classJDO=classDAO.getById(idClass);
+            //ClassJDO classJDO=new ClassJDO();
+            ClassJDO classJDO = classDAO.getById(idClass);
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
             if(classJDO!=null) {
                 if(!checkNameExisted(teacherName,idClass,nameClass)){

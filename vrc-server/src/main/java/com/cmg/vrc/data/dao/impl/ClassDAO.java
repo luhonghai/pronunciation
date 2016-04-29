@@ -354,7 +354,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
      */
     public void updateClassDelete(String idClass) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE CLASSJDO as class " +
+        String query = "UPDATE CLASSJDO as class " +
                 "inner join CLASSMAPPINGTEACHER as cmt " +
                 "on class.id = cmt.idClass " +
                 "left join COURSEMAPPINGCLASS as cmc " +
@@ -362,7 +362,9 @@ public class ClassDAO extends DataAccess<ClassJDO> {
                 "on class.id = smc.idClass " +
                 "set class.isDeleted=true,cmt.isDeleted=true," +
                 "cmc.isDeleted=true,smc.isDeleted=true " +
-                "where class.id = '"+idClass+"'");
+                "where class.id = '"+idClass+"'";
+        Query q = pm.newQuery("javax.jdo.query.SQL",query );
+        System.out.println(query);
         try {
             q.execute();
         } catch (Exception e) {

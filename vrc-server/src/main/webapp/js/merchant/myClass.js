@@ -306,7 +306,7 @@ function editClass(){
                     $("#listMyClass").empty();
                     listMyClasses();
                     $("#edits").modal('hide');
-                    swalNew("", "updated class successfully", "success");
+                    swalNew("", "updated successfully", "success");
                 }else if (data == "not exist"){
                     $("#deletes").modal('hide');
                     swalNew("","This class has been already deleted", "warning");

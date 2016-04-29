@@ -133,7 +133,7 @@ public class LessonServices {
         LDAO dao = new LDAO();
         LessonCollection lessonCollection=new LessonCollection();
         try {
-            lessonCollection=dao.getById(idLesson);
+            lessonCollection = dao.getById(idLesson);
             if(lessonCollection!=null) {
                 if (isExistedLessonInObj(idLesson, name, idObj)) {
                     return ERROR + ": You already have a lesson with that name in this objective'";
@@ -146,6 +146,7 @@ public class LessonServices {
                 return ERROR + ": This lesson has been already deleted";
             }
         }catch (Exception e){
+            e.printStackTrace();
             return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
@@ -253,8 +254,10 @@ public class LessonServices {
                 tmp.setId(newId);
                 if(newName){
                     tmp.setName("copy of " + lesson.getName());
+                    tmp.setTitle("copy of " + lesson.getName());
                 }else{
                     tmp.setName(lesson.getName());
+                    tmp.setTitle(lesson.getName());
                 }
                 tmp.setDescription(lesson.getDescription());
                 tmp.setNameUnique(lesson.getNameUnique());
