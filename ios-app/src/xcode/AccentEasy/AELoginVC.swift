@@ -89,8 +89,10 @@ class AELoginVC: UIViewController, UITextFieldDelegate {
 
     
     @IBAction func loginTapped(sender: AnyObject) {
-        DeviceManager.doIfConnectedToNetwork { () -> Void in
+        DeviceManager.doIfConnectedToNetwork { (status) -> Void in
+            if status {
             self.loginAE()
+            }
         }
     }
     
