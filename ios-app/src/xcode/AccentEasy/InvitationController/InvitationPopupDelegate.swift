@@ -12,4 +12,5 @@ import Foundation
     func closePopup(sender: AnyObject)
     func inviAcceptPopupVCTouchOK(sender: AnyObject)
     func invitationPopupVCTouchOK(sender: AnyObject)
+    func invitationPopupVCTouchReject(sender: AnyObject)
 }

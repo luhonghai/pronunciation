@@ -42,7 +42,7 @@ class InvitationPopupVC: UIViewController {
         btnReject.setImage(rImage, forState: UIControlState.Normal)
         btnReject.tintColor = ColorHelper.APP_RED_MAGENTA
         
-        tvTitle.text = "\(firstTeacherName) \(lastTeacherName) from \(companyName) would like to  invite you to their classroom, please accept or reject."
+        tvTitle.text = "\(firstTeacherName) \(lastTeacherName) from \(companyName) would like to invite you to their classroom, please accept or reject."
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -86,4 +86,11 @@ class InvitationPopupVC: UIViewController {
         DeviceManager.showLockScreen()
         delegate?.invitationPopupVCTouchOK(indexSelected)
     }
+    
+    @IBAction func btnRejectTouchUp(sender: AnyObject) {
+        showLoadding()
+        DeviceManager.showLockScreen()
+        delegate?.invitationPopupVCTouchReject(indexSelected)
+    }
+    
 }
