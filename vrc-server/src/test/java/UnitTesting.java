@@ -215,11 +215,15 @@ public class UnitTesting {
                     System.out.println("contain");
                 }
             }*/
-            TCHDAO dao = new TCHDAO();
+            /*TCHDAO dao = new TCHDAO();
             ArrayList<TeacherCourseHistory> listTmp = dao.getListCourseByStudent("xuan.bui@c-mg.com");
             for(TeacherCourseHistory tch : listTmp){
                 System.out.println(tch.getName());
-            }
+            }*/
+            ReportLessonDAO dao = new ReportLessonDAO();
+            String latestSession = dao.getLatestSessionIdIn3Months("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14");
+            List<String> listPracticedWord = dao.getWordsInSession("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14",latestSession);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

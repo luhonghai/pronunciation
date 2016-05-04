@@ -388,8 +388,14 @@ public class ReportLessonService {
                 classScoreList = new ArrayList<>();
                 for(String word : listWord){
                     if(listPracticedWord.contains(word)){
-                        studentScoreList.add(generateScoreWordByStudent(student,idLesson,word,latestSessionStudent));
-                        classScoreList.add(generateClassScoreWord(listStudent,idLesson,word));
+                        int studentScore = generateScoreWordByStudent(student, idLesson, word, latestSessionStudent);
+                        studentScoreList.add(studentScore);
+                        if(studentScore > 0){
+                            classScoreList.add(generateClassScoreWord(listStudent,idLesson,word));
+                        }else{
+                            classScoreList.add(0);
+                        }
+
                     }else{
                         studentScoreList.add(0);
                         classScoreList.add(0);
@@ -408,8 +414,13 @@ public class ReportLessonService {
                 classScoreList = new ArrayList<>();
                 for(String ipa : listPhonemes){
                     if(listPhonemesPracticed.contains(ipa)){
-                        studentScoreList.add(generateStudentScorePhoneme(student, idLesson, ipa, latestSessionStudent));
-                        classScoreList.add(generateClassScorePhoneme(listStudent, idLesson, ipa));
+                        int studentScore = generateStudentScorePhoneme(student, idLesson, ipa, latestSessionStudent);
+                        studentScoreList.add(studentScore);
+                        if(studentScore > 0){
+                            classScoreList.add(generateClassScorePhoneme(listStudent, idLesson, ipa));
+                        }else{
+                            classScoreList.add(0);
+                        }
                     }else{
                         studentScoreList.add(0);
                         classScoreList.add(0);

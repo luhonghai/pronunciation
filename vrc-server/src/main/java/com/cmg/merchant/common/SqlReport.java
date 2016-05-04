@@ -134,11 +134,11 @@ public class SqlReport {
             "order by dateCompleted DESC" +
             " limit 1";
 
-    private String SQL_GET_ALL_WORD_IN_SESSION = "select ulh.WORD from SESSIONSCORE " +
+    private String SQL_GET_ALL_WORD_IN_SESSION = "select ulh.WORD,s.sessionId from SESSIONSCORE " +
             "  as s inner join USERLESSONHISTORY as ulh on s.IDUSERLESSONHISTORY = ulh.ID " +
             "  inner join LESSONCOLLECTION as lmq " +
             "  on s.IDLESSONCOLLECTION = lmq.id where ulh.USERNAME='paramStudent'" +
-            "  and lmq.id='paramLessionId' and lmq.isDeleted=false" +
+            "  and lmq.id='paramLessionId' and lmq.isDeleted=false " +
             "and s.sessionId = 'paramSessionId' group by ulh.WORD;";
 
     private String SQL_GET_ALL_PHONEME_IN_SESSION = "select s.SESSIONID,map.IPA from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +

@@ -814,8 +814,9 @@ public class ReportLessonDAO {
                 for (Object object : tmp) {
                     Object[] data = (Object[]) object;
                     if(data[0]!=null){
-                        String word = (String) StringUtil.isNull(data[1], "null");
+                        String word = (String) StringUtil.isNull(data[0], "null");
                         if(word!="null"){
+                            System.out.println("word practice : " + word);
                             words.add(word);
                         }
                     }
@@ -836,7 +837,7 @@ public class ReportLessonDAO {
      * @param lessonId
      * @return
      */
-    public ArrayList<String> getPhonemessInSession(String student, String lessonId, String idSession){
+    public ArrayList<String> getPhonemesInSession(String student, String lessonId, String idSession){
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sql = new SqlReport();
         String query=sql.getPhonemesInSession(student, lessonId, idSession);
@@ -848,7 +849,7 @@ public class ReportLessonDAO {
             if(tmp!=null && tmp.size()>0){
                 for (Object object : tmp) {
                     Object[] data = (Object[]) object;
-                    if(data[0]!=null){
+                    if(data[1]!=null){
                         String ipa = (String) StringUtil.isNull(data[1], "null");
                         if(ipa!="null"){
                             phonemes.add(ipa);
