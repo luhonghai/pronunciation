@@ -85,7 +85,7 @@ function generateWidth(data){
     }else if(data.length >= 10 && data.length <= 20){
         width = "150%";
     }else if(data.length > 20){
-        width = "120%";
+        width = "200%";
     }
     return width;
 }
