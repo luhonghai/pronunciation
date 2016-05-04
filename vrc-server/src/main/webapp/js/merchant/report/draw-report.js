@@ -80,14 +80,27 @@ function generateArray(listData, listScore){
 
 function generateWidth(data){
     var width = 0;
-    if(data.length > 0 && data.length <= 10){
+    if(data.length > 0 && data.length < 10){
         width = "100%";
-    }else if(data.length > 10 && data.length < 20){
-        width = "100%";
+    }else if(data.length >= 10 && data.length <= 20){
+        width = "150%";
     }else if(data.length > 20){
         width = "120%";
     }
     return width;
+}
+
+function generateTickArray(listData){
+    var tmp = [];
+    if(listData!=null && listData.length > 0){
+        for(var i = 0 ; i < listData.length ; i++){
+            var label = listData[i];
+            //if(listScore[i] > 0){
+            tmp.push([i,listData[i]]);
+            // }
+        }
+    }
+    return tmp;
 }
 
 function drawBarChart(listData,studentScores,classScores,type){
@@ -119,7 +132,8 @@ function drawBarChart(listData,studentScores,classScores,type){
             mode: "categories",
             tickLength: 0,
             min: -0.5,
-            max: 6.5
+            max: 6.5,
+            ticks : generateTickArray(listData)
         },
         yaxis : {
             min : 0,

@@ -360,7 +360,6 @@ public class ReportLessonService {
                         totalScore = totalScore + temp;
                         size = size + 1;
                     }
-
                 }
             }
         }
