@@ -171,21 +171,25 @@ public class CalculationServlet extends HttpServlet {
                         if (result != null) {
                             model.setResult(result);
                             service.reCalculateBaseOnWeight(model);
+                            String output = gson.toJson(model);
+                            logger.info("json to client : " + output);
+                            responseData.setStatus(true);
+                            responseData.setData(model);
+                            responseData.setMessage("success");
+                            //start add to db
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    service.addUserLessonHistory(model);
+                                    service.addPhonemeScore(model);
+                                    service.addSessionScore(model);
+                                }
+                            }).start();
+                        }else{
+                            responseData.setStatus(false);
+                            responseData.setMessage("could not calculate score");
                         }
-                        String output = gson.toJson(model);
-                        logger.info("json to client : " + output);
-                        responseData.setStatus(true);
-                        responseData.setData(model);
-                        responseData.setMessage("success");
-                        //start add to db
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                service.addUserLessonHistory(model);
-                                service.addPhonemeScore(model);
-                                service.addSessionScore(model);
-                            }
-                        }).start();
+
                     } finally {
                         if (tmpFileIn.exists()) {
                             try {

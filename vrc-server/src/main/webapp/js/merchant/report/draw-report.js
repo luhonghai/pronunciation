@@ -69,9 +69,9 @@ function generateArray(listData, listScore){
     if(listData!=null && listData.length > 0){
         for(var i = 0 ; i < listData.length ; i++){
             var label = listData[i];
-            if(listScore[i] > 0){
+            //if(listScore[i] > 0){
                 tmp.push([label,listScore[i]]);
-            }
+           // }
         }
     }
     return tmp;

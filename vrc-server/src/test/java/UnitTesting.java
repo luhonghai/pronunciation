@@ -39,6 +39,7 @@ import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.LessonServices;
 import com.cmg.merchant.services.QuestionServices;
+import com.cmg.merchant.services.Report.ReportLessonService;
 import com.cmg.merchant.services.Sync.CourseSyncService;
 import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.data.dao.impl.*;
@@ -186,9 +187,39 @@ public class UnitTesting {
             for(TeacherCourseHistory tch : list){
                 System.out.println(tch.getIdCourse() + "-" + tch.getName() + "-" + tch.getUrlDownload());
             }*/
-            LessonServices services = new LessonServices();
+           /* LessonServices services = new LessonServices();
             String c = services.updateLesson("test","6f26a3ed-1d05-46bb-84f1-cf36c3d1c0ce","test"," test description"," test type"," test detail");
-            System.out.println(c);
+            System.out.println(c);*/
+          /*  Double value = 19.5;
+            int i = (int) Math.round(value);
+            System.out.println(i);*/
+           // ReportLessonDAO dao = new ReportLessonDAO();
+            //dao.getStudentAvgScoreLesson("pablo.dropbox03@gmail.com","5a0ecb3b-3a88-4264-b80e-9cd2f156e612","3EAC1A83-3653-42BF-9CE4-AB42C2DBEDD6");
+            //ReportLessonService services = new ReportLessonService();
+            //int i = services.getAvgScoreOfClass("004adfdc-64d0-413c-8367-2914828b5280","5a0ecb3b-3a88-4264-b80e-9cd2f156e612");
+            // int i = (int) Math.round((0+17)/2);
+            //System.out.println(i);
+          /*  int i = (int) Math.round(0/0);*/
+            /*ReportLessonDAO dao = new ReportLessonDAO();
+            String latestSession = dao.getLatestSessionIdIn3Months("pablo.dropbox02@gmail.com","699fabf3-6a6f-4698-9a46-7ff286cd2cb0");
+            System.out.println(latestSession);
+            boolean test =  dao.checkUserCompletedLesson("pablo.dropbox02@gmail.com","699fabf3-6a6f-4698-9a46-7ff286cd2cb0", latestSession);
+            System.out.println(test);*/
+           /* ArrayList<String> practice = new ArrayList<>();
+            ArrayList<String> total = new ArrayList<>();
+            practice.add("e");
+            total.add("e");
+            for(int i = 0 ; i < total.size();i++){
+                String ipa = total.get(i);
+                if(practice.contains(ipa)){
+                    System.out.println("contain");
+                }
+            }*/
+            TCHDAO dao = new TCHDAO();
+            ArrayList<TeacherCourseHistory> listTmp = dao.getListCourseByStudent("xuan.bui@c-mg.com");
+            for(TeacherCourseHistory tch : listTmp){
+                System.out.println(tch.getName());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
