@@ -156,8 +156,8 @@ function drawBarChart(listData,studentScores,classScores,type){
 
 function showToolTip(x, y, contents, z){
     $('<div id="flot-tooltip">' + contents + '</div>').css({
-        top: y - 50,
-        left: x - 500,
+        top: y - 100,
+        left: x - 280,
         'border-color': z,
     }).appendTo("#holder-chart").show();
 }

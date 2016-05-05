@@ -4,9 +4,6 @@
 var color_class_score = "#558ED5";
 var color_student_score = "#17375E";
 function drawReport(data){
-    var data1 = [
-        //[gd(2013, 1, 2), 40], [gd(2013, 1, 3), 59], [gd(2013, 1, 4), 60]
-    ];
     var dataset = [
         {
             data: data,
@@ -21,8 +18,8 @@ function drawReport(data){
             shadowSize: 5
         },
         xaxis: {
-            //mode: "time",
-            //timeformat:"%d/%m/%Y %H:%M:%S",
+            mode: "time",
+            timeformat:"%d/%m/%Y %H:%M:%S",
             //tickSize : [1, "month"],
             //min : new Date(combineMinDate()).getTime(),
             //max : new Date(combineMaxDate()).getTime()
@@ -36,12 +33,36 @@ function drawReport(data){
             borderWidth: 3,
             mouseActiveRadius: 50,
             backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
-            axisMargin: 20
+            axisMargin: 10
+        }, hooks: {
+            draw: [raw]
         }
     };
-    $.plot($("#placeholder"), dataset, options);
+   var chart =  $.plot($("#placeholder"), dataset, options);
 }
+function raw(plot, ctx){
+    var data = plot.getData();
+    var axes = plot.getAxes();
+    var offset = plot.getPlotOffset();
+    var bottom = axes.yaxis.p2c(0)+offset.top;
+    var min = $("#dateFrom").val();
+    var min_series = data[0];
+    var min_d = (min_series.data[0]);
+    var minx = offset.left + axes.xaxis.p2c(min_d[0]);
+    var miny = offset.top + axes.yaxis.p2c(min_d[1]);
+    ctx.textAlign = 'center';
+    console.log(minx);console.log(miny);console.log(plot);
+    ctx.fillText(min, minx,bottom +plot.height()/20);
 
+    var max = $("#dateTo").val();
+    var max_series = data[data.length - 1];
+    var max_d = (max_series.data[max_series.data.length-1]);
+    var maxx = offset.left + axes.xaxis.p2c(max_d[0]);
+    /*console.log(maxx); console.log(max_series);*/
+    ctx.textAlign = 'center';
+    ctx.fillText(max, maxx,bottom +plot.height()/20);
+
+}
 function showToolTip(x, y, contents, z){
     $('<div id="flot-tooltip">' + contents + '</div>').css({
         top: y - 100,
