@@ -83,9 +83,9 @@ function generateWidth(data){
     if(data.length > 0 && data.length < 10){
         width = "100%";
     }else if(data.length >= 10 && data.length <= 20){
-        width = "150%";
-    }else if(data.length > 20){
         width = "200%";
+    }else if(data.length > 20 && data.length <=50){
+        width = "300%";
     }
     return width;
 }
@@ -132,7 +132,7 @@ function drawBarChart(listData,studentScores,classScores,type){
             mode: "categories",
             tickLength: 0,
             min: -0.5,
-            max: 6.5,
+            //max: 6.5,
             ticks : generateTickArray(listData)
         },
         yaxis : {

@@ -205,6 +205,7 @@ public class ReportLessonService {
     public String drawCircle(String idLesson, String student, String idClass){
         Information information = new Information();
         long startTime = System.currentTimeMillis();
+        System.out.println("======draw circle==========");
         try {
             Reports report = new Reports();
             String latestSession = reportLessonDAO.getLatestSessionIdIn3Months(student,idLesson);
@@ -380,6 +381,7 @@ public class ReportLessonService {
         Information container = new Information();
         Reports report = new Reports();
         long startTime = System.currentTimeMillis();
+        System.out.println("=====draw report=========");
         try {
             List<Integer> studentScoreList = null;
             List<Integer> classScoreList = null;
@@ -399,7 +401,6 @@ public class ReportLessonService {
                         }else{
                             classScoreList.add(0);
                         }
-
                     }else{
                         studentScoreList.add(0);
                         classScoreList.add(0);
