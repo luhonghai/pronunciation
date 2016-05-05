@@ -409,11 +409,11 @@ public class ReportLessonService {
             }
 
             List<String> listPhonemes = reportLessonDAO.getListPhonemes();
-            List<String> listPhonemesPracticed = reportLessonDAO.getListPhonemes();
+            List<String> listPhonemesPracticed = reportLessonDAO.getPhonemesInSession(student,idLesson,latestSessionStudent);
             if(listPhonemes!=null &&  listPhonemes.size()>0){
                 studentScoreList = new ArrayList<>();
                 classScoreList = new ArrayList<>();
-                for(String ipa : listPhonemes){
+                for(String ipa : listPhonemesPracticed){
                     if(listPhonemesPracticed.contains(ipa)){
                         int studentScore = generateStudentScorePhoneme(student, idLesson, ipa, latestSessionStudent);
                         studentScoreList.add(studentScore);
@@ -428,7 +428,7 @@ public class ReportLessonService {
                     }
 
                 }
-                report.setPhonemes(listPhonemes);
+                report.setPhonemes(listPhonemesPracticed);
                 report.setPhonemesClassScore(classScoreList);
                 report.setPhonemesStudentScore(studentScoreList);
             }

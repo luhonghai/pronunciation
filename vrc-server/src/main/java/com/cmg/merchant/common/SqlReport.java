@@ -123,7 +123,7 @@ public class SqlReport {
             "where cmt.teacherName='paramTName' " +
             "and smc.ISDELETED=false and cmt.ISDELETED=false";
 
-    private String SQL_CALCULATE_PHONEME_SCORE_BY_USER = "select ulh.SERVERTIME, AVG(pls.TOTALSCORE) from USERLESSONHISTORY as ulh " +
+    private String SQL_CALCULATE_PHONEME_SCORE_BY_USER = "select ulh.SERVERTIME, pls.TOTALSCORE from USERLESSONHISTORY as ulh " +
             "inner join PHONEMELESSONSCORE as pls " +
             "on ulh.id=pls.IDUSERLESSONHISTORY " +
             "inner join IPAMAPARPABET as map " +

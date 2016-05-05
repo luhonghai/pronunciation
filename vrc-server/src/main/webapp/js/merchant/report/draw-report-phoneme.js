@@ -22,13 +22,14 @@ function drawReport(data){
         },
         xaxis: {
             mode: "time",
-            timeformat: "%d/%m/%Y",
+            timeformat: "%d/%m/%Y ",
             tickSize : [1, "month"],
             min : new Date(combineMinDate()).getTime(),
             max : new Date(combineMaxDate()).getTime()
         },
         yaxis: {
-            min : 0
+            min : 0,
+            max : 100
         },
         grid: {
             hoverable: true,

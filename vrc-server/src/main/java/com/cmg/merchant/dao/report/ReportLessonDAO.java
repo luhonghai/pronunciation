@@ -847,7 +847,7 @@ public class ReportLessonDAO {
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sql = new SqlReport();
         String query=sql.getPhonemesInSession(student, lessonId, idSession);
-       // System.out.println("sql get all phonemes in session : " + query);
+        System.out.println("sql get all phonemes in session : " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         ArrayList<String> phonemes = new ArrayList<>();
         try {

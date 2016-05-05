@@ -220,16 +220,20 @@ public class UnitTesting {
             for(TeacherCourseHistory tch : listTmp){
                 System.out.println(tch.getName());
             }*/
-            ReportLessonDAO dao = new ReportLessonDAO();
+            //ReportLessonDAO dao = new ReportLessonDAO();
            /* String latestSession = dao.getLatestSessionIdIn3Months("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14");
             List<String> listPracticedWord = dao.getWordsInSession("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14",latestSession);*/
            /* boolean completed = dao.checkUserCompletedLesson("","4e251857-a76d-451c-a876-b70c2e4d0b14","C7175D5E-442B-4069-950A-9E1685796FA5");
             System.out.println(completed);*/
-            List<String> listWord = dao.getListWordInLesson("bf22c822-82d1-469f-bbd4-0aa269efbb16");
-            for(String tch : listWord){
+            //List<String> listWord = dao.getListPhonemeLesson("bf22c822-82d1-469f-bbd4-0aa269efbb16","anh.nguyen@c-mg.com");
+            /*for(String tch : listWord){
                 System.out.println(tch.toString());
+            }*/
+            ReportPhoneDao dao = new ReportPhoneDao();
+            ArrayList<ReportPhoneDao.ScorePhoneme> list = dao.getScorePhonemeByStudent("anh.nguyen@c-mg.com","D","2016-04-05","2016-05-06");
+            for(ReportPhoneDao.ScorePhoneme sp : list){
+                System.out.println(sp.getScore() + " " + sp.getServerTime());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -137,6 +137,7 @@ function drawBarChart(listData,studentScores,classScores,type){
         },
         yaxis : {
             min : 0,
+            max : 100,
             axisLabelPadding: 5,
             axisLabel: 'Score percent',
             axisLabelUseCanvas: true,
