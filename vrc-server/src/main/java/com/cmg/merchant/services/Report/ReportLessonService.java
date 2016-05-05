@@ -314,19 +314,17 @@ public class ReportLessonService {
      */
     public int generateClassScoreWord(List<StudentMappingClass> listStudent,String idLesson,String word){
         int totalScore = 0;
-        int size = 0;
         if(listStudent.size() > 0){
             for(StudentMappingClass st : listStudent){
                 String student = st.getStudentName();
                 String latestSessionStudent = reportLessonDAO.getLatestSessionIdIn3Months(student, idLesson);
-                if(latestSessionStudent!=null){
+                if(latestSessionStudent!=null && reportLessonDAO.checkUserCompletedLesson(student, idLesson, latestSessionStudent)){
                     int temp = reportLessonDAO.getAvgScoreWordInLessonOfUser(student, idLesson, word,latestSessionStudent);
                     totalScore = totalScore + temp;
-                    size = size + 1;
                 }
             }
         }
-        return size == 0 ? 0 : Math.round(totalScore/size);
+        return listStudent.size() == 0 ? 0 : Math.round(totalScore/listStudent.size());
     }
 
     /**
@@ -354,21 +352,19 @@ public class ReportLessonService {
      */
     public int generateClassScorePhoneme(List<StudentMappingClass> listStudent,String idLesson, String ipa){
         int totalScore = 0;
-        int size = 0;
         if(listStudent.size() > 0){
             for(StudentMappingClass st : listStudent){
                 String student = st.getStudentName();
                 String latestSessionStudent = reportLessonDAO.getLatestSessionIdIn3Months(student, idLesson);
-                if(latestSessionStudent!=null){
+                if(latestSessionStudent!=null && reportLessonDAO.checkUserCompletedLesson(student, idLesson, latestSessionStudent)){
                     int temp = reportLessonDAO.getAvgScorePhonemesInLessonOfUser(student, idLesson, ipa,latestSessionStudent);
                     if(temp!=-1){
                         totalScore = totalScore + temp;
-                        size = size + 1;
                     }
                 }
             }
         }
-        return size == 0 ? 0 : Math.round(totalScore/size);
+        return listStudent.size() == 0 ? 0 : Math.round(totalScore/listStudent.size());
     }
     /**
      *

@@ -223,8 +223,12 @@ public class UnitTesting {
             ReportLessonDAO dao = new ReportLessonDAO();
            /* String latestSession = dao.getLatestSessionIdIn3Months("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14");
             List<String> listPracticedWord = dao.getWordsInSession("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14",latestSession);*/
-            boolean completed = dao.checkUserCompletedLesson("","4e251857-a76d-451c-a876-b70c2e4d0b14","C7175D5E-442B-4069-950A-9E1685796FA5");
-            System.out.println(completed);
+           /* boolean completed = dao.checkUserCompletedLesson("","4e251857-a76d-451c-a876-b70c2e4d0b14","C7175D5E-442B-4069-950A-9E1685796FA5");
+            System.out.println(completed);*/
+            List<String> listWord = dao.getListWordInLesson("bf22c822-82d1-469f-bbd4-0aa269efbb16");
+            for(String tch : listWord){
+                System.out.println(tch.toString());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
