@@ -31,7 +31,7 @@ public class SqlReport {
                     "WHERE smc.STUDENTNAME = 'paramStudent' AND c.isDeleted=False AND cmc.isDeleted = FALSE "+
                     " AND smc.isDeleted = FALSE AND tm.isDeleted=false GROUP BY c.ID,c.NAME";
 
-    private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
+    /*private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
             "on lmq.idQuestion = q.id " +
             "where q.id not in (select s.idQuestion from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
             "on s.IDUSERLESSONHISTORY = ulh.ID " +
@@ -40,7 +40,13 @@ public class SqlReport {
             "inner join QUESTION as ques " +
             "on s.idQuestion = ques.id " +
             "where s.sessionId = 'paramSessionId' and ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false and ques.isDeleted=false) " +
-            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false;";
+            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false;";*/
+
+    private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
+            "on lmq.idQuestion = q.id " +
+            "where q.id not in (select idQuestion from SESSIONSCORE " +
+            "where sessionId = 'paramSessionId') " +
+            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false";
 
     private String SQL_CALCULATE_USER_SCORE_LESSON="select s.IDQUESTION,ulh.SCORE,ulh.SERVERTIME,s.sessionId from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
             "    on s.IDUSERLESSONHISTORY = ulh.ID " +

@@ -204,6 +204,7 @@ public class ReportLessonService {
      */
     public String drawCircle(String idLesson, String student, String idClass){
         Information information = new Information();
+        long startTime = System.currentTimeMillis();
         try {
             Reports report = new Reports();
             String latestSession = reportLessonDAO.getLatestSessionIdIn3Months(student,idLesson);
@@ -229,6 +230,9 @@ public class ReportLessonService {
             e.printStackTrace();
             information.setMessage("error");
         }
+        long endTime   = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("load data draw circle of lesson : " +idLesson +" from db of student : " + student + " spent :" + totalTime);
         return gson.toJson(information);
     }
 
@@ -375,6 +379,7 @@ public class ReportLessonService {
     public String generateDataForReportLesson(String classId, String student, String idLesson){
         Information container = new Information();
         Reports report = new Reports();
+        long startTime = System.currentTimeMillis();
         try {
             List<Integer> studentScoreList = null;
             List<Integer> classScoreList = null;
@@ -436,6 +441,9 @@ public class ReportLessonService {
             container.setMessage("error");
             e.printStackTrace();
         }
+        long endTime   = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("load data draw report of lesson : " +idLesson +" from db of student : " + student + " spent :" + totalTime);
         return gson.toJson(container);
     }
 }
