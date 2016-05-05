@@ -76,6 +76,9 @@ public class IpaMapArpabet implements Mirrorable{
     @Persistent
     private String textJaw;
 
+    @Persistent
+    private String youtubeVideoId;
+
 
     public String getImgTongue() {
         return imgTongue;
@@ -228,5 +231,13 @@ public class IpaMapArpabet implements Mirrorable{
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getYoutubeVideoId() {
+        return youtubeVideoId;
+    }
+
+    public void setYoutubeVideoId(String youtubeVideoId) {
+        this.youtubeVideoId = youtubeVideoId;
     }
 }

@@ -91,6 +91,7 @@ function getDataForm(){
     var mp3Url = $("#mp3").val();
     var index_type = $("#index_type").val();
     var words = $("#words").val();
+    var youtubeId = $("#youtubeId").val();
     var dto = {
         id : id,
         arpabet :arpabet,
@@ -101,7 +102,8 @@ function getDataForm(){
         type : type,
         indexingType : index_type,
         mp3Url : mp3Url,
-        words : words
+        words : words,
+        youtubeVideoId: youtubeId
     };
     return dto;
 }
@@ -128,6 +130,7 @@ function includeDataForm(data){
     $("#tongueText").val(data.textTongue);
     $("#lipsText").val(data.textLip);
     $("#jawText").val(data.textJaw);
+    $("#youtubeId").val(data.youtubeVideoId);
     if(data.imgTongue!=null){
         $("#imgTongue-edit").attr("src",data.imgTongue);
     }else{

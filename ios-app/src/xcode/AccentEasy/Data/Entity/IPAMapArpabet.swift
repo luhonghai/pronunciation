@@ -25,6 +25,7 @@ public class IPAMapArpabet: LiteEntity {
     var mp3URLShort:String!
     var imgTongue:String!
     var index:Int!
+    var youtubeVideoId: String!
     
     func getWordList() -> Array<String> {
         var list:Array<String> = []
@@ -49,6 +50,7 @@ public class IPAMapArpabet: LiteEntity {
         self.words = row[LiteColumn.WORDS]
         self.mp3URLShort = row[LiteColumn.MP3_URL_SHORT]
         self.imgTongue = row[LiteColumn.IMG_TONGUE]
+        self.youtubeVideoId = row[LiteColumn.YOUTUBE_VIDEO_ID]
     }
     
     public override func setters() -> [Setter]? {
@@ -63,7 +65,8 @@ public class IPAMapArpabet: LiteEntity {
             LiteColumn.WORDS <- self.words,
             LiteColumn.MP3_URL_SHORT <- self.mp3URLShort,
             LiteColumn.IMG_TONGUE <- self.imgTongue,
-            LiteColumn.INDEXING_TYPE <- self.index
+            LiteColumn.INDEXING_TYPE <- self.index,
+            LiteColumn.YOUTUBE_VIDEO_ID <- self.youtubeVideoId
         ]
         
     }

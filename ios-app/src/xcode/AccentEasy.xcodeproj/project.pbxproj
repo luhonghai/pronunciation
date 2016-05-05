@@ -70,6 +70,7 @@
 		9B5526451C9AA5B4000AB7E8 /* ObjectiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */; };
 		9B56BD7A1CC9CD58005AE0C8 /* LockScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56BD781CC9CD58005AE0C8 /* LockScreenController.swift */; };
 		9B56BD7B1CC9CD58005AE0C8 /* LockScreenController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B56BD791CC9CD58005AE0C8 /* LockScreenController.xib */; };
+		9B5D90951CDB0618006BCD49 /* ic_youtube.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D90941CDB0618006BCD49 /* ic_youtube.png */; settings = {ASSET_TAGS = (); }; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
 		9B5F334A1C77129A00E85629 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C21C77129A00E85629 /* BarChartView.swift */; };
@@ -501,6 +502,13 @@
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
 		};
+		9B5D90A41CDB0618006BCD49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7A6FA8C2C720CCCF1CE8023AEC8BF789;
+			remoteInfo = "youtube-ios-player-helper";
+		};
 		9B72D14F1C9C093200297470 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -633,6 +641,7 @@
 		9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveController.swift; sourceTree = "<group>"; };
 		9B56BD781CC9CD58005AE0C8 /* LockScreenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenController.swift; sourceTree = "<group>"; };
 		9B56BD791CC9CD58005AE0C8 /* LockScreenController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LockScreenController.xib; sourceTree = "<group>"; };
+		9B5D90941CDB0618006BCD49 /* ic_youtube.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_youtube.png; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
 		9B5F32C21C77129A00E85629 /* BarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
@@ -1587,6 +1596,7 @@
 				9B4009831C9974900011EEF8 /* SloppySwiper.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
 				C13E44B61C6051ED00EB6075 /* TPCircularBuffer.framework */,
+				9B5D90A51CDB0618006BCD49 /* youtube_ios_player_helper.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1999,6 +2009,7 @@
 				C16CD27D1C44B1EC00537461 /* berty_antialias_clear.png */,
 				C16CD27E1C44B1EC00537461 /* berty_head_antialias_alpha.png */,
 				9B34082F1CB76A2C002F80A1 /* ic_next_2_arrow.png */,
+				9B5D90941CDB0618006BCD49 /* ic_youtube.png */,
 				C16CD27F1C44B1EC00537461 /* gb_round.png */,
 				C16CD2801C44B1EC00537461 /* global_bg.png */,
 				C16CD2811C44B1EC00537461 /* ic_close.png */,
@@ -2286,6 +2297,13 @@
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9B5D90A51CDB0618006BCD49 /* youtube_ios_player_helper.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = youtube_ios_player_helper.framework;
+			remoteRef = 9B5D90A41CDB0618006BCD49 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9B72D1501C9C093200297470 /* NSLogger.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2483,6 +2501,7 @@
 				C16CD2DB1C44B1EC00537461 /* tab_tip.xml in Resources */,
 				C16CD2BF1C44B1EC00537461 /* p_menu_freestyle.png in Resources */,
 				C16CD2A81C44B1EC00537461 /* ae_icon.png in Resources */,
+				9B5D90951CDB0618006BCD49 /* ic_youtube.png in Resources */,
 				C1D372B51CCE210B001D56B4 /* teacher.png in Resources */,
 				C141C8061C3E203C001D1F9C /* Main.storyboard in Resources */,
 				C16CD2E01C44B1EC00537461 /* global_bg.png in Resources */,

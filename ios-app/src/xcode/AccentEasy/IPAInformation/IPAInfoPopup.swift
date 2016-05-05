@@ -17,12 +17,18 @@ class IPAInfoPopup: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblSubTitle: UILabel!
     
+    @IBOutlet weak var btnVideo: UIButton!
     var delegate: IPAPopupViewControllerDelegate?
     
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
     
     var isShowing = true
+    
+    @IBAction func playVideo(sender: AnyObject) {
+        let youtubePlayer = YouTubePlayer()
+        youtubePlayer.show(UIScreen.mainScreen().applicationFrame, videoId: selectedIpa.youtubeVideoId)
+    }
     
     @IBAction func clickClose(sender: AnyObject) {
         delegate!.pressShowChart(nil)
@@ -44,7 +50,9 @@ class IPAInfoPopup: UIViewController {
         btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
         btnPlay.layer.cornerRadius = btnPlay.frame.width / 2
-
+        
+        btnVideo.layer.cornerRadius = btnPlay.frame.width / 2
+        btnVideo.hidden = selectedIpa.youtubeVideoId == nil || selectedIpa.youtubeVideoId.isEmpty
         lblTitle.text = "\(selectedIpa.ipa)"
         lblSubTitle.text = "<\(selectedIpa.arpabet)> \(selectedIpa.words)"
         txtDescription.text = selectedIpa.tip

@@ -478,9 +478,9 @@
 				<project.dir>/var/log/tomcat8/mobile</project.dir>
 				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
-				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
-				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
-				<databaseName>VRC</databaseName>
+				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
+				<databaseHost>c-mg.vn</databaseHost>
+				<databaseName>dev</databaseName>
 				<databasePort>3306</databasePort>
 				<contact.us.email>support@accenteasy.com</contact.us.email>
 				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>

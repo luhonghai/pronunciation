@@ -130,6 +130,7 @@ public class LiteColumn {
     public static let IDOBJECTIVE = Expression<String?>("IDOBJECTIVE")
     public static let IDLESSON = Expression<String?>("IDLESSON")
     public static let ISLEVELPASS = Expression<Bool?>("ISLEVELPASS")
+    public static let YOUTUBE_VIDEO_ID = Expression<String?>("YOUTUBEVIDEOID")
 }
 
 public class LiteEntity {

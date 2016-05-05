@@ -53,6 +53,7 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
     private String PARA_IMG_LIP = "imageLips";
     private String PARA_TEXT_JAW = "jawText";
     private String PARA_IMG_JAW = "imageJaw";
+    private String PARA_YOUTUBE_ID = "youtubeId";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
@@ -195,6 +196,7 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
             obj.setColor((String) StringUtil.isNull(map.get(PARA_COLOR), ""));
             obj.setMp3Url((String) StringUtil.isNull(map.get(PARA_MP3), ""));
             obj.setMp3UrlShort((String) StringUtil.isNull(map.get(PARA_MP3SHORT), ""));
+            obj.setYoutubeVideoId((String) StringUtil.isNull(map.get(PARA_YOUTUBE_ID), ""));
 
             if(map.get(PARA_IMG_TONGUE)==null) {
                 if(acction){

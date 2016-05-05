@@ -201,6 +201,12 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Youtube video ID:</label>
+                                    <div class="col-xs-8  col-sm-8">
+                                        <input type="text" id="youtubeId" name="youtubeId" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <label class="col-xs-4  col-sm-4 control-label ">Type:</label>

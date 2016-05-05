@@ -117,6 +117,8 @@ public class IpaMapArpabetService {
                 temp.setTextLip(map.getTextLip());
                 temp.setImgJaw(map.getImgJaw());
                 temp.setTextJaw(map.getTextJaw());
+                temp.setYoutubeVideoId(map.getYoutubeVideoId());
+                logger.info("update youtube video id: " + temp.getYoutubeVideoId());
                 dao.put(temp);
                 // dao.create(map);
                 dto.setMessage(SUCCESS);

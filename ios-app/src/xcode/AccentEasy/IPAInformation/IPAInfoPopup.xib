@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IPAInfoPopup" customModule="accenteasy" customModuleProvider="target">
             <connections>
                 <outlet property="btnClose" destination="c0H-3b-Tif" id="pl3-Z1-ddG"/>
                 <outlet property="btnPlay" destination="kO8-Zm-ekU" id="TAC-8L-8RH"/>
+                <outlet property="btnVideo" destination="3Vr-VS-RcK" id="g5d-ah-9qz"/>
                 <outlet property="imgTip" destination="PcP-XI-36g" id="0cE-NN-2gM"/>
                 <outlet property="lblSubTitle" destination="Gt9-Ib-gNm" id="tNv-5c-Cwt"/>
                 <outlet property="lblTitle" destination="i3s-JA-J3y" id="fUS-50-x8A"/>
@@ -59,6 +60,14 @@
                         <action selector="clickClose:" destination="-1" eventType="touchUpInside" id="hSm-dv-Ktf"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Vr-VS-RcK">
+                    <rect key="frame" x="251" y="444" width="40" height="40"/>
+                    <color key="backgroundColor" red="0.43921568630000002" green="0.18823529410000001" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" backgroundImage="ic_youtube.png"/>
+                    <connections>
+                        <action selector="playVideo:" destination="-1" eventType="touchUpInside" id="1DK-rU-Pqo"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -67,5 +76,6 @@
     </objects>
     <resources>
         <image name="ic_play.png" width="128" height="128"/>
+        <image name="ic_youtube.png" width="128" height="128"/>
     </resources>
 </document>
