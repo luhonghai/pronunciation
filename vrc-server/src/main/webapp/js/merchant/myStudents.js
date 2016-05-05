@@ -80,7 +80,7 @@ function listMyStudent(){
             }
         },
         error:function(e){
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -144,12 +144,12 @@ function rejects(){
                     ("#confirmReject").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("", "rejected student successfully", "success");
+                    swalNew("", "rejected successfully", "success");
                 }
 
             },
             error:function(e){
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         })
@@ -173,12 +173,12 @@ function accept(){
                     $("#invitationFromStudent").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("", "accepted student successfully", "success");
+                    swalNew("", "accepted successfully", "success");
                 }
 
             },
             error:function(e){
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         })
@@ -214,17 +214,17 @@ function deleteStudent(){
                     $("#confirmRemove").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("", "deleted student successfully", "success");
+                    swalNew("", "deleted successfully", "success");
                 }else{
                     $("#remove").modal('hide');
                     $("#confirmRemove").modal('hide');
                     $("#listMyStudent").empty();
-                    swal("", "deleted student fail", "success");
+                    swalNew("", "deleted fail", "success");
                 }
 
             },
             error:function(e){
-                swal("", "Could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         })
@@ -262,7 +262,7 @@ function inviteStudents(){
                     if (data.message == "success") {
                         $("#listMyStudent").empty();
                         listMyStudent();
-                        swal("", "invited student successfully", "success");
+                        swalNew("", "invited successfully", "success");
                         $("#inviteModal").modal('hide');
                     }else{
                         var listMailError=data.mailError;

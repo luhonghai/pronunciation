@@ -297,21 +297,16 @@ public class SendMailUser extends HttpServlet{
 
         }else if(action.equalsIgnoreCase("deletedStudentInMyStudent")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+            StudentMappingClassDAO smcDao = new StudentMappingClassDAO();
             String id= (String)StringUtil.isNull(request.getParameter("id"),"");
             Gson gson=new Gson();
             try {
-                StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
+                StudentMappingTeacher studentMappingTeacher= studentMappingTeacherDAO.getById(id);
                 studentMappingTeacher.setIsDeleted(true);
                 studentMappingTeacherDAO.put(studentMappingTeacher);
-                /*if(studentMappingTeacher.isLicence()==true){
-                 *//*   StudentMappingTeacher smt=studentMappingTeacher;*//*
-                    studentMappingTeacher.setStatus(Constant.STATUS_PENDING);
-                    studentMappingTeacherDAO.put(studentMappingTeacher);
-                }else{
-                    studentMappingTeacher.setIsDeleted(true);
-                    studentMappingTeacherDAO.put(studentMappingTeacher);
-
-                }*/
+                String studentName = studentMappingTeacher.getStudentName();
+                String teacherName = studentMappingTeacher.getTeacherName();
+                smcDao.updateDelete(studentName,teacherName);
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");

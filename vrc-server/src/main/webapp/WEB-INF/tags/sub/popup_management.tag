@@ -36,7 +36,11 @@
         font-size: 14px;
         font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
     }
-
+    .modal-title{
+        font-size: 17px !important;
+        font-weight : 700 !important;
+        font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
 </style>
 <div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
@@ -44,9 +48,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <div class="contain-arrow"><marquee id="arrowCourse" class="modal-title"
+                <div class="contain-arrow"><label id="arrowCourse" class="modal-title"
                                                   style="text-align: left;">
-                </marquee></div>
+                </label></div>
 
                 <h2 id='titlePopupCourse' class="modal-title">course management</h2>
                 <h4 id="validateMsgCourse" class="modal-title validateMsg"
@@ -102,9 +106,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <div class="contain-arrow"><marquee id="arrow" class="modal-title"
+                <div class="contain-arrow"><label id="arrow" class="modal-title"
                                                   style="text-align: left;">
-                </marquee></div>
+                </label></div>
 
                 <h2 id='titlePopup' class="modal-title">add level</h2>
                 <h4 id="validateLvMsg" class="modal-title validateMsg"
@@ -160,9 +164,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <div class="contain-arrow"><marquee id="arrowObj" class="modal-title"
+                <div class="contain-arrow"><label id="arrowObj" class="modal-title"
                                                   style="text-align: left;">
-                </marquee></div>
+                </label></div>
 
                 <h2 id='titlePopupObj' class="modal-title">Add Objective</h2>
                 <h4 id="validateObjMsg" class="modal-title validateMsg"
@@ -218,9 +222,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <div class="contain-arrow"><marquee id="arrowTest" class="modal-title"
+                <div class="contain-arrow"><label id="arrowTest" class="modal-title"
                                                   style="text-align: left;">
-                </marquee></div>
+                </label></div>
 
                 <h2 id='titlePopupTest' class="modal-title">Add Test</h2>
                 <h4 id="validateTestMsg" class="modal-title validateMsg"
@@ -270,9 +274,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
-                <div class="contain-arrow"><marquee id="arrowLesson" class="modal-title"
+                <div class="contain-arrow"><label id="arrowLesson" class="modal-title"
                                                   style="text-align: left; padding-left: 15px;">
-                </marquee></div>
+                </label></div>
 
                 <h2 id='titlePopupLesson' class="modal-title">add lesson</h2>
                 <h4 id="validateLessonMsg" class="modal-title validateMsg"
@@ -358,9 +362,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
-                <div class="contain-arrow"><marquee id="arrowQuestion" class="modal-title"
+                <div class="contain-arrow"><label id="arrowQuestion" class="modal-title"
                                                   style="text-align: left;">
-                </marquee></div>
+                </label></div>
 
                 <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
                 <h4 id="validateQuestionMsg" class="modal-title validateMsg"
@@ -418,9 +422,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
-                <div class="contain-arrow"><marquee id="arrowQuestionTest" class="modal-title"
+                <div class="contain-arrow"><label id="arrowQuestionTest" class="modal-title"
                                                     style="text-align: left;">
-                </marquee></div>
+                </label></div>
                 <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
                 <h4 id="validateQuestionForTestMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;"></h4>

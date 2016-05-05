@@ -215,7 +215,7 @@
   </div>
   <div style="padding : 20px 0px 10px 0px" class="row">
     <div class="col-sm-12">
-      <a href="my-classes.jsp" title="go to my courses" style="float: right;"><img src="/images/teacher/my_students80x80.gif" style="width:48px;height:48px"></a>
+      <a href="my-classes.jsp" title="go to my classes" style="float: right;"><img src="/images/teacher/my_classes80x80.gif" style="width:48px;height:48px"></a>
     </div>
   </div>
 </div>

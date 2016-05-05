@@ -83,7 +83,7 @@ public class SQL {
             "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus' " +
             "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
 
-    private String SQL_LESSON_MAPPING_OBJECTIVE="Select l.id,l.name,l.description,l.nameUnique,l.type,o.index FROM LESSONCOLLECTION l " +
+    private String SQL_LESSON_MAPPING_OBJECTIVE="Select l.id,l.name,l.description,l.nameUnique,l.type,o.index,l.title FROM LESSONCOLLECTION l " +
             "inner join OBJECTIVEMAPPING o on l.id=o.idLessonCollection " +
             "WHERE o.idObjective='paramMappingId' and l.isDeleted=false and o.isDeleted=false order by o.index";
 
@@ -106,7 +106,7 @@ public class SQL {
             "inner join COURSEMAPPINGDETAIL as cmd on obj.id=cmd.idChild " +
             "WHERE cmd.idLevel='paramIdLevel' and obj.isDeleted=false and cmd.isDeleted=false";
 
-    private String SQL_LESSON_FROM_OBJ="Select lesson.ID,lesson.NAME,lesson.DATECREATED FROM LESSONCOLLECTION as lesson " +
+    private String SQL_LESSON_FROM_OBJ="Select lesson.ID,lesson.NAME,lesson.DATECREATED,lesson.title FROM LESSONCOLLECTION as lesson " +
             "inner join OBJECTIVEMAPPING as mapping on lesson.ID=mapping.IDLESSONCOLLECTION " +
             "WHERE mapping.IDOBJECTIVE='paramIdObj' and lesson.isDeleted=false and mapping.isDeleted=false ORDER BY lesson.DATECREATED ASC";
 

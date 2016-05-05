@@ -21,28 +21,38 @@ public class SqlReport {
             "where cmc.idClass='paramIdClass' and cmc.isDeleted=false and c.isDeleted=false";
 
     private String SQL_LIST_COURSE_BY_STUDENT ="SELECT "+
-                    "  c.id,c.name "+
-                    "FROM COURSE as c  inner join COURSEMAPPINGCLASS AS cmc "+
-                    "  on c.id = cmc.IDCOURSE "+
-                    "  INNER JOIN STUDENTMAPPINGCLASS AS smc "+
-                    "    ON cmc.idClass = smc.idClass "+
+                    "c.id,c.name "+
+                    "FROM COURSE as c inner join COURSEMAPPINGCLASS AS cmc "+
+                    "on c.id = cmc.IDCOURSE "+
+                    "INNER JOIN STUDENTMAPPINGCLASS AS smc "+
+                    "ON cmc.idClass = smc.idClass "+
+                    "INNER JOIN STUDENTMAPPINGTEACHER as tm "+
+                    "on tm.STUDENTNAME = smc.STUDENTNAME " +
                     "WHERE smc.STUDENTNAME = 'paramStudent' AND c.isDeleted=False AND cmc.isDeleted = FALSE "+
-                    " AND smc.isDeleted = FALSE;";
+                    " AND smc.isDeleted = FALSE AND tm.isDeleted=false GROUP BY c.ID,c.NAME";
 
-    private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
+    /*private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
             "on lmq.idQuestion = q.id " +
             "where q.id not in (select s.idQuestion from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
             "on s.IDUSERLESSONHISTORY = ulh.ID " +
             "inner join LESSONCOLLECTION as lmq " +
             "on s.IDLESSONCOLLECTION = lmq.id " +
-            "where ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false) " +
-            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false;";
+            "inner join QUESTION as ques " +
+            "on s.idQuestion = ques.id " +
+            "where s.sessionId = 'paramSessionId' and ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false and ques.isDeleted=false) " +
+            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false;";*/
 
-    private String SQL_CALCULATE_USER_SCORE_LESSON="select AVG(ulh.SCORE),ulh.SERVERTIME,s.sessionId from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
+    private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
+            "on lmq.idQuestion = q.id " +
+            "where q.id not in (select idQuestion from SESSIONSCORE " +
+            "where sessionId = 'paramSessionId') " +
+            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false";
+
+    private String SQL_CALCULATE_USER_SCORE_LESSON="select s.IDQUESTION,ulh.SCORE,ulh.SERVERTIME,s.sessionId from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
             "    on s.IDUSERLESSONHISTORY = ulh.ID " +
             "  inner join LESSONCOLLECTION as lmq " +
             "    on s.IDLESSONCOLLECTION = lmq.id " +
-            "where ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false";
+            "where s.sessionId='paramSessionId' and ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false order by s.IDQUESTION";
 
 
     private String SQL_LIST_WORD_IN_LESSON = "select w.word from LESSONMAPPINGQUESTION as lmq " +
@@ -61,7 +71,7 @@ public class SqlReport {
             "    on ls.id = s.IDLESSONCOLLECTION " +
             "where ulh.USERNAME='paramStudent' " +
             "and ls.id='paramLessonId' and ulh.WORD='paramWord' " +
-            "and ls.isDeleted=false";
+            "and ls.isDeleted=false and s.SESSIONID='paramSessionId'";
 
     private String SQL_CLASS_GET_SCORE_IN_WORD = "select s.SESSIONID,AVG(ulh.SCORE) from SESSIONSCORE as s " +
             "  inner join USERLESSONHISTORY as ulh " +
@@ -76,17 +86,17 @@ public class SqlReport {
     private String SQL_LIST_PHONEMES = "select IPA,ARPABET from IPAMAPARPABET where ISDELETED=false order by ARPABET";
 
     private String SQL_GET_STUDENT_SCORE_PHONEME = "select s.SESSIONID,AVG(pls.TOTALSCORE) from SESSIONSCORE as s " +
-            "  inner join USERLESSONHISTORY as ulh " +
-            "    on s.IDUSERLESSONHISTORY = ulh.ID " +
-            "  inner join LESSONCOLLECTION as ls " +
-            "    on ls.id = s.IDLESSONCOLLECTION " +
-            "  inner join PHONEMELESSONSCORE as pls " +
-            "  on pls.IDUSERLESSONHISTORY = s.IDUSERLESSONHISTORY " +
-            "  inner join IPAMAPARPABET as map " +
-            "  on map.ARPABET = pls.PHONEME " +
+            " inner join USERLESSONHISTORY as ulh " +
+            " on s.IDUSERLESSONHISTORY = ulh.ID " +
+            " inner join LESSONCOLLECTION as ls " +
+            " on ls.id = s.IDLESSONCOLLECTION " +
+            " inner join PHONEMELESSONSCORE as pls " +
+            " on pls.IDUSERLESSONHISTORY = s.IDUSERLESSONHISTORY " +
+            " inner join IPAMAPARPABET as map " +
+            " on map.ARPABET = pls.PHONEME " +
             "where ulh.USERNAME='paramStudent' " +
             "and ls.id='paramLessonId' and map.IPA='paramIpa' " +
-            "and ls.isDeleted=false and map.isDeleted=false";
+            "and ls.isDeleted=false and map.isDeleted=false and s.SESSIONID='paramSessionId'";
 
     private String SQL_CLASS_GET_SCORE_IN_PHONEME = "select s.SESSIONID,AVG(pls.TOTALSCORE) from SESSIONSCORE as s " +
             "  inner join USERLESSONHISTORY as ulh " +
@@ -116,6 +126,78 @@ public class SqlReport {
             "where ulh.username='paramStudent' " +
             "and map.ARPABET='paramIpa' " +
             "and FROM_UNIXTIME(SERVERTIME/1000) BETWEEN 'paramStartDate' AND 'paramEndDate' order by FROM_UNIXTIME(SERVERTIME/1000)";
+
+
+
+
+    private String SQL_GET_SESSION_ID_3_MONTHS = "select FROM_UNIXTIME(ulh.SERVERTIME/1000) as dateCompleted,s.sessionId from SESSIONSCORE " +
+            "  as s inner join USERLESSONHISTORY as ulh on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "  inner join LESSONCOLLECTION as lmq " +
+            "    on s.IDLESSONCOLLECTION = lmq.id where ulh.USERNAME='paramStudent' " +
+            "    and lmq.id='paramLessonId' and lmq.isDeleted=false and " +
+            "    DATEDIFF(FROM_UNIXTIME(ulh.SERVERTIME/1000),NOW()) >= -90 " +
+            "   GROUP BY SESSIONID " +
+            "order by dateCompleted DESC" +
+            " limit 1";
+
+    private String SQL_GET_ALL_WORD_IN_SESSION = "select ulh.WORD,s.sessionId from SESSIONSCORE " +
+            "  as s inner join USERLESSONHISTORY as ulh on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "  inner join LESSONCOLLECTION as lmq " +
+            "  on s.IDLESSONCOLLECTION = lmq.id where ulh.USERNAME='paramStudent'" +
+            "  and lmq.id='paramLessionId' and lmq.isDeleted=false " +
+            "and s.sessionId = 'paramSessionId' group by ulh.WORD;";
+
+    private String SQL_GET_ALL_PHONEME_IN_SESSION = "select s.SESSIONID,map.IPA from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
+            "on s.IDUSERLESSONHISTORY = ulh.ID inner join LESSONCOLLECTION as ls " +
+            "on ls.id = s.IDLESSONCOLLECTION  inner join PHONEMELESSONSCORE as pls " +
+            "on pls.IDUSERLESSONHISTORY = s.IDUSERLESSONHISTORY " +
+            "inner join IPAMAPARPABET as map  on map.ARPABET = pls.PHONEME " +
+            "where ulh.USERNAME='paramStudent' and ls.id='paramLessionId' " +
+            "and ls.isDeleted=false and map.isDeleted=false and s.SESSIONID='paramSessionId' GROUP BY map.IPA";
+
+    /**
+     *
+     * @param student
+     * @param idLession
+     * @param idSession
+     * @return
+     */
+    public String getPhonemesInSession(String student, String idLession, String idSession){
+        String sql = SQL_GET_ALL_PHONEME_IN_SESSION;
+        sql = sql.replaceAll("paramStudent",student);
+        sql = sql.replaceAll("paramLessionId",idLession);
+        sql = sql.replaceAll("paramSessionId",idSession);
+        return sql;
+    }
+
+    /**
+     *
+     * @param student
+     * @param idLession
+     * @param idSession
+     * @return
+     */
+    public String getWordsInSession(String student, String idLession, String idSession){
+        String sql = SQL_GET_ALL_WORD_IN_SESSION;
+        sql = sql.replaceAll("paramStudent",student);
+        sql = sql.replaceAll("paramLessionId",idLession);
+        sql = sql.replaceAll("paramSessionId",idSession);
+        return sql;
+    }
+
+    /**
+     *
+     * @param student
+     * @param lessonId
+     * @return
+     */
+    public String sqlGetSessionId3Months(String student, String lessonId){
+        String sql = SQL_GET_SESSION_ID_3_MONTHS;
+        sql = sql.replaceAll("paramStudent",student);
+        sql = sql.replaceAll("paramLessonId",lessonId);
+        return sql;
+    }
+
 
     /**
      *
@@ -167,11 +249,12 @@ public class SqlReport {
      * @param ipa
      * @return
      */
-    public String getSqlCalculateScorePhoneme(String student, String idLesson, String ipa){
+    public String getSqlCalculateScorePhoneme(String student, String idLesson, String ipa, String latestSessionId){
         String sql = SQL_GET_STUDENT_SCORE_PHONEME;
         sql = sql.replaceAll("paramStudent",student);
         sql = sql.replaceAll("paramLessonId",idLesson);
         sql = sql.replaceAll("paramIpa",ipa);
+        sql = sql.replaceAll("paramSessionId",latestSessionId);
         return sql;
     }
 
@@ -207,11 +290,12 @@ public class SqlReport {
      * @param word
      * @return
      */
-    public String getSqlCalculateScoreWord(String student, String idLesson, String word){
+    public String getSqlCalculateScoreWord(String student, String idLesson, String word, String latestSession){
         String sql = SQL_GET_SCORE_IN_WORD;
         sql = sql.replaceAll("paramStudent",student);
         sql = sql.replaceAll("paramLessonId",idLesson);
         sql = sql.replaceAll("paramWord",word);
+        sql = sql.replaceAll("paramSessionId",latestSession);
         return sql;
     }
 
@@ -230,10 +314,11 @@ public class SqlReport {
      * @param idLesson
      * @return
      */
-    public String getSqlCalculateUserScoreLesson(String student, String idLesson){
+    public String getSqlCalculateUserScoreLesson(String student, String idLesson, String sessionId){
         String sql = SQL_CALCULATE_USER_SCORE_LESSON;
         sql = sql.replaceAll("paramstudent",student);
         sql = sql.replaceAll("paramIdLesson",idLesson);
+        sql = sql.replaceAll("paramSessionId",sessionId);
         return sql;
     }
 
@@ -244,10 +329,11 @@ public class SqlReport {
      * @param idLesson
      * @return
      */
-    public String getSqlCheckUserCompletedLesson(String student, String idLesson){
+    public String getSqlCheckUserCompletedLesson(String student, String idLesson, String sessionId){
         String sql = SQL_CHECK_USER_COMPLETED_LESSON;
         sql = sql.replaceAll("paramstudent",student);
         sql = sql.replaceAll("paramIdLesson",idLesson);
+        sql = sql.replaceAll("paramSessionId",sessionId);
         return sql;
     }
 

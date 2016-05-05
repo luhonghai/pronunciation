@@ -51,11 +51,11 @@ function listCourse() {
                 $('#listCourse').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '100%'});
                 $('#listCourse').multiselect('refresh');
             } else {
-                swal("", data.message.split(":")[1], "error");
+                swalNew("", data.message.split(":")[1], "error");
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -85,11 +85,11 @@ function listLevels(idCourse) {
                 $('#listLevel').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                 $('#listLevel').multiselect('refresh');
             } else {
-                swal("", data.message.split(":")[1], "error");
+                swalNew("", data.message.split(":")[1], "error");
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -118,11 +118,11 @@ function listObjectives(idLevel) {
                 $('#listObj').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                 $('#listObj').multiselect('refresh');
             } else {
-                swal("", data.message.split(":")[1], "error");
+                swalNew("", data.message.split(":")[1], "error");
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -155,11 +155,11 @@ function changeCourse() {
                     $('#listLevel').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                     $('#listLevel').multiselect('refresh');
                 } else {
-                    swal("", data.message.split(":")[1], "error");
+                    swalNew("", data.message.split(":")[1], "error");
                 }
             },
             error: function () {
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         });
@@ -189,11 +189,11 @@ function changeLevel() {
                     $('#listObj').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                     $('#listObj').multiselect('refresh');
                 } else {
-                    swal("", data.message.split(":")[1], "error");
+                    swalNew("", data.message.split(":")[1], "error");
                 }
             },
             error: function () {
-                swal("", "could not connect to server", "error");
+                swalNew("", "could not connect to server", "error");
             }
 
         });
@@ -222,7 +222,7 @@ function loadLesson(idObj) {
                     var items = data.listLesson;
                     $(items).each(function () {
                         var idLesson = this.id;
-                        var name = this.name;
+                        var name = this.title;
                         var date = this.dateCreated;
                         var Course = $("#listCourse option:selected").text();
                         var Level = $("#listLevel option:selected").text();
@@ -232,11 +232,11 @@ function loadLesson(idObj) {
                     });
                 }
             } else {
-                swal("", data.message.split(":")[1], "error");
+                swalNew("", data.message.split(":")[1], "error");
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -317,7 +317,7 @@ function loadAdditionInfo(idLesson,student,idClass,date) {
             }
         },
         error: function () {
-            swal("", "Could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
     });
 }

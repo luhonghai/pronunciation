@@ -27,6 +27,30 @@ public class NotificationServlet extends HttpServlet {
         List<StudentMappingTeacher> accept;
         List<StudentMappingTeacher> reject;
         List<StudentMappingTeacher> invitation;
+
+        public List<StudentMappingTeacher> getAccept() {
+            return accept;
+        }
+
+        public void setAccept(List<StudentMappingTeacher> accept) {
+            this.accept = accept;
+        }
+
+        public List<StudentMappingTeacher> getReject() {
+            return reject;
+        }
+
+        public void setReject(List<StudentMappingTeacher> reject) {
+            this.reject = reject;
+        }
+
+        public List<StudentMappingTeacher> getInvitation() {
+            return invitation;
+        }
+
+        public void setInvitation(List<StudentMappingTeacher> invitation) {
+            this.invitation = invitation;
+        }
     }
 
 
@@ -39,16 +63,16 @@ public class NotificationServlet extends HttpServlet {
         String teacher=request.getSession().getAttribute("username").toString();
         if(action.equalsIgnoreCase("notification")) {
             try {
-                smt.accept=studentMappingTeacherDAO.notificationAccept(teacher);
-                smt.reject=studentMappingTeacherDAO.notificationReject(teacher);
-                smt.invitation=studentMappingTeacherDAO.notificationInvitation(teacher);
+                smt.setAccept(studentMappingTeacherDAO.notificationAccept(teacher));
+                smt.setReject(studentMappingTeacherDAO.notificationReject(teacher));
+                smt.setInvitation(studentMappingTeacherDAO.notificationInvitation(teacher));
                 Gson gson=new Gson();
                 String list=gson.toJson(smt);
                 response.getWriter().write(list);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(action.equalsIgnoreCase("closeAcccept")){
+        }else if(action.equalsIgnoreCase("closeAccept")){
             List<StudentMappingTeacher> studentMappingTeachers=studentMappingTeacherDAO.notificationAccept(teacher);
             for(StudentMappingTeacher studentMappingTeacher:studentMappingTeachers){
                 StudentMappingTeacher studentMappingTeacher1=new StudentMappingTeacher();

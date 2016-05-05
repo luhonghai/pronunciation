@@ -93,7 +93,7 @@ public class ReportPhoneDao {
                     ScorePhoneme sp = new ScorePhoneme();
                     if(data[1]!=null){
                         Double value = (Double)data[1];
-                        int score  = value.intValue();
+                        int score = (int) Math.round(value);
                         sp.setScore(score);
                     }else{
                         sp.setScore(0);

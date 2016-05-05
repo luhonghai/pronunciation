@@ -321,40 +321,50 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-2">
-                        <p class="student-username"></p>
-                        <p><strong>course:</strong></p>
-                        <label id="lbl_course" style='font-weight: 200;'>Course</label>
-                        <p><strong>level:</strong></p>
-                        <label id="lbl_lv" style='font-weight: 200;'>Level</label>
-                        <p><strong>objective:</strong></p>
-                        <label id="lbl_obj" style='font-weight: 200;'>Objective</label>
-                        <p><strong>lesson:</strong></p>
-                        <label id="lbl_lesson" style='font-weight: 200;'>Lesson</label>
-                        <p><strong>completion date:</strong></p>
-                        <label id="lbl_date_completed" style='font-weight: 200;'>date completed</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <div  style="padding-bottom: 25px" class="col-sm-12">
-                            <div class="student-avg-score">80</div>
+                    <div class="col-sm-4">
+                        <div class="col-sm-12">
+                            <p class="student-username"></p>
                         </div>
-                        <div style="padding-bottom: 25px" class="col-sm-12">
-                            <div class="class-avg-score">80</div>
+                        <div class="col-sm-12">
+                            <p><strong>course:</strong></p>
+                            <label id="lbl_course" style='font-weight: 200;'>Course</label>
                         </div>
-                        <div style="padding-bottom: 25px" class="col-sm-12">
-                            <div class="col-sm-2">
-                                <div class="color-class-help"></div>
+                        <div class="col-sm-12">
+                            <p><strong>level:</strong></p>
+                            <label id="lbl_lv" style='font-weight: 200;'>Level</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <p><strong>objective:</strong></p>
+                            <label id="lbl_obj" style='font-weight: 200;'>Objective</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <p><strong>lesson:</strong></p>
+                            <label id="lbl_lesson" style='font-weight: 200;'>Lesson</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <p><strong>completion date:</strong></p>
+                            <label id="lbl_date_completed" style='font-weight: 200;'>date completed</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <div class="student-avg-score">80</div>
                             </div>
-                            <div class="col-sm-9 class-avg-text">class average</div>
-                        </div>
-                        <div style="padding-bottom: 25px" class="col-sm-12">
                             <div class="col-sm-2">
                                 <div class="color-student-help"></div>
                             </div>
-                            <div class="col-sm-9 student-avg-text">student score</div>
+                            <div class="col-sm-6 student-avg-text">student score</div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <div class="class-avg-score">80</div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="color-class-help"></div>
+                            </div>
+                            <div class="col-sm-6 class-avg-text">class average</div>
                         </div>
                     </div>
-                    <div id="container" class="col-sm-7">
+                    <div id="container" class="col-sm-8">
                         <div id="holder-chart">
                             <div id="placeholder">
                             </div>
