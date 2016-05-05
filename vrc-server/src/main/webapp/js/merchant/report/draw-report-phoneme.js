@@ -21,11 +21,11 @@ function drawReport(data){
             shadowSize: 5
         },
         xaxis: {
-            mode: "time",
-            timeformat:"%d/%m/%Y %H:%M:%S",
+            //mode: "time",
+            //timeformat:"%d/%m/%Y %H:%M:%S",
             //tickSize : [1, "month"],
-            min : new Date(combineMinDate()).getTime(),
-            max : new Date(combineMaxDate()).getTime()
+            //min : new Date(combineMinDate()).getTime(),
+            //max : new Date(combineMaxDate()).getTime()
         },
         yaxis: {
             min : 0,

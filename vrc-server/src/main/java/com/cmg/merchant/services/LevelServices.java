@@ -299,7 +299,7 @@ public class LevelServices {
                 tmp.setVersion(lv.getVersion());
                 tmp.setDescription(lv.getDescription());
                 tmp.setIsDemo(false);
-                tmp.setIsDefaultActivated(false);
+                tmp.setIsDefaultActivated(true);
                 dao.create(tmp);
                 courseService.addMappingLevel(idCourseMapping,newId);
                 return newId;
