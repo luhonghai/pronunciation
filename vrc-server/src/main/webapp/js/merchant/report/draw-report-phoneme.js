@@ -20,7 +20,8 @@ function drawReport(data){
         xaxis: {
             mode: "time",
             timeformat:"%d/%m/%Y %H:%M:%S",
-            //tickSize : [1, "month"],
+            tickSize : [12, "month"],
+            axisLabel: "Time",
             //min : new Date(combineMinDate()).getTime(),
             //max : new Date(combineMaxDate()).getTime()
         },
