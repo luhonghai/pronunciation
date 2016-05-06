@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>4.0.028</version>
 	<artifactId>server</artifactId>
+	<version>4.0.028</version>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
 	<description>VRC Server</description>
@@ -157,6 +157,7 @@
 									<pluginExecutionFilter>
 										<groupId>org.datanucleus</groupId>
 										<artifactId>datanucleus-maven-plugin</artifactId>
+										<versionRange>[4.0.1,)</versionRange>
 										<goals>
 											<goal>enhance</goal>
 										</goals>
@@ -340,9 +341,6 @@
 
 	<profiles>
 		<profile>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<id>env-dev</id>
 			<properties>
                 <sysenv>DEV</sysenv>
@@ -469,6 +467,9 @@
 		</profile>
 
 		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<id>mac</id>
 			<properties>
 				<sysenv>MAC</sysenv>
