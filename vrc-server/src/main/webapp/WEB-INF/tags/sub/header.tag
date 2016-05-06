@@ -202,7 +202,8 @@
 <!-- /Header -->
 
 <script>
-	$('#side-menu li').on('click', function() {
+	$('#side-menu li').on('click', function(e) {
+		e.stopPropagation();
 		var $el = $(this);
 		var $a = $el.find('a');
 		if ($a.length && $a.attr('href')) {
