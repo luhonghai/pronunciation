@@ -207,7 +207,7 @@
 		var $el = $(this);
 		var $a = $el.find('a');
 		if ($a.length && $a.attr('href')) {
-			location.href = $a.attr('href');
+			window.location.href = $a.attr('href');
 		}
 	});
 </script>

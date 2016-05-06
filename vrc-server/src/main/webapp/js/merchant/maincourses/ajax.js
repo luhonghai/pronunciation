@@ -21,7 +21,7 @@ function addCourse(){
                 getMsgAddCourse().show();
             }else{
                 //add success will draw again the list or redirect to the new page
-                window.location.href = "/course-details.jsp";
+                window.location.href = "/course-details.jsp?idCourse="+data;
             }
         },
         error: function () {

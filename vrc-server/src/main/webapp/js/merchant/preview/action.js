@@ -25,7 +25,10 @@ function loadPreviewLesson(){
 }
 function loadPreviewTest(){
     $(document).on('click','.test',function(){
-        loadContent(targetLoadTest,$(this).attr('id'));
+        var disabled = $(this).attr("disabled");
+        if(disabled != "disabled"){
+            loadContent(targetLoadTest,$(this).attr('id'));
+        }
     });
 }
 function slideBackPreview(){

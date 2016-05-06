@@ -30,6 +30,7 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.lessons.LDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.dao.questions.QMLDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.dao.report.ReportPhoneDao;
 import com.cmg.merchant.dao.teacher.TCHDAO;
@@ -229,11 +230,18 @@ public class UnitTesting {
             /*for(String tch : listWord){
                 System.out.println(tch.toString());
             }*/
-            ReportPhoneDao dao = new ReportPhoneDao();
+           /* ReportPhoneDao dao = new ReportPhoneDao();
             ArrayList<ReportPhoneDao.ScorePhoneme> list = dao.getScorePhonemeByStudent("anh.nguyen@c-mg.com","D","2016-04-05","2016-05-06");
             for(ReportPhoneDao.ScorePhoneme sp : list){
                 System.out.println(sp.getScore() + " " + sp.getServerTime());
-            }
+            }*/
+            /*QuestionServices services = new QuestionServices();
+            services.addMappingQuestionToLesson("a","a");
+            int i = services.getMaxIndexMapping("b");
+            System.out.println(i);*/
+            QMLDAO dao = new QMLDAO();
+            dao.getQuestionByIdLesson("938700c4-b52a-4299-94f8-fb292d6fa389");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

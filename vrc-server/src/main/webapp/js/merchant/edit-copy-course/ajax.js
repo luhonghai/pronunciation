@@ -1006,7 +1006,9 @@ function DragDrop(action,parentId,childId,index,move){
         },
         dataType : "text",
         success : function(data){
-
+            if(action == targetLoadQuestion){
+                reloadTree();
+            }
         },
         error: function () {
 

@@ -1,6 +1,8 @@
 package com.cmg.merchant.services;
 
+import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
+import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.dao.lessons.LMODAO;
@@ -9,6 +11,7 @@ import com.cmg.merchant.dao.objective.ODAO;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lantb on 2016-03-28.
@@ -88,6 +91,33 @@ public class DragDropServices {
                             dao.updateIndex(idObj, lc.getId(), lc.getIndex() + 1);
                         }else if(move == "down" && lc.getIndex() <= index){
                             dao.updateIndex(idObj, lc.getId(), lc.getIndex() - 1);
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            logger.error(e);
+        }
+    }
+
+    /**
+     *
+     * @param idLesson
+     * @param idQuestionUpdate
+     * @param index
+     */
+    public void dragDropQuestion(String idLesson, String idQuestionUpdate, int index, String move){
+        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        try {
+            dao.updateIndex(idLesson,idQuestionUpdate,index);
+            List<LessonMappingQuestion> list = dao.getAllByIDLesson(idLesson);
+            if(list!=null && list.size()>0){
+                for(LessonMappingQuestion lc : list){
+                    if(lc.getIdQuestion()!= idQuestionUpdate){
+                        if (move == "up" && lc.getIndex() >= index) {
+                            dao.updateIndex(idLesson, lc.getIdQuestion(), lc.getIndex() + 1);
+                        }else if(move == "down" && lc.getIndex() <= index){
+                            dao.updateIndex(idLesson, lc.getIdQuestion(), lc.getIndex() - 1);
                         }
                     }
                 }

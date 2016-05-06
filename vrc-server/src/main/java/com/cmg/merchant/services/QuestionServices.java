@@ -53,6 +53,23 @@ public class QuestionServices {
     }
 
     /**
+     *  use for get max version
+     * @return max version in table
+     */
+    public int getMaxIndexMapping(String idLesson){
+        int version = 0;
+        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        try {
+            version = dao.getLatestIndex(idLesson);
+        }catch (Exception e){
+            //e.printStackTrace();
+            //logger.info("Can not get max version in table because : " + e.getMessage());
+        }
+        return version +1;
+    }
+
+
+    /**
      *
      * @return
      */
@@ -195,6 +212,7 @@ public class QuestionServices {
             lessonMappingQuestion.setIdLesson(idLesson);
             lessonMappingQuestion.setIdQuestion(idQuestion);
             lessonMappingQuestion.setVersion(getMaxVersion());
+            lessonMappingQuestion.setIndex(getMaxIndexMapping(idLesson));
             lmqdao.create(lessonMappingQuestion);
 
         }catch (Exception e){e.printStackTrace();

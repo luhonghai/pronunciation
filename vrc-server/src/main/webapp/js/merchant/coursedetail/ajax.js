@@ -640,7 +640,7 @@ function addQuestionsForTest(listWord){
                 currentPopup.find(".validateMsg").css("color","red")
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swalNew("Success!", "added successfully", "success");
+                swalNew("", "added successfully", "success");
             }else{
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.find(".validateMsg").css("color","red")
@@ -682,7 +682,7 @@ function editQuestionsForTest(listWord){
                 currentPopup.find(".validateMsg").css("color","red")
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swalNew("Success!", "updated successfully", "success");
+                swalNew("", "updated successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
@@ -961,7 +961,9 @@ function DragDrop(action,parentId,childId,index,move){
         },
         dataType : "text",
         success : function(data){
-
+            if(action == targetLoadQuestion){
+                reloadTree();
+            }
         },
         error: function () {
 

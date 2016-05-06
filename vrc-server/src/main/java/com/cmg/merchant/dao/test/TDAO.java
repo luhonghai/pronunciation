@@ -193,6 +193,9 @@ public class TDAO extends DataAccess<Test> {
                     if(array[3] != null) {
                         dto.setType(array[3].toString());
                     }
+                    if(array[4] != null) {
+                        dto.setIndex(Integer.parseInt(array[4].toString()));
+                    }
                     list.add(dto);
                 }
             }

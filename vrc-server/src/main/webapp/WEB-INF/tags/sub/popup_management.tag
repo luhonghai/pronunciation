@@ -527,7 +527,7 @@
                             <label class="control-label">Word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
-                            <input type="text" id="addWord" name="addWord" class=" form-control">
+                            <input autofocus type="text" id="addWord" name="addWord" class=" form-control">
                         </div>
                         <div class="col-xs-4  col-sm-4">
                             <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"

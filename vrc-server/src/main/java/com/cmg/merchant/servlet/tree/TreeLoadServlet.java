@@ -26,6 +26,9 @@ public class TreeLoadServlet extends BaseServlet {
     private static NodeServices nService = new NodeServices();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         Gson gson = new Gson();
         String target = (String) StringUtil.isNull(request.getParameter("target"), "").toString();
         String idTarget = (String) StringUtil.isNull(request.getParameter("idTarget"), "").toString();

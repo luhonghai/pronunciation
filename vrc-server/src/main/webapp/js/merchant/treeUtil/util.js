@@ -512,30 +512,37 @@ function drag2drop(){
                         //do not move the test node
                         return false;
                     }
-                    if(dropData._targetLoad == targetLoadQuestion){
+                   /* if(dropData._targetLoad == targetLoadQuestion){
                         //do not move the test node
                         return false;
                     }
                     if(dragData._targetLoad == targetLoadQuestion){
                         //do not move the test node
                         return false;
-                    }
+                    }*/
                     if (!api.sameParent(item, drop)) {
                         // mark the drop target as invalid
                         return false;
                     }else{
                         var parent = api.parent(item);
+                        currentParent = api.parent(item);
                         var parentId = api.itemData(parent).id;
                         var action = dragData._targetLoad;
                         var childId = dragData.id;
                         var indexDrop = api.getIndex(drop);
                         var indexDrag = api.getIndex(item);
-                        console.log(indexDrag);
+                        //console.log(indexDrag);
                         var move = "down";
                         if(indexDrag > indexDrop){
                             move = "up";
                         }
                         dragDrop.action = action;
+                        var idLesson = dragData._idLessonForTest;
+                        if(typeof idLesson!="undefined" && idLesson!=""){
+                            dragDrop.parentId = idLesson;
+                        }else{
+                            dragDrop.parentId = parentId;
+                        }
                         dragDrop.parentId = parentId;
                         dragDrop.childId = childId;
                         dragDrop.indexDrop = indexDrop;
@@ -657,11 +664,16 @@ function copyAndPaste(){
         }
     });
 }
-
+function focusInput(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('input:first').focus();
+    });
+}
 $(document).ready(function(){
     removeWord();
     saveWord();
     showAddWord();
     showAddWordForTest();
     openEditWords();
+    focusInput();
 });

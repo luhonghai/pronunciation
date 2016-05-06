@@ -34,6 +34,17 @@ public class Question implements Mirrorable {
     private int version;
 
     @NotPersistent
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    @NotPersistent
     private ArrayList<WordCollection> words;
 
     public ArrayList<WordCollection> getWords() {
