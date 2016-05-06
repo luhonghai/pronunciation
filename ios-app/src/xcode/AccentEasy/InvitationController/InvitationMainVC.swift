@@ -320,6 +320,29 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         }
     }
     
+    //touch reject in InvitationPopupVC
+    func invitationPopupVCTouchReject(sender: AnyObject){
+        Logger.log(sender)
+        let index = sender as! Int
+        let id = userProfile.invitationData[index].id
+        weak var weakSelf = self
+        AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
+            dispatch_async(dispatch_get_main_queue(), {
+                weakSelf!.dismissPopupViewController(.Fade)
+                if success {
+                    userProfile.invitationData[index].status = InvitationStatus.reject
+                    weakSelf!.sortTable()
+                    weakSelf!.tableView.reloadData()
+                } else {
+                    AccountManager.showError("could not update", message: message)
+                }
+                
+            })
+            
+        }
+
+    }
+    
     //swipe left remove
     func updateDeleteData(index: Int){
         Logger.log(index)

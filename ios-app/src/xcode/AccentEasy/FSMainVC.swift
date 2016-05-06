@@ -467,14 +467,17 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         disableViewRecord()
         self.analyzingView.didCompleteLoadWord = false
         weak var weakSelf = self
-        DeviceManager.doIfConnectedToNetwork({ () -> Void in
-             if weakSelf != nil && weakSelf!.linkFile != nil && !weakSelf!.linkFile.isEmpty {
+        DeviceManager.doIfConnectedToNetwork({ (status) -> Void in
+             if weakSelf != nil && weakSelf!.linkFile != nil && !weakSelf!.linkFile.isEmpty && status {
                 //playSound(LinkFile)
                 HttpDownloader.loadFileAsync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
                     Logger.log("load complete " + weakSelf!.linkFile)
                     weakSelf!.analyzingView.isSearching = false
                     weakSelf!.analyzingView.didCompleteLoadWord = true
                 })
+             } else {
+                weakSelf!.analyzingView.isSearching = false
+                weakSelf!.analyzingView.didCompleteLoadWord = true
             }
         })
         //close searchControler
@@ -672,7 +675,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             isRecording = false
             return
         } else{
-            DeviceManager.doIfConnectedToNetwork({ () -> Void in
+            DeviceManager.doIfConnectedToNetwork({ (status) -> Void in
+                if status {
                 self.currentMode = nil
                 self.activateAudioSession()
                 self.btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
@@ -685,6 +689,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                     weakSelf!.microphone.startFetchingAudio()
                     weakSelf!.recorder = EZRecorder(URL: weakSelf!.getTmpFilePath(), clientFormat: weakSelf!.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: weakSelf!)
+                }
                 }
             })
         }
@@ -723,12 +728,14 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
         if linkFile != nil && !linkFile.isEmpty {
-            DeviceManager.doIfConnectedToNetwork({ () -> Void in
+            DeviceManager.doIfConnectedToNetwork({ (status) -> Void in
+                if status {
                 Logger.log("link mp3: " + self.linkFile)
                 //playSound(LinkFile)
                 HttpDownloader.loadFileSync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
                     self.playSound(NSURL(fileURLWithPath: path))
                 })
+                }
             })
         }
     }

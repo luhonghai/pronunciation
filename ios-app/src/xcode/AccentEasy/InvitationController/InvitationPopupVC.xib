@@ -42,12 +42,12 @@
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOc-5P-HcB">
                     <rect key="frame" x="81" y="124" width="50" height="50"/>
                     <connections>
-                        <action selector="btnCloseTouchUp:" destination="-1" eventType="touchUpInside" id="dsm-U7-iQG"/>
+                        <action selector="btnRejectTouchUp:" destination="-1" eventType="touchUpInside" id="9Jf-fF-j1Y"/>
                     </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="IYP-Vy-eBA">
-                    <rect key="frame" x="8" y="33" width="284" height="83"/>
-                    <string key="text">&lt;teacher first name&gt; &lt;teacher last name&gt;  from &lt;company&gt; would like to  invite you to their classroom, please accept or reject.
+                    <rect key="frame" x="8" y="33" width="284" height="100"/>
+                    <string key="text">&lt;teacher first name&gt; &lt;teacher last name&gt;  from &lt;company&gt; would like to invite you to their classroom, please accept or reject.
 </string>
                     <color key="textColor" red="0.43921568630000002" green="0.18823529410000001" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>

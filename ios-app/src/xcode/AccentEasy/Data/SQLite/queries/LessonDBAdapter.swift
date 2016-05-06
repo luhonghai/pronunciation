@@ -28,7 +28,7 @@ class LessonDBAdapter: BaseDatabaseAdapter {
     func getCourseScore(username: String, idCourse: String) -> Int {
         let count:Int = (db?.scalar(LiteTable.TEST_SCORE.filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCourse).count))!
         if count > 0 {
-            for row in try! (db?.prepare("SELECT AVG(SCORE) FROM TestScore WHERE USERNAME=? AND IDCOUNTRY=? AND ISLEVELPASS=?").bind(username, idCourse, true))! {
+            for row in try! (db?.prepare("SELECT AVG(SCORE) FROM TestScore WHERE USERNAME=? AND IDCOUNTRY=?").bind(username, idCourse))! {
                 if row[0] != nil {
                     return Int(round(row[0] as! Double))
                 }

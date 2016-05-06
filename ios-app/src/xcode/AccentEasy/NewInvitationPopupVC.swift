@@ -32,7 +32,12 @@ class NewInvitationPopupVC: UIViewController {
         btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
         
-        tvMessage.text = "You have \(numerInvitation) invitations pending"
+        if numerInvitation == 1 {
+            tvMessage.text = "You have \(numerInvitation) invitation pending"
+        } else {
+            tvMessage.text = "You have \(numerInvitation) invitations pending"
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {

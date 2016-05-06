@@ -427,8 +427,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         disableViewRecord()
         self.analyzingView.didCompleteLoadWord = false
         weak var weakSelf = self
-        DeviceManager.doIfConnectedToNetwork({ () -> Void in
-            if weakSelf != nil && weakSelf!.linkFile != nil && !weakSelf!.linkFile.isEmpty {
+        DeviceManager.doIfConnectedToNetwork({ (status) -> Void in
+            if weakSelf != nil && weakSelf!.linkFile != nil && !weakSelf!.linkFile.isEmpty && status {
                 Logger.log("link mp3: " + weakSelf!.linkFile)
                 //playSound(LinkFile)
                 HttpDownloader.loadFileAsync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
@@ -436,6 +436,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                     weakSelf!.analyzingView.isSearching = false
                     weakSelf!.analyzingView.didCompleteLoadWord = true
                 })
+            } else {
+                    weakSelf!.analyzingView.isSearching = false
+                    weakSelf!.analyzingView.didCompleteLoadWord = true
             }
         })
     }
@@ -606,7 +609,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             ennableViewRecord()
             return
         } else{
-            DeviceManager.doIfConnectedToNetwork({ () -> Void in
+            DeviceManager.doIfConnectedToNetwork({ (status) -> Void in
+                if status {
                 self.currentMode = nil
                 self.activateAudioSession()
                 self.btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
@@ -616,6 +620,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 self.microphone.startFetchingAudio()
                 self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: self)
                 self.analyzingView.switchType(AnalyzingType.RECORDING)
+                }
             })
         }
         
@@ -653,12 +658,14 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
         if linkFile != nil && !linkFile.isEmpty {
-            DeviceManager.doIfConnectedToNetwork({ () -> Void in
+            DeviceManager.doIfConnectedToNetwork({ (status) -> Void in
+                if status {
                 Logger.log("link mp3: " + self.linkFile)
                 //playSound(LinkFile)
                 HttpDownloader.loadFileSync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
                     self.playSound(NSURL(fileURLWithPath: path))
                 })
+                }
             })
         }
     }
