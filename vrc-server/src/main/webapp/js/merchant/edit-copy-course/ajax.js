@@ -108,7 +108,8 @@ function addLevel(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -220,7 +221,8 @@ function addObj(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -327,7 +329,8 @@ function addTest(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -435,7 +438,8 @@ function addLesson(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{

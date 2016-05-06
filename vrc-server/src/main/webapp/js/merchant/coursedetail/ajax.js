@@ -104,7 +104,8 @@ function addLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -210,7 +211,8 @@ function addObj(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -311,7 +313,8 @@ function addTest(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -414,7 +417,8 @@ function addLesson(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{

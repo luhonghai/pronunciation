@@ -195,6 +195,9 @@ public class LevelServices {
             return ERROR + ": an error has been occurred in server";
         }
         message = addMappingObjToLv(idLevel,idObj);
+        if(message.equalsIgnoreCase(SUCCESS)){
+            message = SUCCESS + ":" + idObj;
+        }
         return message;
     }
 

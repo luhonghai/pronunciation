@@ -16,6 +16,8 @@ function ClickOnTree(){
             currentParent = treeAPI.parent(item);
             var popupId = itemData._popupId;
             openPopup(itemData);
+        }else{
+            swalNew("","please add test data for the previous level first","error");
         }
 
     });
@@ -91,8 +93,12 @@ function openPopup(itemData){
         currentPopup.find("#titlePopupLesson").html("lesson management");
         getNameLesson().val(itemData.label);
         getDescriptionLesson().val(itemData._description);
+        var length_des = itemData._description.length;
+        $("#count-lesson-description").html(length_des + " of 60 characters");
         getTypeLesson().val(itemData._type);
         getDetailLesson().val(itemData._details);
+        var length_detail = itemData._details.length;
+        $("#count-lesson-details").html(length_detail + " of 240 characters");
         currentPopup.find("#btnDeleteLesson").show();
         var objParent = treeAPI.itemData(currentParent);
         getNameLesson().attr("objID",objParent.id);
@@ -103,7 +109,7 @@ function openPopup(itemData){
         clearForm();
         listWord=[];
         getListWord().empty();
-        currentPopup.find("#titlePopupQuestion").html("question management");
+        currentPopup.find("#titlePopupQuestion").html("add question");
         currentPopup.find("#btnDeleteQuestion").hide();
         var lesson = treeAPI.itemData(currentParent);
         var obj = treeAPI.parent(currentParent);
@@ -311,7 +317,7 @@ function showAddWord(){
         $("#addWord").attr("disabled",false);
         $("#addWordModal").attr("type","add-new-word");
         $("#addWordModal").modal('show');
-        $("#addWordModal").find('#title-add-word').html("word management");
+        $("#addWordModal").find('#title-add-word').html("add word");
         $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
 }
@@ -543,14 +549,28 @@ function drag2drop(){
 /**
  * reload the tree
  */
-function reloadTree(){
+function reloadTree(id,type){
     treeAPI = theTree.aciTree('api');
     treeAPI.unload(currentParent, {
         success: function(item) {
             this.close(item);
             treeAPI.ajaxLoad(currentParent, {
                 success: function(item) {
-                    this.open(item);
+                    this.open(item,{
+                        success : function(){
+                            if(type=='add'){
+                                var allChild = treeAPI.children(currentParent, true, true);// you can change null to any node , now it get the whole tree
+                                allChild.each(function (index, item) {
+                                    var $item = $(item);
+                                    var data = treeAPI.itemData($item);
+                                    //console.log(tmp + " " + id);
+                                    if(data.id.trim() == id.trim()){
+                                        treeAPI.open($item);
+                                    }
+                                });
+                            }
+                        }
+                    });
                     enablePublishBtn();
                     enableAddLevel();
                 }

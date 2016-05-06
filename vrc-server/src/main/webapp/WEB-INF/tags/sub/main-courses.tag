@@ -83,8 +83,8 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12" style="padding-top: 20px">
-            <label class="welcome">Double click to select from the list below to view the content of courses that have
-                been shared, or select the ‘add course’ button above to create a bespoke course of your own.</label>
+            <label class="welcome">Select from the list below to view the content of courses that have
+                been shared, or select the 'add course' button above to create a bespoke course of your own.</label>
         </div>
     </div>
 

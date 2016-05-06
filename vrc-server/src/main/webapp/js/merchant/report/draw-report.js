@@ -110,8 +110,15 @@ function drawBarChart(listData,studentScores,classScores,type){
         { label: "Student Score", data: ssData },
         { label: "Class Average Score", data: casData }
     ];
+    if(type == "phonemes"){
+        $("#placeholder").addClass(type);
+        $("#placeholder").removeClass("word");
+    }else{
+        $("#placeholder").addClass(type);
+        $("#placeholder").removeClass("phonemes");
+    }
 
-    $("#placeholder").css("width",generateWidth(ssData));
+   // $("#placeholder").css("width",generateWidth(ssData));
     $.plot("#placeholder", data, {
         series: {
             bars: {
@@ -156,10 +163,11 @@ function drawBarChart(listData,studentScores,classScores,type){
 
 function showToolTip(x, y, contents, z){
     $('<div id="flot-tooltip">' + contents + '</div>').css({
-        top: y - 100,
-        left: x - 280,
+        top: y,
+        left: x,
         'border-color': z,
-    }).appendTo("#holder-chart").show();
+        'z-index' : 200000
+    }).appendTo("body").show();
 }
 
 function mouseOverChart(){

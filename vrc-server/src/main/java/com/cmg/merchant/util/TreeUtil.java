@@ -151,7 +151,7 @@ public class TreeUtil {
             TreeNode node = getDefaultInstance(false);
             node.setId(test.getId());
             node.set_idLessonForTest(idLessons);
-            node.setLabel(test.getName());
+            node.setLabel(test.getName().toLowerCase());
             node.set_title(test.getPercentPass()+"%");
             node.setIcon(Constant.IC_TEST);
             node.set_targetLoad(Constant.TARGET_LOAD_TEST);
@@ -216,7 +216,7 @@ public class TreeUtil {
             for(Question question : list){
                 TreeNode node = getDefaultInstance(showBtnAction);
                 node.setId(question.getId());
-                node.setLabel(question.getName() + index);
+                node.setLabel(question.getName().toLowerCase() + " " + index);
                 node.set_title(listWordOnQuestion(question.getId()));
                 node.setIcon(Constant.IC_QUESTION);
                 node.set_targetLoad(Constant.TARGET_LOAD_QUESTION);
@@ -251,7 +251,7 @@ public class TreeUtil {
             for(Question question : list){
                 TreeNode node = getDefaultInstance(showBtnAction);
                 node.setId(question.getId());
-                node.setLabel(question.getName() + index);
+                node.setLabel(question.getName().toLowerCase() + " " + index);
                 node.set_type(question.getType());
                 node.set_description(question.getDescription());
                 node.set_title(listWordOnQuestion(question.getId()));
