@@ -238,6 +238,8 @@
 		9BA896651C7417D700BEE9CE /* AnalyzingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA896641C7417D700BEE9CE /* AnalyzingView.swift */; };
 		9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */; };
 		9BC162E61CBCDE8E00EEAF83 /* share-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC162E51CBCDE8E00EEAF83 /* share-100.png */; };
+		9BC3BBC81CD9E02500C2C26F /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC3BBC61CD9E02500C2C26F /* YouTubePlayer.swift */; settings = {ASSET_TAGS = (); }; };
+		9BC3BBC91CD9E02500C2C26F /* YouTubePlayer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC3BBC71CD9E02500C2C26F /* YouTubePlayer.xib */; settings = {ASSET_TAGS = (); }; };
 		9BCF9D531CCDFDEF00445FE8 /* AECourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF9D521CCDFDEF00445FE8 /* AECourse.swift */; };
 		9BEF044E1C59B6D200E474F3 /* RecordingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044B1C59B6D200E474F3 /* RecordingView.m */; };
 		9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */; };
@@ -803,6 +805,8 @@
 		9BA896641C7417D700BEE9CE /* AnalyzingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyzingView.swift; path = RecordingView/AnalyzingView.swift; sourceTree = "<group>"; };
 		9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyzingViewController.swift; path = RecordingView/AnalyzingViewController.swift; sourceTree = "<group>"; };
 		9BC162E51CBCDE8E00EEAF83 /* share-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-100.png"; sourceTree = "<group>"; };
+		9BC3BBC61CD9E02500C2C26F /* YouTubePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YouTubePlayer.swift; path = YoutubePlayer/YouTubePlayer.swift; sourceTree = "<group>"; };
+		9BC3BBC71CD9E02500C2C26F /* YouTubePlayer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YouTubePlayer.xib; path = YoutubePlayer/YouTubePlayer.xib; sourceTree = "<group>"; };
 		9BC5E0DF1C507DF2003CF8E9 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "Pods/../build/Debug-iphoneos/ObjectMapper.framework"; sourceTree = "<group>"; };
 		9BC5E0E01C507DF2003CF8E9 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		9BC5E0E11C507DF2003CF8E9 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SSZipArchive.framework; path = "Pods/../build/Debug-iphoneos/SSZipArchive.framework"; sourceTree = "<group>"; };
@@ -1558,6 +1562,15 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		9BC3BBB51CD9DFCA00C2C26F /* YoutubePlayer */ = {
+			isa = PBXGroup;
+			children = (
+				9BC3BBC61CD9E02500C2C26F /* YouTubePlayer.swift */,
+				9BC3BBC71CD9E02500C2C26F /* YouTubePlayer.xib */,
+			);
+			name = YoutubePlayer;
+			sourceTree = "<group>";
+		};
 		9BC5E0E81C50803B003CF8E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1791,6 +1804,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				9BC3BBB51CD9DFCA00C2C26F /* YoutubePlayer */,
 				C1D372B81CCE256A001D56B4 /* InvitationController */,
 				9B56BD771CC9CCD4005AE0C8 /* LockScreen */,
 				9B34082A1CB767D4002F80A1 /* HelpContent */,
@@ -2491,6 +2505,7 @@
 				C13E44BA1C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav in Resources */,
 				C14CD6261CACC4A6003B466F /* ToltalScorePopupVC.xib in Resources */,
 				C16CD2FE1C44B1EC00537461 /* help_content_7.png in Resources */,
+				9BC3BBC91CD9E02500C2C26F /* YouTubePlayer.xib in Resources */,
 				C16CD2C31C44B1EC00537461 /* p_menu_license.png in Resources */,
 				C16CD2FB1C44B1EC00537461 /* help_content_4.png in Resources */,
 				C16CD2B11C44B1EC00537461 /* p_btn_login_accenteasy.png in Resources */,
@@ -2615,6 +2630,7 @@
 				9B5F33BC1C77129A00E85629 /* ChartColorTemplates.swift in Sources */,
 				90F33B391C7EB05300E28BC4 /* BottomTabBarController.swift in Sources */,
 				9B5F33541C77129A00E85629 /* RadarChartView.swift in Sources */,
+				9BC3BBC81CD9E02500C2C26F /* YouTubePlayer.swift in Sources */,
 				C1410BA31C474D9200E781B4 /* AELoginVC.swift in Sources */,
 				C13D48551C89559A00D630A4 /* FSMainSwipeVC.swift in Sources */,
 				C141C8031C3E203C001D1F9C /* ViewController.swift in Sources */,
