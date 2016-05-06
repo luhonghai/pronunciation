@@ -64,8 +64,10 @@ class ResetPassVC: UIViewController, UITextFieldDelegate {
 
     
     @IBAction func resetTapped(sender: AnyObject) {
-        DeviceManager.doIfConnectedToNetwork { () -> Void in
+        DeviceManager.doIfConnectedToNetwork { (status) -> Void in
+            if status {
             self.resetAE()
+            }
         }
     }
     

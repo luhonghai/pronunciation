@@ -134,8 +134,10 @@ class RegisterVC: UIViewController, UITextFieldDelegate{
     
         
     @IBAction func registerTapped(sender: AnyObject) {
-        DeviceManager.doIfConnectedToNetwork { () -> Void in
+        DeviceManager.doIfConnectedToNetwork { (status) -> Void in
+            if status {
             self.registerAE()
+            }
         }
 
     }

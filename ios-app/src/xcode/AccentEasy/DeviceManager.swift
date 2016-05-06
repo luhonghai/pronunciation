@@ -47,10 +47,11 @@ class DeviceManager {
         }
     }
     
-    class func doIfConnectedToNetwork(completion:() -> Void) {
+    class func doIfConnectedToNetwork(completion:(status: Bool) -> Void) {
         if isConnectedToNetwork() {
-            completion()
+            completion(status: true)
         } else {
+            completion(status: false)
             dispatch_async(dispatch_get_main_queue(),{
                 SweetAlert().showAlert("no network available", subTitle: "sorry but your internet connection does not appear to be working", style: AlertStyle.Error)
             })

@@ -66,8 +66,10 @@ class RegisterConfirmVC: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func confirmCodeTapped(sender: AnyObject) {
-        DeviceManager.doIfConnectedToNetwork { () -> Void in
-            self.confirmCodeAE()
+        DeviceManager.doIfConnectedToNetwork { (status) -> Void in
+            if status {
+                self.confirmCodeAE()
+            }
         }
     }
     
