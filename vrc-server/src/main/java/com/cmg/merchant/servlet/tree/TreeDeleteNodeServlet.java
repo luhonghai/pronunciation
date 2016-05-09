@@ -23,18 +23,18 @@ public class TreeDeleteNodeServlet extends BaseServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
-        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         response.setHeader("Cache-control", "no-cache, no-store");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "-1");
         String action = (String) StringUtil.isNull(request.getParameter("action"), "").toString();
+        String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+        CMTSERVICES cmtservices = new CMTSERVICES();
+        cmtservices.unPublishCourse(idCourse);
         if(action.equalsIgnoreCase(Constant.ACTION_DELETE_COURSE)){
-            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             CourseServices service = new CourseServices();
             String txt = service.deleteCourse(idCourse);
             response.getWriter().println(txt);
         }else if(action.equalsIgnoreCase(Constant.ACTION_DELETE_LEVEL)){
-            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
             LevelServices lvService = new LevelServices();
             String txt = lvService.deleteLevel(idCourse, idLevel);

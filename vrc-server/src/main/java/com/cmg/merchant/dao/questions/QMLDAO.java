@@ -49,6 +49,9 @@ public class QMLDAO extends DataAccess<Question> {
                     if(array[3] != null) {
                         dto.setIndex(Integer.parseInt(array[3].toString()));
                     }
+                    if(array[4]!=null){
+                        dto.setIsCopied(Boolean.parseBoolean(array[4].toString()));
+                    }
                     list.add(dto);
                 }
             }

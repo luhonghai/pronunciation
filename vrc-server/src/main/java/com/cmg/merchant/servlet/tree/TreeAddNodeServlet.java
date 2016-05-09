@@ -26,14 +26,14 @@ public class TreeAddNodeServlet extends BaseServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
-        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         response.setHeader("Cache-control", "no-cache, no-store");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "-1");
         String action = (String) StringUtil.isNull(request.getParameter("action"), "").toString();
-        System.out.println("action : " + action);
+        String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+        CMTSERVICES cmtservices = new CMTSERVICES();
+        cmtservices.unPublishCourse(idCourse);
         if(action.equalsIgnoreCase(Constant.ACTION_ADD_LEVEL)){
-            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             CourseServices cServices = new CourseServices();
@@ -44,7 +44,7 @@ public class TreeAddNodeServlet extends BaseServlet {
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             LevelServices lvServices = new LevelServices();
-            String txt = lvServices.addObjToLv(idLevel,name,description);
+            String txt = lvServices.addObjToLv(idLevel,name,description,idCourse);
             response.getWriter().println(txt);
         }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_TEST)){
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();

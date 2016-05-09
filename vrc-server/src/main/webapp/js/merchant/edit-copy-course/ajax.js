@@ -145,6 +145,8 @@ function editLevel(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idLevel = currentPopup.find(".idHidden").val();
+                removeIdCopied(idLevel.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -258,6 +260,8 @@ function editObj(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idObj = currentPopup.find(".idHidden").val();
+                removeIdCopied(idObj.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -365,6 +369,8 @@ function editTest(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idTest = currentPopup.find(".idHidden").val();
+                removeIdCopied(idTest.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -475,6 +481,8 @@ function editLesson(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idLesson = currentPopup.find(".idHidden").val();
+                removeIdCopied(idLesson.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");

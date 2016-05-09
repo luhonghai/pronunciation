@@ -213,10 +213,18 @@ public class TreeUtil {
         }
         if(list!=null){
             int index = 1;
+            int copiedIndex = 0;
             for(Question question : list){
                 TreeNode node = getDefaultInstance(showBtnAction);
                 node.setId(question.getId());
-                node.setLabel(question.getName().toLowerCase() + " " + index);
+                node.set_isCopied(question.isCopied());
+                node.setPositionQ(question.getIndex());
+                if(question.isCopied()){
+                    node.setLabel(question.getName().toLowerCase());
+                    copiedIndex = copiedIndex +1;
+                }else{
+                    node.setLabel(question.getName().toLowerCase() + " " + (index - copiedIndex));
+                }
                 node.set_title(listWordOnQuestion(question.getId()));
                 node.setIcon(Constant.IC_QUESTION);
                 node.set_targetLoad(Constant.TARGET_LOAD_QUESTION);
@@ -248,10 +256,18 @@ public class TreeUtil {
         }
         if(list!=null){
             int index = 1;
+            int copiedIndex = 0;
             for(Question question : list){
                 TreeNode node = getDefaultInstance(showBtnAction);
                 node.setId(question.getId());
-                node.setLabel(question.getName().toLowerCase() + " " + index);
+                node.set_isCopied(question.isCopied());
+                node.setPositionQ(question.getIndex());
+                if(question.isCopied()){
+                    node.setLabel(question.getName().toLowerCase());
+                    copiedIndex = copiedIndex +1;
+                }else{
+                    node.setLabel(question.getName().toLowerCase() + " " + (index - copiedIndex));
+                }
                 node.set_type(question.getType());
                 node.set_description(question.getDescription());
                 node.set_title(listWordOnQuestion(question.getId()));

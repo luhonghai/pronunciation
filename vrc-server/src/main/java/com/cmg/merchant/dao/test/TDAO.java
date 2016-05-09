@@ -196,6 +196,9 @@ public class TDAO extends DataAccess<Test> {
                     if(array[4] != null) {
                         dto.setIndex(Integer.parseInt(array[4].toString()));
                     }
+                    if(array[5]!=null){
+                        dto.setIsCopied(Boolean.parseBoolean(array[5].toString()));
+                    }
                     list.add(dto);
                 }
             }

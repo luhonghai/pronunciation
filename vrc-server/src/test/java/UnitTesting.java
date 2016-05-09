@@ -30,6 +30,7 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.lessons.LDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.dao.questions.QDAO;
 import com.cmg.merchant.dao.questions.QMLDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.dao.report.ReportPhoneDao;
@@ -239,8 +240,22 @@ public class UnitTesting {
             services.addMappingQuestionToLesson("a","a");
             int i = services.getMaxIndexMapping("b");
             System.out.println(i);*/
-            QMLDAO dao = new QMLDAO();
-            dao.getQuestionByIdLesson("938700c4-b52a-4299-94f8-fb292d6fa389");
+          /*  QMLDAO dao = new QMLDAO();
+            dao.getQuestionByIdLesson("938700c4-b52a-4299-94f8-fb292d6fa389");*/
+            QDAO qdao=new QDAO();
+            String message=null;
+            try {
+                Question question=new Question();
+                question.setId("test");
+                question.setIsDeleted(false);
+                question.setVersion(10);
+                question.setTimeCreated(new Date(System.currentTimeMillis()));
+                question.setIsCopied(false);
+                qdao.create(question);
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

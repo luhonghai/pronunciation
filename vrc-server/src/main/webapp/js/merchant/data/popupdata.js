@@ -296,12 +296,12 @@ function initHelpTopWelcome(){
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
         $html.append("<div class='col-sm-1'></div>");
-        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/report_help_phonemes.png'> </div>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 20px;height:20px' src='/images/teacher/report_help_lessons.png'> </div>");
         $html.append("<div class='col-sm-9'><label>lessons</label> – scores for words and phonemes from all lessons taken in the last 3 months. </div>");
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
         $html.append("<div class='col-sm-1'></div>");
-        $html.append("<div class='col-sm-2'><img style='float:right;width: 22px;height:22px' src='/images/teacher/report_help_lessons.png'> </div>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 20px;height:20px' src='/images/teacher/report_help_phonemes.png'> </div>");
         $html.append("<div class='col-sm-9'><label>phonemes</label> – scores for phonemes for individual students over a selected time period. </div>");
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");

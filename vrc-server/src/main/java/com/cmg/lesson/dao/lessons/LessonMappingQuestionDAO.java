@@ -28,7 +28,7 @@ public class LessonMappingQuestionDAO extends DataAccess<LessonMappingQuestion> 
         int version = 0;
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT max(position) FROM " + LessonMappingQuestion.class.getCanonicalName());
-        q.setFilter("idLesson == paramIdLesson");
+        q.setFilter("idLesson == paramIdLesson && isDeleted == false");
         q.declareParameters("String paramIdLesson");
         try {
             if (q != null) {

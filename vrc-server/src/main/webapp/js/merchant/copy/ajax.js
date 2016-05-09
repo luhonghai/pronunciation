@@ -57,7 +57,9 @@ function copyLevel(idCourse, idLevel){
                     isEditedContent = true;
                     UpdateStateCourse();
                 }
-               reloadTree();
+                var idCopied = data.split(":")[1];
+                listIdCopied.push(idCopied);
+                reloadTree();
                 swalNew("","copy level successfully","success");
             }else{
                 getDivContainTree().show();
@@ -114,6 +116,8 @@ function copyObj(idLevel, idObj){
                     isEditedContent = true;
                     UpdateStateCourse();
                 }
+                var idCopied = data.split(":")[1];
+                listIdCopied.push(idCopied);
                 reloadTree();
                 swalNew("","copy objective successfully","success");
             }else{
@@ -171,6 +175,8 @@ function copyTest(idLevel, idTest){
                     isEditedContent = true;
                     UpdateStateCourse();
                 }
+                var idCopied = data.split(":")[1];
+                listIdCopied.push(idCopied);
                 reloadTree();
                 swalNew("","copy test successfully","success");
             }else{
@@ -227,6 +233,8 @@ function copyLesson(idObj, idLesson){
                     isEditedContent = true;
                     UpdateStateCourse();
                 }
+                var idCopied = data.split(":")[1];
+                listIdCopied.push(idCopied);
                 reloadTree();
                 swalNew("","copy lesson successfully","success");
             }else{
@@ -258,7 +266,7 @@ function copyLesson(idObj, idLesson){
  * @param idCourse
  * @param idLevel
  */
-function copyQuestion(idLesson, idQuestion){
+function copyQuestion(idLesson, idQuestion,nameQ){
     getDivContainTree().hide();
     getProcessBar().show();
     progress = getProcessBar().progressTimer({
@@ -275,7 +283,8 @@ function copyQuestion(idLesson, idQuestion){
         data : {
             action: "cpQuestion",
             idQuestion : idQuestion,
-            idLesson : idLesson
+            idLesson : idLesson,
+            name : nameQ
         },
         dataType : "text",
         success : function(data){

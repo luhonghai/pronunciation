@@ -408,7 +408,7 @@ public class QuestionServices {
      * @param idQuestion
      * @return
      */
-    public String copyQuestion(String idLessonMapping, String idQuestion){
+    public String copyQuestion(String idLessonMapping, String idQuestion,boolean singleCopied,String name){
         QDAO qDao = new QDAO();
         try {
             Question q = qDao.getById(idQuestion);
@@ -416,12 +416,19 @@ public class QuestionServices {
                 Question tmp = new Question();
                 String newId = UUIDGenerator.generateUUID().toString();
                 tmp.setId(newId);
-                tmp.setName(q.getName());
+                if(singleCopied){
+                    tmp.setName("Copy of " + name);
+                    tmp.setIsCopied(true);
+                }else{
+                    tmp.setName(q.getName());
+                    tmp.setIsCopied(false);
+                }
                 tmp.setDescription(q.getDescription());
-                tmp.setType((String)StringUtil.isNull(q.getType(),""));
+                tmp.setType((String) StringUtil.isNull(q.getType(),""));
                 tmp.setIsDeleted(false);
                 tmp.setVersion(q.getVersion());
                 tmp.setTimeCreated(q.getTimeCreated());
+
                 qDao.create(tmp);
                 addMappingQuestionToLesson(newId,idLessonMapping);
                 return newId;
@@ -502,7 +509,6 @@ public class QuestionServices {
                     }
                 } else {
                     WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
-
                     if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
                         return ERROR + ": an error has been occurred in server";
                     }
@@ -511,6 +517,7 @@ public class QuestionServices {
                     }
                 }
             }
+            updateCopiedQuestionState(idQuestion);
             message=SUCCESS;
         }catch (Exception e){
             logger.error("can not update Word to question because : " + e.getMessage());
@@ -620,13 +627,24 @@ public class QuestionServices {
             if(!check){
                 return ERROR + ": an error has been occurred in server";
             }
-
+            updateCopiedQuestionState(idQuestion);
         }catch (Exception e){
             return ERROR + ": an error has been occurred in server";
         }
         return SUCCESS;
     }
-    public String updateWordToQuestionForTest(ListWordAddQuestion listWords,String idQuestion, String type, String description){
+
+    /**
+     *
+     * @param listWords
+     * @param idQuestion
+     * @param type
+     * @param description
+     * @param idCourse
+     * @return
+     */
+    public String updateWordToQuestionForTest(ListWordAddQuestion listWords,String idQuestion,
+                                              String type, String description){
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
         QuestionDAO questionDAO=new QuestionDAO();
         String message=null;
@@ -653,6 +671,7 @@ public class QuestionServices {
                     }
                 }
             }
+            updateCopiedQuestionState(idQuestion);
             message=SUCCESS;
         }catch (Exception e){
             logger.error("can not update Word to question because : " + e.getMessage());
@@ -661,5 +680,19 @@ public class QuestionServices {
     }
 
 
+
+
+    /**
+     *
+     * @param idQuestion
+     */
+    public void updateCopiedQuestionState(String idQuestion){
+        QDAO dao = new QDAO();
+        try {
+            dao.updateCopied(idQuestion);
+        }catch (Exception e){
+
+        }
+    }
 }
 

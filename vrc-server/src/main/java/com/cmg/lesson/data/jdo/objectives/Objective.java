@@ -29,8 +29,20 @@ public class Objective implements Mirrorable {
     @Persistent
     private boolean isDeleted;
 
+    @Persistent
+    private boolean isCopied;
+
     @NotPersistent
     private int index;
+
+    public boolean isCopied() {
+        return isCopied;
+    }
+
+    public void setIsCopied(boolean isCopied) {
+        this.isCopied = isCopied;
+    }
+
 
     public int getIndex() {
         return index;
