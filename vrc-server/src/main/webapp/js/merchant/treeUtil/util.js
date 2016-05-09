@@ -531,21 +531,34 @@ function drag2drop(){
                         var childId = dragData.id;
                         var indexDrop = api.getIndex(drop);
                         var indexDrag = api.getIndex(item);
-                        //console.log(indexDrag);
+                     /*   console.log(indexDrag);
+                        console.log(indexDrop);*/
                         var move = "down";
                         if(indexDrag > indexDrop){
                             move = "up";
                         }
                         dragDrop.action = action;
-                        var idLesson = dragData._idLessonForTest;
-                        if(typeof idLesson!="undefined" && idLesson!=""){
-                            dragDrop.parentId = idLesson;
-                        }else{
+                        var parentAction = api.itemData(parent)._targetLoad;
+                        console.log(parentAction + " " + targetLoadTest);
+                        if(parentAction.trim() !== targetLoadTest.trim()){
+                            console.log('not equal');
                             dragDrop.parentId = parentId;
+                        }else{
+                            console.log('equal');
+                            var idLesson = api.itemData(parent)._idLessonForTest;
+                            dragDrop.parentId = idLesson;
                         }
-                        dragDrop.parentId = parentId;
+                        //dragDrop.parentId = parentId;
                         dragDrop.childId = childId;
-                        dragDrop.indexDrop = indexDrop;
+                        if(action == targetLoadQuestion){
+                            var nameQ = dropData.label;
+                            var indexQ = nameQ.split(" ")[1];
+                           // console.log(indexQ);
+                            dragDrop.indexDrop = indexQ;
+                        }else{
+                            dragDrop.indexDrop = indexDrop;
+                        }
+
                         dragDrop.move = move;
                         return true;
                     }
@@ -570,7 +583,6 @@ function reloadTree(id,type){
                                 allChild.each(function (index, item) {
                                     var $item = $(item);
                                     var data = treeAPI.itemData($item);
-                                    //console.log(tmp + " " + id);
                                     if(data.id.trim() == id.trim()){
                                         treeAPI.open($item);
                                     }

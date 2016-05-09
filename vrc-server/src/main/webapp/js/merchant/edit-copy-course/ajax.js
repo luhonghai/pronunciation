@@ -1007,7 +1007,16 @@ function DragDrop(action,parentId,childId,index,move){
         dataType : "text",
         success : function(data){
             if(action == targetLoadQuestion){
-                reloadTree();
+                //var allChild = treeAPI.children(currentParent, true, true);// you can change null to any node , now it get the whole tree
+                //allChild.each(function (index, item) {
+                //    var $item = $(item);
+                //    var data = treeAPI.itemData($item);
+                //    if(data.id.trim() != childId.trim()){
+                //        treeAPI.open($item);
+                //    }
+                //});
+                setInterval(function(){ reloadTree(); }, 500);
+
             }
         },
         error: function () {
