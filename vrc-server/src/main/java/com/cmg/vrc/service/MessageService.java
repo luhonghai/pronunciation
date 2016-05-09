@@ -125,7 +125,7 @@ public class MessageService {
         Message message = new Message.Builder().addData("data", "test").build();
         MessageService messageService = new MessageService(message);
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("APA91bGKp5kmhgjM1_oh8JU8F6aGyAPL53HpmmLKup5zDoQPqxWMr2w-1QL7KHMAjUte-cmBx_GybV_9IEZ7qfSuAmcQ7ci8TxodbTBIjFun4XleUR6THSeCRUiqQWoI96ybwzAvBATf");
+        arrayList.add("ef8qwDqgvDs:APA91bHhCVvZayHY49tgR_855t1PBbnFFyThopPIQWFd7Lr0rp5TXZobVu--3m3WqYCz6B_yeiBHN1wSQsBwxmKs_CKq5gbE_ULg-eg2LKSYADurN4eoYK7J1hQ8bgJkwtWGjtSURPY9");
         try {
             messageService.doPostMessage(arrayList);
         } catch (Exception e) {
