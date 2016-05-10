@@ -73,6 +73,9 @@ public class CourseServices {
             return ERROR + " : an error has been occurred in server";
         }
         message = addMappingLevel(idCourse, idLevel);
+        if(message.equalsIgnoreCase(SUCCESS)){
+            message = SUCCESS + ":" + idLevel;
+        }
         return message;
     }
 

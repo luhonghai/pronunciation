@@ -114,7 +114,7 @@ function addClass(){
                         $("#add").modal('hide');
                         $("#listMyClass").empty();
                         listMyClasses();
-                        swalNew("", "added class successfully", "success");
+                        swalNew("", "added successfully", "success");
                     }else{
                         $("#classExits").find("#invalidClass").html(classname);
                         $("#classExits").modal('show');
@@ -194,7 +194,7 @@ function deleteClass(){
                         listMyClasses();
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
-                        swalNew("", "deleted class successfully", "success");
+                        swalNew("", "deleted successfully", "success");
                     }else if (data == "not exist"){
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');

@@ -47,6 +47,9 @@ public class LessonServices {
             return ERROR + ": an error has been occurred in server";
         }
         message = addMappingLessonToObj(idObj, idLesson);
+        if(message.equalsIgnoreCase(SUCCESS)){
+            message = SUCCESS + ":" + idLesson;
+        }
         return message;
     }
 

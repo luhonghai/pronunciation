@@ -664,9 +664,9 @@
 </div>
 <div id="helpReportModal" class="modal fade">
     <div class="modal-dialog" style="width:500px">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 20px">
             <div class="modal-header">
-                <h2 class="modal-title">report</h2>
+                <h2 class="modal-title">reports</h2>
             </div>
             <div class="modal-body">
                 <div>

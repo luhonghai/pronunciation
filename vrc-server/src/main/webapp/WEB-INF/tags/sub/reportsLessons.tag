@@ -195,7 +195,7 @@
         border-radius: 5px;
         z-index : 100000;
     }
-    .flot-x-axis div.flot-tick-label {
+    .word .flot-x-axis div.flot-tick-label {
         /* Rotate Axis Labels */
         transform:  translateX(60%) rotate(60deg); /* CSS3 */
         transform-origin: 0 0;
@@ -211,6 +211,10 @@
 
         -o-transform:  translateX(60%) rotate(60deg); /* Opera */
         -o-transform-origin: 0 0;
+    }
+    .phonemes .flot-x-axis div.flot-tick-label {
+        /* Rotate Axis Labels */
+        font-size : 14px;
     }
 
 </style>
@@ -345,23 +349,23 @@
                             <p><strong>completion date:</strong></p>
                             <label id="lbl_date_completed" style='font-weight: 200;'>date completed</label>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="padding-top:20px;">
                             <div class="col-sm-4">
                                 <div class="student-avg-score">80</div>
                             </div>
                             <div class="col-sm-2">
-                                <div class="color-student-help"></div>
+                                <div style="margin-top:20px;" class="color-student-help"></div>
                             </div>
-                            <div class="col-sm-6 student-avg-text">student score</div>
+                            <div style="padding-top:20px;" class="col-sm-6 student-avg-text">student score</div>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="padding-top:20px;">
                             <div class="col-sm-4">
                                 <div class="class-avg-score">80</div>
                             </div>
                             <div class="col-sm-2">
-                                <div class="color-class-help"></div>
+                                <div style="margin-top:20px;" class="color-class-help"></div>
                             </div>
-                            <div class="col-sm-6 class-avg-text">class average</div>
+                            <div style="padding-top:20px;"  class="col-sm-6 class-avg-text">class average</div>
                         </div>
                     </div>
                     <div id="container" class="col-sm-8">

@@ -117,11 +117,11 @@ public class SqlReport {
             "and ls.id='paramLessonId' and map.IPA='paramIpa'" +
             "and ls.isDeleted=false";
 
-    private String SQL_LIST_STUDENT_BY_TEACHER = "select STUDENTNAME from STUDENTMAPPINGCLASS as smc " +
+    private String SQL_LIST_STUDENT_BY_TEACHER = "select smc.STUDENTNAME from STUDENTMAPPINGCLASS as smc " +
             "  inner join CLASSMAPPINGTEACHER as cmt " +
-            "    on smc.idClass = cmt.idClass " +
+            "  on smc.idClass = cmt.idClass " +
             "where cmt.teacherName='paramTName' " +
-            "and smc.ISDELETED=false and cmt.ISDELETED=false";
+            "and smc.ISDELETED=false and cmt.ISDELETED=false GROUP BY smc.STUDENTNAME";
 
     private String SQL_CALCULATE_PHONEME_SCORE_BY_USER = "select ulh.SERVERTIME, pls.TOTALSCORE from USERLESSONHISTORY as ulh " +
             "inner join PHONEMELESSONSCORE as pls " +

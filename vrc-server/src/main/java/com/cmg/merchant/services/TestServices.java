@@ -108,7 +108,10 @@ public class TestServices {
         if(message.equalsIgnoreCase(ERROR)){
             return ERROR + ": an error has been occurred in server";
         }
-        return SUCCESS;
+        if(message.equalsIgnoreCase(SUCCESS)){
+            message = SUCCESS + ":" + idTest;
+        }
+        return message;
     }
 
 

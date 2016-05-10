@@ -62,7 +62,7 @@ public class MyCourseServlet extends BaseServlet {
             String cName = (String) StringUtil.isNull(request.getParameter("cName"), "").toString();
             String dateFrom = (String) StringUtil.isNull(request.getParameter("dateFrom"), "1999-01-01").toString();
             String dateTo = (String) StringUtil.isNull(request.getParameter("dateTo"), "2100-01-01").toString();
-            ArrayList<CourseDTO> list = services.searchCourseDetailMyCourse(cpName,cName,dateFrom,dateTo,util.getCpId(request),util.getTid(request));
+            ArrayList<CourseDTO> list = services.searchCourseDetailMyCourse(cpName.toLowerCase(),cName.toLowerCase(),dateFrom,dateTo,util.getCpId(request),util.getTid(request));
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }

@@ -239,15 +239,16 @@ function initHelpTopDataMyCourse(){
     var $html = $("<div>");
     $html.html("<p>Any courses that you have copied or created yourself are listed on this page.</p>");
     $html.append("<p>Courses must be published in order to make them available to add to your classes.</p>");
-    $html.append("<p>The courses are colour codes as follows:</p>");
+    $html.append("<p>The courses are colour coded as follows:</p>");
     $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #17375E'></div>" +
         "<div style='padding-left:30px;'>created by you or copied and edited</div></p>");
     $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #558ED5'></div>" +
-        "<div style='padding-left:30px;'>copied without editing</div></p>");
+        "<div style='padding-left:30px;'>duplicate of a course where the only change is the removal of 'copy of' from the course name</div></p>");
     $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #7030A0'></div>" +
         "<div style='padding-left:30px;'>duplicate of a course you already have in your list" +
-        "(You will not be able to publish an exact copy of a course that you already have in ‘my courses’ ." +
-        "You need to edit something and publish it to make it available to add to your classes).</div></p>");
+        "(You will not be able to publish an exact copy of a course that you already have in 'my courses' " +
+        "until you have removed 'copy of' from the course name." +
+        ").</div></p>");
     $html.append("<p><img src='/images/treeview/unpublished_button.gif' style='float:left;width:24px;height: 24px'>" +
         "This icon indicates that a course has not been published yet</p>");
     $html.append("<p>Information about the originating company, share options and date of the last action (created, edited or duplicated) is displayed on the course title button.</p>");
@@ -301,7 +302,7 @@ function initHelpTopWelcome(){
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
         $html.append("<div class='col-sm-1'></div>");
-        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/report_help_lessons.png'> </div>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 22px;height:22px' src='/images/teacher/report_help_lessons.png'> </div>");
         $html.append("<div class='col-sm-9'><label>phonemes</label> – scores for phonemes for individual students over a selected time period. </div>");
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
@@ -310,7 +311,7 @@ function initHelpTopWelcome(){
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
         $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/my%20students48x48.gif' style='width: 24px;height: 24px;'> </div>");
-        $html.append("<div class='col-sm-10'><label>my students</label> – create a list of students that you are teaching invite students to link with you if they do not have a licence.</div>");
+        $html.append("<div class='col-sm-10'><label>my students</label> – create a list of students that you are teaching and invite students to link with you if they do not have a licence.</div>");
     $html.append("</div>");
     return $html;
 }
