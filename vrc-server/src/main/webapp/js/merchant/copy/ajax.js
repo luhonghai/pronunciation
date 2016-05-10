@@ -60,10 +60,10 @@ function copyLevel(idCourse, idLevel){
                 var idCopied = data.split(":")[1];
                 listIdCopied.push(idCopied);
                 reloadTree();
-                swalNew("","copy level successfully","success");
+                swalNew("","copy successfully","success");
             }else{
                 getDivContainTree().show();
-                swalNew("","copy level fail","error");
+                swalNew("","copy fail","error");
             }
         },
         error: function () {
@@ -77,7 +77,7 @@ function copyLevel(idCourse, idLevel){
             onFinish:function(){
               getDivContainTree().show();
               progress.progressTimer('destroy');
-                swalNew("","copy level fail","error");
+                swalNew("","copy fail","error");
             }
         });
     }).done(function(){
@@ -119,11 +119,11 @@ function copyObj(idLevel, idObj){
                 var idCopied = data.split(":")[1];
                 listIdCopied.push(idCopied);
                 reloadTree();
-                swalNew("","copy objective successfully","success");
+                swalNew("","copy successfully","success");
             }else{
                 getProcessBar().hide();
                 getDivContainTree().show();
-                swalNew("","copy objective fail","error");
+                swalNew("","copy fail","error");
             }
         },
         error: function () {
@@ -136,7 +136,7 @@ function copyObj(idLevel, idObj){
             errorText:'ERROR!',
             onFinish:function(){
                 getDivContainTree().show();
-                swalNew("","copy objective fail","error");
+                swalNew("","copy fail","error");
             }
         });
     }).done(function(){
@@ -178,10 +178,10 @@ function copyTest(idLevel, idTest){
                 var idCopied = data.split(":")[1];
                 listIdCopied.push(idCopied);
                 reloadTree();
-                swalNew("","copy test successfully","success");
+                swalNew("","copy successfully","success");
             }else{
                 getDivContainTree().show();
-                swalNew("","copy test fail","error");
+                swalNew("","copy fail","error");
             }
         },
         error: function () {
@@ -194,7 +194,7 @@ function copyTest(idLevel, idTest){
             errorText:'ERROR!',
             onFinish:function(){
                 getDivContainTree().show();
-                swalNew("","copy test fail","error");
+                swalNew("","copy fail","error");
             }
         });
     }).done(function(){
@@ -236,24 +236,24 @@ function copyLesson(idObj, idLesson){
                 var idCopied = data.split(":")[1];
                 listIdCopied.push(idCopied);
                 reloadTree();
-                swalNew("","copy lesson successfully","success");
+                swalNew("","copy successfully","success");
             }else{
                 getProcessBar().hide();
                 getDivContainTree().show();
-                swalNew("","copy lesson fail","error");
+                swalNew("","copy fail","error");
             }
         },
         error: function () {
             getProcessBar().hide();
             getDivContainTree().show();
-            swalNew("","copy lesson fail","error");
+            swalNew("","copy fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
                 getDivContainTree().show();
-                swalNew("","copy lesson fail","error");
+                swalNew("","copy fail","error");
             }
         });
     }).done(function(){
@@ -294,16 +294,16 @@ function copyQuestion(idLesson, idQuestion,nameQ){
                     UpdateStateCourse();
                 }
                 reloadTree();
-                swalNew("","copy question successfully","success");
+                swalNew("","copy successfully","success");
             }else{
                 getDivContainTree().show();
-                swalNew("","copy question fail","error");
+                swalNew("","copy fail","error");
             }
         },
         error: function () {
             getProcessBar().hide();
             getDivContainTree().show();
-            swalNew("","copy question fail","error");
+            swalNew("","copy fail","error");
         }
     }).error(function(){
         progress.progressTimer('error', {

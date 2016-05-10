@@ -276,7 +276,9 @@ function drawListWord(listWord){
     getListWord().html("");
     getListWordTest().html();
     if(list!=null && list.length>0){
-        list.sort();
+        list.sort(function(a, b) {
+            return a == b ? 0 : +(a > b) || -1;
+        });
         for(var i=0;i<list.length;i++){
             if(currentPopup.find(".action").val() == action_edit_question){
                 getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');

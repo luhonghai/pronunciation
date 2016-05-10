@@ -71,9 +71,9 @@ function drawLessonPreview(lesson){
     var $a = $('<a>');
     $a.addClass("btn selection lesson");
     $a.attr("id",lesson.id);
-    $a.attr("description",lesson.description);
+    $a.attr("description",lesson.name);
     var $label = $('<label>');
-    $label.html(lesson.name);
+    $label.html(lesson.title);
     $label.addClass("name");
     var $circle = $('<div>');
     $circle.addClass('circle');
