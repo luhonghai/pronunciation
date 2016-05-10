@@ -8,7 +8,9 @@ import com.cmg.vrc.util.StringUtil;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +21,16 @@ public class ReportPhoneDao {
 
     public class ScorePhoneme{
         long serverTime;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        String date;
         int score;
 
         public long getServerTime() {
@@ -91,18 +103,20 @@ public class ReportPhoneDao {
                 for(Object obj : tmp){
                     Object[] data = (Object[]) obj;
                     ScorePhoneme sp = new ScorePhoneme();
-                    if(data[1]!=null){
-                        Double value = (Double)data[1];
+                    if(data[0]!=null && data[1]!=null){
+                        float value = (float)data[1];
                         int score = (int) Math.round(value);
                         sp.setScore(score);
-                    }else{
-                        sp.setScore(0);
+                        long time = (long)data[0];
+                        sp.setServerTime(time);
                     }
-                    if(data[0]!=null){
+                    /*if(data[0]!=null){
                         long value = (long)data[0];
                         sp.setServerTime(value);
-                    }
-                    System.out.println(sp.getServerTime() + "-" + sp.getScore());
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        sp.setDate(format.format(new Date((long) data[0])));
+                    }*/
+                    //System.out.println(sp.getServerTime() + "-" + sp.getScore());
                     listScore.add(sp);
 
                 }

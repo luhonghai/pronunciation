@@ -31,6 +31,8 @@ function loadContent(action,id){
                 clearBodyTest();
                 if(data.test!=null){
                     drawTestPreview(data.test);
+                }else{
+                    drawTestPreview(null);
                 }
                 showScreen(getObjScreen().attr('id'));
             }else if(action == targetLoadObj){

@@ -27,10 +27,10 @@ function initTree(){
                 //for load other node in course
                 var target = itemData._targetLoad;
                 var id = itemData.id;
-                settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
+                settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction+"&idCourse="+idCourse;
             }else{
                 //load course
-                settings.url = settings.url + "?target=" + loadCourse + "&idTarget=" + idCourse +"&firstLoad=" + firstLoad + "&showBtnAction="+showBtnAction;
+                settings.url = settings.url + "?target=" + loadCourse + "&idTarget=" + idCourse +"&firstLoad=" + firstLoad + "&showBtnAction="+showBtnAction+"&idCourse="+idCourse;
                 firstLoad = false;
             }
             enablePublishBtn();
@@ -56,6 +56,12 @@ function initTree(){
             }
             if(itemData['_targetLoad'] == targetLoadTest){
                 totalTest = totalTest+1;
+            }
+            if(itemData['_targetLoad'] == targetLoadQuestion && itemData['_isCopied']){
+                item.find('.aciTreeItem').css('background-color', "#7030A0");
+            }
+            if(checkIdCopied(itemData['id'])){
+                item.find('.aciTreeItem').css('background-color', "#7030A0");
             }
         }
     });

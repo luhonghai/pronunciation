@@ -69,7 +69,7 @@ public class LvDAO extends DataAccess<Level> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         String join = " as lv inner join COURSEMAPPINGLEVEL as map on map.IDLEVEL = lv.id where map.IDCOURSE = ? and map.ISDELETED=false and lv.ISDELETED=false order by map.`INDEX`";
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select lv.id,lv.name,lv.description,lv.isDemo,lv.color,map.`INDEX` from " + metaRecorderSentence.getTable() + join);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select lv.id,lv.name,lv.description,lv.isDemo,lv.color,map.`INDEX`,lv.isCopied from " + metaRecorderSentence.getTable() + join);
         try {
             List<Object> tmp = (List<Object>) q.execute(idCourse);
             if(tmp!=null && tmp.size() > 0){
@@ -91,6 +91,9 @@ public class LvDAO extends DataAccess<Level> {
                     }
                     if(array[5]!=null){
                         lv.setIndex(Integer.parseInt(array[5].toString()));
+                    }
+                    if(array[6]!=null){
+                        lv.setIsCopied(Boolean.parseBoolean(array[6].toString()));
                     }
                     listLv.add(lv);
                 }
@@ -145,7 +148,7 @@ public class LvDAO extends DataAccess<Level> {
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?  WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, isCopied=false  WHERE id=?");
         try {
             q.execute(name,description,id);
             isUpdate=true;

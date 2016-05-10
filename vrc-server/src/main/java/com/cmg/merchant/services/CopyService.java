@@ -71,7 +71,7 @@ public class CopyService {
         }
         copyAllObjToLevel(newIdLevel, idLevel);
         copyAllTestToLevel(newIdLevel, idLevel);
-        return SUCCESS;
+        return SUCCESS + ":" + newIdLevel;
     }
     /**
      *
@@ -96,7 +96,7 @@ public class CopyService {
     public String copyObjToLevel(String idLevel, String idObj){
         String newIdObj = objServices.copyObj(idLevel, idObj, true);
         copyAllLessonsToObj(newIdObj, idObj);
-        return SUCCESS;
+        return SUCCESS + ":" + newIdObj;
     }
 
     /**
@@ -107,7 +107,7 @@ public class CopyService {
     public void copyAllTestToLevel(String levelIdMapping, String levelIdGetData){
         Test t = testServices.getTestByLevelId(levelIdGetData);
         if(t!=null){
-            String newIdTest = testServices.copyTest(levelIdMapping, t.getId());
+            String newIdTest = testServices.copyTest(levelIdMapping, t.getId(),false);
             copyLessonsToTest(newIdTest, t.getId());
         }
 
@@ -119,10 +119,10 @@ public class CopyService {
      * @param idTest
      * @return
      */
-    public String copyTestToLevel(String idLevel, String idTest){
-        String newIdTest = testServices.copyTest(idLevel, idTest);
+    public String copyTestToLevel(String idLevel, String idTest,boolean singleCopied){
+        String newIdTest = testServices.copyTest(idLevel, idTest,singleCopied);
         copyLessonsToTest(newIdTest, idTest);
-        return SUCCESS;
+        return SUCCESS + ":" + newIdTest;
     }
 
     /**
@@ -149,7 +149,7 @@ public class CopyService {
     public String CopyLessonToObj(String idObj, String idLesson){
         String newLessonId = lessonServices.copyLessonInObj(idObj, idLesson, true);
         copyAllQuestionToLessons(newLessonId,idLesson);
-        return SUCCESS;
+        return SUCCESS + ":" + newLessonId;
     }
 
 
@@ -170,7 +170,7 @@ public class CopyService {
          ArrayList<Question> list = questionServices.getQuestionByIdLesson(lessonIdGetData);
          if(list!=null && list.size()>0){
              for(Question q : list){
-                 String newIdQuestion = questionServices.copyQuestion(lessonIdMapping,q.getId());
+                 String newIdQuestion = questionServices.copyQuestion(lessonIdMapping,q.getId(),false,"");
                  copyAllWordsToQuestion(newIdQuestion,q.getId());
              }
          }
@@ -182,8 +182,8 @@ public class CopyService {
      * @param idQuestion
      * @return
      */
-    public String copyQuestionToLessons(String idLesson, String idQuestion){
-        String newIdQuestion = questionServices.copyQuestion(idLesson,idQuestion);
+    public String copyQuestionToLessons(String idLesson, String idQuestion,boolean singleCopied,String name){
+        String newIdQuestion = questionServices.copyQuestion(idLesson,idQuestion,singleCopied,name);
         copyAllWordsToQuestion(newIdQuestion,idQuestion);
         return SUCCESS;
     }

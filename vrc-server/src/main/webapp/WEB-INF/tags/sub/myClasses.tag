@@ -181,7 +181,7 @@
         <div class="modal-content modal-lager">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" style="font-weight: 700;">my classes</h2>
+                <label class="modal-title" style="font-weight: 700;font-size:18px">my classes</label>
             </div>
             <div class="modal-body">
                 <div>
@@ -205,8 +205,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 id="titleAdd" class="modal-title">add class</h2>
-                <h4 id="validateLvMsg" class="modal-title validateMsg" style="text-align: center; font-weight: 200; color: red;"></h4>
+                <h2 style="font-weight: 700;font-size:18px" id="titleAdd" class="modal-title">add class</h2>
+                <h4 id="validateLvMsg" class="modal-title validateMsg" style="text-align: center;
+                font-weight: 200;font-size:14px color: red;"></h4>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal">
@@ -274,7 +275,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">class management</h2>
+                <h2 style="font-weight: 700;font-size:18px" class="modal-title">class management</h2>
             </div>
             <div class="modal-body">
                 <form name="Edit" class="form-horizontal" id="editform">
@@ -346,7 +347,7 @@
         <div class="modal-content modal-lager">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">class management</h2>
+                <h2 style="font-weight: 700;font-size:18px" class="modal-title">class management</h2>
             </div>
             <div class="modal-body">
                 <div>
@@ -373,7 +374,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">confirm deletion</h4>
+                <h4 style="font-weight: 700;font-size:18px" class="modal-title">confirm deletion</h4>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal">
@@ -413,7 +414,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 align="center" class="modal-title" style="color: red;font-weight: 200;">invalid class name</h2>
+                <h2 align="center" class="modal-title" style="color: red;font-weight: 700;font-size:18px">invalid class name</h2>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal"

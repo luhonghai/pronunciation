@@ -7,7 +7,7 @@
 <%
     CourseServices cServices = new CourseServices();
     String company = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_CPNAME), "CMG");
-    String idCourse = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_COURSE_ID), request.getParameter("idCourse"));
+    String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"),"");
     String nameOfCourse = (String) StringUtil.isNull(cServices.getCourseName(idCourse), "");
     request.getSession().removeAttribute(SessionUtil.ATT_COURSE_ID);
 %>

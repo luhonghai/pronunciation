@@ -47,6 +47,9 @@ public class LessonServices {
             return ERROR + ": an error has been occurred in server";
         }
         message = addMappingLessonToObj(idObj, idLesson);
+        if(message.equalsIgnoreCase(SUCCESS)){
+            message = SUCCESS + ":" + idLesson;
+        }
         return message;
     }
 
@@ -133,7 +136,8 @@ public class LessonServices {
      * @param description
      * @return
      */
-    public String updateLesson(String idObj,String idLesson,String name, String description,String type,String detail){
+    public String updateLesson(String idObj,String idLesson,String name, String description,
+                               String type,String detail){
         LDAO dao = new LDAO();
         LessonCollection lessonCollection=new LessonCollection();
         try {
@@ -256,11 +260,11 @@ public class LessonServices {
                 String newId = UUIDGenerator.generateUUID().toString();
                 tmp.setId(newId);
                 if(newName){
-                    //tmp.setName("copy of " + lesson.getName());
                     tmp.setTitle("copy of " + lesson.getTitle());
+                    tmp.setIsCopied(true);
                 }else{
-                    //tmp.setName(lesson.getName());
                     tmp.setTitle(lesson.getTitle());
+                    tmp.setIsCopied(false);
                 }
                 tmp.setDescription(lesson.getDescription());
                 tmp.setNameUnique(lesson.getNameUnique());

@@ -17,6 +17,9 @@ public class Question implements Mirrorable {
     private String id;
 
     @Persistent
+    private boolean isCopied;
+
+    @Persistent
     @Column(jdbcType="VARCHAR", length=10000)
     private String name;
 
@@ -32,6 +35,17 @@ public class Question implements Mirrorable {
 
     @Persistent
     private int version;
+
+    @NotPersistent
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     @NotPersistent
     private ArrayList<WordCollection> words;
@@ -102,5 +116,13 @@ public class Question implements Mirrorable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public boolean isCopied() {
+        return isCopied;
+    }
+
+    public void setIsCopied(boolean isCopied) {
+        this.isCopied = isCopied;
     }
 }

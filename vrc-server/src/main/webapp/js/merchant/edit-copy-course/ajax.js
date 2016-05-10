@@ -108,7 +108,8 @@ function addLevel(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -144,6 +145,8 @@ function editLevel(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idLevel = currentPopup.find(".idHidden").val();
+                removeIdCopied(idLevel.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -220,7 +223,8 @@ function addObj(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -256,6 +260,8 @@ function editObj(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idObj = currentPopup.find(".idHidden").val();
+                removeIdCopied(idObj.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -327,7 +333,8 @@ function addTest(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -362,6 +369,8 @@ function editTest(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idTest = currentPopup.find(".idHidden").val();
+                removeIdCopied(idTest.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -435,7 +444,8 @@ function addLesson(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -471,6 +481,8 @@ function editLesson(){
                 //reload the tree
                 isEditedContent = true;
                 UpdateStateCourse();
+                var idLesson = currentPopup.find(".idHidden").val();
+                removeIdCopied(idLesson.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -959,20 +971,25 @@ function UpdateStateCourse(){
 /**
  *
  */
-function publishCourse(){
+function publishCourse(checkData){
     $.ajax({
         url : servletPublish,
         type : "POST",
         data : {
             action: "publish",
-            idCourse : idCourse
+            idCourse : idCourse,
+            checkData : checkData
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 window.location.href = "/my-courses.jsp";
-            }else{
-                swalNew("","an error has been occurred in server","error");
+                $('#confirmPublish').modal('hide');
+            }else if(data.indexOf("showpopup")!= -1){
+                $('#confirmPublish').modal('show');
+            }else {
+                $('#confirmPublish').modal('hide');
+                swalNew("","could not connect to server","error");
             }
         },
         error: function () {
@@ -1002,7 +1019,9 @@ function DragDrop(action,parentId,childId,index,move){
         },
         dataType : "text",
         success : function(data){
-
+            if(action == targetLoadQuestion){
+                setInterval(function(){ reloadTree(); }, 500);
+            }
         },
         error: function () {
 
