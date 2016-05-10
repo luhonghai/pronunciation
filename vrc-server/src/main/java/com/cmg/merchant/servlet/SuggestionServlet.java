@@ -26,6 +26,9 @@ public class SuggestionServlet extends BaseServlet {
     private static String SUGGESTION_COMPANY = "company";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         String action = (String)StringUtil.isNull(request.getParameter("action"), 0).toString();
         CourseServices cServices = new CourseServices();
         CompanyServices cpServices = new CompanyServices();
