@@ -146,8 +146,8 @@ public class StudentMappingClassDAO extends DataAccess<StudentMappingClass> {
         Transaction tx = pm.currentTransaction();
         TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
         TypeMetadata metaClassMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
-        String inner="(select idClass from "+metaClassMappingTeacher.getTable()+" where teacherName="+teacher+")";
-        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metadata.getTable()+ " SET isDeleted=true WHERE idClass in "+inner+" and studentName="+student+"");
+        String inner="(select idClass from "+ metaClassMappingTeacher.getTable() + " where teacherName='"+teacher+"')";
+        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metadata.getTable()+ " SET isDeleted=true WHERE idClass in "+inner+" and studentName='"+student+"'");
         try {
             tx.begin();
             q.execute();

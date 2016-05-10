@@ -27,19 +27,24 @@ import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
+import com.cmg.merchant.dao.lessons.LDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
+import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.dao.questions.QDAO;
+import com.cmg.merchant.dao.questions.QMLDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.dao.report.ReportPhoneDao;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.merchant.services.CMTSERVICES;
+import com.cmg.merchant.services.LessonServices;
 import com.cmg.merchant.services.QuestionServices;
+import com.cmg.merchant.services.Report.ReportLessonService;
+import com.cmg.merchant.services.Sync.CourseSyncService;
 import com.cmg.merchant.util.DateUtil;
-import com.cmg.vrc.data.dao.impl.AdminDAO;
-import com.cmg.vrc.data.dao.impl.ClassMappingTeacherDAO;
-import com.cmg.vrc.data.dao.impl.CourseMappingClassDAO;
-import com.cmg.vrc.data.dao.impl.StudentMappingTeacherDAO;
+import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
@@ -52,6 +57,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -140,7 +146,7 @@ public class UnitTesting {
             System.out.println(json);*//*
           ReportLessonDAO dao = new ReportLessonDAO();
             dao.getClassByTeacher("");*/
-           /* StudentMappingTeacherDAO dao = new StudentMappingTeacherDAO();
+       /*     StudentMappingTeacherDAO dao = new StudentMappingTeacherDAO();
             StudentMappingTeacher smt = new StudentMappingTeacher();
             smt.setId("temp");
             smt.setFirstTeacherName("temp");
@@ -149,22 +155,108 @@ public class UnitTesting {
             smt.setLicence(true);
             smt.setMappingBy("temp");
             smt.setStudentName("temp");
-            dao.put(smt);*/
-          /*  ClassMappingTeacher cmt = new ClassMappingTeacher();
+            dao.put(smt);
+            ClassMappingTeacher cmt = new ClassMappingTeacher();
             cmt.setId("temp");
-            ClassMappingTeacherDAO dao = new ClassMappingTeacherDAO();
-            dao.put(cmt);*/
-            /*CourseMappingClass cmc = new CourseMappingClass();
+            ClassMappingTeacherDAO dao1 = new ClassMappingTeacherDAO();
+            dao1.put(cmt);*/
+           /* CourseMappingClass cmc = new CourseMappingClass();
             cmc.setId("temp");
             CourseMappingClassDAO cmcdao = new CourseMappingClassDAO();
             cmcdao.put(cmc);*/
-            TeacherCourseHistory tch = new TeacherCourseHistory();
+         /*   TeacherCourseHistory tch = new TeacherCourseHistory();
             tch.setId("abc");
             tch.setIdCourse("idcourse");
             tch.setVersion(1);
             tch.setPathAws("idcourse-v1.zip");
             TCHDAO dao = new TCHDAO();
-            dao.put(tch);
+            dao.put(tch);*/
+           /* CourseMappingTeacher cmt = new CourseMappingTeacher();
+            cmt.setId("test");
+            CMTDAO dao1 = new CMTDAO();
+            dao1.put(cmt);*/
+         /*   Double value = 19.5;
+            int i = (int) Math.round(value);
+            System.out.println(i);*/
+
+            /*ClassJDO c = new ClassJDO();
+            c.setId("test");
+            ClassDAO dao = new ClassDAO();
+            dao.put(c);*/
+
+           /* CourseSyncService service = new CourseSyncService();
+            ArrayList<TeacherCourseHistory> list = service.listCourseByUser("pablo.dropbox01@gmail.com");
+            for(TeacherCourseHistory tch : list){
+                System.out.println(tch.getIdCourse() + "-" + tch.getName() + "-" + tch.getUrlDownload());
+            }*/
+           /* LessonServices services = new LessonServices();
+            String c = services.updateLesson("test","6f26a3ed-1d05-46bb-84f1-cf36c3d1c0ce","test"," test description"," test type"," test detail");
+            System.out.println(c);*/
+          /*  Double value = 19.5;
+            int i = (int) Math.round(value);
+            System.out.println(i);*/
+           // ReportLessonDAO dao = new ReportLessonDAO();
+            //dao.getStudentAvgScoreLesson("pablo.dropbox03@gmail.com","5a0ecb3b-3a88-4264-b80e-9cd2f156e612","3EAC1A83-3653-42BF-9CE4-AB42C2DBEDD6");
+            //ReportLessonService services = new ReportLessonService();
+            //int i = services.getAvgScoreOfClass("004adfdc-64d0-413c-8367-2914828b5280","5a0ecb3b-3a88-4264-b80e-9cd2f156e612");
+            // int i = (int) Math.round((0+17)/2);
+            //System.out.println(i);
+          /*  int i = (int) Math.round(0/0);*/
+            /*ReportLessonDAO dao = new ReportLessonDAO();
+            String latestSession = dao.getLatestSessionIdIn3Months("pablo.dropbox02@gmail.com","699fabf3-6a6f-4698-9a46-7ff286cd2cb0");
+            System.out.println(latestSession);
+            boolean test =  dao.checkUserCompletedLesson("pablo.dropbox02@gmail.com","699fabf3-6a6f-4698-9a46-7ff286cd2cb0", latestSession);
+            System.out.println(test);*/
+           /* ArrayList<String> practice = new ArrayList<>();
+            ArrayList<String> total = new ArrayList<>();
+            practice.add("e");
+            total.add("e");
+            for(int i = 0 ; i < total.size();i++){
+                String ipa = total.get(i);
+                if(practice.contains(ipa)){
+                    System.out.println("contain");
+                }
+            }*/
+            /*TCHDAO dao = new TCHDAO();
+            ArrayList<TeacherCourseHistory> listTmp = dao.getListCourseByStudent("xuan.bui@c-mg.com");
+            for(TeacherCourseHistory tch : listTmp){
+                System.out.println(tch.getName());
+            }*/
+            //ReportLessonDAO dao = new ReportLessonDAO();
+           /* String latestSession = dao.getLatestSessionIdIn3Months("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14");
+            List<String> listPracticedWord = dao.getWordsInSession("pablo.dropbox02@gmail.com","4e251857-a76d-451c-a876-b70c2e4d0b14",latestSession);*/
+           /* boolean completed = dao.checkUserCompletedLesson("","4e251857-a76d-451c-a876-b70c2e4d0b14","C7175D5E-442B-4069-950A-9E1685796FA5");
+            System.out.println(completed);*/
+            //List<String> listWord = dao.getListPhonemeLesson("bf22c822-82d1-469f-bbd4-0aa269efbb16","anh.nguyen@c-mg.com");
+            /*for(String tch : listWord){
+                System.out.println(tch.toString());
+            }*/
+           /* ReportPhoneDao dao = new ReportPhoneDao();
+            ArrayList<ReportPhoneDao.ScorePhoneme> list = dao.getScorePhonemeByStudent("anh.nguyen@c-mg.com","D","2016-04-05","2016-05-06");
+            for(ReportPhoneDao.ScorePhoneme sp : list){
+                System.out.println(sp.getScore() + " " + sp.getServerTime());
+            }*/
+            /*QuestionServices services = new QuestionServices();
+            services.addMappingQuestionToLesson("a","a");
+            int i = services.getMaxIndexMapping("b");
+            System.out.println(i);*/
+          /*  QMLDAO dao = new QMLDAO();
+            dao.getQuestionByIdLesson("938700c4-b52a-4299-94f8-fb292d6fa389");*/
+            QDAO qdao=new QDAO();
+            String message=null;
+            try {
+                Question question=new Question();
+                question.setId("test");
+                question.setIsDeleted(false);
+                question.setVersion(10);
+                question.setTimeCreated(new Date(System.currentTimeMillis()));
+                question.setIsCopied(false);
+                qdao.create(question);
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -48,7 +48,7 @@ function closeModalAccept(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                action: "closeAcccept"
+                action: "closeAccept"
             },
             success: function (data) {
 

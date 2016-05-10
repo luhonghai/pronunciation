@@ -229,7 +229,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
     }
 
 
-    /**
+   /* *//**
      *
      * @param cpId
      * @param tId
@@ -239,7 +239,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @param sr
      * @return list if have record and null if not
      * @throws Exception
-     */
+     *//*
     public List<CourseMappingTeacher> getCourses(String cpId, String tId, String cId,
                                                     String status, String state, String sr,Date createDateFrom,Date createDateTo) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -316,7 +316,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
             q.closeAll();
             pm.close();
         }
-    }
+    }*/
 
     /**
      *

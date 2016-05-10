@@ -6,6 +6,7 @@ import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
+import com.cmg.vrc.util.AudioHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,29 +50,7 @@ public class PhonemeDetectorServlet extends BaseServlet {
         try {
             FileUtils.copyURLToFile(new URL(audioUrl), tmpFile);
 
-            AudioAttributes audio = new AudioAttributes();
-            //  audio.setBitRate(128000);
-            audio.setChannels(1);
-            audio.setSamplingRate(16000);
-            EncodingAttributes attrs = new EncodingAttributes();
-            attrs.setFormat("wav");
-            attrs.setAudioAttributes(audio);
-            logger.info("Origin file path :" + tmpFile.getAbsolutePath());
-            String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
-            Encoder encoder;
-            if (env.equalsIgnoreCase("prod")
-                    //|| env.equalsIgnoreCase("sat")
-                    || env.equalsIgnoreCase("int")
-                    || env.equalsIgnoreCase("aws")) {
-                encoder = new Encoder(new CustomFFMPEGLocator());
-            } else {
-                encoder = new Encoder(new CustomFFMPEGLocator.MacFFMPEGLocator());
-            }
-            try {
-                encoder.encode(tmpFile, tmpFileWav, attrs);
-            } catch (Exception e) {
-                // ingore
-            }
+            AudioHelper.convertToWav(tmpFile, tmpFileWav);
             if (tmpFileWav.exists()) {
                 PhonemesDetector phonemesDetector = new PhonemesDetector(tmpFileWav, word);
                 phonemesDetector.setAllowAdditionalData(true);

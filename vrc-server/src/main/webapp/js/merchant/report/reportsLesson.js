@@ -39,11 +39,11 @@ function listClasses(){
             }else{
                 getDivSelectionFilter().hide();
                 getDivNotification().show();
-                //swal("", "an error has been occurred in server", "error");
+                //swalNew("", "an error has been occurred in server", "error");
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });
@@ -75,11 +75,11 @@ function listStudents(idClass){
                 $('#listUsers').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                 $('#listUsers').multiselect('refresh');
             }else{
-                swal("", "an error has been occurred in server", "error");
+                swalNew("", "an error has been occurred in server", "error");
             }
         },
         error: function () {
-            swal("", "could not connect to server", "error");
+            swalNew("", "could not connect to server", "error");
         }
 
     });

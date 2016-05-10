@@ -215,7 +215,7 @@
   </div>
   <div style="padding : 20px 0px 10px 0px" class="row">
     <div class="col-sm-12">
-      <a href="my-classes.jsp" title="go to my courses" style="float: right;"><img src="/images/teacher/my_students80x80.gif" style="width:48px;height:48px"></a>
+      <a href="my-classes.jsp" title="go to my classes" style="float: right;"><img src="/images/teacher/my_classes80x80.gif" style="width:48px;height:48px"></a>
     </div>
   </div>
 </div>
@@ -226,8 +226,7 @@
     <div class="modal-content"  style="border-radius:20px">
       <div class="modal-header"  style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" style="font-weight: 700;">my students</h2>
-
+        <h2 class="modal-title" style="font-weight: 700;font-size:18px;">my students</h2>
       </div>
       <div class="modal-body">
         <div>
@@ -254,8 +253,8 @@
           <div style="margin-bottom: 5px;">
             <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">your invitation is waiting for a response from the student</p>
           </div>
-          <p>If a student's licence key expires or if it is revoked, they will be removed from all lists and will no loger have access to any courses that have been shared with them.</p>
-          <p> Select a student and follow the instructions to remove them from your list. Licenced students will still be available on your company list (students page) to add again Later. If you remove external students, the invitation process will need to be used.(Teacher to student or student to teacher)</p>
+          <p>If a student's licence key expires or if it is revoked, they will be removed from all lists and will no longer have access to any courses that have been shared with them.</p>
+          <p> Select a student and follow the instructions to remove them from your list. Licensed students will still be available on your company list (students page) to add again later. If you remove external students, the invitation process will need to be used.(Teacher to student or student to teacher)</p>
           <%--<p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>--%>
         </div>
       </div>
@@ -270,8 +269,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 id="titleInvite" class="modal-title">invite students</h2>
-        <h4 id="validateLvMsg" class="modal-title validateMsg" style="text-align: center;font-weight: 200;
+        <h2 id="titleInvite" style="font-weight: 700;font-size:18px" class="modal-title">invite students</h2>
+        <h4 id="validateLvMsg" class="modal-title validateMsg" style="text-align: center;font-weight: 200;font-size:14px;
         color:red;display:none;"></h4>
       </div>
       <div class="modal-body">
@@ -306,7 +305,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">invite students</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">invite students</h2>
       </div>
       <div class="modal-body">
         <p>Enter the email addresses of the students that you wish to add to your classes separated by a comma in the text box.</p>
@@ -330,7 +329,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 style="color: red;" class="modal-title">invalid email address</h4>
+        <h4 style="color: red;font-weight: 700;font-size:18px" class="modal-title">invalid email address</h4>
       </div>
       <div class="modal-body">
         <p>Sorry, the following student/s were not found:</p>
@@ -348,7 +347,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">remove students</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">remove students</h2>
       </div>
       <div class="modal-body">
         <form name="add" class="form-horizontal">
@@ -381,7 +380,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">remove student</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">remove student</h2>
       </div>
       <div class="modal-body">
         <p>if you remove a licenced student from your 'my students' page, they will still be available on your company list (licensed students page) to add again later.</p>
@@ -397,7 +396,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">invitation from student</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">invitation from student</h2>
       </div>
       <div class="modal-body">
           <u style="color: #0044cc;"> <p align="center" id="studentInvitation"></p></u>
@@ -421,7 +420,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 clas="modal-title">confirm rejection</h4>
+        <h4 style="font-weight: 700;font-size:18px" clas="modal-title">confirm rejection</h4>
       </div>
       <div class="modal-body">
         <form name="add" class="form-horizontal">
@@ -456,7 +455,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">confirm deletion</h4>
+        <h4 style="font-weight: 700;font-size:18px" class="modal-title">confirm deletion</h4>
       </div>
       <div class="modal-body">
         <u style="color: #0044cc;"> <p align="center" id="studentconfirmRemove"></p></u>

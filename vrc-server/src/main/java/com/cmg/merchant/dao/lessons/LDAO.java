@@ -97,7 +97,7 @@ public class LDAO extends DataAccess<LessonCollection> {
      */
     public boolean updateLesson(String id,String name, String description,String type,String detail) throws Exception{
         boolean isUpdate=false;
-        PersistenceManager pm = PersistenceManagerHelper.get();
+       /* PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=?, nameUnique=?, type='"+type+"' WHERE id='"+id+"'");
         try {
@@ -110,6 +110,19 @@ public class LDAO extends DataAccess<LessonCollection> {
             if (q!= null)
                 q.closeAll();
             pm.close();
+        }*/
+        try {
+            LessonCollection lc = getById(id);
+            if(lc!=null){
+                lc.setTitle(name);
+                lc.setDescription(detail);
+                lc.setName(description);
+                lc.setType(type);
+                put(lc);
+                isUpdate = true;
+            }
+        }catch (Exception e){
+
         }
         return isUpdate;
     }
@@ -144,7 +157,7 @@ public class LDAO extends DataAccess<LessonCollection> {
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaLessonCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
         TypeMetadata metaObjectiveMapping = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
-        String firstQuery = "select lesson.id, lesson.name , lesson.description, mapping.index from  " + metaLessonCollection.getTable()
+        String firstQuery = "select lesson.id, lesson.name , lesson.description, mapping.index,lesson.title from  " + metaLessonCollection.getTable()
                 + " lesson inner join " + metaObjectiveMapping.getTable()
                 + " mapping on mapping.idLessonCollection=lesson.id where ";
         clause.append(firstQuery);
@@ -167,6 +180,10 @@ public class LDAO extends DataAccess<LessonCollection> {
                     if(array[2]!=null){
                         lessonCollection.setDescription(array[2].toString());
                     }
+                    if(array[4]!=null){
+                        lessonCollection.setTitle(array[4].toString());
+                    }
+
                     list.add(lessonCollection);
                 }
             }

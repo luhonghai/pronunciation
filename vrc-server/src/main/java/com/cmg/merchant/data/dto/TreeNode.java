@@ -76,6 +76,28 @@ public class TreeNode {
 
     private String _type;
 
+    private boolean _isCopied;
+
+    private int _positionQ;
+
+    public int getPositionQ() {
+        return _positionQ;
+    }
+
+    public void setPositionQ(int positionQ) {
+        this._positionQ = positionQ;
+    }
+
+    public boolean is_isCopied() {
+        return _isCopied;
+    }
+
+    public void set_isCopied(boolean _isCopied) {
+        this._isCopied = _isCopied;
+    }
+
+
+
 
 
     public String get_actionClick() {

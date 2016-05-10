@@ -14,10 +14,7 @@ import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
-import com.cmg.vrc.util.AWSHelper;
-import com.cmg.vrc.util.FileHelper;
-import com.cmg.vrc.util.StringUtil;
-import com.cmg.vrc.util.UUIDGenerator;
+import com.cmg.vrc.util.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.sauronsoftware.jave.AudioAttributes;
@@ -151,32 +148,8 @@ public class CalculationServlet extends HttpServlet {
                         String uuid = UUIDGenerator.generateUUID();
                         String fileTempName = word + "_" + uuid + "_raw" + ".wav";
                         File targetRaw = new File(target, fileTempName);
-                        AudioAttributes audio = new AudioAttributes();
-                        //  audio.setBitRate(128000);
-                        audio.setChannels(1);
-                        audio.setSamplingRate(16000);
-                        EncodingAttributes attrs = new EncodingAttributes();
-                        attrs.setFormat("wav");
-                        attrs.setAudioAttributes(audio);
                         logger.info("Origin file path :" + tmpFileIn.getAbsolutePath());
-                        String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
-                        Encoder encoder;
-                        if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
-                                || env.equalsIgnoreCase("int")
-                                || env.equalsIgnoreCase("aws")) {
-                            encoder = new Encoder(
-                                    new CustomFFMPEGLocator()
-                            );
-                        } else {
-                            encoder = new Encoder(
-                                    new CustomFFMPEGLocator.MacFFMPEGLocator()
-                            );
-                        }
-                        try {
-                            encoder.encode(tmpFileIn, targetRaw, attrs);
-                        } catch (Exception e) {
-                            // ingore
-                        }
+                        AudioHelper.convertToWav(tmpFileIn, targetRaw);
                         awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + user.getUsername() + "/" + fileTempName,
                                 targetRaw);
                         final UserLessonHistory model = new UserLessonHistory();
@@ -198,21 +171,25 @@ public class CalculationServlet extends HttpServlet {
                         if (result != null) {
                             model.setResult(result);
                             service.reCalculateBaseOnWeight(model);
+                            String output = gson.toJson(model);
+                            logger.info("json to client : " + output);
+                            responseData.setStatus(true);
+                            responseData.setData(model);
+                            responseData.setMessage("success");
+                            //start add to db
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    service.addUserLessonHistory(model);
+                                    service.addPhonemeScore(model);
+                                    service.addSessionScore(model);
+                                }
+                            }).start();
+                        }else{
+                            responseData.setStatus(false);
+                            responseData.setMessage("could not calculate score");
                         }
-                        String output = gson.toJson(model);
-                        logger.info("json to client : " + output);
-                        responseData.setStatus(true);
-                        responseData.setData(model);
-                        responseData.setMessage("success");
-                        //start add to db
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                service.addUserLessonHistory(model);
-                                service.addPhonemeScore(model);
-                                service.addSessionScore(model);
-                            }
-                        }).start();
+
                     } finally {
                         if (tmpFileIn.exists()) {
                             try {

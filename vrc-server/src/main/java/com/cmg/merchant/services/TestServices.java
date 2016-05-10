@@ -108,7 +108,10 @@ public class TestServices {
         if(message.equalsIgnoreCase(ERROR)){
             return ERROR + ": an error has been occurred in server";
         }
-        return SUCCESS;
+        if(message.equalsIgnoreCase(SUCCESS)){
+            message = SUCCESS + ":" + idTest;
+        }
+        return message;
     }
 
 
@@ -245,7 +248,7 @@ public class TestServices {
      * @param idTestNeedDuplicated
      * @return
      */
-    public String copyTest(String idLevelMapping, String idTestNeedDuplicated){
+    public String copyTest(String idLevelMapping, String idTestNeedDuplicated,boolean singleCopied){
         TDAO testDAO = new TDAO();
         try {
             Test test = testDAO.getById(idTestNeedDuplicated);
@@ -257,6 +260,11 @@ public class TestServices {
                 tmp.setDateCreated(new Date(System.currentTimeMillis()));
                 tmp.setIsDeleted(false);
                 tmp.setName("Test");
+                if(singleCopied){
+                    tmp.setIsCopied(true);
+                }else{
+                    tmp.setIsCopied(false);
+                }
                 tmp.setDescription(""+test.getPercentPass());
                 testDAO.create(tmp);
                 addTESTMappingLEVEL(idLevelMapping,newId);

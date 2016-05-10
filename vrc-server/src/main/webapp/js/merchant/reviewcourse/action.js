@@ -161,6 +161,16 @@ function clickTopHelp(){
     });
 }*/
 
+function disabledAllTextBox(){
+    $(".modal").on('shown.bs.modal', function () {
+       $(this).find('input:text').each(function(){
+          $(this).attr('disabled','disabled');
+       });
+        $(this).find('textarea').each(function(){
+            $(this).attr('disabled','disabled');
+        });
+    });
+}
 function collapseMenu(){
     $("#li-courses").find('ul').addClass('in');
 }
@@ -169,5 +179,6 @@ $(document).ready(function(){
     collapseMenu();
     clickTopHelp();
     clickCopyCourse();
+    disabledAllTextBox();
     //openEditWords();
 });

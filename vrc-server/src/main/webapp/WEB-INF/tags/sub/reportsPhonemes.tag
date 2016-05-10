@@ -160,23 +160,7 @@
         z-index: 100000;
     }
 
-    .flot-x-axis div.flot-tick-label {
-        /* Rotate Axis Labels */
-        transform: translateX(60%) rotate(60deg); /* CSS3 */
-        transform-origin: 0 0;
 
-        -ms-transform: translateX(60%) rotate(60deg); /* IE */
-        -ms-transform-origin: 0 0;
-
-        -moz-transform: translateX(60%) rotate(60deg); /* Firefox */
-        -moz-transform-origin: 0 0;
-
-        -webkit-transform: translateX(60%) rotate(60deg); /* Safari and Chrome */
-        -webkit-transform-origin: 0 0;
-
-        -o-transform: translateX(60%) rotate(60deg); /* Opera */
-        -o-transform-origin: 0 0;
-    }
 </style>
 <div id="page-wrapper">
     <div class="row">

@@ -87,7 +87,7 @@ function validateFormTest(){
     var percent = getPercentPass().val();
     if (percent == '' || typeof percent === "undefined") {
         getPercentPass().focus();
-        getTestValidateMessage().html("please enter number");
+        getTestValidateMessage().html("please enter a value less than 100");
         getTestValidateMessage().show();
         return false;
     }
@@ -95,14 +95,14 @@ function validateFormTest(){
         var p = percent.split(".")[0];
         if(p.length > 2){
             getPercentPass().focus();
-            getTestValidateMessage().html("please enter percent smaller than 100 percent");
+            getTestValidateMessage().html("please enter a value less than 100");
             getTestValidateMessage().show();
             return false;
         }
     }else{
         if(percent.length > 2){
             getPercentPass().focus();
-            getTestValidateMessage().html("please enter percent smaller than 100 percent");
+            getTestValidateMessage().html("please enter a value less than 100");
             getTestValidateMessage().show();
             return false;
         }

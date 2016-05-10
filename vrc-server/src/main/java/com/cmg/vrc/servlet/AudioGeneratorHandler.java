@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.processor.CustomFFMPEGLocator;
 import com.cmg.vrc.properties.Configuration;
+import com.cmg.vrc.util.AudioHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
@@ -30,27 +31,8 @@ public class AudioGeneratorHandler extends BaseServlet {
         File tmpFileWav = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + ".tmp.wav");
         try {
             FileUtils.copyURLToFile(new URL(url), tmpFile);
-            AudioAttributes audio = new AudioAttributes();
-            audio.setChannels(1);
-            audio.setSamplingRate(16000);
-            EncodingAttributes attrs = new EncodingAttributes();
-            attrs.setFormat("wav");
-            attrs.setAudioAttributes(audio);
             logger.info("Origin file path :" + tmpFile.getAbsolutePath());
-            String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
-            Encoder encoder;
-            if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
-                    || env.equalsIgnoreCase("int")
-                    || env.equalsIgnoreCase("aws")) {
-                encoder = new Encoder(new CustomFFMPEGLocator());
-            } else {
-                encoder = new Encoder(new CustomFFMPEGLocator.MacFFMPEGLocator());
-            }
-            try {
-                encoder.encode(tmpFile, tmpFileWav, attrs);
-            } catch (Exception e) {
-                // ingore
-            }
+            AudioHelper.convertToWav(tmpFile, tmpFileWav);
             response.setContentType("audio/wav");
             InputStream in = new FileInputStream(tmpFileWav);
             try {

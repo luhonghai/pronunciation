@@ -184,7 +184,7 @@ public class LevelServices {
      * @param descriptionObj
      * @return
      */
-    public String addObjToLv(String idLevel, String nameObj, String descriptionObj){
+    public String addObjToLv(String idLevel, String nameObj, String descriptionObj, String idCourse){
         OServices oServices = new OServices();
         if(oServices.isExistedObjInLv(idLevel, nameObj, null)){
             return ERROR + ": You already have an objective with that name in this level";
@@ -195,6 +195,9 @@ public class LevelServices {
             return ERROR + ": an error has been occurred in server";
         }
         message = addMappingObjToLv(idLevel,idObj);
+        if(message.equalsIgnoreCase(SUCCESS)){
+            message = SUCCESS + ":" + idObj;
+        }
         return message;
     }
 
@@ -292,14 +295,16 @@ public class LevelServices {
                 tmp.setId(newId);
                 if(newName){
                     tmp.setName("copy of " + lv.getName());
+                    tmp.setIsCopied(true);
                 }else{
                     tmp.setName(lv.getName());
+                    tmp.setIsCopied(false);
                 }
                 tmp.setDateCreated(new Date(System.currentTimeMillis()));
                 tmp.setVersion(lv.getVersion());
                 tmp.setDescription(lv.getDescription());
                 tmp.setIsDemo(false);
-                tmp.setIsDefaultActivated(false);
+                tmp.setIsDefaultActivated(true);
                 dao.create(tmp);
                 courseService.addMappingLevel(idCourseMapping,newId);
                 return newId;

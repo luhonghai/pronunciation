@@ -42,9 +42,16 @@ function drawTestPreview(test){
     $html.addClass("container-selection");
     var $a = $('<a>');
     $a.addClass("btn selection test");
-    $a.attr("id",test.id);
+    if(test!=null){
+        $a.attr("id",test.id);
+        $a.removeAttr("disabled");
+        $a.css("background-color","#DDF7F6");
+    }else{
+        $a.attr("disabled","disabled");
+        $a.css("background-color","#C0C0C0");
+    }
     var $label = $('<label>');
-    $label.html("Test");
+    $label.html("test");
     $label.addClass("name");
     var $circle = $('<div>');
     $circle.addClass('circle');
@@ -64,9 +71,9 @@ function drawLessonPreview(lesson){
     var $a = $('<a>');
     $a.addClass("btn selection lesson");
     $a.attr("id",lesson.id);
-    $a.attr("description",lesson.description);
+    $a.attr("description",lesson.name);
     var $label = $('<label>');
-    $label.html(lesson.name);
+    $label.html(lesson.title);
     $label.addClass("name");
     var $circle = $('<div>');
     $circle.addClass('circle');

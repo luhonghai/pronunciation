@@ -44,7 +44,7 @@ public class CopyServlet extends BaseServlet {
         }else if(action.equalsIgnoreCase(ACTION_COPY_TEST)){
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
             String idTest = (String) StringUtil.isNull(request.getParameter("idTest"), "").toString();
-            String text = service.copyTestToLevel(idLevel, idTest);
+            String text = service.copyTestToLevel(idLevel, idTest,true);
             response.getWriter().print(text);
         }else if(action.equalsIgnoreCase(ACTION_COPY_LESSON)){
             String idObj = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
@@ -54,7 +54,8 @@ public class CopyServlet extends BaseServlet {
         }else if(action.equalsIgnoreCase(ACTION_COPY_QUESTION)){
             String idLesson = (String) StringUtil.isNull(request.getParameter("idLesson"), "").toString();
             String idQuestion = (String) StringUtil.isNull(request.getParameter("idQuestion"), "").toString();
-            String text = service.copyQuestionToLessons(idLesson, idQuestion);
+            String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
+            String text = service.copyQuestionToLessons(idLesson, idQuestion,true,name);
             response.getWriter().print(text);
         }
     }

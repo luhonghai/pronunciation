@@ -1,14 +1,18 @@
 package com.cmg.merchant.services;
 
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.common.Color;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.services.treeview.DataServices;
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,16 +26,73 @@ public class CMTSERVICES {
     public String ERROR = "error";
     public String SUCCESS = "success";
 
+    public void deleteDataCopied(String idCourse){
+        try {
+
+        }catch (Exception e){
+
+        }
+    }
+
+
     /**
      *
      * @param idCourse
      * @return
      */
-    public String publishCourse(String idCourse){
+    public boolean checkDataCopied(String idCourse){
+        try {
+            CDAO dao = new CDAO();
+            boolean check = dao.checkData1(idCourse);
+            if(!check){
+                return dao.checkData2(idCourse);
+            }else{
+                return check;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String publishCourse(String idCourse, boolean checkData){
+        CMTDAO dao = new CMTDAO();
+        try {
+            if(checkData){
+               boolean check = checkDataCopied(idCourse);
+               if(check){
+                   return "showpopup";
+               } else{
+                   CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+                   dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                   return SUCCESS;
+               }
+            }else{
+                CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+                dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                return SUCCESS;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ERROR;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String unPublishCourse(String idCourse){
         CMTDAO dao = new CMTDAO();
         try {
             CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
-            dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+            dao.updateStatus(cmt.getId(), Constant.STATUS_NOT_PUBLISH);
             return SUCCESS;
         }catch (Exception e){
             e.printStackTrace();
@@ -337,6 +398,7 @@ public class CMTSERVICES {
                     dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
                 }
                 dto.setTextColor(Color.TEXT_COLOR);
+                dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
         }
         return list;
@@ -388,6 +450,7 @@ public class CMTSERVICES {
                     dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
                 }
                 dto.setTextColor(Color.TEXT_COLOR);
+                dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
         }
         return list;

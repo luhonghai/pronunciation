@@ -69,9 +69,9 @@ function generateArray(listData, listScore){
     if(listData!=null && listData.length > 0){
         for(var i = 0 ; i < listData.length ; i++){
             var label = listData[i];
-            if(listScore[i] > 0){
+            //if(listScore[i] > 0){
                 tmp.push([label,listScore[i]]);
-            }
+           // }
         }
     }
     return tmp;
@@ -80,14 +80,27 @@ function generateArray(listData, listScore){
 
 function generateWidth(data){
     var width = 0;
-    if(data.length > 0 && data.length <= 10){
+    if(data.length > 0 && data.length < 10){
         width = "100%";
-    }else if(data.length > 10 && data.length < 20){
-        width = "100%";
-    }else if(data.length > 20){
-        width = "120%";
+    }else if(data.length >= 10 && data.length <= 20){
+        width = "200%";
+    }else if(data.length > 20 && data.length <=50){
+        width = "300%";
     }
     return width;
+}
+
+function generateTickArray(listData){
+    var tmp = [];
+    if(listData!=null && listData.length > 0){
+        for(var i = 0 ; i < listData.length ; i++){
+            var label = listData[i];
+            //if(listScore[i] > 0){
+            tmp.push([i,listData[i]]);
+            // }
+        }
+    }
+    return tmp;
 }
 
 function drawBarChart(listData,studentScores,classScores,type){
@@ -97,8 +110,15 @@ function drawBarChart(listData,studentScores,classScores,type){
         { label: "Student Score", data: ssData },
         { label: "Class Average Score", data: casData }
     ];
+    if(type == "phonemes"){
+        $("#placeholder").addClass(type);
+        $("#placeholder").removeClass("word");
+    }else{
+        $("#placeholder").addClass(type);
+        $("#placeholder").removeClass("phonemes");
+    }
 
-    $("#placeholder").css("width",generateWidth(ssData));
+   // $("#placeholder").css("width",generateWidth(ssData));
     $.plot("#placeholder", data, {
         series: {
             bars: {
@@ -119,10 +139,12 @@ function drawBarChart(listData,studentScores,classScores,type){
             mode: "categories",
             tickLength: 0,
             min: -0.5,
-            max: 6.5
+            //max: 6.5,
+            ticks : generateTickArray(listData)
         },
         yaxis : {
             min : 0,
+            max : 100,
             axisLabelPadding: 5,
             axisLabel: 'Score percent',
             axisLabelUseCanvas: true,
@@ -141,10 +163,11 @@ function drawBarChart(listData,studentScores,classScores,type){
 
 function showToolTip(x, y, contents, z){
     $('<div id="flot-tooltip">' + contents + '</div>').css({
-        top: y - 50,
-        left: x - 500,
+        top: y,
+        left: x,
         'border-color': z,
-    }).appendTo("#holder-chart").show();
+        'z-index' : 200000
+    }).appendTo("body").show();
 }
 
 function mouseOverChart(){

@@ -18,6 +18,7 @@
     var targetLoadObj = "<%=Constant.TARGET_LOAD_OBJECTIVE%>";
     var targetLoadTest = "<%=Constant.TARGET_LOAD_TEST%>";
     var targetLoadLesson = "<%=Constant.TARGET_LOAD_LESSONS%>";
+    var targetLoadQuestion = "<%=Constant.TARGET_LOAD_QUESTION%>";
     var idCourse = "<%=idCourse%>";
     var nameOfCourse = "<%=nameOfCourse%>";
     var loadCourse = "<%=Constant.TARGET_LOAD_COURSE%>";
