@@ -23,6 +23,7 @@ target 'AccentEasy' do
     pod 'NSLogger'
     pod 'BEMCheckBox'
     pod 'youtube-ios-player-helper'
+    pod 'Google/CloudMessaging'
 end
 
 target 'AccentEasyTests' do

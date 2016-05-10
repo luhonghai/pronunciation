@@ -238,8 +238,8 @@
 		9BA896651C7417D700BEE9CE /* AnalyzingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA896641C7417D700BEE9CE /* AnalyzingView.swift */; };
 		9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */; };
 		9BC162E61CBCDE8E00EEAF83 /* share-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BC162E51CBCDE8E00EEAF83 /* share-100.png */; };
-		9BC3BBC81CD9E02500C2C26F /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC3BBC61CD9E02500C2C26F /* YouTubePlayer.swift */; settings = {ASSET_TAGS = (); }; };
-		9BC3BBC91CD9E02500C2C26F /* YouTubePlayer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC3BBC71CD9E02500C2C26F /* YouTubePlayer.xib */; settings = {ASSET_TAGS = (); }; };
+		9BC3BBC81CD9E02500C2C26F /* YouTubePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC3BBC61CD9E02500C2C26F /* YouTubePlayer.swift */; };
+		9BC3BBC91CD9E02500C2C26F /* YouTubePlayer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9BC3BBC71CD9E02500C2C26F /* YouTubePlayer.xib */; };
 		9BCF9D531CCDFDEF00445FE8 /* AECourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF9D521CCDFDEF00445FE8 /* AECourse.swift */; };
 		9BEF044E1C59B6D200E474F3 /* RecordingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044B1C59B6D200E474F3 /* RecordingView.m */; };
 		9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */; };
@@ -570,6 +570,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C141C7FC1C3E203C001D1F9C;
 			remoteInfo = SwiftSidebarMenu;
+		};
+		C146F1C21CE0437400B20594 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7A6FA8C2C720CCCF1CE8023AEC8BF789;
+			remoteInfo = "youtube-ios-player-helper";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1587,6 +1594,7 @@
 				9B4009831C9974900011EEF8 /* SloppySwiper.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
 				C13E44B61C6051ED00EB6075 /* TPCircularBuffer.framework */,
+				C146F1C31CE0437400B20594 /* youtube_ios_player_helper.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2340,6 +2348,13 @@
 			fileType = wrapper.framework;
 			path = TPCircularBuffer.framework;
 			remoteRef = C13E44B51C6051ED00EB6075 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C146F1C31CE0437400B20594 /* youtube_ios_player_helper.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = youtube_ios_player_helper.framework;
+			remoteRef = C146F1C21CE0437400B20594 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
