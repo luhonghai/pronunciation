@@ -178,6 +178,53 @@ public class CDAO extends DataAccess<Course> {
     }
 
 
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public void deleteCopiedDataStep1(String idCourse){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlDeleteCourse1(idCourse);
+        System.out.println("sql delete course 1:  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            q.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public void deleteCopiedDataStep2(String idCourse){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlDeleteCourse2(idCourse);
+        System.out.println("sql delete course 2 :  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            q.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
     /**
      *
      * @param idCourse
@@ -191,6 +238,60 @@ public class CDAO extends DataAccess<Course> {
         Query q = pm.newQuery("javax.jdo.query.SQL",sql);
         try {
            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!= null && tmp.size() > 0){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public boolean checkData1(String idCourse){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlCheckDuplicateData1(idCourse);
+        System.out.println("check course data copied :  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!= null && tmp.size() > 0){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public boolean checkData2(String idCourse){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlCheckDuplicateData2(idCourse);
+        System.out.println("check course data copied :  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
             if(tmp!= null && tmp.size() > 0){
                 return true;
             }

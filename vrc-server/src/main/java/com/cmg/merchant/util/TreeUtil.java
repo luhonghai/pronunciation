@@ -11,6 +11,7 @@ import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.test.TMLDAO;
 import com.cmg.merchant.dao.word.WDAO;
 import com.cmg.merchant.data.dto.TreeNode;
+import com.cmg.merchant.services.*;
 import com.cmg.merchant.services.treeview.ButtonServices;
 import com.cmg.vrc.util.StringUtil;
 import edu.cmu.sphinx.linguist.dictionary.Word;
@@ -75,7 +76,7 @@ public class TreeUtil {
      * @param showBtnAction
      * @return all level nodes in the tree view
      */
-    public ArrayList<TreeNode> switchLevelToNode(ArrayList<Level> list, boolean showBtnAction){
+    public ArrayList<TreeNode> switchLevelToNode(ArrayList<Level> list, boolean showBtnAction, String idCourse,boolean isPublishCourse){
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         if(showBtnAction){
             nodes.add(btnService.createBtnAddLevel());
@@ -91,13 +92,21 @@ public class TreeUtil {
                 node.setOpen(false);
                 node.set_popupId(Constant.POPUP_LEVEL);
                 node.set_actionClick(Constant.ACTION_EDIT_LEVEL);
-                nodes.add(node);
+                node.set_isCopied(lv.isCopied());
+                if(node.is_isCopied() && isPublishCourse){
+                    LevelServices service = new LevelServices();
+                    service.deleteLevel(idCourse,lv.getId());
+                }else {
+                    nodes.add(node);
+                }
             }
+
         }else{
             TreeNode node = getDefaultInstance(showBtnAction);
             node.set_message(ERROR);
             nodes.add(node);
         }
+
         return nodes;
     }
 
@@ -107,7 +116,7 @@ public class TreeUtil {
      * @param showBtnAction
      * @return
      */
-    public ArrayList<TreeNode> switchObjToNode(ArrayList<Objective> list, boolean showBtnAction){
+    public ArrayList<TreeNode> switchObjToNode(ArrayList<Objective> list, boolean showBtnAction, String idLevel, boolean isPublishCourse){
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         if(showBtnAction){
             nodes.add(btnService.createBtnAddObj());
@@ -123,7 +132,12 @@ public class TreeUtil {
                 node.set_popupId(Constant.POPUP_OBJ);
                 node.set_actionClick(Constant.ACTION_EDIT_OBJ);
                 node.setOpen(false);
-                nodes.add(node);
+                if(obj.isCopied() && isPublishCourse){
+                    OServices oServices = new OServices();
+                    oServices.deleteObj(idLevel, obj.getId());
+                }else{
+                    nodes.add(node);
+                }
             }
         }else{
             TreeNode node = getDefaultInstance(showBtnAction);
@@ -139,7 +153,7 @@ public class TreeUtil {
      * @param showBtnAction
      * @return
      */
-    public TreeNode switchTestToNode(Test test, boolean showBtnAction){
+    public TreeNode switchTestToNode(Test test, boolean showBtnAction, String idLevel, boolean isPublishCourse){
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         if(test != null){
             String idLessons = "";
@@ -152,13 +166,23 @@ public class TreeUtil {
             node.setId(test.getId());
             node.set_idLessonForTest(idLessons);
             node.setLabel(test.getName().toLowerCase());
-            node.set_title(test.getPercentPass()+"%");
+            node.set_title(test.getPercentPass() + "%");
             node.setIcon(Constant.IC_TEST);
             node.set_targetLoad(Constant.TARGET_LOAD_TEST);
             node.set_popupId(Constant.POPUP_TEST);
             node.set_actionClick(Constant.ACTION_EDIT_TEST);
             node.setOpen(false);
-            nodes.add(node);
+            if(test.isCopied() && isPublishCourse){
+                TestServices services = new TestServices();
+                services.deleteTest(test.getId(),idLevel);
+                if(showBtnAction){
+                    nodes.add(btnService.createBtnAddTest());
+                }else{
+                    nodes.add(null);
+                }
+            }else{
+                nodes.add(node);
+            }
         }else{
             if(showBtnAction){
                 nodes.add(btnService.createBtnAddTest());
@@ -176,7 +200,7 @@ public class TreeUtil {
      * @param showBtnAction
      * @return
      */
-    public ArrayList<TreeNode> switchLessonToNode(ArrayList<LessonCollection> list, boolean showBtnAction){
+    public ArrayList<TreeNode> switchLessonToNode(ArrayList<LessonCollection> list, boolean showBtnAction, String idObj, boolean isPublishCourse){
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         if(showBtnAction){
             nodes.add(btnService.createBtnAddLesson());
@@ -196,7 +220,12 @@ public class TreeUtil {
                 node.set_popupId(Constant.POPUP_LESSON);
                 node.set_actionClick(Constant.ACTION_EDIT_LESSON);
                 node.setOpen(false);
-                nodes.add(node);
+                if(isPublishCourse && lesson.isCopied()){
+                    LessonServices lessonServices = new LessonServices();
+                    lessonServices.deleteLesson(idObj, lesson.getId());
+                }else{
+                    nodes.add(node);
+                }
             }
         }else{
             TreeNode node = getDefaultInstance(showBtnAction);
@@ -206,7 +235,7 @@ public class TreeUtil {
         return nodes;
     }
 
-    public ArrayList<TreeNode> switchQuestionToNode(ArrayList<Question> list, boolean showBtnAction){
+    public ArrayList<TreeNode> switchQuestionToNode(ArrayList<Question> list, boolean showBtnAction, String idLesson, boolean isPublishCourse){
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         if(showBtnAction){
             nodes.add(btnService.createBtnAddQuestion());
@@ -232,8 +261,13 @@ public class TreeUtil {
                 node.set_actionClick(Constant.ACTION_EDIT_QUESTION);
                 node.setOpen(false);
                 node.setInode(false);
-                nodes.add(node);
-                index++;
+                if(question.isCopied() && isPublishCourse){
+                    QuestionServices questionServices = new QuestionServices();
+                    questionServices.deleteQuestion(idLesson, question.getId());
+                }else{
+                    nodes.add(node);
+                    index++;
+                }
             }
         }else{
             TreeNode node = getDefaultInstance(showBtnAction);
@@ -249,7 +283,7 @@ public class TreeUtil {
      * @param showBtnAction
      * @return
      */
-    public ArrayList<TreeNode> switchQuestionTestToNode(ArrayList<Question> list, boolean showBtnAction){
+    public ArrayList<TreeNode> switchQuestionTestToNode(ArrayList<Question> list, boolean showBtnAction, String idLesson, boolean isPublishCourse){
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         if(showBtnAction){
             nodes.add(btnService.createBtnAddQuestionTest());
@@ -277,8 +311,13 @@ public class TreeUtil {
                 node.set_actionClick(Constant.ACTION_EDIT_QUESTION_TEST);
                 node.setOpen(false);
                 node.setInode(false);
-                nodes.add(node);
-                index++;
+                if(question.isCopied() && isPublishCourse){
+                    QuestionServices questionServices = new QuestionServices();
+                    questionServices.deleteQuestion(idLesson, question.getId());
+                }else {
+                    nodes.add(node);
+                    index++;
+                }
             }
         }else{
             TreeNode node = getDefaultInstance(showBtnAction);

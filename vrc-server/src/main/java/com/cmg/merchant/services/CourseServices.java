@@ -233,6 +233,24 @@ public class CourseServices {
      * @param idCourse
      * @return
      */
+    public boolean isPublishCourse(String idCourse){
+        CMTDAO dao = new CMTDAO();
+        try {
+            String status = dao.getByIdCourse(idCourse).getStatus();
+            if(status.equalsIgnoreCase(Constant.STATUS_PUBLISH)){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
     public String deleteCourse(String idCourse){
         CDAO cDao = new CDAO();
         CMTDAO mapDao = new CMTDAO();
@@ -347,7 +365,7 @@ public class CourseServices {
             ArrayList<Level> listLv = (ArrayList<Level>) dao.listIn(idCourse);
             if(listLv!=null && listLv.size()>0){
                 for(Level lv : listLv){
-                    Test t  =services.getTestDB(lv.getId());
+                    Test t = services.getTestDB(lv.getId());
                     if(t == null){
                         return ERROR;
                     }

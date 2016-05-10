@@ -325,10 +325,10 @@
                              style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
 
                         <div class="col-md-8">
-                            <textarea onkeyup="countChars('lessonDetail');" maxlength="240" rows="3"
+                            <textarea onkeyup="countChars('lessonDetail');" maxlength="600" rows="3"
                                       class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>
-                            <span class="count-character" id="count-lesson-details">0 of 240 characters</span>
+                            <span class="count-character" id="count-lesson-details">0 of 600 characters</span>
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -664,6 +664,48 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
+
+
+
+
+<div id="confirm-delete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true"
+     style="display: none;color:#957F7F">
+    <div class="modal-dialog" style="width:500px">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: transparent">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="confirm" name="addform">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label>This action will also delete any associated content
+                                that you have added in the structure below it.</label>
+                        </div>
+                    </div>
+                    <div class="form-group contain-button">
+                        <div class="col-md-6">
+                            <input type="hidden" class="action">
+                            <input type="hidden" class="idHidden">
+                            <img id="helpDeleteBtn" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
+                        </div>
+                        <div class="col-md-6">
+                            <img id="ConfirmDeletebtn" style="float:right" src="/images/popup/trash_50x50.gif"
+                                 width="36px" height="36px"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
+</div>
+
+
 <div id="helpReportModal" class="modal fade">
     <div class="modal-dialog" style="width:500px">
         <div class="modal-content" style="border-radius: 20px">
@@ -691,6 +733,31 @@
                     <p style="color: red;">2.Select a phoneme.</p>
                     <p style="color: red;">3.Select a time period.</p>--%>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="confirmPublish" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form name="add" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label style="font-weight: 200;font-size: 14px;">You have duplicate data in your course that will not be published, do you wish to continue?</label>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0px;" class="form-group">
+                        <div class="col-sm-6"><label class="cancelLbl"
+                                                     id="cancel-publish" style="font-weight:200;float:left;cursor: pointer;padding-top:15px"><u>cancel</u></label></div>
+                        <div class="col-sm-6"><img title="publish course" id="btn-confirm-pb" class="btn" style="float: right; padding: 0px; cursor: pointer; opacity: inherit;" src="/images/treeview/publish_button.gif" width="36px" height="36px"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

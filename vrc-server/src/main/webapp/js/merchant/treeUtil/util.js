@@ -171,7 +171,7 @@ function openPopup(itemData){
         getTypeLesson().val(itemData._type);
         getDetailLesson().val(itemData._details);
         var length_detail = itemData._details.length;
-        $("#count-lesson-details").html(length_detail + " of 240 characters");
+        $("#count-lesson-details").html(length_detail + " of 600 characters");
         currentPopup.find("#btnDeleteLesson").show();
         var objParent = treeAPI.itemData(currentParent);
         getNameLesson().attr("objID",objParent.id);

@@ -27,10 +27,10 @@ function initTree(){
                 //for load other node in course
                 var target = itemData._targetLoad;
                 var id = itemData.id;
-                settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
+                settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction+"&idCourse="+idCourse;
             }else{
                 //load course
-                settings.url = settings.url + "?target=" + loadCourse + "&idTarget=" + idCourse +"&firstLoad=" + firstLoad + "&showBtnAction="+showBtnAction;
+                settings.url = settings.url + "?target=" + loadCourse + "&idTarget=" + idCourse +"&firstLoad=" + firstLoad + "&showBtnAction="+showBtnAction+"&idCourse="+idCourse;
                 firstLoad = false;
             }
             enablePublishBtn();

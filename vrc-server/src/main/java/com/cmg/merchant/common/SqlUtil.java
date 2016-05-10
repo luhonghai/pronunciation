@@ -36,7 +36,7 @@ public class SqlUtil {
             "      les.isDeleted = FALSE AND lmq.isDeleted = FALSE AND q.isDeleted = FALSE";
 
 
-    private String SQL_DELETE_COURSE_STEP_1 = "update COURSE as c left join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse\n" +
+    private String SQL_DELETE_COURSE_STEP_1 = "update COURSE as c left join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse " +
             "  LEFT JOIN LEVEL as lv on cml.idLevel = lv.id " +
             "  LEFT JOIN COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
             "  LEFT JOIN OBJECTIVE as obj on cmd.idChild = obj.id " +
@@ -141,6 +141,70 @@ public class SqlUtil {
     private String SQL_CHECK_COURSE_ASSIGN_CLASS = "select c.id from COURSE as c inner join COURSEMAPPINGCLASS as cmc on c.id = cmc.idCourse\n" +
             "inner join CLASSMAPPINGTEACHER as cmt on cmc.idClass = cmt.idClass " +
             "where c.id='paramCid' and cmt.teacherName='paramTeacherName' and c.isDeleted=false and cmc.isDeleted=false and cmt.isDeleted=false";
+
+
+    private String SQL_CHECK_DUPPLICATE_DATA_STEP_1 = "select lv.id,obj.id,lesson.id,question.id from COURSE as c " +
+            "  INNER join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse " +
+            "  INNER join LEVEL as lv on lv.ID = cml.IDLEVEL " +
+            "  INNER join COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
+            "  INNER join OBJECTIVE as obj on obj.id = cmd.IDCHILD " +
+            "  INNER join OBJECTIVEMAPPING as om on om.idObjective = obj.id " +
+            "  INNER join LESSONCOLLECTION as lesson on lesson.id = om.IDLESSONCOLLECTION " +
+            "  INNER join LESSONMAPPINGQUESTION as lmq on lmq.IDLESSON = lesson.ID " +
+            "  INNER join QUESTION as question on question.id = lmq.IDQUESTION " +
+            "where c.id ='paramCourseId' and lv.ISDELETED = false " +
+            "and obj.ISDELETED = false and lesson.ISDELETED = false and question.ISDELETED = false " +
+            "and cml.ISDELETED = false and cmd.ISDELETED = false and om.ISDELETED = false and lmq.ISDELETED=false " +
+            "and (lv.ISCOPIED = true " +
+            "or obj.ISCOPIED = true or lesson.ISCOPIED = true or question.ISCOPIED = true)";
+
+    private String SQL_CHECK_DUPPLICATE_DATA_STEP_2= "select lv.id,test.id,lesson.id,question.id from COURSE as c " +
+            "  INNER join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse " +
+            "  INNER join LEVEL as lv on lv.ID = cml.IDLEVEL " +
+            "  INNER join COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
+            "  INNER join TEST as test on test.id = cmd.IDCHILD " +
+            "  INNER join TESTMAPPING as tm on tm.IDTEST = test.id " +
+            "  INNER join LESSONCOLLECTION as lesson on lesson.id = tm.IDLESSONCOLLECTION " +
+            "  INNER join LESSONMAPPINGQUESTION as lmq on lmq.IDLESSON = lesson.ID " +
+            "  INNER join QUESTION as question on question.id = lmq.IDQUESTION " +
+            "  where c.id ='paramCourseId' and lv.ISDELETED = false " +
+            "  and test.ISDELETED = false and lesson.ISDELETED = false and question.ISDELETED = false " +
+            "  and cml.ISDELETED = false and cmd.ISDELETED = false and tm.ISDELETED = false and lmq.ISDELETED=false " +
+            "  and (lv.ISCOPIED = true or test.ISCOPIED = true or lesson.ISCOPIED = true or question.ISCOPIED = true)";
+
+
+
+    private String SQL_GET_ALL_OBJ_IN_COURSE = "Select obj.id from Course as c " +
+            "INNER join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse " +
+            "INNER join LEVEL as lv on lv.ID = cml.IDLEVEL " +
+            "INNER join COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
+            "INNER join OBJECTIVE as obj on obj.id = cmd.IDCHILD " +
+            "where c.id ='paramCourseId' and obj.isCopied=true and lv.isDeleted=false";
+
+
+
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String getSqlCheckDuplicateData1 (String idCourse){
+        String sql = SQL_CHECK_DUPPLICATE_DATA_STEP_1;
+        sql = sql.replaceAll("paramCourseId",idCourse);
+        return sql;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String getSqlCheckDuplicateData2 (String idCourse){
+        String sql = SQL_CHECK_DUPPLICATE_DATA_STEP_2;
+        sql = sql.replaceAll("paramCourseId",idCourse);
+        return sql;
+    }
 
     /**
      *

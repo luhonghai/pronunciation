@@ -189,7 +189,7 @@ function initHelpAddLesson(){
     $html.append("<p>3. Select the lesson type.</p>");
     $html.append("<p>The scoring functionality differs between lesson types.</p>");
     $html.append("<p>4. Enter the lesson details.</p>");
-    $html.append("<p>This is the text that will be displayed when the student selects the ‘teacher’s tips’ button on the question page.(Restricted to 240 characters).</p>");
+    $html.append("<p>This is the text that will be displayed when the student selects the 'teacher's tip'’ button on the question page.(Restricted to 600 characters).</p>");
     $html.append("<p>5. Select 'save'.</p>");
     $html.append("<p>A button will be added to the administration page.</p>");
     $html.append("<p>When you click on the button, you will be able to edit or delete the lesson.</p>");

@@ -65,7 +65,7 @@ public class ODAO extends DataAccess<Objective> {
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaObjective = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
         TypeMetadata metaCourseMappingDetail = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());
-        String firstQuery = "select obj.id, obj.name , obj.description, mapping.index from  " + metaObjective.getTable()
+        String firstQuery = "select obj.id, obj.name , obj.description, mapping.index,obj.isCopied from  " + metaObjective.getTable()
                 + " obj inner join " + metaCourseMappingDetail.getTable()
                 + " mapping on mapping.idChild=obj.id where ";
         clause.append(firstQuery);
@@ -90,6 +90,9 @@ public class ODAO extends DataAccess<Objective> {
                     }
                     if(array[3]!=null){
                         objective.setIndex(Integer.parseInt(array[3].toString()));
+                    }
+                    if(array[4]!=null){
+                        objective.setIsCopied(Boolean.parseBoolean(array[4].toString()));
                     }
                     listObjective.add(objective);
                 }

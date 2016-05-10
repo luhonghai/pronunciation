@@ -83,7 +83,7 @@ public class SQL {
             "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus' " +
             "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
 
-    private String SQL_LESSON_MAPPING_OBJECTIVE="Select l.id,l.name,l.description,l.nameUnique,l.type,o.index,l.title FROM LESSONCOLLECTION l " +
+    private String SQL_LESSON_MAPPING_OBJECTIVE="Select l.id,l.name,l.description,l.nameUnique,l.type,o.index,l.title,l.isCopied FROM LESSONCOLLECTION l " +
             "inner join OBJECTIVEMAPPING o on l.id=o.idLessonCollection " +
             "WHERE o.idObjective='paramMappingId' and l.isDeleted=false and o.isDeleted=false order by o.index";
 

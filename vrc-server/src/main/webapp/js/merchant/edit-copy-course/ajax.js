@@ -971,20 +971,25 @@ function UpdateStateCourse(){
 /**
  *
  */
-function publishCourse(){
+function publishCourse(checkData){
     $.ajax({
         url : servletPublish,
         type : "POST",
         data : {
             action: "publish",
-            idCourse : idCourse
+            idCourse : idCourse,
+            checkData : checkData
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 window.location.href = "/my-courses.jsp";
-            }else{
-                swalNew("","an error has been occurred in server","error");
+                $('#confirmPublish').modal('hide');
+            }else if(data.indexOf("showpopup")!= -1){
+                $('#confirmPublish').modal('show');
+            }else {
+                $('#confirmPublish').modal('hide');
+                swalNew("","could not connect to server","error");
             }
         },
         error: function () {
@@ -1015,16 +1020,7 @@ function DragDrop(action,parentId,childId,index,move){
         dataType : "text",
         success : function(data){
             if(action == targetLoadQuestion){
-                //var allChild = treeAPI.children(currentParent, true, true);// you can change null to any node , now it get the whole tree
-                //allChild.each(function (index, item) {
-                //    var $item = $(item);
-                //    var data = treeAPI.itemData($item);
-                //    if(data.id.trim() != childId.trim()){
-                //        treeAPI.open($item);
-                //    }
-                //});
                 setInterval(function(){ reloadTree(); }, 500);
-
             }
         },
         error: function () {
