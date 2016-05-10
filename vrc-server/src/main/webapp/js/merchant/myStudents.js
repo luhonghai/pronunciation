@@ -321,6 +321,11 @@ function closeConfirmPopUp(){
         $('#'+popup).modal('hide');
     });
 }
+function focusInput(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('input:first').focus();
+    });
+}
 
 function collapseMenu(){
     /*$("#li-students").find('ul').addClass('in');*/
@@ -341,5 +346,6 @@ $(document).ready(function(){
     deleted();
     deleteStudent();
     listMyStudent();
+    focusInput();
 });
 

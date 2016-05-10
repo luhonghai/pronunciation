@@ -347,6 +347,12 @@ function collapseMenu(){
     $("#li-class").find('ul').addClass('in');
 }
 
+function focusInput(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('input:first').focus();
+    });
+}
+
 $(document).ready(function(){
     $('#help-icons').show();
     collapseMenu();
@@ -361,5 +367,6 @@ $(document).ready(function(){
     helpMyClass();
     helpEditMyClass();
     listMyClasses();
+    focusInput();
 });
 

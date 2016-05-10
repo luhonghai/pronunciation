@@ -228,15 +228,16 @@ function openPopup(itemData){
         getListWordTest().empty();
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
-        var level = treeAPI.itemData(currentParent);
-        var row= nameOfCourse +" > " + level.label;
+        var level = treeAPI.parent(currentParent);
+        var test = treeAPI.itemData(currentParent);
+        var row= nameOfCourse +" > " + level.label + " > " + test.label;
         getExplanationTest().attr("row",row);
-        var breadCrumb = nameOfCourse + " > " + level.label;
+        var breadCrumb = nameOfCourse + " > " + level.label + " > " + test.label;
         if(breadCrumb.length > 30){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
         }else{
-            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label + " > "  + test.label);
         }
 
     }else if(itemData._actionClick == action_edit_question_test){
@@ -260,7 +261,7 @@ function openPopup(itemData){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
         }else{
-            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+            currentPopup.find("#arrowQuestionTest").html(row);
         }
     }
 

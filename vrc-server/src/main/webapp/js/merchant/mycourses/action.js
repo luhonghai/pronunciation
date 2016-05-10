@@ -79,7 +79,11 @@ function reloadSearch(){
 function collapseMenu(){
     $("#li-courses").find('ul').addClass('in');
 }
-
+function focusInput(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('input:first').focus();
+    });
+}
 $(document).ready(function(){
     initDate();
     makeOnceCheckboxSelected();
@@ -94,4 +98,5 @@ $(document).ready(function(){
     clickTopHelp();
     reloadSearch();
     collapseMenu();
+    focusInput();
 });
