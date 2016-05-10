@@ -27,6 +27,19 @@ public class LessonMappingQuestion implements Mirrorable {
     @Persistent
     private int version;
 
+    @Persistent
+    private int position;
+
+    public int getIndex() {
+        return position;
+    }
+
+    public void setIndex(int index) {
+        this.position = index;
+    }
+
+
+
     @Override
     public String getId() {
         return this.id;

@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: transparent;padding-bottom: 10px;">
                 <button id="close-popup-preview" type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h2 class="modal-title" style="font-weight: 700;"></h2>
+                <h2 class="modal-title" style="font-weight: 700;font-size: 18px"></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">

@@ -104,9 +104,9 @@
             <div class="modal-content">
                 <div class="modal-header" style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h5 class="modal-title" style="text-align: center;font-weight: 200;font-size:25px">add course</h5>
+                    <h5 class="modal-title" style="text-align: center;font-weight: 700;font-size:18px;">add course</h5>
                     <h4 id="validateCourseMsg" class="modal-title validateMsg"
-                        style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
+                        style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;"></h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="addCourseForm" name="addform">
@@ -177,7 +177,7 @@
             <div class="modal-content">
                 <div class="modal-header" style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h2 class="modal-title" style="font-weight: 700;">add course</h2>
+                    <h2 class="modal-title" style="font-weight: 700;font-size:18px;">add course</h2>
                 </div>
                 <div class="modal-body">
 

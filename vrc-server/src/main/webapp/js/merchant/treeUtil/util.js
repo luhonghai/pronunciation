@@ -4,7 +4,30 @@
 var servletAdd = "/TreeAddNodeServlet";
 var currentPopup;
 var listWord=[];
+var listIdCopied=[];
 var myObject = new Object();
+function checkIdCopied(idCheck){
+    if(listIdCopied.length > 0){
+        for(var i = 0 ; i < listIdCopied.length;i++){
+          var id = listIdCopied[i];
+          if(id.trim() == idCheck.trim()){
+              return true;
+          }
+        }
+    }
+    return false;
+}
+
+function removeIdCopied(idRemove){
+    if(listIdCopied.length > 0){
+        for(var i = 0 ; i < listIdCopied.length;i++){
+            var id = listIdCopied[i];
+            if(id.trim() == idRemove.trim()){
+                listIdCopied.splice(i, 1);
+            }
+        }
+    }
+}
 
 function ClickOnTree(){
     $(document).on("click",".aciTreeItem",function(){
@@ -36,11 +59,22 @@ function openPopup(itemData){
         getCourseName().val(itemData.label);
         getCourseDescription().val(itemData._title);
         currentPopup.find("#btnDeleteLevel").show();
-        currentPopup.find("#arrowCourse").html(nameOfCourse);
+        if(nameOfCourse.length > 30){
+            currentPopup.find("#arrowCourse").html(nameOfCourse.substring(0,25) +"...");
+            currentPopup.find("#arrowCourse").attr("title",nameOfCourse);
+        }else{
+            currentPopup.find("#arrowCourse").html(nameOfCourse);
+        }
+
     }else
     if (itemData._actionClick == action_add_level){
         clearForm();
-        currentPopup.find("#arrow").html(nameOfCourse);
+        if(nameOfCourse.length > 30){
+            currentPopup.find("#arrow").html(nameOfCourse.substring(0,25) +"...");
+            currentPopup.find("#arrow").attr("title",nameOfCourse);
+        }else{
+            currentPopup.find("#arrow").html(nameOfCourse);
+        }
         currentPopup.find("#titlePopup").html("add level");
         currentPopup.find("#btnDeleteLevel").hide();
     }else if(itemData._actionClick == action_edit_level){
@@ -48,14 +82,27 @@ function openPopup(itemData){
         getLevelName().val(itemData.label);
         getLevelDescription().val(itemData._title);
         currentPopup.find("#btnDeleteLevel").show();
-        currentPopup.find("#arrow").html(nameOfCourse + " > " + itemData.label);
+        var breadCrumb = nameOfCourse + " > " + itemData.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrow").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrow").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrow").html(nameOfCourse + " > " + itemData.label);
+        }
+
     }else if(itemData._actionClick == action_add_obj){
         clearForm();
         var level = treeAPI.itemData(currentParent);
         getObjName().attr("idLevel", level.id);
         currentPopup.find("#titlePopupObj").html("add objective");
         currentPopup.find("#btnDeleteObj").hide();
-        currentPopup.find("#arrowObj").html(nameOfCourse+" > " + level.label);
+        var breadCrumb = nameOfCourse + " > " + level.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowObj").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowObj").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowObj").html(nameOfCourse+" > " + level.label);
+        }
     }else if(itemData._actionClick == action_edit_obj){
         currentPopup.find("#titlePopupObj").html("objective management");
         getObjName().val(itemData.label);
@@ -63,14 +110,27 @@ function openPopup(itemData){
         var level = treeAPI.itemData(currentParent);
         getObjName().attr("idLevel", level.id);
         currentPopup.find("#btnDeleteObj").show();
-        currentPopup.find("#arrowObj").html(nameOfCourse+" > " + level.label + " > " + itemData.label);
+        var breadCrumb = nameOfCourse+" > " + level.label + " > " + itemData.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowObj").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowObj").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowObj").html(nameOfCourse+" > " + level.label + " > " + itemData.label);
+        }
+
     }else if(itemData._actionClick == action_add_test){
         clearForm();
         var level = treeAPI.itemData(currentParent);
         getPercentPass().attr("idLevel",level.id);
         currentPopup.find("#titlePopupTest").html("add test");
         currentPopup.find("#btnDeleteTest").hide();
-        currentPopup.find("#arrowTest").html(nameOfCourse + " > " + level.label);
+        var breadCrumb = nameOfCourse + " > " + level.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowTest").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowTest").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowTest").html(nameOfCourse+" > " + level.label);
+        }
     }else if(itemData._actionClick == action_edit_test){
         currentPopup.find("#titlePopupTest").html("test management");
         var percent = itemData._title.split("%")[0];
@@ -78,7 +138,13 @@ function openPopup(itemData){
         var level = treeAPI.itemData(currentParent);
         getPercentPass().attr("idLevel",level.id);
         currentPopup.find("#btnDeleteTest").show();
-        currentPopup.find("#arrowTest").html(nameOfCourse+">" + level.label + ">" + itemData.label);
+        var breadCrumb = nameOfCourse + " > " + level.label  + ">" + itemData.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowTest").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowTest").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowTest").html(nameOfCourse+">" + level.label + ">" + itemData.label);
+        }
     }else if(itemData._actionClick == action_add_lesson){
         clearForm();
         currentPopup.find("#titlePopupLesson").html("add lesson");
@@ -87,7 +153,14 @@ function openPopup(itemData){
         getNameLesson().attr("objID",objParent.id);
         var level = treeAPI.parent(currentParent);
         var levelItemData = treeAPI.itemData(level);
-        currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
+        var breadCrumb = nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowLesson").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowLesson").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
+        }
+
     }else if(itemData._actionClick == action_edit_lesson){
         clearForm();
         currentPopup.find("#titlePopupLesson").html("lesson management");
@@ -104,7 +177,13 @@ function openPopup(itemData){
         getNameLesson().attr("objID",objParent.id);
         var level = treeAPI.parent(currentParent);
         var levelItemData = treeAPI.itemData(level);
-        currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
+        var breadCrumb = nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowLesson").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowLesson").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
+        }
     }else if(itemData._actionClick == action_add_question){
         clearForm();
         listWord=[];
@@ -116,7 +195,13 @@ function openPopup(itemData){
         var objItemData = treeAPI.itemData(obj);
         var level = treeAPI.parent(obj);
         var levelItemData = treeAPI.itemData(level);
-        currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
+        var breadCrumb = nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowQuestion").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowQuestion").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
+        }
     }else if(itemData._actionClick == action_edit_question){
         clearForm();
         listWord=[];
@@ -129,7 +214,14 @@ function openPopup(itemData){
         currentPopup.find("#btnDeleteQuestion").show();
         getQuestionListWordEdit().attr("idLesson",lesson.id);
         drawListWord(itemData._title);
-        currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
+        var breadCrumb = nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowQuestion").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowQuestion").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
+        }
+
     }else if(itemData._actionClick == action_add_question_test){
         listWord=[];
         clearForm();
@@ -139,7 +231,14 @@ function openPopup(itemData){
         var level = treeAPI.itemData(currentParent);
         var row= nameOfCourse +" > " + level.label;
         getExplanationTest().attr("row",row);
-        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+        var breadCrumb = nameOfCourse + " > " + level.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+        }
+
     }else if(itemData._actionClick == action_edit_question_test){
         listWord=[];
         clearForm();
@@ -156,7 +255,13 @@ function openPopup(itemData){
         var levelItem = treeAPI.itemData(level);
         var row = nameOfCourse +" > "+levelItem.label+ " > " + test.label;
         getExplanationTest().attr("row",row);
-        currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label);
+        var breadCrumb = nameOfCourse + " > " + level.label;
+        if(breadCrumb.length > 30){
+            currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
+            currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
+        }else{
+            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+        }
     }
 
     currentPopup.modal('show');
@@ -171,6 +276,7 @@ function drawListWord(listWord){
     getListWord().html("");
     getListWordTest().html();
     if(list!=null && list.length>0){
+        list.sort();
         for(var i=0;i<list.length;i++){
             if(currentPopup.find(".action").val() == action_edit_question){
                 getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
@@ -207,6 +313,9 @@ function readListMail(txt) {
 function appendWord(type){
     if(type=="add"){
         if(listWord !=null && listWord.length>0){
+            listWord.sort(function(a, b) {
+                return a.nameWord == b.nameWord ? 0 : +(a.nameWord > b.nameWord) || -1;
+            });
             getListWord().html("");
             $.each(listWord, function(i){
                 getListWord().append(' <div style="margin-top: 5px;">' +
@@ -221,6 +330,9 @@ function appendWord(type){
     }else if(type=="addWordTest") {
         if(listWord !=null && listWord.length>0){
             getListWordForTest().html("");
+            listWord.sort(function(a, b) {
+                return a.nameWord == b.nameWord ? 0 : +(a.nameWord > b.nameWord) || -1;
+            });
             $.each(listWord, function (i) {
                 getListWordForTest().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + listWord[i].nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
             });
@@ -512,33 +624,54 @@ function drag2drop(){
                         //do not move the test node
                         return false;
                     }
-                    if(dropData._targetLoad == targetLoadQuestion){
+                   /* if(dropData._targetLoad == targetLoadQuestion){
                         //do not move the test node
                         return false;
                     }
                     if(dragData._targetLoad == targetLoadQuestion){
                         //do not move the test node
                         return false;
-                    }
+                    }*/
                     if (!api.sameParent(item, drop)) {
                         // mark the drop target as invalid
                         return false;
                     }else{
                         var parent = api.parent(item);
+                        currentParent = api.parent(item);
                         var parentId = api.itemData(parent).id;
                         var action = dragData._targetLoad;
                         var childId = dragData.id;
                         var indexDrop = api.getIndex(drop);
                         var indexDrag = api.getIndex(item);
-                        console.log(indexDrag);
+                     /*   console.log(indexDrag);
+                        console.log(indexDrop);*/
                         var move = "down";
                         if(indexDrag > indexDrop){
                             move = "up";
                         }
                         dragDrop.action = action;
-                        dragDrop.parentId = parentId;
+                        var parentAction = api.itemData(parent)._targetLoad;
+                        console.log(parentAction + " " + targetLoadTest);
+                        if(parentAction.trim() !== targetLoadTest.trim()){
+                            console.log('not equal');
+                            dragDrop.parentId = parentId;
+                        }else{
+                            console.log('equal');
+                            var idLesson = api.itemData(parent)._idLessonForTest;
+                            dragDrop.parentId = idLesson;
+                        }
+                        //dragDrop.parentId = parentId;
                         dragDrop.childId = childId;
-                        dragDrop.indexDrop = indexDrop;
+                        if(action == targetLoadQuestion){
+                            var nameQ = dropData.label;
+                            //var indexQ = nameQ.split(" ")[1];
+                            var indexQ = dropData._positionQ;
+                            console.log(indexQ);
+                            dragDrop.indexDrop = indexQ;
+                        }else{
+                            dragDrop.indexDrop = indexDrop;
+                        }
+
                         dragDrop.move = move;
                         return true;
                     }
@@ -563,7 +696,6 @@ function reloadTree(id,type){
                                 allChild.each(function (index, item) {
                                     var $item = $(item);
                                     var data = treeAPI.itemData($item);
-                                    //console.log(tmp + " " + id);
                                     if(data.id.trim() == id.trim()){
                                         treeAPI.open($item);
                                     }
@@ -627,13 +759,15 @@ function copyAndPaste(){
                         }else if(dataTarget['_targetLoad'] == targetLoadLesson){
                             var idLesson = dataTarget['id'];
                             var idQuestion = dataCopied['id'];
+                            var name = dataCopied['label'];
                             currentParent = item;
-                            copyQuestion (idLesson,idQuestion);
+                            copyQuestion (idLesson,idQuestion,name);
                         }else if(dataTarget['_targetLoad'] == targetLoadTest){
                             var idLesson = dataCurrentParent['_idLessonForTest'];
                             var idQuestion = dataCopied['id'];
+                            var name = dataCopied['label'];
                             currentParent = item;
-                            copyQuestion (idLesson,idQuestion);
+                            copyQuestion (idLesson,idQuestion,name);
                         }
                     }else{
                         swalNew("",'could not paste the data copied to this node',"error");
@@ -657,11 +791,16 @@ function copyAndPaste(){
         }
     });
 }
-
+function focusInput(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('input:first').focus();
+    });
+}
 $(document).ready(function(){
     removeWord();
     saveWord();
     showAddWord();
     showAddWordForTest();
     openEditWords();
+    focusInput();
 });

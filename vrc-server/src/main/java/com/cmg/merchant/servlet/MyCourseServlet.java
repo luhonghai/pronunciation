@@ -53,7 +53,7 @@ public class MyCourseServlet extends BaseServlet {
         }else if(action.equalsIgnoreCase(ACTION_SEARCH_HEADER) && util.checkSessionValid(request)){
             CMTSERVICES services = new CMTSERVICES();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
-            ArrayList<CourseDTO> list = services.searchHeaderMyCourse(util.getCpId(request), util.getTid(request), name);
+            ArrayList<CourseDTO> list = services.searchHeaderMyCourse(util.getCpId(request), util.getTid(request), name.toLowerCase());
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(action.equalsIgnoreCase(ACTION_SEARCH_DETAIL) && util.checkSessionValid(request)){

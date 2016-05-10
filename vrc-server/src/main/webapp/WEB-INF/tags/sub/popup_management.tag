@@ -49,12 +49,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrowCourse" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupCourse' class="modal-title">course management</h2>
+                <h2 id='titlePopupCourse' style="font-weight: 700;font-size:18px;" class="modal-title">course management</h2>
                 <h4 id="validateMsgCourse" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -107,12 +107,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrow" class="modal-title"
-                                                  style="text-align: left;">
-                </label></div>
+                         style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
+                </label>
+                </div>
 
-                <h2 id='titlePopup' class="modal-title">add level</h2>
+                <h2 id='titlePopup' style="font-weight: 700;font-size: 18px" class="modal-title">add level</h2>
                 <h4 id="validateLvMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -165,12 +166,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrowObj" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupObj' class="modal-title">Add Objective</h2>
+                <h2 id='titlePopupObj' style="font-weight: 700;font-size: 18px" class="modal-title">Add Objective</h2>
                 <h4 id="validateObjMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -223,12 +224,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrowTest" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupTest' class="modal-title">Add Test</h2>
+                <h2 id='titlePopupTest' style="font-weight: 700;font-size: 18px" class="modal-title">Add Test</h2>
                 <h4 id="validateTestMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -275,12 +276,13 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
                 <div class="contain-arrow"><label id="arrowLesson" class="modal-title"
-                                                  style="text-align: left; padding-left: 15px;">
+                                                  style="text-align: left; padding-left: 15px;
+                                                  font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupLesson' class="modal-title">add lesson</h2>
+                <h2 id='titlePopupLesson' style="font-weight: 700;font-size: 18px" class="modal-title">add lesson</h2>
                 <h4 id="validateLessonMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your lesson
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your lesson
                     name</h4>
             </div>
             <div class="modal-body">
@@ -363,12 +365,12 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
                 <div class="contain-arrow"><label id="arrowQuestion" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
+                <h2 align="center" id='titlePopupQuestion' style="font-weight: 700;font-size: 18px" class="modal-title">question management</h2>
                 <h4 id="validateQuestionMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;"></h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="addQuestion" name="addform">
@@ -423,11 +425,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
                 <div class="contain-arrow"><label id="arrowQuestionTest" class="modal-title"
-                                                    style="text-align: left;">
+                                                    style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
-                <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
+                <h2 align="center" style="font-weight: 700;font-size: 18px" id='titlePopupTestWord' class="modal-title">add test question</h2>
                 <h4 id="validateQuestionForTestMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;"></h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="addTestWord" name="addform">
@@ -506,13 +508,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
-                <div id="contain-arrow"><label id="arrowWord" class="modal-title"></label></div>
+                <div id="contain-arrow"><label id="arrowWord" style="font-weight: 200 !important;font-size: 14px !important;" class="modal-title"></label></div>
                 <input type="hidden" id="idLesson">
                 <input type="hidden" id="AddOrEditWord">
 
-                <h2 id="title-add-word" style="text-align: center" class="modal-title">word management</h2>
+                <h2 id="title-add-word" style="text-align: center;font-weight: 700;font-size: 18px;" class="modal-title">word management</h2>
                 <h4 id="validateWordMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your word</h4>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal" id="addWords">
@@ -527,7 +529,7 @@
                             <label class="control-label">Word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
-                            <input type="text" id="addWord" name="addWord" class=" form-control">
+                            <input autofocus type="text" id="addWord" name="addWord" class=" form-control">
                         </div>
                         <div class="col-xs-4  col-sm-4">
                             <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"
@@ -603,7 +605,7 @@
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h2 class="modal-title" style="font-weight: 700;">preview and/or duplicate a course</h2>
+                <h2 class="modal-title" style="font-weight: 700;font-size: 18px">preview and/or duplicate a course</h2>
             </div>
             <div class="modal-body">
 
@@ -666,7 +668,7 @@
     <div class="modal-dialog" style="width:500px">
         <div class="modal-content" style="border-radius: 20px">
             <div class="modal-header">
-                <h2 class="modal-title">reports</h2>
+                <h2 style="font-weight: 700;font-size: 18px" class="modal-title">reports</h2>
             </div>
             <div class="modal-body">
                 <div>

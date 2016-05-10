@@ -145,7 +145,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 aria-hidden="true">&times;</button>
-        <h1 class="modal-title" align="center">Delete Student</h1>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title" align="center">Delete Student</h2>
       </div>
       <form name="form-delete" >
         <div class="modal-body">

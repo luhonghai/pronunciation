@@ -87,10 +87,10 @@ public class SQL {
             "inner join OBJECTIVEMAPPING o on l.id=o.idLessonCollection " +
             "WHERE o.idObjective='paramMappingId' and l.isDeleted=false and o.isDeleted=false order by o.index";
 
-    private String SQL_QUESTION_MAPPING_LESSON="Select question.id,question.name,question.description FROM QUESTION question " +
+    private String SQL_QUESTION_MAPPING_LESSON="Select question.id,question.name,question.description,mapping.position,question.isCopied FROM QUESTION question " +
             "inner join LESSONMAPPINGQUESTION mapping on question.id=mapping.idQuestion " +
             "WHERE mapping.idLesson='paramMappingId' and question.isDeleted=false and mapping.isDeleted=false " +
-            "order by question.TIMECREATED";
+            "order by mapping.position";
 
 
     private String SQL_COURSE_FOR_STUDENT="Select c.id,c.name FROM COURSE as c " +

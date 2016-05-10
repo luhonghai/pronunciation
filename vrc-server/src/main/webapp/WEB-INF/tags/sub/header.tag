@@ -162,7 +162,7 @@
 							</ul>
 						</li>
 						<li id="li-students">
-							<a href="my-students.jsp"><img src="/images/teacher/my%20students48x48.gif" style="width: 24px;height: 24px;">  my students</a>
+							<a href="my-students.jsp"><img src="/images/teacher/my_students80x80.gif" style="width: 24px;height: 24px;">  my students</a>
 							<%--<a href="licensed-students.jsp"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> students </a>
 							<ul>
 								<li>
@@ -207,7 +207,7 @@
 		var $el = $(this);
 		var $a = $el.find('a');
 		if ($a.length && $a.attr('href')) {
-			location.href = $a.attr('href');
+			window.location.href = $a.attr('href');
 		}
 	});
 </script>

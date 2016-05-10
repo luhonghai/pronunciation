@@ -39,6 +39,23 @@ public class CMTSERVICES {
         return ERROR;
     }
 
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String unPublishCourse(String idCourse){
+        CMTDAO dao = new CMTDAO();
+        try {
+            CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+            dao.updateStatus(cmt.getId(), Constant.STATUS_NOT_PUBLISH);
+            return SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ERROR;
+    }
+
 
     /**
      *
@@ -337,6 +354,7 @@ public class CMTSERVICES {
                     dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
                 }
                 dto.setTextColor(Color.TEXT_COLOR);
+                dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
         }
         return list;
@@ -388,6 +406,7 @@ public class CMTSERVICES {
                     dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
                 }
                 dto.setTextColor(Color.TEXT_COLOR);
+                dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
         }
         return list;

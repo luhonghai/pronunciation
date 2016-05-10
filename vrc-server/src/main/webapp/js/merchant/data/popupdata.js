@@ -228,7 +228,7 @@ function initHelpTopDataMainCourse(){
         "or by the created date using the search function and drop down filter at the top of the page.</p>");
     $html.append("<p>If you hover over the course title button you will be able " +
         "to view a short description if it was added by the originator. </p>");
-    $html.append("<p>If you double click on a course title button, you can view the content and decide if you would like to add it to your own list of courses." +
+    $html.append("<p>If you click on a course title button, you can view the content and decide if you would like to add it to your own list of courses." +
         "If you choose to do this, you will create a duplicate copy and " +
         "you will be able to edit the content to suit your own requirements</p>");
     return $html;
@@ -246,8 +246,7 @@ function initHelpTopDataMyCourse(){
         "<div style='padding-left:30px;'>duplicate of a course where the only change is the removal of 'copy of' from the course name</div></p>");
     $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #7030A0'></div>" +
         "<div style='padding-left:30px;'>duplicate of a course you already have in your list" +
-        "(You will not be able to publish an exact copy of a course that you already have in 'my courses' " +
-        "until you have removed 'copy of' from the course name." +
+        " ( You will not be able to publish an exact copy until you have removed 'copy of' from the course name." +
         ").</div></p>");
     $html.append("<p><img src='/images/treeview/unpublished_button.gif' style='float:left;width:24px;height: 24px'>" +
         "This icon indicates that a course has not been published yet</p>");
@@ -297,12 +296,12 @@ function initHelpTopWelcome(){
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
         $html.append("<div class='col-sm-1'></div>");
-        $html.append("<div class='col-sm-2'><img style='float:right;width: 24px;height:24px' src='/images/teacher/report_help_phonemes.png'> </div>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 20px;height:20px' src='/images/teacher/report_help_lessons.png'> </div>");
         $html.append("<div class='col-sm-9'><label>lessons</label> – scores for words and phonemes from all lessons taken in the last 3 months. </div>");
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");
         $html.append("<div class='col-sm-1'></div>");
-        $html.append("<div class='col-sm-2'><img style='float:right;width: 22px;height:22px' src='/images/teacher/report_help_lessons.png'> </div>");
+        $html.append("<div class='col-sm-2'><img style='float:right;width: 20px;height:20px' src='/images/teacher/report_help_phonemes.png'> </div>");
         $html.append("<div class='col-sm-9'><label>phonemes</label> – scores for phonemes for individual students over a selected time period. </div>");
     $html.append("</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>");

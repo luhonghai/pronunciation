@@ -57,6 +57,12 @@ function initTree(){
             if(itemData['_targetLoad'] == targetLoadTest){
                 totalTest = totalTest+1;
             }
+            if(itemData['_targetLoad'] == targetLoadQuestion && itemData['_isCopied']){
+                item.find('.aciTreeItem').css('background-color', "#7030A0");
+            }
+            if(checkIdCopied(itemData['id'])){
+                item.find('.aciTreeItem').css('background-color', "#7030A0");
+            }
         }
     });
     treeAPI = theTree.aciTree('api');
