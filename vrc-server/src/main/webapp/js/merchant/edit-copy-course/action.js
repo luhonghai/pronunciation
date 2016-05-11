@@ -245,7 +245,7 @@ function clickHelpAdd(){
         }else if(id == "helpAddTestWord"){
             getPopUpHelp().find(".modal-title").html("test question management");
             getPopUpHelp().find(".modal-body").empty();
-            getPopUpHelp().find(".modal-body").html(initHelpAddQuestion());
+            getPopUpHelp().find(".modal-body").html(initHelpAddTestQuestion());
         }else if(id=="helpDeleteBtn"){
             getPopUpHelp().find(".modal-title").html("deleting files");
             getPopUpHelp().find(".modal-body").empty();

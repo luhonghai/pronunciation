@@ -1,5 +1,6 @@
 package com.cmg.vrc.data.dao.impl;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -268,12 +269,16 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         }
     }
 
-
+    /**
+     *
+     * @param teacherName
+     * @return
+     */
     public List<StudentMappingTeacher> notificationAccept(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' and isView=false and mappingBy='teacher' and isDeleted=false";
+        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' and isView=false and mappingBy='"+ Constant.TEACHER+"' and isDeleted=false";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
@@ -295,11 +300,17 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         }
         return null;
     }
+
+    /**
+     *
+     * @param teacherName
+     * @return
+     */
     public List<StudentMappingTeacher> notificationReject(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='reject' and isView=false and mappingBy='teacher' and isDeleted=false";
+        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='reject' and isView=false and mappingBy='"+Constant.TEACHER+"' and isDeleted=false";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
@@ -321,11 +332,17 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         }
         return null;
     }
+
+    /**
+     *
+     * @param teacherName
+     * @return
+     */
     public List<StudentMappingTeacher> notificationInvitation(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and isView=false and mappingBy='student' and isDeleted=false";
+        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and isView=false and mappingBy='"+Constant.STUDENT+"' and isDeleted=false";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
