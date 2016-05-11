@@ -242,7 +242,7 @@ public class UnitTesting {
             System.out.println(i);*/
           /*  QMLDAO dao = new QMLDAO();
             dao.getQuestionByIdLesson("938700c4-b52a-4299-94f8-fb292d6fa389");*/
-            QDAO qdao=new QDAO();
+         /*   QDAO qdao=new QDAO();
             String message=null;
             try {
                 Question question=new Question();
@@ -255,8 +255,16 @@ public class UnitTesting {
 
             }catch(Exception e){
                 e.printStackTrace();
+            }*/
+            int i=0;
+            while (true)
+            {
+                if(i % 2 == 0)
+                {
+                    break;
+                }
+                System.out.println("hello");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
