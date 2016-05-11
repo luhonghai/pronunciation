@@ -15,11 +15,14 @@ import com.cmg.lesson.data.jdo.history.PhonemeLessonScore;
 import com.cmg.lesson.data.jdo.history.SessionScore;
 import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
+import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
 import com.cmg.lesson.services.level.LevelService;
@@ -28,13 +31,17 @@ import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.lessons.LDAO;
+import com.cmg.merchant.dao.lessons.LMQDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
+import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.dao.objective.ODAO;
 import com.cmg.merchant.dao.questions.QDAO;
 import com.cmg.merchant.dao.questions.QMLDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.dao.report.ReportPhoneDao;
 import com.cmg.merchant.dao.teacher.TCHDAO;
+import com.cmg.merchant.dao.test.TDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
@@ -256,7 +263,7 @@ public class UnitTesting {
             }catch(Exception e){
                 e.printStackTrace();
             }*/
-            int i=0;
+           /* int i=0;
             while (true)
             {
                 if(i % 2 == 0)
@@ -264,7 +271,35 @@ public class UnitTesting {
                     break;
                 }
                 System.out.println("hello");
-            }
+            }*/
+           /* QDAO qdao=new QDAO();
+            Question question=new Question();
+            question.setId("test");
+            question.setIsDeleted(false);
+            question.setVersion(10);
+            question.setTimeCreated(new Date(System.currentTimeMillis()));
+            question.setIsCopied(false);
+            qdao.create(question);*/
+         /*   TDAO dao = new TDAO();
+            Test t = new Test();
+            t.setId("test");
+            dao.put(t);
+            ODAO odao = new ODAO();
+            Objective obj = new Objective();
+            obj.setId("test");
+            odao.put(obj);
+            LDAO ldao = new LDAO();
+            LessonCollection lc = new LessonCollection();
+            lc.setId("test");
+            ldao.put(lc);
+            LvDAO lvdao = new LvDAO();
+            Level lv = new Level();
+            lv.setId("test");
+            lvdao.put(lv);*/
+            LMQDAO dao = new LMQDAO();
+            LessonMappingQuestion lmq = new LessonMappingQuestion();
+            lmq.setId("tesst");
+            dao.put(lmq);
         } catch (Exception e) {
             e.printStackTrace();
         }

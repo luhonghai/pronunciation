@@ -229,15 +229,16 @@ function openPopup(itemData){
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
         var level = treeAPI.parent(currentParent);
+        var levelItem = treeAPI.itemData(level);
         var test = treeAPI.itemData(currentParent);
-        var row= nameOfCourse +" > " + level.label + " > " + test.label;
+        var row= nameOfCourse +" > " + levelItem.label + " > " + test.label;
         getExplanationTest().attr("row",row);
-        var breadCrumb = nameOfCourse + " > " + level.label + " > " + test.label;
+        var breadCrumb = nameOfCourse + " > " + levelItem.label + " > " + test.label;
         if(breadCrumb.length > 30){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
         }else{
-            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label + " > "  + test.label);
+            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label + " > "  + test.label);
         }
 
     }else if(itemData._actionClick == action_edit_question_test){
