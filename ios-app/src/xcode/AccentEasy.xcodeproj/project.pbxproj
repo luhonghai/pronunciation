@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */; };
+		7F35FD03D9EC88C33BC0B1F5 /* Pods_AccentEasyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45AE770DFC2C33AF9DFE40F7 /* Pods_AccentEasyUITests.framework */; };
 		9053C2771C8EE2D2009BA3DF /* ImageLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */; };
 		9053C27A1C9004D6009BA3DF /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053C2791C9004D6009BA3DF /* JSONHelper.swift */; };
 		9053C2871C902598009BA3DF /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053C2861C902598009BA3DF /* AccountManager.swift */; };
@@ -250,6 +250,7 @@
 		9BEF04561C59B90200E474F3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04551C59B90200E474F3 /* GLKit.framework */; };
 		9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04571C59B90B00E474F3 /* AVFoundation.framework */; };
 		9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */; };
+		BEF42E96B7C3A9BE9A152669 /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400202E588A3C51D28C33998 /* Pods_AccentEasy.framework */; };
 		C1056C1F1C84052F00F75CCC /* FSDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1056C1E1C84052F00F75CCC /* FSDetailVC.swift */; };
 		C1056C2B1C85437000F75CCC /* FSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1056C2A1C85437000F75CCC /* FSScreen.swift */; };
 		C109066F1C7579FA0071206D /* Menu-100.png in Resources */ = {isa = PBXBuildFile; fileRef = C109066E1C7579FA0071206D /* Menu-100.png */; };
@@ -464,6 +465,7 @@
 		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
 		C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8AA91C881A2900051958 /* Back-25@2x.png */; };
 		C1FAD5101C55DCCC00385D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1FAD50F1C55DCCC00385D74 /* GoogleService-Info.plist */; };
+		F0E1E1F575A4A23D911DC0F3 /* Pods_AccentEasyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A5536381129EC8ABDD2F0B /* Pods_AccentEasyTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -515,6 +517,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = BA6B55F453BFFCD646E936794885EAAA;
 			remoteInfo = NSLogger;
+		};
+		9B76415A1CE58010007E434D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2F4568DE7930CB14B302A9626827257;
+			remoteInfo = "Pods-AccentEasyTests";
+		};
+		9B76415C1CE58010007E434D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C0D788154BDDB89D0CE91821442D71D5;
+			remoteInfo = "Pods-AccentEasyUITests";
 		};
 		9BC5E0F21C50803C003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -582,7 +598,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		400202E588A3C51D28C33998 /* Pods_AccentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		42625799D6E2CB70154A578B /* Pods-AccentEasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.debug.xcconfig"; sourceTree = "<group>"; };
+		45AE770DFC2C33AF9DFE40F7 /* Pods_AccentEasyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		60C9758DB855D7BA14C4BBDE /* Pods-AccentEasyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasyTests/Pods-AccentEasyTests.release.xcconfig"; sourceTree = "<group>"; };
 		9053C2791C9004D6009BA3DF /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONHelper.swift; path = Utils/JSONHelper.swift; sourceTree = "<group>"; };
 		9053C2861C902598009BA3DF /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		9053FDFB1C87D8FC0059A423 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -820,7 +839,6 @@
 		9BC5E0E01C507DF2003CF8E9 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		9BC5E0E11C507DF2003CF8E9 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SSZipArchive.framework; path = "Pods/../build/Debug-iphoneos/SSZipArchive.framework"; sourceTree = "<group>"; };
 		9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
-		9BC8BE2485A09CDC45C09187 /* Pods-AccentEasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.debug.xcconfig"; sourceTree = "<group>"; };
 		9BCF9D521CCDFDEF00445FE8 /* AECourse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AECourse.swift; path = Data/Entity/Lesson/AECourse.swift; sourceTree = "<group>"; };
 		9BEF044A1C59B6D200E474F3 /* RecordingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingView.h; path = RecordingView/RecordingView.h; sourceTree = "<group>"; };
 		9BEF044B1C59B6D200E474F3 /* RecordingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingView.m; path = RecordingView/RecordingView.m; sourceTree = "<group>"; };
@@ -832,6 +850,10 @@
 		9BEF04571C59B90B00E474F3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9BEF04661C59CE1B00E474F3 /* RecordingPlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingPlayController.h; path = RecordingView/RecordingPlayController.h; sourceTree = "<group>"; };
 		9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingPlayViewController.m; path = RecordingView/RecordingPlayViewController.m; sourceTree = "<group>"; };
+		A6A5536381129EC8ABDD2F0B /* Pods_AccentEasyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEBB1366B44D103DC156A720 /* Pods-AccentEasyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasyUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasyUITests/Pods-AccentEasyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AECCD34163137A079EF96245 /* Pods-AccentEasyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasyUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasyUITests/Pods-AccentEasyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BDF65F11D955B5318C6C785D /* Pods-AccentEasyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasyTests/Pods-AccentEasyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C1056C1E1C84052F00F75CCC /* FSDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSDetailVC.swift; sourceTree = "<group>"; };
 		C1056C2A1C85437000F75CCC /* FSScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSScreen.swift; sourceTree = "<group>"; };
 		C109066E1C7579FA0071206D /* Menu-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-100.png"; sourceTree = "<group>"; };
@@ -1054,7 +1076,7 @@
 		C1FA8A9E1C88195600051958 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
 		C1FA8AA91C881A2900051958 /* Back-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25@2x.png"; sourceTree = "<group>"; };
 		C1FAD50F1C55DCCC00385D74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		E34A34897D2BD671737AD050 /* Pods-AccentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.release.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.release.xcconfig"; sourceTree = "<group>"; };
+		C4C8CBBB70051F17E47D9086 /* Pods-AccentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.release.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1076,7 +1098,7 @@
 				9BA3AB671C4F862300C6631D /* libz.tbd in Frameworks */,
 				9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */,
 				9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */,
-				5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */,
+				BEF42E96B7C3A9BE9A152669 /* Pods_AccentEasy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1084,6 +1106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0E1E1F575A4A23D911DC0F3 /* Pods_AccentEasyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,6 +1114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F35FD03D9EC88C33BC0B1F5 /* Pods_AccentEasyUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1108,7 +1132,9 @@
 				9BC5E0DF1C507DF2003CF8E9 /* ObjectMapper.framework */,
 				9BC5E0E01C507DF2003CF8E9 /* SQLite.framework */,
 				9BC5E0E11C507DF2003CF8E9 /* SSZipArchive.framework */,
-				67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */,
+				400202E588A3C51D28C33998 /* Pods_AccentEasy.framework */,
+				A6A5536381129EC8ABDD2F0B /* Pods_AccentEasyTests.framework */,
+				45AE770DFC2C33AF9DFE40F7 /* Pods_AccentEasyUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1131,6 +1157,19 @@
 				9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */,
 			);
 			name = Entity;
+			sourceTree = "<group>";
+		};
+		91FF4526192EF4D7CF0AC017 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				42625799D6E2CB70154A578B /* Pods-AccentEasy.debug.xcconfig */,
+				C4C8CBBB70051F17E47D9086 /* Pods-AccentEasy.release.xcconfig */,
+				BDF65F11D955B5318C6C785D /* Pods-AccentEasyTests.debug.xcconfig */,
+				60C9758DB855D7BA14C4BBDE /* Pods-AccentEasyTests.release.xcconfig */,
+				AEBB1366B44D103DC156A720 /* Pods-AccentEasyUITests.debug.xcconfig */,
+				AECCD34163137A079EF96245 /* Pods-AccentEasyUITests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		9B287B201CB747D500C761A1 /* Fonts */ = {
@@ -1592,6 +1631,8 @@
 				9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */,
 				9B72D1501C9C093200297470 /* NSLogger.framework */,
 				9BC5E0FD1C50803C003CF8E9 /* Pods_AccentEasy.framework */,
+				9B76415B1CE58010007E434D /* Pods_AccentEasyTests.framework */,
+				9B76415D1CE58010007E434D /* Pods_AccentEasyUITests.framework */,
 				9053FE101C87E92E0059A423 /* RDVTabBarController.framework */,
 				9B4009831C9974900011EEF8 /* SloppySwiper.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
@@ -1614,15 +1655,6 @@
 				9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */,
 			);
 			name = RecordingView;
-			sourceTree = "<group>";
-		};
-		B0D7FAF0A1EAFD306EEC9A6F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9BC8BE2485A09CDC45C09187 /* Pods-AccentEasy.debug.xcconfig */,
-				E34A34897D2BD671737AD050 /* Pods-AccentEasy.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		C11254CE1C4C9C4500B0780F /* Service */ = {
@@ -1749,8 +1781,8 @@
 				C141C8141C3E203C001D1F9C /* AccentEasyTests */,
 				C141C81F1C3E203C001D1F9C /* AccentEasyUITests */,
 				C141C7FE1C3E203C001D1F9C /* Products */,
-				B0D7FAF0A1EAFD306EEC9A6F /* Pods */,
 				7FB2C4D9E32C40E897800F4C /* Frameworks */,
+				91FF4526192EF4D7CF0AC017 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2157,13 +2189,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C141C8251C3E203C001D1F9C /* Build configuration list for PBXNativeTarget "AccentEasy" */;
 			buildPhases = (
-				70EB98A3A7E9F462937CEE56 /* Check Pods Manifest.lock */,
+				ED5EDFAA8D2974C1A89614E7 /* 📦 Check Pods Manifest.lock */,
 				C141C7F91C3E203C001D1F9C /* Sources */,
 				C141C7FB1C3E203C001D1F9C /* Resources */,
 				9B8E9EBB1C44F1730033EF45 /* ShellScript */,
 				C141C7FA1C3E203C001D1F9C /* Frameworks */,
-				2799989258402FE28C4A9F0A /* Embed Pods Frameworks */,
-				98E616164C5083CF338D0E24 /* Copy Pods Resources */,
+				D23EA58C8333154D5527E97A /* 📦 Embed Pods Frameworks */,
+				B81075B4C69D3DB18E772B31 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2178,9 +2210,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C141C8281C3E203C001D1F9C /* Build configuration list for PBXNativeTarget "AccentEasyTests" */;
 			buildPhases = (
+				CDFE089B1E874F5A802AAB0D /* 📦 Check Pods Manifest.lock */,
 				C141C80D1C3E203C001D1F9C /* Sources */,
 				C141C80E1C3E203C001D1F9C /* Frameworks */,
 				C141C80F1C3E203C001D1F9C /* Resources */,
+				3B7A4ACA0BA12ABD0267D2E2 /* 📦 Embed Pods Frameworks */,
+				70F0C413B4E890713C0EF932 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2196,9 +2231,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C141C82B1C3E203C001D1F9C /* Build configuration list for PBXNativeTarget "AccentEasyUITests" */;
 			buildPhases = (
+				DF22EC96F5D4238AD70E7D76 /* 📦 Check Pods Manifest.lock */,
 				C141C8181C3E203C001D1F9C /* Sources */,
 				C141C8191C3E203C001D1F9C /* Frameworks */,
 				C141C81A1C3E203C001D1F9C /* Resources */,
+				12E2E4EE4E7EB04629DB17B5 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2309,6 +2346,20 @@
 			fileType = wrapper.framework;
 			path = NSLogger.framework;
 			remoteRef = 9B72D14F1C9C093200297470 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B76415B1CE58010007E434D /* Pods_AccentEasyTests.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_AccentEasyTests.framework;
+			remoteRef = 9B76415A1CE58010007E434D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B76415D1CE58010007E434D /* Pods_AccentEasyUITests.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_AccentEasyUITests.framework;
+			remoteRef = 9B76415C1CE58010007E434D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9BC5E0F31C50803C003CF8E9 /* Bolts.framework */ = {
@@ -2568,49 +2619,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2799989258402FE28C4A9F0A /* Embed Pods Frameworks */ = {
+		12E2E4EE4E7EB04629DB17B5 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AccentEasyUITests/Pods-AccentEasyUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		70EB98A3A7E9F462937CEE56 /* Check Pods Manifest.lock */ = {
+		3B7A4ACA0BA12ABD0267D2E2 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AccentEasyTests/Pods-AccentEasyTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		98E616164C5083CF338D0E24 /* Copy Pods Resources */ = {
+		70F0C413B4E890713C0EF932 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AccentEasyTests/Pods-AccentEasyTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B8E9EBB1C44F1730033EF45 /* ShellScript */ = {
@@ -2625,6 +2676,81 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run b2e1b26db34748286e936a40299c23c6d522a768 a0e9f955c07826a871d6d2aba857259ecb7eda708f6fbd4d85acb1c371dff693";
+		};
+		B81075B4C69D3DB18E772B31 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CDFE089B1E874F5A802AAB0D /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D23EA58C8333154D5527E97A /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DF22EC96F5D4238AD70E7D76 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		ED5EDFAA8D2974C1A89614E7 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3029,7 +3155,7 @@
 		};
 		C141C8261C3E203C001D1F9C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9BC8BE2485A09CDC45C09187 /* Pods-AccentEasy.debug.xcconfig */;
+			baseConfigurationReference = 42625799D6E2CB70154A578B /* Pods-AccentEasy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3060,7 +3186,7 @@
 		};
 		C141C8271C3E203C001D1F9C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E34A34897D2BD671737AD050 /* Pods-AccentEasy.release.xcconfig */;
+			baseConfigurationReference = C4C8CBBB70051F17E47D9086 /* Pods-AccentEasy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3090,6 +3216,7 @@
 		};
 		C141C8291C3E203C001D1F9C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF65F11D955B5318C6C785D /* Pods-AccentEasyTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = AccentEasyTests/Info.plist;
@@ -3102,6 +3229,7 @@
 		};
 		C141C82A1C3E203C001D1F9C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 60C9758DB855D7BA14C4BBDE /* Pods-AccentEasyTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = AccentEasyTests/Info.plist;
@@ -3114,6 +3242,7 @@
 		};
 		C141C82C1C3E203C001D1F9C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AEBB1366B44D103DC156A720 /* Pods-AccentEasyUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = AccentEasyUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3126,6 +3255,7 @@
 		};
 		C141C82D1C3E203C001D1F9C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AECCD34163137A079EF96245 /* Pods-AccentEasyUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = AccentEasyUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

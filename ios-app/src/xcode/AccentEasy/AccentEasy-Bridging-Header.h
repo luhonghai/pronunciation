@@ -7,7 +7,6 @@
 #import <sqlite3.h>
 #import "SQLite-Bridging.h"
 #import "ObjectMapper.h"
-#import <NSLogger/NSLogger.h>
 #import <CommonCrypto/CommonCrypto.h>
 //#import "RecordingView.h"
 //#import <GoogleSignIn/GoogleSignIn.h>

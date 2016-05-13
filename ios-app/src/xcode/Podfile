@@ -20,7 +20,7 @@ target 'AccentEasy' do
     pod 'RDVTabBarController'
     pod 'ImageLoader'
     pod 'SloppySwiper'
-    pod 'NSLogger'
+    #pod 'NSLogger'
     pod 'BEMCheckBox'
     pod 'youtube-ios-player-helper'
 end
