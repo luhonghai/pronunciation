@@ -276,7 +276,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 
             }
             AccountManager.updateProfile(userProfile)
-            weakSelf!.getInvitationData()
+            weakSelf!.getUserProfile ()
         }
     }
     
@@ -314,6 +314,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 if success {
                     //userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
+                    weakSelf!.getInvitationData()
                     //weakSelf!.hidenLoadding()
                     //weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
                 } else {
@@ -328,9 +329,22 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         weak var weakSelf = self
         AccountManager.getInvitationData(AccountManager.currentUser()) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(),{
-                weakSelf!.getUserProfile()
+                //check invitation
+                var countInvitation:Int=0
+                for invitation in AccountManager.currentUser().invitationData {
+                    if invitation.status == InvitationStatus.pending {
+                        countInvitation += 1
+                    }
+                }
                 weakSelf!.hidenLoadding()
-                weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                if (countInvitation > 0){
+                    //move to invitation page
+                    let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("InvitationMainVC") as! InvitationMainVC
+                    //self.navigationController?.popToRootViewControllerAnimated(false)
+                    self.navigationController?.pushViewController(nextController, animated: false)
+                }else {
+                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                }
             })
         }
     }

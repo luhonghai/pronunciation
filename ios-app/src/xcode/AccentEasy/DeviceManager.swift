@@ -82,10 +82,10 @@ class DeviceManager {
     }
     
     class func imei() -> String {
-        let newUniqueID = CFUUIDCreate(kCFAllocatorDefault)
-        let newUniqueIDString = CFUUIDCreateString(kCFAllocatorDefault, newUniqueID);
-        let guid = newUniqueIDString as NSString
-        return guid.lowercaseString
+        let UUIDValue = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        //print("UUID: \(UUIDValue)")
+        Logger.log("UUID: \(UUIDValue.lowercaseString)")
+        return UUIDValue.lowercaseString
     }
     
     class func appVersion() -> String {

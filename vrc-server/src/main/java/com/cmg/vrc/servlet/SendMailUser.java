@@ -9,6 +9,7 @@ import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.service.MessageService;
 import com.cmg.vrc.util.StringUtil;
 import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Notification;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -98,9 +99,9 @@ public class SendMailUser extends HttpServlet{
     private File currentLogFile;
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
     private void appendLog(String log) {
+        logger.info(log);
         if (currentLogFile != null) {
             try {
-                logger.info(log);
                 FileUtils.writeStringToFile(currentLogFile,
                         sdf.format(new Date(System.currentTimeMillis())) + " " + log + "\n",
                         "UTF-8", true);
@@ -127,6 +128,7 @@ public class SendMailUser extends HttpServlet{
         UserDAO userDAO=new UserDAO();
         Mail mails=new Mail();
         String action=request.getParameter("action");
+        appendMessage("run in doPost" + action);
         if(action.equalsIgnoreCase("send")) {
             String jsonClient = (String) StringUtil.isNull(request.getParameter("listmail"), "");
             Gson gson = new Gson();
@@ -171,6 +173,7 @@ public class SendMailUser extends HttpServlet{
                     }
                 }
                 if(users!=null && users.size()>0 && notExist.size()==0) {
+                    appendMessage("run in sendGcmMessage");
                     sendGcmMessage(users,teacher);
                 }
                 if(notExist.size()==0){
@@ -384,20 +387,27 @@ public class SendMailUser extends HttpServlet{
                     }
                 }
             }
+
+            List<String> gcmIds = new ArrayList<>();
+
             for(User user:users){
                 UserDevice userDevice=new UserDevice();
                 Usage usage=new Usage();
                 usage=usageDAO.getByUserName(user.getUsername());
                 if(usage!=null) {
-                    userDevice = userDeviceDAO.getDeviceByIMEI(usage.getImei());
+                    appendMessage(user.getUsername() + " have number GCMID: " + userDeviceDAO.getListGCMID(usage.getUsername()).size());
+                    gcmIds.addAll(userDeviceDAO.getListGCMID(usage.getUsername()));
+
+                    /*userDevice = userDeviceDAO.getDeviceByIMEI(usage.getImei());
+                    appendMessage("User device " + userDevice.getGcmId() + ". IMEI: " + usage.getImei());
                     if(userDevice!=null){
                         userDevices.add(userDevice);
-                    }
+                    }*/
                 }
 
             }
 
-            List<String> gcmIds = new ArrayList<>();
+            /*
             if (userDevices != null && userDevices.size() > 0) {
                 for (UserDevice userDevice : userDevices) {
                     String gcmId = userDevice.getGcmId();
@@ -405,10 +415,13 @@ public class SendMailUser extends HttpServlet{
                         gcmIds.add(gcmId);
                     }
                 }
-            }
+            }*/
+
             appendMessage("Send message to " + gcmIds.size() + " device(s)");
+            String mess = "Teacher '"+teacher+"' would like to add you to their accenteasy class to help with training.";
             if (gcmIds.size() > 0) {
-                Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).build();
+                Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).notification(new Notification.Builder("").title("New accenteasy message").body(mess).build()).priority(Message.Priority.HIGH).build();
+                //Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).priority(Message.Priority.HIGH).build();
                 MessageService messageService = new MessageService(mMessage);
                 messageService.doPostMessage(gcmIds);
 

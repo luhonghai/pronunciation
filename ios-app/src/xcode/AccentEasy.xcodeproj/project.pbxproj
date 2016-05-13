@@ -282,6 +282,7 @@
 		C1304D2D1C981E3A00CE72C5 /* LSPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */; };
 		C1304D2E1C981E3A00CE72C5 /* LSPopupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */; };
 		C1304D411C9972C600CE72C5 /* LessonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */; };
+		C13924B31CE41EAE000DA690 /* BaseUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13924B21CE41EAE000DA690 /* BaseUIViewController.swift */; };
 		C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D561C58B75C0036A5E9 /* Login.swift */; };
 		C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */; };
 		C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */; };
@@ -863,6 +864,7 @@
 		C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupCell.swift; sourceTree = "<group>"; };
 		C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupCell.xib; sourceTree = "<group>"; };
 		C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonTableViewCell.swift; sourceTree = "<group>"; };
+		C13924B21CE41EAE000DA690 /* BaseUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseUIViewController.swift; path = Common/BaseUIViewController.swift; sourceTree = "<group>"; };
 		C13A5D561C58B75C0036A5E9 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5233-CityGuideImage.jpg"; sourceTree = "<group>"; };
@@ -1656,6 +1658,7 @@
 				9B72D13F1C9C03EB00297470 /* Logger.swift */,
 				9B17BBBB1C9FB537000761FC /* StringHelper.swift */,
 				C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */,
+				C13924B21CE41EAE000DA690 /* BaseUIViewController.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2654,6 +2657,7 @@
 				9B5F338B1C77129A00E85629 /* IBubbleChartDataSet.swift in Sources */,
 				9B5F339E1C77129A00E85629 /* HorizontalBarChartHighlighter.swift in Sources */,
 				9B5F33761C77129A00E85629 /* BubbleChartDataEntry.swift in Sources */,
+				C13924B31CE41EAE000DA690 /* BaseUIViewController.swift in Sources */,
 				9B5F34141C771D6800E85629 /* CoreFunctions.swift in Sources */,
 				9B5F34251C771E6000E85629 /* Client.swift in Sources */,
 				9B5F34111C771D6800E85629 /* Helpers.swift in Sources */,

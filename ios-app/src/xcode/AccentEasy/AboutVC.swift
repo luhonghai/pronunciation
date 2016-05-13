@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AboutVC: UIViewController {
+class AboutVC: BaseUIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var webView: UIWebView!
@@ -32,6 +32,7 @@ class AboutVC: UIViewController {
         
         navigationItem.title = "about"
         setNavigationBarTransparent()
+        
     }
     
     override func viewWillLayoutSubviews() {
