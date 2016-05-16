@@ -76,7 +76,7 @@ function deleteCourse(){
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
                 swalNew("", "deleted successfully", "success");
-                window.history.back();
+                window.location.href = "/my-courses.jsp";
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -84,7 +84,7 @@ function deleteCourse(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("could not connect to server!");
+            currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });

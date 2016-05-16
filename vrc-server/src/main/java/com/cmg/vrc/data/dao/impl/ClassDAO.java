@@ -246,6 +246,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         StringBuffer query = new StringBuffer();
         String firstQuery = "select DISTINCT course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID inner join "+metaCourseMappingClass.getTable()+" class on course.id=class.idCourse where class.idClass='"+idClass+"'  and mapping.tID='"+teacherID+"' and mapping.status='"+status+"' and course.isDeleted=false and mapping.isDeleted=false and class.isDeleted=false";
         query.append(firstQuery);
+        System.out.println("query get course selected in class " + query.toString());
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<Course> courses = new ArrayList<>();
@@ -329,6 +330,8 @@ public class ClassDAO extends DataAccess<ClassJDO> {
             pm.close();
         }
     }
+
+
 
     public void updateStudentMappingClassEdit(String idClass) throws Exception{
 

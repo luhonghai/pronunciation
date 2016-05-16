@@ -77,7 +77,7 @@ function reloadSearch(){
 }
 
 function collapseMenu(){
-    $("#li-courses").find('ul').addClass('in');
+    //$("#li-courses").find('ul').addClass('in');
 }
 function focusInput(){
     $('.modal').on('shown.bs.modal', function() {

@@ -257,7 +257,7 @@ function openPopup(itemData){
         var levelItem = treeAPI.itemData(level);
         var row = nameOfCourse +" > "+levelItem.label+ " > " + test.label;
         getExplanationTest().attr("row",row);
-        var breadCrumb = nameOfCourse + " > " + level.label;
+        var breadCrumb = nameOfCourse + " > " + levelItem.label;
         if(breadCrumb.length > 30){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
@@ -276,7 +276,7 @@ function openPopup(itemData){
 function drawListWord(listWord){
     var list=readListMail(listWord);
     getListWord().html("");
-    getListWordTest().html();
+    getListWordTest().html("");
     if(list!=null && list.length>0){
         list.sort(function(a, b) {
             return a == b ? 0 : +(a > b) || -1;

@@ -296,10 +296,15 @@ public class UnitTesting {
             Level lv = new Level();
             lv.setId("test");
             lvdao.put(lv);*/
-            LMQDAO dao = new LMQDAO();
+            /*LMQDAO dao = new LMQDAO();
             LessonMappingQuestion lmq = new LessonMappingQuestion();
             lmq.setId("tesst");
-            dao.put(lmq);
+            dao.put(lmq);*/
+
+            AdminDAO dao = new AdminDAO();
+            String usn = "demoTeacher1@c-mg.com";
+            Admin adm = dao.getUserByEmailPassword(usn.toLowerCase(),StringUtil.md5("123"));
+            System.out.println(adm.getUserName());
         } catch (Exception e) {
             e.printStackTrace();
         }

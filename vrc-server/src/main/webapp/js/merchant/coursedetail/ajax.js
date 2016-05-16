@@ -72,7 +72,7 @@ function deleteCourse(){
                 currentPopup.modal('hide');
                 confirmDeletePopup().modal('hide');
                 swalNew("", "deleted successfully", "success");
-                window.history.back();
+                window.location.href = "/my-courses.jsp";
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');

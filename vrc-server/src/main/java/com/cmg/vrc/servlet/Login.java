@@ -46,7 +46,7 @@ import java.io.IOException;
         String pass=request.getParameter("pass");
         logins logins=new logins();
         try {
-           Admin admin= adminDAO.getUserByEmailPassword(name, StringUtil.md5(pass));
+           Admin admin= adminDAO.getUserByEmailPassword(name.toLowerCase(), StringUtil.md5(pass));
             if (admin!=null){
                     session.setAttribute("nambui",admin);
                     session.setAttribute("id",admin.getId());

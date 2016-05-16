@@ -162,6 +162,58 @@ function validateFormAdd(){
     return true;
 }
 
+function validateFormAdd(){
+    var className= $.trim($("#addClassName").val());
+    if(className == "" || className.length == 0 || typeof className ==='undefined'){
+        $("#add").find(".validateMsg").html("please enter a class name");
+        $("#add").find(".validateMsg").show();
+        return false;
+    }else{
+        $("#add").find(".validateMsg").hide();
+    }
+    var courses=[];
+    var students = [];
+    $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
+    $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
+    if(courses.length == 0 ){
+        $("#add").find(".validateMsg").html("please choose a course");
+        $("#add").find(".validateMsg").show();
+        return false;
+    }
+    if(students.length == 0 ){
+        $("#add").find(".validateMsg").html("please choose a student");
+        $("#add").find(".validateMsg").show();
+        return false;
+    }
+    return true;
+}
+function validateFormEdit(){
+    var className= $.trim($("#editClassName").val());
+    if(className == "" || className.length == 0 || typeof className ==='undefined'){
+        $("#edits").find(".validateMsg").html("please enter a class name");
+        $("#edits").find(".validateMsg").show();
+        return false;
+    }else{
+        $("#edits").find(".validateMsg").hide();
+    }
+    var courses=[];
+    var students = [];
+    $('#editCourses option:selected').map(function(a, item){ courses.push(item.value);});
+    $('#editStudents option:selected').map(function(a, item){ students.push(item.value);});
+    if(courses.length == 0 ){
+        $("#edits").find(".validateMsg").html("please choose a course");
+        $("#edits").find(".validateMsg").show();
+        return false;
+    }
+    if(students.length == 0 ){
+        $("#edits").find(".validateMsg").html("please choose a student");
+        $("#edits").find(".validateMsg").show();
+        return false;
+    }
+    return true;
+}
+
+
 function cancelDelete(){
     $(document).on("click","#cancel", function(){
         $("#confirmDelete").modal('hide');
@@ -290,40 +342,41 @@ function editClass(){
         var id = $("#idedit").val();
         var classname = $("#editClassName").val();
         var definition = $("#editDefinition").val();
-        $.ajax({
-            url: "ClassServlet",
-            type: "POST",
-            dataType: "text",
-            data: {
-                action: "editClass",
-                id: id,
-                difinition: definition,
-                classname:classname,
-                objDto: JSON.stringify(dto)
-            },
-            success: function (data) {
-                if (data == "success") {
-                    $("#listMyClass").empty();
-                    listMyClasses();
-                    $("#edits").modal('hide');
-                    swalNew("", "updated successfully", "success");
-                }else if (data == "not exist"){
-                    $("#deletes").modal('hide');
-                    swalNew("","This class has been already deleted", "warning");
-                    location.reload();
-                }else if(data == "name existed"){
-                    $("#classExits").find("#invalidClass").html(classname);
-                    $("#classExits").modal('show');
-                }else{
+        if(validateFormEdit()){
+            $.ajax({
+                url: "ClassServlet",
+                type: "POST",
+                dataType: "text",
+                data: {
+                    action: "editClass",
+                    id: id,
+                    difinition: definition,
+                    classname:classname,
+                    objDto: JSON.stringify(dto)
+                },
+                success: function (data) {
+                    if (data == "success") {
+                        $("#listMyClass").empty();
+                        listMyClasses();
+                        $("#edits").modal('hide');
+                        swalNew("", "updated successfully", "success");
+                    }else if (data == "not exist"){
+                        $("#deletes").modal('hide');
+                        swalNew("","This class has been already deleted", "warning");
+                        location.reload();
+                    }else if(data == "name existed"){
+                        $("#classExits").find("#invalidClass").html(classname);
+                        $("#classExits").modal('show');
+                    }else{
+                        swalNew("", "could not connect to server", "error");
+                    }
+                },
+                error: function () {
                     swalNew("", "could not connect to server", "error");
                 }
-            },
-            error: function () {
-                swalNew("", "could not connect to server", "error");
-            }
 
-        });
-
+            });
+        }
     });
 }
 function helpMyClass(){

@@ -60,7 +60,7 @@
       </div>
       <div class="row">
         <label class="col-sm-2"></label>
-        <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_students80x80.gif" title="my students" style="text-align: center"></div>
+        <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_students80x80.png" title="my students" style="text-align: center;width:80px;height: 80px"></div>
         <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_courses80x80.gif" title="my courses"></div>
         <label class="col-sm-2"></label>
       </div>

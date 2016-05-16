@@ -169,6 +169,9 @@ function disabledAllTextBox(){
         $(this).find('textarea').each(function(){
             $(this).attr('disabled','disabled');
         });
+        $(this).find('button').each(function(){
+            $(this).attr('disabled','disabled');
+        });
     });
 }
 function collapseMenu(){
