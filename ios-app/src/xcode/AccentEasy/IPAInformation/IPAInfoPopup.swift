@@ -27,7 +27,7 @@ class IPAInfoPopup: UIViewController {
     
     @IBAction func playVideo(sender: AnyObject) {
         let youtubePlayer = YouTubePlayer()
-        youtubePlayer.show(UIScreen.mainScreen().applicationFrame, videoId: selectedIpa.youtubeVideoId)
+        youtubePlayer.show(selectedIpa.youtubeVideoId)
     }
     
     @IBAction func clickClose(sender: AnyObject) {

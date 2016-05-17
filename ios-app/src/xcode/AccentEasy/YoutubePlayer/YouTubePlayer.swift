@@ -45,6 +45,10 @@ class YouTubePlayer: UIView {
         isShowing = false
     }
     
+    func show(videoId: String) {
+        show(UIScreen.mainScreen().applicationFrame, videoId: videoId)
+    }
+    
     func show(rect: CGRect, videoId: String) {
         if let app = UIApplication.sharedApplication().delegate as? AppDelegate, let window = app.window {
             self.frame = rect

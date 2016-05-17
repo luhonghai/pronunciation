@@ -1,12 +1,18 @@
 package com.cmg.vrc.data.dao.impl;
 
+import com.cmg.lesson.data.jdo.country.CountryMappingCourse;
+import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.PhonemeScoreDB;
+import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.metadata.TypeMetadata;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lantb on 2015-09-01.
@@ -86,5 +92,31 @@ public class PhonemeScoreDAO extends DataAccess<PhonemeScoreDB> {
         return false;
     }
 
-
+    /**
+     * Added by Hai to calculate avg score phoneme
+     * @param username
+     * @return
+     */
+    public Map<String, Integer> getAvgPhonemeScore(String username) {
+        Map<String, Integer> map = new HashMap<>();
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("javax.jdo.query.SQL", FileHelper.readQuery("select_avg_phoneme_score.sql"));
+        try {
+            List<Object> tmp = (List<Object>) q.execute(username, username);
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    Object[] array = (Object[]) obj;
+                    map.put(array[0].toString(), array[1] == null ? -1 : Math.round(Float.parseFloat(array[1].toString())));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return map;
+    }
 }

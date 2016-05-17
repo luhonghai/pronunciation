@@ -22,13 +22,14 @@ class IPAPopupVC: UIViewController {
     @IBOutlet weak var lblIPA: UILabel!
     @IBOutlet weak var btnPlayExample: UIButton!
     @IBOutlet weak var btnShowChart: UIButton!
-    @IBOutlet weak var viewShowChart: UIView!
+    @IBOutlet weak var btnTop: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         btnPlayExample.layer.cornerRadius = btnPlayExample.frame.size.width/2
-        viewShowChart.layer.cornerRadius = viewShowChart.frame.size.width/2
+        btnShowChart.layer.cornerRadius = btnShowChart.frame.size.width/2
+        btnTop.layer.cornerRadius = btnTop.frame.size.width/2
         // Do any additional setup after loading the view.
         
         var pImage = UIImage(named: "ic_play.png")!
@@ -38,7 +39,6 @@ class IPAPopupVC: UIViewController {
         var sImage = UIImage(named: "ic_graph.png")!
         sImage = ImageHelper.imageWithImage(image: sImage, w: 30, h: 30)
         btnShowChart.setImage(sImage, forState: UIControlState.Normal)
-
     }
     
     override func viewDidDisappear(animated: Bool) {

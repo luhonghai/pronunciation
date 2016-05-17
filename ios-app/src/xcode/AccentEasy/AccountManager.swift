@@ -218,6 +218,31 @@ class AccountManager {
                 }
             })
         
+       
+    }
+    
+    class func getAvgPhonemeScore(userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        userProfile.deviceInfo = DeviceManager.deviceInfo()
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        
+        client.post("/avg_phoneme_score").type("form").send(["profile": JSONHelper.toJson(userProfile)])
+            .end({(res:Response) -> Void in
+                Logger.log("getAvgPhonemeScore response: \(res.text)")
+                if(res.error) { // status of 2xx
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                }
+                else {
+                    let result:AvgPhonemeScore = JSONHelper.fromJson(res.text!)
+                    if result.data != nil {
+                        Logger.log("Avg phoneme score count \(result.data?.count)")
+                    }
+                    completion(userProfile: userProfile, success: result.status!, message: result.message!)
+                }
+            })
         
     }
     
@@ -414,6 +439,9 @@ class AccountManager {
                     }
                 }
             })
+        getAvgPhonemeScore(userProfile) { (userProfile, success, message) in
+            
+        }
     }
     
     class func getInvitationData(userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {

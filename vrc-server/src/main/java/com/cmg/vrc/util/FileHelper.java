@@ -429,4 +429,16 @@ public final class FileHelper {
 		}
 		return tmp;
 	}
+
+	public static String readQuery(String name) {
+		InputStream is = FileHelper.class.getResourceAsStream("/database/query/" + name);
+		try {
+			return IOUtils.toString(is, "UTF-8");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			IOUtils.closeQuietly(is);
+		}
+		return "";
+	}
 }
