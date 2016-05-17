@@ -15,9 +15,9 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     var showLogin:Int!
     var isShowLogin:Bool!
-
+    
     var currentUser: UserProfile!
-
+    
     //@IBOutlet weak var signInButton: GIDSignInButton!
     //@IBOutlet weak var btnLoginG: GIDSignInButton!
     
@@ -45,13 +45,13 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     override func viewWillAppear(animated: Bool) {
         /*if FBSDKAccessToken.currentAccessToken() != nil {
-            let mainPage = self.storyboard?.instantiateViewControllerWithIdentifier("TestNewScreenViewController") as! TestNewScreenViewController
-            let mainPageNav = UINavigationController(rootViewController: mainPage)
-            
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            
-                appDelegate.window?.rootViewController = mainPageNav
-        }*/
+         let mainPage = self.storyboard?.instantiateViewControllerWithIdentifier("TestNewScreenViewController") as! TestNewScreenViewController
+         let mainPageNav = UINavigationController(rootViewController: mainPage)
+         
+         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+         
+         appDelegate.window?.rootViewController = mainPageNav
+         }*/
         
         //super.viewWillDisappear(animated)
     }
@@ -69,66 +69,66 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     @IBAction func btnLoginGTapped(sender: AnyObject) {
         DeviceManager.doIfConnectedToNetwork { (status) -> Void in
             if status {
-            GIDSignIn.sharedInstance().signIn()
+                GIDSignIn.sharedInstance().signIn()
             }
         }
     }
     
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
-        withError error: NSError!) {
-            if (error == nil) {
-                Logger.log("run in google sign in")
-                // Perform any operations on signed in user here.
-                let userId:String = user.userID                  // For client-side use only!
-                let idToken:String = user.authentication.idToken // Safe to send to the server
-                let name:String = user.profile.name
-                let email:String = user.profile.email
-                //let birthday = user.profile.
-                let urlImage:String = user.profile.imageURLWithDimension(320).absoluteString
-                //Logger.log("avatar")
-                //Logger.log(urlAvate)
-                //Logger.log(userId)
-                
-                // [START_EXCLUDE]
-                NSNotificationCenter.defaultCenter().postNotificationName(
-                    "ToggleAuthUINotification",
-                    object: nil,
-                    userInfo: ["statusText": "Signed in user:\n\(name)"])
-                // [END_EXCLUDE]
-                
-                /*let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                
-                let mainPage = mainStoryBoard.instantiateViewControllerWithIdentifier("SWRevealViewController") as! SWRevealViewController
-                
-                
-                let mainPageNav = UINavigationController(rootViewController: mainPage)
-                
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                
-                appDelegate.window?.rootViewController = mainPageNav*/
-                //add data for JSONStringUserProfile
-                let userProfile:UserProfile = AccountManager.currentUser(email)
-                userProfile.name = name
-                userProfile.username = email
-                userProfile.profileImage = urlImage
-                //userProfile.dob = result.valueForKey("birthday") as! String
-                userProfile.additionalToken = idToken
-                userProfile.loginType = UserProfile.TYPE_GOOGLE_PLUS
-                
-                currentUser = userProfile
-                self.registerUserProfile()
-                //show loadding
-                self.showLoadding()
-                
-            } else {
-                Logger.log("\(error.localizedDescription)")
-                // [START_EXCLUDE silent]
-                NSNotificationCenter.defaultCenter().postNotificationName(
-                    "ToggleAuthUINotification", object: nil, userInfo: nil)
-                // [END_EXCLUDE]
-            }
+                withError error: NSError!) {
+        if (error == nil) {
+            Logger.log("run in google sign in")
+            // Perform any operations on signed in user here.
+            let userId:String = user.userID                  // For client-side use only!
+            let idToken:String = user.authentication.idToken // Safe to send to the server
+            let name:String = user.profile.name
+            let email:String = user.profile.email
+            //let birthday = user.profile.
+            let urlImage:String = user.profile.imageURLWithDimension(320).absoluteString
+            //Logger.log("avatar")
+            //Logger.log(urlAvate)
+            //Logger.log(userId)
+            
+            // [START_EXCLUDE]
+            NSNotificationCenter.defaultCenter().postNotificationName(
+                "ToggleAuthUINotification",
+                object: nil,
+                userInfo: ["statusText": "Signed in user:\n\(name)"])
+            // [END_EXCLUDE]
+            
+            /*let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+             
+             let mainPage = mainStoryBoard.instantiateViewControllerWithIdentifier("SWRevealViewController") as! SWRevealViewController
+             
+             
+             let mainPageNav = UINavigationController(rootViewController: mainPage)
+             
+             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+             
+             appDelegate.window?.rootViewController = mainPageNav*/
+            //add data for JSONStringUserProfile
+            let userProfile:UserProfile = AccountManager.currentUser(email)
+            userProfile.name = name
+            userProfile.username = email
+            userProfile.profileImage = urlImage
+            //userProfile.dob = result.valueForKey("birthday") as! String
+            userProfile.additionalToken = idToken
+            userProfile.loginType = UserProfile.TYPE_GOOGLE_PLUS
+            
+            currentUser = userProfile
+            self.registerUserProfile()
+            //show loadding
+            self.showLoadding()
+            
+        } else {
+            Logger.log("\(error.localizedDescription)")
+            // [START_EXCLUDE silent]
+            NSNotificationCenter.defaultCenter().postNotificationName(
+                "ToggleAuthUINotification", object: nil, userInfo: nil)
+            // [END_EXCLUDE]
+        }
     }
-
+    
     
     
     
@@ -143,27 +143,27 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         
         
     }
-
+    
     
     // Present a view that prompts the user to sign in with Google
     func signIn(signIn: GIDSignIn!,
-        presentViewController viewController: UIViewController!) {
-            self.presentViewController(viewController, animated: true, completion: nil)
-            Logger.log("sign in presented")
+                presentViewController viewController: UIViewController!) {
+        self.presentViewController(viewController, animated: true, completion: nil)
+        Logger.log("sign in presented")
     }
     
     // Dismiss the "Sign in with Google" view
     func signIn(signIn: GIDSignIn!,
-        dismissViewController viewController: UIViewController!) {
-            self.dismissViewControllerAnimated(true, completion: nil)
-            Logger.log("sign in dismissed")
+                dismissViewController viewController: UIViewController!) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        Logger.log("sign in dismissed")
     }
     
     @IBAction func btnLoginFBTapped(sender: AnyObject) {
         DeviceManager.doIfConnectedToNetwork { (status) -> Void in
             if status {
-            self.fbLoginInitiate()
-            Logger.log("click login fb")
+                self.fbLoginInitiate()
+                Logger.log("click login fb")
             }
         }
     }
@@ -224,7 +224,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     let fbUser = ["accessToken": accessToken, "user": result]
                     //add data for JSONStringUserProfile
-                     var username = result.valueForKey("email")
+                    var username = result.valueForKey("email")
                     
                     if username == nil {
                         username = "\(userId)@facebook.com"
@@ -250,24 +250,6 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         }
     }
     
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
-    }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
-    }
-    
-    func showError(){
-        dispatch_async(dispatch_get_main_queue(),{
-            self.hidenLoadding()
-            AccountManager.showError()
-        })
-    }
-
     func fetchCourses(userProfile: UserProfile) {
         weak var weakSelf = self
         AccountManager.fetchCourses(userProfile) { (userProfile, success, message) -> Void in
@@ -276,7 +258,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 
             }
             AccountManager.updateProfile(userProfile)
-            weakSelf!.getUserProfile ()
+            weakSelf!.getInvitationData()
         }
     }
     
@@ -285,7 +267,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         AccountManager.register(currentUser) { (userProfile, success, message) -> Void in
             dispatch_async(dispatch_get_main_queue(),{
                 
-                 weakSelf!.loginMainPage()
+                weakSelf!.loginMainPage()
             })
         }
     }
@@ -314,7 +296,6 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 if success {
                     //userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
-                    weakSelf!.getInvitationData()
                     //weakSelf!.hidenLoadding()
                     //weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
                 } else {
@@ -329,22 +310,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         weak var weakSelf = self
         AccountManager.getInvitationData(AccountManager.currentUser()) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(),{
-                //check invitation
-                var countInvitation:Int=0
-                for invitation in AccountManager.currentUser().invitationData {
-                    if invitation.status == InvitationStatus.pending {
-                        countInvitation += 1
-                    }
-                }
+                weakSelf!.getUserProfile()
                 weakSelf!.hidenLoadding()
-                if (countInvitation > 0){
-                    //move to invitation page
-                    let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("InvitationMainVC") as! InvitationMainVC
-                    //self.navigationController?.popToRootViewControllerAnimated(false)
-                    self.navigationController?.pushViewController(nextController, animated: false)
-                }else {
-                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-                }
+                GlobalData.getInstance().isShowInvitation = true
+                weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
             })
         }
     }
@@ -379,19 +348,19 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
             } else if showLogin == 3 {
                 btnLoginAC.hidden = false
                 btnAltLogin.hidden = true
-            } 
-
+            }
+            
         }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

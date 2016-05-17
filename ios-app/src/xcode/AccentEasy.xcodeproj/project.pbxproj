@@ -330,6 +330,7 @@
 		C15322501CBA5F9E00629085 /* license.html in Resources */ = {isa = PBXBuildFile; fileRef = C153224D1CBA5F9E00629085 /* license.html */; };
 		C15322521CBA679200629085 /* LicenceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15322511CBA679200629085 /* LicenceVC.swift */; };
 		C15322541CBA68A000629085 /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15322531CBA68A000629085 /* FeedbackVC.swift */; };
+		C157953E1CEAD376006B04AA /* BaseUITableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C157953D1CEAD376006B04AA /* BaseUITableViewController.swift */; };
 		C159764C1CB6249500FA3B40 /* checked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = C159764B1CB6249500FA3B40 /* checked_checkbox.png */; };
 		C159765A1CB624A000FA3B40 /* unchecked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = C15976591CB624A000FA3B40 /* unchecked_checkbox.png */; };
 		C15977121C8D81B4002C0A2A /* SwiftOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */; };
@@ -442,6 +443,8 @@
 		C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */; };
 		C172A5831C97F70200BBBEC4 /* AECountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172A5821C97F70200BBBEC4 /* AECountry.swift */; };
 		C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */; };
+		C17AF2141CE8CE0A00164E66 /* InvitationNotificationPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17AF2121CE8CE0A00164E66 /* InvitationNotificationPopup.swift */; };
+		C17AF2151CE8CE0A00164E66 /* InvitationNotificationPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = C17AF2131CE8CE0A00164E66 /* InvitationNotificationPopup.xib */; };
 		C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */; };
 		C18B1D191CAA74BA0092502E /* LessonDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D181CAA74BA0092502E /* LessonDetailVC.swift */; };
 		C18B1D1B1CAA8BB50092502E /* QuestionCVDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */; };
@@ -920,6 +923,7 @@
 		C153224D1CBA5F9E00629085 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = license.html; sourceTree = "<group>"; };
 		C15322511CBA679200629085 /* LicenceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceVC.swift; sourceTree = "<group>"; };
 		C15322531CBA68A000629085 /* FeedbackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
+		C157953D1CEAD376006B04AA /* BaseUITableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseUITableViewController.swift; path = Common/BaseUITableViewController.swift; sourceTree = "<group>"; };
 		C159764B1CB6249500FA3B40 /* checked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked_checkbox.png; sourceTree = "<group>"; };
 		C15976591CB624A000FA3B40 /* unchecked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked_checkbox.png; sourceTree = "<group>"; };
 		C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftOverlays.swift; sourceTree = "<group>"; };
@@ -1032,6 +1036,8 @@
 		C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_up.png; sourceTree = "<group>"; };
 		C172A5821C97F70200BBBEC4 /* AECountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AECountry.swift; path = Data/Entity/Lesson/AECountry.swift; sourceTree = "<group>"; };
 		C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
+		C17AF2121CE8CE0A00164E66 /* InvitationNotificationPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvitationNotificationPopup.swift; path = InvitationController/InvitationNotificationPopup.swift; sourceTree = "<group>"; };
+		C17AF2131CE8CE0A00164E66 /* InvitationNotificationPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InvitationNotificationPopup.xib; path = InvitationController/InvitationNotificationPopup.xib; sourceTree = "<group>"; };
 		C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDefaultFunciton.swift; sourceTree = "<group>"; };
 		C18B1D181CAA74BA0092502E /* LessonDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonDetailVC.swift; sourceTree = "<group>"; };
 		C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCVDatasource.swift; sourceTree = "<group>"; };
@@ -1659,6 +1665,7 @@
 				9B17BBBB1C9FB537000761FC /* StringHelper.swift */,
 				C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */,
 				C13924B21CE41EAE000DA690 /* BaseUIViewController.swift */,
+				C157953D1CEAD376006B04AA /* BaseUITableViewController.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2132,6 +2139,8 @@
 				C115319D1CCF72F400511E6B /* NewInvitationPopupVC.swift */,
 				C115319E1CCF72F400511E6B /* NewInvitationPopupVC.xib */,
 				C11531A11CCF789B00511E6B /* InvitationPopupDelegate.swift */,
+				C17AF2121CE8CE0A00164E66 /* InvitationNotificationPopup.swift */,
+				C17AF2131CE8CE0A00164E66 /* InvitationNotificationPopup.xib */,
 			);
 			name = InvitationController;
 			sourceTree = "<group>";
@@ -2427,6 +2436,7 @@
 				C13E44BC1C60556D00EB6075 /* sautatca.mp3 in Resources */,
 				9B55263F1C9A6911000AB7E8 /* select_next_lesson_on_current_objective.sql in Resources */,
 				9B5526401C9A6911000AB7E8 /* select_next_objective_on_current_level.sql in Resources */,
+				C17AF2151CE8CE0A00164E66 /* InvitationNotificationPopup.xib in Resources */,
 				9B55263E1C9A6911000AB7E8 /* select_all_words_by_question.sql in Resources */,
 				C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */,
 				C16CD2BB1C44B1EC00537461 /* p_hour_glass.png in Resources */,
@@ -2697,6 +2707,8 @@
 				9B4849E91C98FFBD002F193F /* IPAChartController.swift in Sources */,
 				9B5F33971C77129A00E85629 /* ChartFillFormatter.swift in Sources */,
 				9B5F33E31C771B5A00E85629 /* Operators.swift in Sources */,
+				C17AF2141CE8CE0A00164E66 /* InvitationNotificationPopup.swift in Sources */,
+				C157953E1CEAD376006B04AA /* BaseUITableViewController.swift in Sources */,
 				9B9BE6F31C62F8F400C84823 /* GraphPageViewController.swift in Sources */,
 				9B5F34241C771E6000E85629 /* Body.swift in Sources */,
 				C15EDC011C97B85F006E7BA3 /* LSPopupVC.swift in Sources */,

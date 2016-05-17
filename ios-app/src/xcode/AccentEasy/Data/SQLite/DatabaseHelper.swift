@@ -54,7 +54,7 @@ public class DatabaseHelper {
                 var found = false
                 if oldSession.courses.count > 0 {
                     for oldCourse in oldSession.courses {
-                        if oldCourse.idString == course.idString {
+                        if (oldCourse.idString != nil) &&  (course.idString != nil) && (oldCourse.idString == course.idString){
                             found = true
                             if (oldCourse.version != course.version) {
                                 versionChanged = true

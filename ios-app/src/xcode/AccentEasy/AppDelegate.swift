@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, GGLIns
     
     let registrationKey = "onRegistrationCompleted"
     let messageKey = "onMessageReceived"
+    let messageKeyInApp = "onMessageReceivedInApp"
     let subscriptionTopic = "/topics/global"
     //
     
@@ -304,6 +305,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, GGLIns
     func application( application: UIApplication,
                       didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         print("Notification received out app: \(userInfo)")
+
         // This works only if the app started the GCM service
         GCMService.sharedInstance().appDidReceiveMessage(userInfo);
         // Handle the received message
@@ -317,29 +319,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, GGLIns
                       didReceiveRemoteNotification userInfo: [NSObject : AnyObject],
                                                    fetchCompletionHandler handler: (UIBackgroundFetchResult) -> Void) {
         
+        //GCM example process
+        print("Notification received in app: \(userInfo)")
+        // This works only if the app started the GCM service
+        GCMService.sharedInstance().appDidReceiveMessage(userInfo);
+        // Handle the received message
+        // Invoke the completion handler passing the appropriate UIBackgroundFetchResult value
+        // [START_EXCLUDE]
         if ( application.applicationState == UIApplicationState.Inactive || application.applicationState == UIApplicationState.Background ){
             //print("opened from a push notification when the app was on background")
             Logger.log("out app touch notification")
-            
-            //GCM example process
-            print("Notification received in app: \(userInfo)")
-            // This works only if the app started the GCM service
-            GCMService.sharedInstance().appDidReceiveMessage(userInfo);
-            // Handle the received message
-            // Invoke the completion handler passing the appropriate UIBackgroundFetchResult value
-            // [START_EXCLUDE]
-            NSNotificationCenter.defaultCenter().postNotificationName(messageKey, object: nil,
-                                                                      userInfo: userInfo)
-            print("send notification")
+            NSNotificationCenter.defaultCenter().postNotificationName(messageKey, object: nil, userInfo: userInfo)
+            //print("send notification")
             //NSNotificationCenter.defaultCenter().postNotificationName("testFailMove", object: nil)
-            handler(UIBackgroundFetchResult.NoData);
-            // [END_EXCLUDE]
-            
         }else{
             //print("opened from a push notification when the app was on foreground")
             Logger.log("in app get notification")
+            NSNotificationCenter.defaultCenter().postNotificationName(messageKeyInApp, object: nil, userInfo: userInfo)
         }
-        
+        handler(UIBackgroundFetchResult.NoData);
+        // [END_EXCLUDE]
         
     }
     // [END ack_message_reception]

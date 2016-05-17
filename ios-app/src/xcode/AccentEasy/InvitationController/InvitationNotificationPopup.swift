@@ -1,21 +1,18 @@
 //
-//  InviAcceptPopupVC.swift
+//  InvitationNotificationPopup.swift
 //  AccentEasy
 //
-//  Created by CMGVN on 4/26/16.
+//  Created by CMGVN on 5/15/16.
 //  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import UIKit
 
-class InviAcceptPopupVC: UIViewController {
+class InvitationNotificationPopup: UIViewController {
 
     var delegate:InvitationPopupDelegate?
-    var indexSelected:Int!
     
     @IBOutlet weak var btnClose: UIButton!
-    @IBOutlet weak var btnReject: UIButton!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,23 +29,17 @@ class InviAcceptPopupVC: UIViewController {
         btnClose.layer.cornerRadius = btnClose.frame.size.width/2
         btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
-        
-        var rImage = UIImage(named: "ic_close_dialog.png")!
-        rImage = ImageHelper.imageWithImage(image: rImage, w: 50, h: 50)
-        btnReject.layer.cornerRadius = btnReject.frame.size.width/2
-        btnReject.setImage(rImage, forState: UIControlState.Normal)
-        btnReject.tintColor = ColorHelper.APP_RED_MAGENTA
-
     }
     
     override func viewDidDisappear(animated: Bool) {
-        hidenLoadding()
+        //hidenLoadding()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
     /*
     // MARK: - Navigation
@@ -59,14 +50,14 @@ class InviAcceptPopupVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    @IBAction func btnClose(sender: AnyObject) {
+
+    @IBAction func btnCloseTouchUp(sender: AnyObject) {
         delegate?.closePopup!(self)
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
-        showLoadding()
-        delegate?.inviAcceptPopupVCTouchOK!(indexSelected)
+        //showLoadding()
+        delegate?.invitationNotificationPopupTouchOK!(self)
     }
     
-
 }
