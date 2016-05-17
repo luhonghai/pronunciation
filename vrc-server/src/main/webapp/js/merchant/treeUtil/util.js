@@ -786,7 +786,7 @@ function copyAndPaste(){
                             copyQuestion (idLesson,idQuestion,name);
                         }
                     }else{
-                        swalNew("",'could not paste the data copied to this node',"error");
+                        swalNew("",'could not paste the data copied to this node. Please choose the correct parent for the hierarchy',"error");
                     }
 
                 }, disabled : function(key, opt) {
