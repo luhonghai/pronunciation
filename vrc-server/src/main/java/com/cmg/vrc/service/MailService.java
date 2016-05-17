@@ -61,6 +61,11 @@ public class MailService {
     public void sendEmail(String[] recipients, String subject, String message) throws MessagingException {
         sendEmail(recipients, subject, message, null);
     }
+    public void sendEmail(String email, String subject, String message) throws MessagingException {
+        String[] recipients = new String[1];
+        recipients[0] = email;
+        sendEmail(recipients, subject, message, null);
+    }
 
     public void sendEmail(String[] recipients, String subject, String message, String[] attachFiles)
             throws javax.mail.MessagingException {
@@ -177,6 +182,24 @@ public class MailService {
             source = source.replaceAll("%ACTIVATION_CODE%",URLEncoder.encode(code, "UTF-8"));
             source = source.replaceAll("%URL_ACTIVE_ACCOUNT%", Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) );
             source = source.replaceAll("%ACTIVATION_USER%", URLEncoder.encode(account, "UTF-8"));
+            return source;
+        } catch (Exception e) {
+            log(Level.SEVERE, "Could not read activation HTML template", e);
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
+        return "";
+    }
+
+    public String generateEmailInviteUserNotExisted(String email, String teacherF, String teacherL, String company) {
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("contents/invite-user-not-exist-system.html");
+        try {
+            String source = IOUtils.toString(is);
+            source = source.replaceAll("%email%",email);
+            source = source.replaceAll("%teacherFirstName%",teacherF);
+            source = source.replaceAll("%teacherLastName%",teacherL);
+            source = source.replaceAll("%company%",company);
+            source = source.replaceAll("%URL_DOWNLOAD_IOS_APP%", "https://itunes.apple.com/us/app/accenteasy/id1091441266?ls=1&mt=8");
             return source;
         } catch (Exception e) {
             log(Level.SEVERE, "Could not read activation HTML template", e);

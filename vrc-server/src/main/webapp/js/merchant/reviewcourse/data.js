@@ -139,7 +139,7 @@ function getExplanationTest(){
     return explanationTest;
 }
 function getListWordTest(){
-    var listWordTest=$("#listWordTest");
+    var listWordTest=$("#listWordTests");
     return listWordTest;
 }
 

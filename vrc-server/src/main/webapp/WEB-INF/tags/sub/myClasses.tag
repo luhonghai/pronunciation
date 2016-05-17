@@ -276,6 +276,8 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h2 style="font-weight: 700;font-size:18px" class="modal-title">class management</h2>
+                <h4 id="validateLvMsgEdit" class="modal-title validateMsg" style="text-align: center;
+                font-weight: 200;font-size:14px color: red;"></h4>
             </div>
             <div class="modal-body">
                 <form name="Edit" class="form-horizontal" id="editform">

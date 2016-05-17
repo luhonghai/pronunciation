@@ -211,6 +211,20 @@ function initHelpAddQuestion(){
     return $html;
 }
 
+function initHelpAddTestQuestion(){
+    var $html = $("<div>");
+    $html.html("<p>1. Add an explanation for the question.</p>");
+    $html.append("<p>This will be displayed on the test page when the question is selected.</p>");
+    $html.append("<p>2. Select the question type</p>");
+    $html.append("<p>This will determine the scoring functionality for the question. You will be guided through some steps to set up the scoring. </p>");
+    $html.append("<p>Each question will appear in the order that you add them. You can drag and drop them to re-order them and the numbering will change automatically.</p>");
+    $html.append("<p>A button will be added to the administration page.</p>");
+    $html.append("<p>When you hold the mouse over a question a pop up will be displayed enabling you to see which words you have added.</p>");
+    $html.append("<p>When you click on the button, you will be able to edit or delete the question.</p>");
+    return $html;
+}
+
+
 function initHelpTopDataMainCourse(){
     var $html = $("<div>");
     $html.html("<p>A selection of courses that have been created and " +

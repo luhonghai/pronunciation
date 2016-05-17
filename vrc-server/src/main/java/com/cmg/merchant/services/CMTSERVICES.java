@@ -208,7 +208,7 @@ public class CMTSERVICES {
                     new Comparator<CourseDTO>() {
                         @Override
                         public int compare(final CourseDTO a, final CourseDTO d) {
-                            return (a.getNameCourse().compareTo(d.getNameCourse()));
+                            return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
                         }
                     });
             for(CourseDTO dto : list){
@@ -262,9 +262,15 @@ public class CMTSERVICES {
                         dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
                     }
                 }
+                Collections.sort(list,
+                        new Comparator<CourseDTO>() {
+                            @Override
+                            public int compare(final CourseDTO a, final CourseDTO d) {
+                                return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                            }
+                        });
             }
         }catch (Exception e){
-
         }
         return list;
     }
@@ -311,6 +317,13 @@ public class CMTSERVICES {
                         dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
                     }
                 }
+                Collections.sort(list,
+                        new Comparator<CourseDTO>() {
+                            @Override
+                            public int compare(final CourseDTO a, final CourseDTO d) {
+                                return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                            }
+                        });
             }
         }catch (Exception e){
 
@@ -355,6 +368,13 @@ public class CMTSERVICES {
                         dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
                     }
                 }
+                Collections.sort(list,
+                        new Comparator<CourseDTO>() {
+                            @Override
+                            public int compare(final CourseDTO a, final CourseDTO d) {
+                                return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                            }
+                        });
             }
         }catch (Exception e){
         }
@@ -400,6 +420,13 @@ public class CMTSERVICES {
                 dto.setTextColor(Color.TEXT_COLOR);
                 dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
+            Collections.sort(list,
+                    new Comparator<CourseDTO>() {
+                        @Override
+                        public int compare(final CourseDTO a, final CourseDTO d) {
+                            return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                        }
+                    });
         }
         return list;
     }
@@ -452,6 +479,13 @@ public class CMTSERVICES {
                 dto.setTextColor(Color.TEXT_COLOR);
                 dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
+            Collections.sort(list,
+                    new Comparator<CourseDTO>() {
+                        @Override
+                        public int compare(final CourseDTO a, final CourseDTO d) {
+                            return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                        }
+                    });
         }
         return list;
     }

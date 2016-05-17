@@ -228,15 +228,17 @@ function openPopup(itemData){
         getListWordTest().empty();
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
-        var level = treeAPI.itemData(currentParent);
-        var row= nameOfCourse +" > " + level.label;
+        var level = treeAPI.parent(currentParent);
+        var levelItem = treeAPI.itemData(level);
+        var test = treeAPI.itemData(currentParent);
+        var row= nameOfCourse +" > " + levelItem.label + " > " + test.label;
         getExplanationTest().attr("row",row);
-        var breadCrumb = nameOfCourse + " > " + level.label;
+        var breadCrumb = nameOfCourse + " > " + levelItem.label + " > " + test.label;
         if(breadCrumb.length > 30){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
         }else{
-            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label + " > "  + test.label);
         }
 
     }else if(itemData._actionClick == action_edit_question_test){
@@ -255,12 +257,12 @@ function openPopup(itemData){
         var levelItem = treeAPI.itemData(level);
         var row = nameOfCourse +" > "+levelItem.label+ " > " + test.label;
         getExplanationTest().attr("row",row);
-        var breadCrumb = nameOfCourse + " > " + level.label;
+        var breadCrumb = nameOfCourse + " > " + levelItem.label;
         if(breadCrumb.length > 30){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
         }else{
-            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+            currentPopup.find("#arrowQuestionTest").html(row);
         }
     }
 
@@ -274,7 +276,7 @@ function openPopup(itemData){
 function drawListWord(listWord){
     var list=readListMail(listWord);
     getListWord().html("");
-    getListWordTest().html();
+    getListWordTest().html("");
     if(list!=null && list.length>0){
         list.sort(function(a, b) {
             return a == b ? 0 : +(a > b) || -1;

@@ -46,7 +46,7 @@ function loadAllCourse(){
     });
     $.ajax({
         url : servlet,
-        type : "POST",
+        type : "GET",
         data : {
             action: "listall"
         },
@@ -91,7 +91,7 @@ function searchCourseHeader(){
     });
     $.ajax({
         url : servlet,
-        type : "POST",
+        type : "GET",
         data : {
             action: "searchHeader",
             name : getSuggestCourseHeader().val()

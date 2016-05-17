@@ -2,14 +2,16 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.country.CountryDAO;
 import com.cmg.lesson.data.jdo.country.Country;
+import com.cmg.merchant.util.Notification;
+import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.GcmMessage;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
+import com.cmg.vrc.service.MailService;
 import com.cmg.vrc.service.MessageService;
 import com.cmg.vrc.util.StringUtil;
 import com.google.android.gcm.server.Message;
-import com.google.android.gcm.server.Notification;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -99,9 +101,9 @@ public class SendMailUser extends HttpServlet{
     private File currentLogFile;
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
     private void appendLog(String log) {
-        logger.info(log);
         if (currentLogFile != null) {
             try {
+                logger.info(log);
                 FileUtils.writeStringToFile(currentLogFile,
                         sdf.format(new Date(System.currentTimeMillis())) + " " + log + "\n",
                         "UTF-8", true);
@@ -128,7 +130,6 @@ public class SendMailUser extends HttpServlet{
         UserDAO userDAO=new UserDAO();
         Mail mails=new Mail();
         String action=request.getParameter("action");
-        appendMessage("run in doPost" + action);
         if(action.equalsIgnoreCase("send")) {
             String jsonClient = (String) StringUtil.isNull(request.getParameter("listmail"), "");
             Gson gson = new Gson();
@@ -173,17 +174,24 @@ public class SendMailUser extends HttpServlet{
                     }
                 }
                 if(users!=null && users.size()>0 && notExist.size()==0) {
-                    appendMessage("run in sendGcmMessage");
-                    sendGcmMessage(users,teacher);
+                    Notification util = new Notification();
+                    util.sendNotificationWhenInvite(users);
+                    //sendGcmMessage(users,teacher);
                 }
                 if(notExist.size()==0){
                     mails.message = "success";
                     mails.mailError = new ArrayList<String>();
                     mails.mailExist = new ArrayList<String>();
                 }else{
-                    mails.message="error";
+                    SessionUtil util = new SessionUtil();
+                    String companyName = util.getCompanyName(request);
+                    sendMailUserNotExist(notExist,admin,companyName);
+                   /* mails.message="error";
                     mails.mailError=notExist;
-                    mails.mailExist=new ArrayList<String>();;
+                    mails.mailExist=new ArrayList<String>();;*/
+                    mails.message = "success";
+                    mails.mailError = new ArrayList<String>();
+                    mails.mailExist = new ArrayList<String>();
                 }
                 String listMails = gson.toJson(mails);
                 response.getWriter().write(listMails);
@@ -365,6 +373,34 @@ public class SendMailUser extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }
+
+    private void sendMailUserNotExist(List<String> emails, Admin admin, String companyName){
+        StudentMappingTeacherDAO studentMappingTeacherDAO =new StudentMappingTeacherDAO();
+        if(emails!=null && emails.size() > 0){
+            for(String email : emails){
+                try {
+                    MailService mailService = new MailService();
+                    mailService.sendEmail(email, "Teacher invite you to join their classroom", mailService.generateEmailInviteUserNotExisted(email, admin.getFirstName(), admin.getLastName(), companyName));
+                    StudentMappingTeacher tmp= studentMappingTeacherDAO.getByStudentAndTeacher(email,admin.getUserName());
+                    if(tmp == null){
+                        StudentMappingTeacher stm=new StudentMappingTeacher();
+                        stm.setStudentName(email);
+                        stm.setTeacherName(admin.getUserName());
+                        stm.setFirstTeacherName(admin.getFirstName());
+                        stm.setLastTeacherName(admin.getLastName());
+                        stm.setIsDeleted(false);
+                        stm.setLicence(false);
+                        stm.setMappingBy(Constant.TEACHER);
+                        stm.setStatus(Constant.STATUS_PENDING);
+                        studentMappingTeacherDAO.put(stm);
+                    }
+
+                }catch (Exception e){
+                }
+            }
+        }
+    }
+
     private void sendGcmMessage(List<User> users,String teacher) {
         try {
             appendMessage("Send notification to all user devices");
@@ -387,27 +423,20 @@ public class SendMailUser extends HttpServlet{
                     }
                 }
             }
-
-            List<String> gcmIds = new ArrayList<>();
-
             for(User user:users){
                 UserDevice userDevice=new UserDevice();
                 Usage usage=new Usage();
                 usage=usageDAO.getByUserName(user.getUsername());
                 if(usage!=null) {
-                    appendMessage(user.getUsername() + " have number GCMID: " + userDeviceDAO.getListGCMID(usage.getUsername()).size());
-                    gcmIds.addAll(userDeviceDAO.getListGCMID(usage.getUsername()));
-
-                    /*userDevice = userDeviceDAO.getDeviceByIMEI(usage.getImei());
-                    appendMessage("User device " + userDevice.getGcmId() + ". IMEI: " + usage.getImei());
+                    userDevice = userDeviceDAO.getDeviceByIMEI(usage.getImei());
                     if(userDevice!=null){
                         userDevices.add(userDevice);
-                    }*/
+                    }
                 }
 
             }
 
-            /*
+            List<String> gcmIds = new ArrayList<>();
             if (userDevices != null && userDevices.size() > 0) {
                 for (UserDevice userDevice : userDevices) {
                     String gcmId = userDevice.getGcmId();
@@ -415,13 +444,10 @@ public class SendMailUser extends HttpServlet{
                         gcmIds.add(gcmId);
                     }
                 }
-            }*/
-
+            }
             appendMessage("Send message to " + gcmIds.size() + " device(s)");
-            String mess = "Teacher '"+teacher+"' would like to add you to their accenteasy class to help with training.";
             if (gcmIds.size() > 0) {
-                Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).notification(new Notification.Builder("").title("New accenteasy message").body(mess).build()).priority(Message.Priority.HIGH).build();
-                //Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).priority(Message.Priority.HIGH).build();
+                Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).build();
                 MessageService messageService = new MessageService(mMessage);
                 messageService.doPostMessage(gcmIds);
 

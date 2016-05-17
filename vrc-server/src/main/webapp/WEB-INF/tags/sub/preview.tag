@@ -31,7 +31,7 @@
                                     <div class="header">
                                         <img back="screen-level" class="slide-back" src="/images/popup/preview_back.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <div style="text-align: right;float:right;width:150px">
+                                        <div class="title" style="text-align: right;float:right;width:150px">
                                             <label>Level 1</label>
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                                     <div class="header">
                                         <img back="screen-objective" class="slide-back" src="/images/popup/preview_back.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <div style="float:right;width:150px">
+                                        <div class="title" style="float:right;width:150px">
                                             <marquee>Level 1 - My Objective</marquee>
                                         </div>
                                     </div>

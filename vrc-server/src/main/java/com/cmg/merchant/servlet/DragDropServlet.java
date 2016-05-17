@@ -20,6 +20,10 @@ import java.io.IOException;
 public class DragDropServlet extends BaseServlet {
     private static final Logger logger = Logger.getLogger(DragDropServlet.class.getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         String action = (String) StringUtil.isNull(request.getParameter("action"),"");
         DragDropServices services = new DragDropServices();
         if(action.equalsIgnoreCase(Constant.TARGET_LOAD_LEVEL)){

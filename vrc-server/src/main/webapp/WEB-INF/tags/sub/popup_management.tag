@@ -529,7 +529,7 @@
                             <label class="control-label">Word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
-                            <input autofocus type="text" id="addWord" name="addWord" class=" form-control">
+                            <input autofocus autocomplete="off" type="text" id="addWord" name="addWord" class=" form-control">
                         </div>
                         <div class="col-xs-4  col-sm-4">
                             <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"
@@ -667,45 +667,6 @@
 
 
 
-
-<div id="confirm-delete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true"
-     style="display: none;color:#957F7F">
-    <div class="modal-dialog" style="width:500px">
-        <div class="modal-content">
-            <div class="modal-header" style="border-bottom: transparent">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" id="confirm" name="addform">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <label>This action will also delete any associated content
-                                that you have added in the structure below it.</label>
-                        </div>
-                    </div>
-                    <div class="form-group contain-button">
-                        <div class="col-md-6">
-                            <input type="hidden" class="action">
-                            <input type="hidden" class="idHidden">
-                            <img id="helpDeleteBtn" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
-                                 height="36px"/>
-                        </div>
-                        <div class="col-md-6">
-                            <img id="ConfirmDeletebtn" style="float:right" src="/images/popup/trash_50x50.gif"
-                                 width="36px" height="36px"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <!-- End of Modal body -->
-        </div>
-        <!-- End of Modal content -->
-    </div>
-    <!-- End of Modal dialog -->
-</div>
-
-
 <div id="helpReportModal" class="modal fade">
     <div class="modal-dialog" style="width:500px">
         <div class="modal-content" style="border-radius: 20px">
@@ -742,8 +703,9 @@
 <div id="confirmPublish" class="modal fade">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="padding-bottom: 15px">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 style="text-align: center;font-weight: 700;font-size: 18px;" class="modal-title"></h2>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal">

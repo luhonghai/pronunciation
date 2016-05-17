@@ -2,16 +2,23 @@ package com.cmg.vrc.service;
 
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.services.generateSqlite.SqliteService;
 import com.cmg.merchant.util.SessionUtil;
+import com.cmg.vrc.data.GcmMessage;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.UUIDGenerator;
+import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Notification;
 import com.google.gson.Gson;
 
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -202,7 +209,8 @@ public class ClassService {
                     SqliteService generateSqlite = new SqliteService(s);
                     generateSqlite.start();
                 }
-
+                com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                util.sendNotificationWhenCreateClass(jsonClient);
                 message= "success";
             }else{
                 message= "exist";
@@ -265,7 +273,17 @@ public class ClassService {
         return false;
     }
 
-    public String editClassToDb(String teacherName, String idClass,String nameClass,String definition,String jsonClient){
+    /**
+     *
+     * @param request
+     * @param teacherName
+     * @param idClass
+     * @param nameClass
+     * @param definition
+     * @param jsonClient
+     * @return
+     */
+    public String editClassToDb(HttpServletRequest request,String teacherName, String idClass,String nameClass,String definition,String jsonClient){
         String message=null;
         try {
             //ClassJDO classJDO=new ClassJDO();
@@ -273,12 +291,15 @@ public class ClassService {
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
             if(classJDO!=null) {
                 if(!checkNameExisted(teacherName,idClass,nameClass)){
+                    com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                    util.sendNotificationWhenUpdateClass(request,teacherName,idClass,jsonClient);
+                    String[] listStudent = studentCourse.getStudents();
+                    String[] listCourse = studentCourse.getCourses();
                     classJDO.setClassName(nameClass);
                     classJDO.setDefinition(definition);
                     classDAO.put(classJDO);
                     classDAO.updateCourseMappingClassEdit(idClass);
                     classDAO.updateStudentMappingClassEdit(idClass);
-                    String[] listStudent = studentCourse.getStudents();
                     for (String s : listStudent) {
                         StudentMappingClass studentMappingClass = new StudentMappingClass();
                         studentMappingClass.setIdClass(idClass);
@@ -287,7 +308,6 @@ public class ClassService {
                         studentMappingClass.setIsDeleted(false);
                         studentMappingClassDAO.put(studentMappingClass);
                     }
-                    String[] listCourse = studentCourse.getCourses();
                     for (String s : listCourse) {
                         CourseMappingClass courseMappingClass = new CourseMappingClass();
                         courseMappingClass.setIdClass(idClass);
@@ -312,6 +332,12 @@ public class ClassService {
         }
         return message;
     }
+
+    /**
+     *
+     * @param idClass
+     * @return
+     */
     public String deleteClass(String idClass){
         String message=null;
         try {
@@ -329,4 +355,6 @@ public class ClassService {
         }
         return message;
     }
+
+
 }

@@ -19,7 +19,7 @@ public class AdminDAO extends DataAccess<Admin> {
     }
 
     public Admin getUserByEmailPassword(String email, String password) throws Exception{
-        List<Admin> userList = list("WHERE userName == :1 && password == :2", email, password);
+        List<Admin> userList = list("WHERE userName.toLowerCase() == :1 && password == :2", email, password);
         if (userList != null && userList.size() > 0)
             return userList.get(0);
         return null;

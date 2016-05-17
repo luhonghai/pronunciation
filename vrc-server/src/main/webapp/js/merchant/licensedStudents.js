@@ -119,6 +119,12 @@ function collapseMenu(){
     $("#li-students").find('ul').addClass('in');
 }
 
+function focusInput(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('input:first').focus();
+    });
+}
+
 $(document).ready(function(){
     $('#checkAll').click(function (e) {
         if ($(this).is(':checked')) {
@@ -131,5 +137,6 @@ $(document).ready(function(){
     addStudent();
     collapseMenu();
     listLicensedStudent();
+    focusInput();
 });
 
