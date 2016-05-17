@@ -1,11 +1,10 @@
-<%@ tag import="com.cmg.vrc.properties.Configuration" %>
 <%@tag description="Footer" pageEncoding="UTF-8" %>
 	    <div class="footer" style="height: 100px;">
 	    	<div class="container">
 		    	<div class="row">
 		    		<div class="col-md-12">
 						<div style="text-align: center; font-size: 15px;color: grey">
-							Version <%=Configuration.getValue(Configuration.PROJECT_VERSION)%> &copy; 2015 Claybourne McGregor Consulting Ltd (C-MG)
+							Version <%=com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.PROJECT_VERSION)%> &copy; 2015 Claybourne McGregor Consulting Ltd (C-MG)
 						</div>
 		    		</div>
 		    	</div>
