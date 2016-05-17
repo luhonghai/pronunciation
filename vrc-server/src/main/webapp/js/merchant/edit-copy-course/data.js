@@ -13,6 +13,10 @@ function getProcessBar(){
 
 
 
+function getCourseShare(){
+    return $('input[type=checkbox]:checked');
+}
+
 
 function getPopUpHelp(){
     return $("#help-popup");

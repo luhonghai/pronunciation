@@ -146,6 +146,9 @@
     #confirmDelete .form-group{
         margin-bottom: 0px;
     }
+    .multiselect-container{
+        width  :100%;
+    }
 
 </style>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME),"").toString();%>

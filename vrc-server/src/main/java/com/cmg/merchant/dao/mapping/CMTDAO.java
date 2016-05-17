@@ -60,9 +60,9 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET status=?  WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET status=?,dateCreated=?  WHERE id=?");
         try {
-            q.execute(status,id);
+            q.execute(status,new Date(System.currentTimeMillis()),id);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();

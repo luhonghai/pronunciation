@@ -172,6 +172,9 @@ function disabledAllTextBox(){
         $(this).find('button').each(function(){
             $(this).attr('disabled','disabled');
         });
+        $(this).find('input:checkbox').each(function(){
+            $(this).attr('disabled','disabled');
+        });
     });
 }
 function collapseMenu(){

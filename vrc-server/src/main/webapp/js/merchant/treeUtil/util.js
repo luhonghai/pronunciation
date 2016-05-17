@@ -45,6 +45,17 @@ function ClickOnTree(){
 
     });
 }
+
+function setSelectedCheckbox(share){
+    $('#popupCourse input[type=checkbox]').each(function(){
+        var sr = $(this).attr('value');
+        if(sr.trim() == share.trim()){
+            $(this).prop('checked', true);
+        }else{
+            $(this).prop("checked",false);
+        }
+    });
+}
 /**
  *
  * @param itemData
@@ -58,6 +69,7 @@ function openPopup(itemData){
         currentPopup.find("#titlePopupCourse").html("course management");
         getCourseName().val(itemData.label);
         getCourseDescription().val(itemData._title);
+        setSelectedCheckbox(itemData._details);
         currentPopup.find("#btnDeleteLevel").show();
         if(nameOfCourse.length > 30){
             currentPopup.find("#arrowCourse").html(nameOfCourse.substring(0,25) +"...");
@@ -800,6 +812,11 @@ function focusInput(){
         $(this).find('input:first').focus();
     });
 }
+function makeOnceCheckboxSelected(){
+    $('input[type="checkbox"]').on('change', function() {
+        $('input[type="checkbox"]').not(this).prop('checked', false);
+    });
+}
 $(document).ready(function(){
     removeWord();
     saveWord();
@@ -807,4 +824,5 @@ $(document).ready(function(){
     showAddWordForTest();
     openEditWords();
     focusInput();
+    makeOnceCheckboxSelected();
 });

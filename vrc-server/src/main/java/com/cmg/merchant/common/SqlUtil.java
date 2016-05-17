@@ -182,8 +182,6 @@ public class SqlUtil {
             "where c.id ='paramCourseId' and obj.isCopied=true and lv.isDeleted=false";
 
 
-
-
     /**
      *
      * @param idCourse
