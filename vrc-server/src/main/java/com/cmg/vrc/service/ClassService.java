@@ -2,16 +2,21 @@ package com.cmg.vrc.service;
 
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.services.generateSqlite.SqliteService;
 import com.cmg.merchant.util.SessionUtil;
+import com.cmg.vrc.data.GcmMessage;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.UUIDGenerator;
+import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Notification;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -204,7 +209,8 @@ public class ClassService {
                     SqliteService generateSqlite = new SqliteService(s);
                     generateSqlite.start();
                 }
-
+                com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                util.sendNotificationWhenCreateClass(jsonClient);
                 message= "success";
             }else{
                 message= "exist";
@@ -285,6 +291,8 @@ public class ClassService {
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
             if(classJDO!=null) {
                 if(!checkNameExisted(teacherName,idClass,nameClass)){
+                    com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                    util.sendNotificationWhenUpdateClass(request,teacherName,idClass,jsonClient);
                     String[] listStudent = studentCourse.getStudents();
                     String[] listCourse = studentCourse.getCourses();
                     classJDO.setClassName(nameClass);
@@ -348,149 +356,5 @@ public class ClassService {
         return message;
     }
 
-    public void sendNotification(HttpServletRequest request, String teacherName, String idClass, String jsonClient){
-        try {
-            SessionUtil util = new SessionUtil();
-            StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
-            String[] listStudentClient = studentCourse.getStudents();
-            String[] listCourseClient = studentCourse.getCourses();
-            List<Course> listCourseDb = classDAO.getMyCoursesOnClass(idClass, util.getTid(request), Constant.STATUS_PUBLISH);
-            List<StudentMappingTeacher> listStudentDb = classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
 
-        }catch (Exception e){}
-    }
-
-    /**
-     *
-     * @param listStudentDb
-     * @param listStudentClient
-     * @return
-     */
-    public ArrayList<String> getStudentNew(List<StudentMappingTeacher> listStudentDb, String[] listStudentClient){
-        if(listStudentDb!=null && listStudentDb.size() > 0){
-            ArrayList<String> listStudentAddNew = new ArrayList<>();
-            for(String stName : listStudentClient){
-                boolean exist = false;
-                for(StudentMappingTeacher stm : listStudentDb){
-                    if(stm.getStudentName().equals(stName)){
-                        exist = true;
-                        break;
-                    }
-                }
-                if(!exist) listStudentAddNew.add(stName);
-            }
-            return listStudentAddNew;
-        }else {
-            return new ArrayList<String>(Arrays.asList(listStudentClient));
-        }
-    }
-
-    /**
-     *
-     * @param listStudentDb
-     * @param listStudentClient
-     * @return
-     */
-    public ArrayList<String> getStudentRemove(List<StudentMappingTeacher> listStudentDb, String[] listStudentClient){
-        ArrayList<String> listStudentRemove = new ArrayList<>();
-        for(StudentMappingTeacher stm : listStudentDb){
-            boolean exist = false;
-            for(String stName : listStudentClient){
-                if(stm.getStudentName().equals(stName)){
-                    exist = true;
-                    break;
-                }
-            }
-            if(!exist) listStudentRemove.add(stm.getStudentName());
-        }
-        return listStudentRemove;
-    }
-
-    /**
-     *
-     * @param listStudentDb
-     * @param listStudentClient
-     * @return
-     */
-    public ArrayList<String> getStudentOld(List<StudentMappingTeacher> listStudentDb, String[] listStudentClient){
-        ArrayList<String> listStudentOld = new ArrayList<>();
-        for(StudentMappingTeacher stm : listStudentDb){
-            boolean exist = false;
-            for(String stName : listStudentClient){
-                if(stm.getStudentName().equals(stName)){
-                    exist = true;
-                    break;
-                }
-            }
-            if(exist) listStudentOld.add(stm.getStudentName());
-        }
-        return listStudentOld;
-    }
-
-    /**
-     *
-     * @param listCourseDb
-     * @param listCourseClient
-     * @return
-     */
-    public ArrayList<String> getCourseNew(List<Course> listCourseDb, String[] listCourseClient){
-        if(listCourseDb!=null && listCourseDb.size() > 0){
-            ArrayList<String> listCourseAddNew = new ArrayList<>();
-            for(String cId : listCourseClient){
-                boolean exist = false;
-                for(Course c : listCourseDb){
-                    if(c.getId().equals(cId)){
-                        exist = true;
-                        break;
-                    }
-                }
-                if(!exist) listCourseAddNew.add(cId);
-            }
-            return listCourseAddNew;
-        }else{
-            return new ArrayList<String>(Arrays.asList(listCourseClient));
-        }
-    }
-
-    /**
-     *
-     * @param listCourseDb
-     * @param listCourseClient
-     * @return
-     */
-    public ArrayList<String> getCourseRemove(List<Course> listCourseDb, String[] listCourseClient){
-        ArrayList<String> listCourseRemove = new ArrayList<>();
-        for(Course c : listCourseDb){
-            boolean exist = false;
-            for(String cId : listCourseClient){
-                if(c.getId().equals(cId)){
-                    exist = true;
-                    break;
-                }
-            }
-            if(!exist) listCourseRemove.add(c.getId());
-        }
-        return listCourseRemove;
-    }
-
-    /**
-     *
-     * @param listCourseDb
-     * @param listCourseClient
-     * @return
-     */
-    public ArrayList<String> getCourseOld(List<Course> listCourseDb, String[] listCourseClient){
-        ArrayList<String> listCourseOld = new ArrayList<>();
-        for(Course c : listCourseDb){
-            boolean exist = false;
-            for(String cId : listCourseClient){
-                if(c.getId().equals(cId)){
-                    exist = true;
-                    break;
-                }
-            }
-            if(exist) listCourseOld.add(c.getId());
-        }
-        return listCourseOld;
-    }
 }

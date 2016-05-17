@@ -106,6 +106,7 @@ function copyObj(idLevel, idObj){
         type : "POST",
         data : {
             action: "cpObj",
+            idCourse : idCourse,
             idLevel : idLevel,
             idObj : idObj
         },
@@ -166,6 +167,7 @@ function copyTest(idLevel, idTest){
         data : {
             action: "cpTest",
             idLevel : idLevel,
+            idCourse : idCourse,
             idTest : idTest
         },
         dataType : "text",
@@ -224,6 +226,7 @@ function copyLesson(idObj, idLesson){
         data : {
             action: "cpLesson",
             idObj : idObj,
+            idCourse : idCourse,
             idLesson : idLesson
         },
         dataType : "text",
@@ -283,6 +286,7 @@ function copyQuestion(idLesson, idQuestion,nameQ){
         data : {
             action: "cpQuestion",
             idQuestion : idQuestion,
+            idCourse : idCourse,
             idLesson : idLesson,
             name : nameQ
         },

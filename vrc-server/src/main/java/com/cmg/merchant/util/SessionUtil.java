@@ -19,7 +19,8 @@ public class SessionUtil {
     public static String ATT_COURSE_ID = "idCourse";
     public static String ATT_TEACHER_NAME = "username";
     private static String INVALID = "invalid";
-
+    public static String ATT_FNAME="fname";
+    public static String ATT_LNAME = "lname";
 
     /**
      *
@@ -78,5 +79,25 @@ public class SessionUtil {
     public String getTid(HttpServletRequest request){
         String tId = (String) StringUtil.isNull(request.getSession().getAttribute(ATT_TID),"");
         return tId;
+    }
+
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public String getFname(HttpServletRequest request){
+        String name = (String) StringUtil.isNull(request.getSession().getAttribute(ATT_FNAME),"");
+        return name;
+    }
+
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public String getLname(HttpServletRequest request){
+        String name = (String) StringUtil.isNull(request.getSession().getAttribute(ATT_LNAME),"");
+        return name;
     }
 }

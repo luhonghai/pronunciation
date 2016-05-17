@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.country.CountryDAO;
 import com.cmg.lesson.data.jdo.country.Country;
+import com.cmg.merchant.util.Notification;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.GcmMessage;
@@ -173,7 +174,9 @@ public class SendMailUser extends HttpServlet{
                     }
                 }
                 if(users!=null && users.size()>0 && notExist.size()==0) {
-                    sendGcmMessage(users,teacher);
+                    Notification util = new Notification();
+                    util.sendNotificationWhenInvite(users);
+                    //sendGcmMessage(users,teacher);
                 }
                 if(notExist.size()==0){
                     mails.message = "success";

@@ -54,12 +54,14 @@ import java.io.IOException;
                     session.setAttribute("password",admin.getPassword());
                     session.setAttribute("role",admin.getRole());
                     if(admin.getRole()== Constant.ROLE_STAFF || admin.getRole()==Constant.ROLE_TEACHER){
-                        TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
-                        teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
+                        TeacherMappingCompany teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
                         if(teacherMappingCompany!=null) {
                             session.setAttribute(SessionUtil.ATT_CPNAME, teacherMappingCompany.getCompany());
                             session.setAttribute(SessionUtil.ATT_CPID, teacherMappingCompany.getIdCompany());
                             session.setAttribute(SessionUtil.ATT_TID, admin.getId());
+                            session.setAttribute(SessionUtil.ATT_FNAME,admin.getFirstName());
+                            session.setAttribute(SessionUtil.ATT_LNAME,admin.getLastName());
+                            session.setAttribute(SessionUtil.ATT_TEACHER_NAME,admin.getUserName());
                         }else{
                             session.setAttribute(SessionUtil.ATT_CPNAME, "");
                             session.setAttribute(SessionUtil.ATT_CPID, "");

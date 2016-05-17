@@ -1,5 +1,6 @@
 package com.cmg.merchant.servlet;
 
+import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.CopyService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
@@ -36,25 +37,39 @@ public class CopyServlet extends BaseServlet {
             response.getWriter().print(text);
         }else if(action.equalsIgnoreCase(ACTION_COPY_LEVEL)){
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            CMTSERVICES cmtservices = new CMTSERVICES();
+            cmtservices.unPublishCourse(idCourse);
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
             String text = service.copyLevelToCourse(idCourse,idLevel);
             response.getWriter().print(text);
         }else if(action.equalsIgnoreCase(ACTION_COPY_OBJECTIVE)){
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            CMTSERVICES cmtservices = new CMTSERVICES();
+            cmtservices.unPublishCourse(idCourse);
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
             String idObj = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
             String text = service.copyObjToLevel(idLevel, idObj);
             response.getWriter().print(text);
         }else if(action.equalsIgnoreCase(ACTION_COPY_TEST)){
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            CMTSERVICES cmtservices = new CMTSERVICES();
+            cmtservices.unPublishCourse(idCourse);
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
             String idTest = (String) StringUtil.isNull(request.getParameter("idTest"), "").toString();
             String text = service.copyTestToLevel(idLevel, idTest,true);
             response.getWriter().print(text);
         }else if(action.equalsIgnoreCase(ACTION_COPY_LESSON)){
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            CMTSERVICES cmtservices = new CMTSERVICES();
+            cmtservices.unPublishCourse(idCourse);
             String idObj = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
             String idLesson = (String) StringUtil.isNull(request.getParameter("idLesson"), "").toString();
             String text = service.CopyLessonToObj(idObj, idLesson);
             response.getWriter().print(text);
         }else if(action.equalsIgnoreCase(ACTION_COPY_QUESTION)){
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            CMTSERVICES cmtservices = new CMTSERVICES();
+            cmtservices.unPublishCourse(idCourse);
             String idLesson = (String) StringUtil.isNull(request.getParameter("idLesson"), "").toString();
             String idQuestion = (String) StringUtil.isNull(request.getParameter("idQuestion"), "").toString();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();

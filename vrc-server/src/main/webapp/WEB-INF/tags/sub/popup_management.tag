@@ -703,8 +703,9 @@
 <div id="confirmPublish" class="modal fade">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="padding-bottom: 15px">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 style="text-align: center;font-weight: 700;font-size: 18px;" class="modal-title"></h2>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal">
