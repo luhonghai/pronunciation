@@ -57,11 +57,14 @@
 <div id="page-wrapper">
      <div class="row">
          <div class="col-sm-12">
-             <h4 class="page-header header-company"><%=company%> >
+             <h4 style="padding-bottom: 0px" class="page-header header-company"><%=company%> >
                  reports</h4>
          </div>
      </div>
     <div class="row">
+        <div class="col-lg-12">
+            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">reports</h2>
+        </div>
         <div class="col-sm-12">
             <p>Select a report type from the side menu to view scores for a student and compare with other students in their classes.</p>
             <p>Lessons-view scores for phonemes and words in all lessons that the student has completed in the last 3 months.</p>

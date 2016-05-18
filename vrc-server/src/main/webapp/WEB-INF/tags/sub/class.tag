@@ -47,6 +47,9 @@
     </div>
   </div>
   <div style="padding-bottom: 20px;">
+    <div style="padding-left: 0px" class="col-lg-12">
+      <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">classes</h2>
+    </div>
     <p class="textNormal">Your 'my classes' page is the place where you can bring together your courses and students to create classes.</p>
   </div>
 

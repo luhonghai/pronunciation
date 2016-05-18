@@ -855,8 +855,8 @@ function loadPhonemes(){
                     getAddWord().attr("idWord", data.id);
                     getAddWord().attr("nameWord", data.word);
                     //$("#loadPhonemes").attr("disabled",true);
-                    getPhonemeLable().html("Arpabet:");
-                    getWeightLable().html("Weight:");
+                    getPhonemeLable().html("arpabet:");
+                    getWeightLable().html("weight:");
                     getIPAlable().html("Ipa:");
                     getListPhonemes().html("");
                     getListWeight().html("");

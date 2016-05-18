@@ -554,7 +554,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-3  col-sm-2" style="padding:0px">
-                            <label class="control-label">Word:</label>
+                            <label class="control-label">word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
                             <input autofocus autocomplete="off" type="text" id="addWord" name="addWord" class=" form-control">
@@ -680,7 +680,7 @@
                                  height="36px"/>
                         </div>
                         <div class="col-md-6">
-                            <img id="ConfirmDeletebtn" style="float:right" src="/images/popup/trash_50x50.gif"
+                            <img id="ConfirmDeletebtn" style="float:right" src="/images/teacher/report_tick48x48.gif"
                                  width="36px" height="36px"/>
                         </div>
                     </div>

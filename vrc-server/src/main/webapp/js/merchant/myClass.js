@@ -48,27 +48,42 @@ function openAdd(){
                     $("#addCourses").empty();
                     if(data.courses!=null && data.courses.length>0){
                         var items=data.courses;
+                        var index = 1;
                         $(items).each(function(){
+                            index++;
                             var name = this.name;
                             if(name.length > 40){
                                 name = name.substring(0, 40) + '...';
                             }
+
                             $("#addCourses").append('<option title="'+this.name+'" value="' + this.id + '">' + name + '</option>');
                         });
                     }
                     $('#addCourses').multiselect('destroy');
-                    $('#addCourses').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '100%'});
+                    if(index > 12 ){
+                        $('#addCourses').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                    }else{
+                        $('#addCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
+                    }
+
                     $('#addCourses').multiselect('refresh');
 
                     $("#addStudents").empty();
+                    index = 0;
                     if(data.studentMappingTeachers!=null && data.studentMappingTeachers.length>0){
                         var items=data.studentMappingTeachers;
                         $(items).each(function(){
+                            index++;
                             $("#addStudents").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
                         });
                     }
                     $('#addStudents').multiselect('destroy');
-                    $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '100%'});
+                    if(index > 12){
+                        $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                    }else{
+                        $('#addStudents').multiselect({ enableFiltering: true,buttonWidth: '100%'});
+                    }
+
                     $('#addStudents').multiselect('refresh');
                 }else{
                     swalNew("", data.message.split(":")[1], "error");
@@ -290,30 +305,46 @@ function openEdit(){
                     if((data.courses!=null && data.courses.length>0) || (data.coursesOnClass!=null && data.coursesOnClass.length>0) ){
                         var item=data.coursesOnClass;
                         var items=data.courses;
+                        var index = 1;
                         $(item).each(function(){
+                            index++;
                             $("#editCourses").append('<option selected=selected title="'+this.description+'" value="' + this.id + '">' + this.name + '</option>');
                         });
                         $(items).each(function(){
+                            index++;
                             $("#editCourses").append('<option title="'+this.description+'" value="' + this.id + '">' + this.name + '</option>');
                         });
                     }
+
                     $('#editCourses').multiselect('destroy');
-                    $('#editCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
+                    if(index > 12){
+                        $('#editCourses').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                    }else{
+                        $('#editCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
+                    }
+
                     $('#editCourses').multiselect('refresh');
 
                     $("#editStudents").empty();
+                    index = 1;
                     if((data.smt!=null && data.smt.length>0)||(data.smtOnClass!=null && data.smtOnClass.length>0)){
                         var item=data.smtOnClass;
                         var items=data.smt;
                         $(item).each(function(){
+                            index++;
                             $("#editStudents").append('<option selected=selected value="' + this.studentName + '">' + this.studentName + '</option>');
                         });
                         $(items).each(function(){
+                            index++;
                             $("#editStudents").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
                         });
                     }
                     $('#editStudents').multiselect('destroy');
-                    $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '100%'});
+                    if(index > 12){
+                        $('#editStudents').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                    }else{
+                        $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '100%'});
+                    }
                     $('#editStudents').multiselect('refresh');
                     $("#edits").modal('show');
                 }else{

@@ -817,6 +817,14 @@ function makeOnceCheckboxSelected(){
         $('input[type="checkbox"]').not(this).prop('checked', false);
     });
 }
+function disableEnter(){
+    $(document).on('keyup keypress', 'form input[type="text"]', function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+}
 $(document).ready(function(){
     removeWord();
     saveWord();
@@ -825,4 +833,5 @@ $(document).ready(function(){
     openEditWords();
     focusInput();
     makeOnceCheckboxSelected();
+    disableEnter();
 });
