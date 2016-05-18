@@ -13,7 +13,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 style="margin-top: 10px;border-bottom: transparent" class="page-header header-company"><%=company%> >
+            <h4 style="margin-bottom : 5px;margin-top: 10px;border-bottom: transparent" class="page-header header-company"><%=company%> >
                 courses > my courses</h4>
         </div>
         <!-- /.col-lg-12 -->
@@ -21,6 +21,9 @@
 
     <!-- /.row header-->
     <div class="row">
+        <div class="col-lg-12">
+            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;margin-bottom: 20px" class="header">my courses</h2>
+        </div>
         <div class="col-lg-4 pull-left">
             <a id="open_popup" data-toggle="modal" class="btn btn-info"
                style="background-color: #E46C0A;border-color: #E46C0A">

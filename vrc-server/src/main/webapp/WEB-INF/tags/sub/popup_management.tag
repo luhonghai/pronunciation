@@ -1,3 +1,4 @@
+<%@ tag import="com.cmg.merchant.common.Constant" %>
 <style>
     .count-character{
         float: right;
@@ -41,6 +42,11 @@
         font-weight : 700 !important;
         font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
     }
+
+    .cbstyle {
+        box-shadow: inset 0 1px 1px rgba(255, 250, 250, 0.075) !important;
+        width: 10%;
+    }
 </style>
 <div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
@@ -73,6 +79,28 @@
                         <div class="col-md-8">
                             <textarea rows="2" class="form-control" id="courseDescription" name="description"
                                       placeholder="Course description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="shareall">share all:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" class="form-control cbstyle"
+                                   id="shareall" checked name="share" value="<%=Constant.SHARE_ALL%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="mycompany">share - my
+                            company:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" style="padding-top: 10px" class="form-control cbstyle"
+                                   id="mycompany" name="share" value="<%=Constant.SHARE_IN_COMPANY%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="private">private:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" style="padding-top: 10px" class="form-control cbstyle"
+                                   id="private" name="share" value="<%=Constant.SHARE_PRIVATE%>">
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -526,7 +554,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-3  col-sm-2" style="padding:0px">
-                            <label class="control-label">Word:</label>
+                            <label class="control-label">word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
                             <input autofocus autocomplete="off" type="text" id="addWord" name="addWord" class=" form-control">
@@ -652,7 +680,7 @@
                                  height="36px"/>
                         </div>
                         <div class="col-md-6">
-                            <img id="ConfirmDeletebtn" style="float:right" src="/images/popup/trash_50x50.gif"
+                            <img id="ConfirmDeletebtn" style="float:right" src="/images/teacher/report_tick48x48.gif"
                                  width="36px" height="36px"/>
                         </div>
                     </div>

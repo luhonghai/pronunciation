@@ -7,6 +7,7 @@ import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.company.CPDAO;
@@ -273,10 +274,13 @@ public class CourseServices {
      * @param description
      * @return
      */
-    public String updateCourse(String idCourse, String name, String description){
+    public String updateCourse(String idCourse, String name, String description, String share){
         CDAO cDao = new CDAO();
+        CMTDAO cmtDao = new CMTDAO();
         try {
             boolean check = cDao.updateCourse(idCourse, name, description);
+            CourseMappingTeacher cmt = cmtDao.getByIdCourse(idCourse);
+            if(cmt!=null) cmtDao.updateShare(cmt.getId(), share);
             if(check){
                 return SUCCESS;
             }
@@ -358,15 +362,20 @@ public class CourseServices {
         return SUCCESS;
     }
 
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
     public String enableAddLvButton(String idCourse){
         LvDAO dao = new LvDAO();
-        DataServices services = new DataServices();
         try {
             ArrayList<Level> listLv = (ArrayList<Level>) dao.listIn(idCourse);
             if(listLv!=null && listLv.size()>0){
                 for(Level lv : listLv){
-                    Test t = services.getTestDB(lv.getId());
-                    if(t == null){
+                    boolean existedInTest = dao.checkQuestionTestInLevel(lv.getId());
+                    boolean existedInObj = dao.checkQuestionObjInLevel(lv.getId());
+                    if(!existedInObj || !existedInTest ){
                         return ERROR;
                     }
                 }

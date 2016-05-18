@@ -45,6 +45,17 @@ function ClickOnTree(){
 
     });
 }
+
+function setSelectedCheckbox(share){
+    $('#popupCourse input[type=checkbox]').each(function(){
+        var sr = $(this).attr('value');
+        if(sr.trim() == share.trim()){
+            $(this).prop('checked', true);
+        }else{
+            $(this).prop("checked",false);
+        }
+    });
+}
 /**
  *
  * @param itemData
@@ -58,6 +69,7 @@ function openPopup(itemData){
         currentPopup.find("#titlePopupCourse").html("course management");
         getCourseName().val(itemData.label);
         getCourseDescription().val(itemData._title);
+        setSelectedCheckbox(itemData._details);
         currentPopup.find("#btnDeleteLevel").show();
         if(nameOfCourse.length > 30){
             currentPopup.find("#arrowCourse").html(nameOfCourse.substring(0,25) +"...");
@@ -418,7 +430,9 @@ function showAddWord(){
         $("#wordModal2").hide();
         $("#idLesson").val(idLesson);
         var row= $("#arrowQuestion").text() + " > question";
+        var title = $("#arrowQuestion").attr("title") + " > question";
         $("#arrowWord").text(row);
+        $("#arrowWord").attr("title",title);
         getAddWord().val("");
         getListPhonemes().html("");
         getListWeight().html("");
@@ -774,7 +788,7 @@ function copyAndPaste(){
                             copyQuestion (idLesson,idQuestion,name);
                         }
                     }else{
-                        swalNew("",'could not paste the data copied to this node',"error");
+                        swalNew("",'could not paste the data copied to this node. Please choose the correct parent for the hierarchy',"error");
                     }
 
                 }, disabled : function(key, opt) {
@@ -800,6 +814,19 @@ function focusInput(){
         $(this).find('input:first').focus();
     });
 }
+function makeOnceCheckboxSelected(){
+    $('input[type="checkbox"]').on('change', function() {
+        $('input[type="checkbox"]').not(this).prop('checked', false);
+    });
+}
+function disableEnter(){
+    $(document).on('keyup keypress', 'form input[type="text"]', function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+}
 $(document).ready(function(){
     removeWord();
     saveWord();
@@ -807,4 +834,6 @@ $(document).ready(function(){
     showAddWordForTest();
     openEditWords();
     focusInput();
+    makeOnceCheckboxSelected();
+    disableEnter();
 });
