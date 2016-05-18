@@ -10,9 +10,11 @@ import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LVMTDAO;
 import com.cmg.merchant.dao.level.LvDAO;
+import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.dao.objective.ODAO;
 import com.cmg.merchant.dao.test.TDAO;
 import com.cmg.merchant.data.dto.TreeNode;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -30,8 +32,11 @@ public class DataServices {
      */
     public Course getRootNode(String idCourse){
         CDAO dao = new CDAO();
+        CMTDAO cmtdao = new CMTDAO();
         try {
             Course c = dao.getById(idCourse);
+            CourseMappingTeacher cmt = cmtdao.getByIdCourse(idCourse);
+            if(cmt!=null)  c.setShare(cmt.getSr());
             return c;
         }catch (Exception e){
             logger.error(e);

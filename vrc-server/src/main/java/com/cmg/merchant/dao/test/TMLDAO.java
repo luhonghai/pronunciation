@@ -80,4 +80,17 @@ public class TMLDAO extends DataAccess<TestMapping> {
         return null;
     }
 
+    /**
+     *
+     * @param idTest
+     * @return
+     */
+    public String getLessonId(String idTest) throws Exception{
+        List<TestMapping> list = list("WHERE idTest==:1 && isDeleted==:3", idTest,false);
+        if(list!=null && list.size() > 0){
+            return list.get(0).getIdLessonCollection();
+        }
+        return null;
+    }
+
 }

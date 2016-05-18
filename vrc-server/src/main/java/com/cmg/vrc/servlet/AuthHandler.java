@@ -196,6 +196,7 @@ public class AuthHandler extends HttpServlet {
                                             userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
                                             userDevice.setGcmId(deviceInfo.getGcmId());
                                             userDevice.setOsVersion(deviceInfo.getOsVersion());
+                                            userDevice.setUserLastLogin(user.getUsername());
                                             if (userDevice.getAttachedDate() == null) {
                                                 userDevice.setAttachedDate(new Date(System.currentTimeMillis()));
                                             }

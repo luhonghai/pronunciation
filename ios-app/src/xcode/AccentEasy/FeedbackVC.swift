@@ -145,17 +145,6 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
         UIApplication.sharedApplication().openURL(url)
     }
     
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
-    }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
-    }
-    
     @IBAction func sendButtonTouchUp(sender: AnyObject) {
         self.view.endEditing(true)
         DeviceManager.doIfConnectedToNetwork { (status) -> Void in

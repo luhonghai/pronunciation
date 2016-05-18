@@ -46,7 +46,7 @@ function loadAllCourse(){
     });
     $.ajax({
         url : servlet,
-        type : "POST",
+        type : "GET",
         data : {
             action: "listall"
         },
@@ -103,7 +103,7 @@ function searchCourseHeader(){
                     buildCourse(this);
                 });
             }else{
-                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria.&nbsp</label><a id='reload'>Click here</a><label class='welcome'>&nbsp to load all the courses.</label>");
+                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria.</label>");
             }
         },
         error: function () {
@@ -151,7 +151,7 @@ function searchCourseDetail(){
                     buildCourse(this);
                 });
             }else{
-                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria.&nbsp</label><a id='reload'>Click here</a><label class='welcome'>&nbsp to load all the courses.</label>");
+                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria.&nbsp</label>");
             }
             closeDropdown();
         },

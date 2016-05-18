@@ -28,7 +28,8 @@ function editCourse(){
             action: action_edit_course,
             idCourse : idCourse,
             name: getCourseName().val(),
-            description: getCourseDescription().val()
+            description: getCourseDescription().val(),
+            share : getCourseShare().val()
         },
         dataType : "text",
         success : function(data){
@@ -72,7 +73,7 @@ function deleteCourse(){
                 currentPopup.modal('hide');
                 confirmDeletePopup().modal('hide');
                 swalNew("", "deleted successfully", "success");
-                window.history.back();
+                window.location.href = "/my-courses.jsp";
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -854,8 +855,8 @@ function loadPhonemes(){
                     getAddWord().attr("idWord", data.id);
                     getAddWord().attr("nameWord", data.word);
                     //$("#loadPhonemes").attr("disabled",true);
-                    getPhonemeLable().html("Arpabet:");
-                    getWeightLable().html("Weight:");
+                    getPhonemeLable().html("arpabet:");
+                    getWeightLable().html("weight:");
                     getIPAlable().html("Ipa:");
                     getListPhonemes().html("");
                     getListWeight().html("");
@@ -918,23 +919,29 @@ function enablePublishBtn(){
 /**
  *
  */
-function publishCourse(){
+function publishCourse(checkData){
     $.ajax({
         url : servletPublish,
         type : "POST",
         data : {
             action: "publish",
-            idCourse : idCourse
+            idCourse : idCourse,
+            checkData : checkData
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 window.location.href = "/my-courses.jsp";
-            }else{
+                $('#confirmPublish').modal('hide');
+            }else if(data.indexOf("showpopup")!= -1){
+                $('#confirmPublish').modal('show');
+            }else {
+                $('#confirmPublish').modal('hide');
                 swalNew("","could not connect to server","error");
             }
         },
         error: function () {
+            $('#confirmPublish').modal('hide');
             swalNew("","could not connect to server","error");
         }
     });

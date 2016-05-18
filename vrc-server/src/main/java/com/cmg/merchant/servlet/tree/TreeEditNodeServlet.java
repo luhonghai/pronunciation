@@ -34,8 +34,9 @@ public class TreeEditNodeServlet extends BaseServlet {
         if(action.equalsIgnoreCase(Constant.ACTION_EDIT_COURSE)){
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
+            String share = (String) StringUtil.isNull(request.getParameter("share"), "").toString();
             CourseServices services = new CourseServices();
-            String txt = services.updateCourse(idCourse,name,description);
+            String txt = services.updateCourse(idCourse,name,description,share);
             response.getWriter().println(txt);
         }else
         if(action.equalsIgnoreCase(Constant.ACTION_EDIT_LEVEL)){

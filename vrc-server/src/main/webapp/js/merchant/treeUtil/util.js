@@ -45,6 +45,17 @@ function ClickOnTree(){
 
     });
 }
+
+function setSelectedCheckbox(share){
+    $('#popupCourse input[type=checkbox]').each(function(){
+        var sr = $(this).attr('value');
+        if(sr.trim() == share.trim()){
+            $(this).prop('checked', true);
+        }else{
+            $(this).prop("checked",false);
+        }
+    });
+}
 /**
  *
  * @param itemData
@@ -58,6 +69,7 @@ function openPopup(itemData){
         currentPopup.find("#titlePopupCourse").html("course management");
         getCourseName().val(itemData.label);
         getCourseDescription().val(itemData._title);
+        setSelectedCheckbox(itemData._details);
         currentPopup.find("#btnDeleteLevel").show();
         if(nameOfCourse.length > 30){
             currentPopup.find("#arrowCourse").html(nameOfCourse.substring(0,25) +"...");
@@ -171,7 +183,7 @@ function openPopup(itemData){
         getTypeLesson().val(itemData._type);
         getDetailLesson().val(itemData._details);
         var length_detail = itemData._details.length;
-        $("#count-lesson-details").html(length_detail + " of 240 characters");
+        $("#count-lesson-details").html(length_detail + " of 600 characters");
         currentPopup.find("#btnDeleteLesson").show();
         var objParent = treeAPI.itemData(currentParent);
         getNameLesson().attr("objID",objParent.id);
@@ -228,15 +240,17 @@ function openPopup(itemData){
         getListWordTest().empty();
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
-        var level = treeAPI.itemData(currentParent);
-        var row= nameOfCourse +" > " + level.label;
+        var level = treeAPI.parent(currentParent);
+        var levelItem = treeAPI.itemData(level);
+        var test = treeAPI.itemData(currentParent);
+        var row= nameOfCourse +" > " + levelItem.label + " > " + test.label;
         getExplanationTest().attr("row",row);
-        var breadCrumb = nameOfCourse + " > " + level.label;
+        var breadCrumb = nameOfCourse + " > " + levelItem.label + " > " + test.label;
         if(breadCrumb.length > 30){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
         }else{
-            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + levelItem.label + " > "  + test.label);
         }
 
     }else if(itemData._actionClick == action_edit_question_test){
@@ -255,12 +269,12 @@ function openPopup(itemData){
         var levelItem = treeAPI.itemData(level);
         var row = nameOfCourse +" > "+levelItem.label+ " > " + test.label;
         getExplanationTest().attr("row",row);
-        var breadCrumb = nameOfCourse + " > " + level.label;
+        var breadCrumb = nameOfCourse + " > " + levelItem.label;
         if(breadCrumb.length > 30){
             currentPopup.find("#arrowQuestionTest").html(breadCrumb.substring(0,25) + "...");
             currentPopup.find("#arrowQuestionTest").attr("title",breadCrumb);
         }else{
-            currentPopup.find("#arrowQuestionTest").html(nameOfCourse + " > " + level.label);
+            currentPopup.find("#arrowQuestionTest").html(row);
         }
     }
 
@@ -274,9 +288,11 @@ function openPopup(itemData){
 function drawListWord(listWord){
     var list=readListMail(listWord);
     getListWord().html("");
-    getListWordTest().html();
+    getListWordTest().html("");
     if(list!=null && list.length>0){
-        list.sort();
+        list.sort(function(a, b) {
+            return a == b ? 0 : +(a > b) || -1;
+        });
         for(var i=0;i<list.length;i++){
             if(currentPopup.find(".action").val() == action_edit_question){
                 getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
@@ -414,7 +430,9 @@ function showAddWord(){
         $("#wordModal2").hide();
         $("#idLesson").val(idLesson);
         var row= $("#arrowQuestion").text() + " > question";
+        var title = $("#arrowQuestion").attr("title") + " > question";
         $("#arrowWord").text(row);
+        $("#arrowWord").attr("title",title);
         getAddWord().val("");
         getListPhonemes().html("");
         getListWeight().html("");
@@ -770,7 +788,7 @@ function copyAndPaste(){
                             copyQuestion (idLesson,idQuestion,name);
                         }
                     }else{
-                        swalNew("",'could not paste the data copied to this node',"error");
+                        swalNew("",'could not paste the data copied to this node. Please choose the correct parent for the hierarchy',"error");
                     }
 
                 }, disabled : function(key, opt) {
@@ -796,6 +814,19 @@ function focusInput(){
         $(this).find('input:first').focus();
     });
 }
+function makeOnceCheckboxSelected(){
+    $('input[type="checkbox"]').on('change', function() {
+        $('input[type="checkbox"]').not(this).prop('checked', false);
+    });
+}
+function disableEnter(){
+    $(document).on('keyup keypress', 'form input[type="text"]', function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+}
 $(document).ready(function(){
     removeWord();
     saveWord();
@@ -803,4 +834,6 @@ $(document).ready(function(){
     showAddWordForTest();
     openEditWords();
     focusInput();
+    makeOnceCheckboxSelected();
+    disableEnter();
 });

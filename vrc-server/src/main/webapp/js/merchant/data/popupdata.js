@@ -189,7 +189,7 @@ function initHelpAddLesson(){
     $html.append("<p>3. Select the lesson type.</p>");
     $html.append("<p>The scoring functionality differs between lesson types.</p>");
     $html.append("<p>4. Enter the lesson details.</p>");
-    $html.append("<p>This is the text that will be displayed when the student selects the ‘teacher’s tips’ button on the question page.(Restricted to 240 characters).</p>");
+    $html.append("<p>This is the text that will be displayed when the student selects the 'teacher's tip'’ button on the question page.(Restricted to 600 characters).</p>");
     $html.append("<p>5. Select 'save'.</p>");
     $html.append("<p>A button will be added to the administration page.</p>");
     $html.append("<p>When you click on the button, you will be able to edit or delete the lesson.</p>");
@@ -210,6 +210,20 @@ function initHelpAddQuestion(){
 
     return $html;
 }
+
+function initHelpAddTestQuestion(){
+    var $html = $("<div>");
+    $html.html("<p>1. Add an explanation for the question.</p>");
+    $html.append("<p>This will be displayed on the test page when the question is selected.</p>");
+    $html.append("<p>2. Select the question type</p>");
+    $html.append("<p>This will determine the scoring functionality for the question. You will be guided through some steps to set up the scoring. </p>");
+    $html.append("<p>Each question will appear in the order that you add them. You can drag and drop them to re-order them and the numbering will change automatically.</p>");
+    $html.append("<p>A button will be added to the administration page.</p>");
+    $html.append("<p>When you hold the mouse over a question a pop up will be displayed enabling you to see which words you have added.</p>");
+    $html.append("<p>When you click on the button, you will be able to edit or delete the question.</p>");
+    return $html;
+}
+
 
 function initHelpTopDataMainCourse(){
     var $html = $("<div>");

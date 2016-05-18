@@ -1,3 +1,4 @@
+<%@ tag import="com.cmg.merchant.common.Constant" %>
 <style>
     .count-character{
         float: right;
@@ -41,6 +42,11 @@
         font-weight : 700 !important;
         font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
     }
+
+    .cbstyle {
+        box-shadow: inset 0 1px 1px rgba(255, 250, 250, 0.075) !important;
+        width: 10%;
+    }
 </style>
 <div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
@@ -73,6 +79,28 @@
                         <div class="col-md-8">
                             <textarea rows="2" class="form-control" id="courseDescription" name="description"
                                       placeholder="Course description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="shareall">share all:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" class="form-control cbstyle"
+                                   id="shareall" checked name="share" value="<%=Constant.SHARE_ALL%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="mycompany">share - my
+                            company:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" style="padding-top: 10px" class="form-control cbstyle"
+                                   id="mycompany" name="share" value="<%=Constant.SHARE_IN_COMPANY%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="private">private:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" style="padding-top: 10px" class="form-control cbstyle"
+                                   id="private" name="share" value="<%=Constant.SHARE_PRIVATE%>">
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -325,10 +353,10 @@
                              style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
 
                         <div class="col-md-8">
-                            <textarea onkeyup="countChars('lessonDetail');" maxlength="240" rows="3"
+                            <textarea onkeyup="countChars('lessonDetail');" maxlength="600" rows="3"
                                       class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>
-                            <span class="count-character" id="count-lesson-details">0 of 240 characters</span>
+                            <span class="count-character" id="count-lesson-details">0 of 600 characters</span>
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -526,10 +554,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-3  col-sm-2" style="padding:0px">
-                            <label class="control-label">Word:</label>
+                            <label class="control-label">word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
-                            <input autofocus type="text" id="addWord" name="addWord" class=" form-control">
+                            <input autofocus autocomplete="off" type="text" id="addWord" name="addWord" class=" form-control">
                         </div>
                         <div class="col-xs-4  col-sm-4">
                             <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"
@@ -652,7 +680,7 @@
                                  height="36px"/>
                         </div>
                         <div class="col-md-6">
-                            <img id="ConfirmDeletebtn" style="float:right" src="/images/popup/trash_50x50.gif"
+                            <img id="ConfirmDeletebtn" style="float:right" src="/images/teacher/report_tick48x48.gif"
                                  width="36px" height="36px"/>
                         </div>
                     </div>
@@ -664,6 +692,9 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
+
+
+
 <div id="helpReportModal" class="modal fade">
     <div class="modal-dialog" style="width:500px">
         <div class="modal-content" style="border-radius: 20px">
@@ -691,6 +722,32 @@
                     <p style="color: red;">2.Select a phoneme.</p>
                     <p style="color: red;">3.Select a time period.</p>--%>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="confirmPublish" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-bottom: 15px">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 style="text-align: center;font-weight: 700;font-size: 18px;" class="modal-title"></h2>
+            </div>
+            <div class="modal-body">
+                <form name="add" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label style="font-weight: 200;font-size: 14px;">You have duplicate data in your course that will not be published, do you wish to continue?</label>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0px;" class="form-group">
+                        <div class="col-sm-6"><label class="cancelLbl"
+                                                     id="cancel-publish" style="font-weight:200;float:left;cursor: pointer;padding-top:15px"><u>cancel</u></label></div>
+                        <div class="col-sm-6"><img title="publish course" id="btn-confirm-pb" class="btn" style="float: right; padding: 0px; cursor: pointer; opacity: inherit;" src="/images/treeview/publish_button.gif" width="36px" height="36px"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

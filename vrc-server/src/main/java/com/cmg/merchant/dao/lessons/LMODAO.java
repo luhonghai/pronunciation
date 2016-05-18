@@ -59,6 +59,9 @@ public class LMODAO extends DataAccess<LessonCollection> {
                     if(array[6] != null) {
                         dto.setTitle(array[6].toString());
                     }
+                    if(array[7] != null) {
+                        dto.setIsCopied(Boolean.parseBoolean(array[7].toString()));
+                    }
                     list.add(dto);
                 }
             }
