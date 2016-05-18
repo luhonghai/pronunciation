@@ -193,15 +193,16 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let obj = objectives[indexPath.row]
         let identifier = "levelRowCell"
-        var cell: LessonTableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier) as! LessonTableViewCell
+        let cell: LessonTableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier) as! LessonTableViewCell
         cell.lblScore.layer.cornerRadius = cell.lblScore.frame.width / 2
         cell.lblScore.layer.masksToBounds = true
         cell.bg.layer.cornerRadius = 5
         let tapGusture = UITapGestureRecognizer(target: self, action: Selector("tapItem:"))
         tapGusture.numberOfTapsRequired = 1
-        cell.bg.tag = indexPath.row
-        cell.bg.addGestureRecognizer(tapGusture)
-        
+        if cell.bg.tag == 0 {
+            cell.bg.addGestureRecognizer(tapGusture)
+        }
+        cell.bg.tag = indexPath.row + 1
         cell?.lblTitle.text = obj.name
         if let score = obj.score {
             cell?.lblScore.text = String(score)
@@ -228,7 +229,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tapItem(sender: UITapGestureRecognizer) {
-        let row: Int = sender.view!.tag
+        let row: Int = sender.view!.tag - 1
         Logger.log("Select row id \(row)")
         //let obj = objectives[row]
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonCollectionController") as! LessonCollectionController

@@ -127,8 +127,11 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         cell.bg.layer.cornerRadius = 5
         let tapGusture = UITapGestureRecognizer(target: self, action: Selector("tapItem:"))
         tapGusture.numberOfTapsRequired = 1
-        cell.bg.tag = indexPath.row
-        cell.bg.addGestureRecognizer(tapGusture)
+        if cell.bg.tag == 0 {
+            cell.bg.addGestureRecognizer(tapGusture)
+        }
+        cell.bg.tag = indexPath.row + 1
+        
         
         cell?.lblTitle.text = level.name
         if let score = level.score {
@@ -157,7 +160,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
     }
     
     func tapItem(sender: UITapGestureRecognizer) {
-        let row: Int = sender.view!.tag
+        let row: Int = sender.view!.tag - 1
         Logger.log("Select row id \(row)")
         let level = levels[row]
         
