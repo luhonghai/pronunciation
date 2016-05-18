@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
 	<artifactId>server</artifactId>
-	<version>4.0.029</version>
+	<version>4.0.030</version>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
 	<description>VRC Server</description>
