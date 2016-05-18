@@ -50,7 +50,7 @@
                 <a href="my-classes.jsp"> click here</a>
         </div>
         <div id="selection-filter" class="col-sm-12">
-            <div class="col-sm-1"><label>classes:</label></div>
+            <div class="col-sm-1"><label>class:</label></div>
             <div class="col-sm-3">
                 <select class="form-control" id="listClass">
                 </select>
