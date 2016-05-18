@@ -430,7 +430,9 @@ function showAddWord(){
         $("#wordModal2").hide();
         $("#idLesson").val(idLesson);
         var row= $("#arrowQuestion").text() + " > question";
+        var title = $("#arrowQuestion").attr("title") + " > question";
         $("#arrowWord").text(row);
+        $("#arrowWord").attr("title",title);
         getAddWord().val("");
         getListPhonemes().html("");
         getListWeight().html("");
