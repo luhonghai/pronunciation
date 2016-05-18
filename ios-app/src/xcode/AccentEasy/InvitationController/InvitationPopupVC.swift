@@ -46,7 +46,8 @@ class InvitationPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        hidenLoadding()
+        super.viewDidDisappear(animated)
+        //hidenLoadding()
     }
 
     override func didReceiveMemoryWarning() {

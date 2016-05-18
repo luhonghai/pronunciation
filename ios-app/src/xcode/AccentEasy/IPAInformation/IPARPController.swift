@@ -9,7 +9,7 @@
 import UIKit
 import SloppySwiper
 
-class IPARPController: UIViewController {
+class IPARPController: BaseUIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

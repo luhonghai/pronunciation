@@ -409,6 +409,7 @@ class AccountManager {
                     if DatabaseHelper.updateCourses(session) {
                         userProfile.courseSession = session
                         completion(userProfile: userProfile, success: true, message: "success")
+                        
                     } else {
                         completion(userProfile: userProfile, success: false, message: "could not fetch course databases")
                     }

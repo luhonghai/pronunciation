@@ -42,7 +42,8 @@ class InviAcceptPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        hidenLoadding()
+        super.viewDidDisappear(animated)
+        //hidenLoadding()
     }
 
     override func didReceiveMemoryWarning() {

@@ -11,8 +11,11 @@ import UIKit
 class InvitationNotificationPopup: UIViewController {
 
     var delegate:InvitationPopupDelegate?
+    var message:String!
     
     @IBOutlet weak var btnClose: UIButton!
+    @IBOutlet weak var btnReject: UIButton!
+    @IBOutlet weak var tvTitle: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +32,20 @@ class InvitationNotificationPopup: UIViewController {
         btnClose.layer.cornerRadius = btnClose.frame.size.width/2
         btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
+        
+        var rImage = UIImage(named: "ic_close_dialog.png")!
+        rImage = ImageHelper.imageWithImage(image: rImage, w: 50, h: 50)
+        btnReject.layer.cornerRadius = btnReject.frame.size.width/2
+        btnReject.setImage(rImage, forState: UIControlState.Normal)
+        btnReject.tintColor = ColorHelper.APP_RED_MAGENTA
+        
+        if message != nil {
+            tvTitle.text = message
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         //hidenLoadding()
     }
 

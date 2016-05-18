@@ -275,7 +275,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YmL-aS-vzg" userLabel="topView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YmL-aS-vzg" userLabel="topView">
                                 <rect key="frame" x="-1" y="64" width="376" height="167"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="accenteasy_icon_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="3aZ-8x-q5o">
@@ -750,7 +750,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YiK-Ch-Cum" userLabel="topView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YiK-Ch-Cum" userLabel="topView">
                                 <rect key="frame" x="-1" y="64" width="376" height="250"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="accenteasy_icon_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="gtQ-E6-FUh">
@@ -1724,27 +1724,32 @@
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" id="GJ9-Wc-ILg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="hand-draw-arrow-5.png" id="B1f-zB-bdh">
                                         <rect key="frame" x="37" y="16" width="81" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="B1f-zB-bdh" secondAttribute="height" multiplier="80:79" id="Ee4-Qr-I6S"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="menu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BZD-hq-lZN">
                                         <rect key="frame" x="63" y="96" width="50" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-3.png" id="MWf-jC-NoN">
                                         <rect key="frame" x="254" y="16" width="81" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="MWf-jC-NoN" secondAttribute="height" multiplier="80:79" id="YGS-Vj-wf3"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VdA-T5-h40">
                                         <rect key="frame" x="104" y="56" width="162" height="82"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="VdA-T5-h40" secondAttribute="height" multiplier="125:63" id="cgj-vL-NbQ"/>
                                         </constraints>
@@ -1756,12 +1761,14 @@ word</string>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-4.png" id="k0F-rz-1eo">
                                         <rect key="frame" x="245" y="85" width="81" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="k0F-rz-1eo" secondAttribute="height" multiplier="80:79" id="h5W-uo-LJ3"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="record your voice" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pFM-Nk-rNt">
                                         <rect key="frame" x="205" y="165" width="162" height="72"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="pFM-Nk-rNt" secondAttribute="height" multiplier="142:63" id="GCP-Uz-ura"/>
                                         </constraints>
@@ -1771,6 +1778,7 @@ word</string>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Rd-6z-Xk0">
                                         <rect key="frame" x="-25" y="170" width="162" height="88"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="4Rd-6z-Xk0" secondAttribute="height" multiplier="116:63" id="dtg-y2-K1z"/>
                                         </constraints>
@@ -1782,30 +1790,35 @@ hear</string>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow.png" id="SIZ-5l-bTd">
                                         <rect key="frame" x="53" y="248" width="81" height="61"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="SIZ-5l-bTd" secondAttribute="height" multiplier="2:1.5" id="p1G-oL-EFx"/>
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-2.png" id="6FU-zg-4fT">
                                         <rect key="frame" x="242" y="271" width="81" height="61"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="6FU-zg-4fT" secondAttribute="height" multiplier="2:1.5" id="dsb-qk-wJO"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPA symbols" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DaU-l7-eYL">
                                         <rect key="frame" x="224" y="241" width="116" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="hand-draw-arrow-4.png" id="VxH-K3-qpq">
                                         <rect key="frame" x="35" y="377" width="81" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="VxH-K3-qpq" secondAttribute="height" multiplier="2:1" id="dUS-2a-UKn"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SVA-S6-TVc">
                                         <rect key="frame" x="-6" y="418" width="163" height="75"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="SVA-S6-TVc" secondAttribute="height" multiplier="136:63" id="hfI-7M-EZr"/>
                                         </constraints>
@@ -1817,6 +1830,7 @@ definition</string>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="progress" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="468-uv-KMT">
                                         <rect key="frame" x="262" y="538" width="92" height="43"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="468-uv-KMT" secondAttribute="height" multiplier="136:63" id="HRC-Nq-MOD"/>
                                         </constraints>
@@ -1826,6 +1840,7 @@ definition</string>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="hand-draw-arrow-2.png" id="dal-vT-oWs">
                                         <rect key="frame" x="228" y="581" width="81" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="dal-vT-oWs" secondAttribute="height" multiplier="80:79" id="fFP-bm-kfP"/>
                                         </constraints>
@@ -2949,7 +2964,7 @@ definition</string>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Jj-UP-Sw3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5185" y="14"/>
+            <point key="canvasLocation" x="5081" y="-196"/>
         </scene>
         <!--Tips View Controller-->
         <scene sceneID="Ohi-tT-s4Y">
@@ -3499,7 +3514,7 @@ definition</string>
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1m6-7Y-5wG">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1m6-7Y-5wG">
                                 <rect key="frame" x="305" y="110" width="54" height="54"/>
                                 <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -3510,7 +3525,7 @@ definition</string>
                                     <action selector="btnPlayTouchUp:" destination="cOY-Ek-PbP" eventType="touchUpInside" id="VAE-lL-j4F"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qrO-vU-Bw1" customClass="AnalyzingView" customModule="accenteasy" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qrO-vU-Bw1" customClass="AnalyzingView" customModule="accenteasy" customModuleProvider="target">
                                 <rect key="frame" x="21" y="110" width="241" height="241"/>
                                 <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
@@ -3521,7 +3536,7 @@ definition</string>
                                     <outletCollection property="gestureRecognizers" destination="Q6N-HQ-Bpi" appends="YES" id="qwR-Dv-ffY"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WkO-zF-5M8">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WkO-zF-5M8">
                                 <rect key="frame" x="26" y="351" width="337" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Button">
@@ -3531,7 +3546,7 @@ definition</string>
                                     <action selector="btnPlayDemoTouchUp:" destination="cOY-Ek-PbP" eventType="touchUpInside" id="OD9-Kr-ese"/>
                                 </connections>
                             </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dLQ-9D-22F">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dLQ-9D-22F">
                                 <rect key="frame" x="22" y="402" width="337" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -3960,7 +3975,7 @@ definition</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u8X-1K-wUG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1827.5" y="-133.5"/>
+            <point key="canvasLocation" x="1827.5" y="-35.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="imJ-hr-hYM">
@@ -5022,9 +5037,9 @@ about this lesson</string>
     <inferredMetricsTieBreakers>
         <segue reference="w7l-a7-zju"/>
         <segue reference="t7Q-vO-CVy"/>
-        <segue reference="4c6-2C-7Wp"/>
-        <segue reference="Udu-EY-icj"/>
-        <segue reference="ZNM-TN-klg"/>
+        <segue reference="Ceg-og-m1t"/>
+        <segue reference="cQm-kD-9I0"/>
+        <segue reference="VlK-rN-iWT"/>
         <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>

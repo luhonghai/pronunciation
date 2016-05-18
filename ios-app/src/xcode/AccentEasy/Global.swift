@@ -30,6 +30,8 @@ public class GlobalData {
     
     var isShowInvitation = true
     
+    var isInvitationPage = false
+    
     public static func getInstance() -> GlobalData {
         if (instance == nil) {
             instance = GlobalData()

@@ -10,7 +10,7 @@ import UIKit
 import EZAudio
 import SloppySwiper
 
-class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate, QuestionCVDatasourceDelegate, ToltalScorePopupVCDelegate, TestPopupDelegate {
+class LessonDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate, QuestionCVDatasourceDelegate, ToltalScorePopupVCDelegate, TestPopupDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -185,6 +185,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordSelected.word)
     }
     
@@ -281,7 +282,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     var lessonTitle:String!
     
     override func viewDidAppear(animated: Bool) {
-        
+        super.viewDidAppear(animated)
         viewAnalyzing.refreshLayout()
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
         GlobalData.getInstance().selectedWord = self.userVoiceModelResult.word
@@ -430,8 +431,10 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     
     
     func audioPlayer(audioPlayer: EZAudioPlayer!, reachedEndOfAudioFile audioFile: EZAudioFile!) {
-        self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
-        showColorOfScoreResult(userVoiceModelResult.score)
+        dispatch_async(dispatch_get_main_queue(),{
+            self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
+            self.showColorOfScoreResult(self.userVoiceModelResult.score)
+        })
     }
     
     func pressShowChart(sender: IPAPopupVC?) {

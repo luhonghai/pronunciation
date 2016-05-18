@@ -12,7 +12,7 @@ import EZAudio
 import Darwin
 import SloppySwiper
 
-class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, HelpButtonDelegate {
+class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, HelpButtonDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -95,6 +95,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         //check invitation and redirect to InvitaionMainVC
         if (GlobalData.getInstance().isShowInvitation) {
@@ -116,7 +117,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         }
         
         GlobalData.getInstance().isOnLessonMain = false
-        super.viewDidLoad()
+        
 //        swiper = SloppySwiper(navigationController: self.navigationController)
 //        self.navigationController?.delegate = swiper
         DeviceManager.requestMicrophonePermission {
@@ -309,6 +310,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
         //loginParameter = NSUserDefaults()
         //let username:String = loginParameter.objectForKey("username") as! String
         //if username != "hoang" {

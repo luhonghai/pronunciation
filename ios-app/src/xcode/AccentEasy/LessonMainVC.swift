@@ -17,7 +17,7 @@ class QuestionCVCell: UICollectionViewCell {
     
 }
 
-class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate, LessonTipPopupVCDelegate, HelpButtonDelegate {
+class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate, LessonTipPopupVCDelegate, HelpButtonDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -122,8 +122,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     
     override func viewDidLoad() {
-        GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
+        
+        GlobalData.getInstance().isOnLessonMain = true
 //        swiper = SloppySwiper(navigationController: self.navigationController)
 //        self.navigationController?.delegate = swiper
         DeviceManager.requestMicrophonePermission {
@@ -352,6 +353,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         //loginParameter = NSUserDefaults()
         //let username:String = loginParameter.objectForKey("username") as! String
         //if username != "hoang" {

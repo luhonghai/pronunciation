@@ -14,7 +14,7 @@ class CourseTableViewCell: LessonTableViewCell {
      @IBOutlet weak var imgCourse: UIImageView!
 }
 
-class CoursesViewController: UITableViewController {
+class CoursesViewController: BaseUITableViewController {
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     

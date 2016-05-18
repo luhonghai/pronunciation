@@ -32,7 +32,7 @@ public class Notification {
      * @param users
      */
     public void sendNotificationWhenInvite (List<User> users){
-        sendNotificationToUser(users,null,GcmMessage.TYPE_UPDATE_COURSE);
+        sendNotificationToUser(users,null,GcmMessage.TYPE_INVITE);
     }
 
 

@@ -8,6 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InvitationNotificationPopup" customModule="accenteasy" customModuleProvider="target">
             <connections>
                 <outlet property="btnClose" destination="hjU-HT-jkO" id="rsD-d6-edq"/>
+                <outlet property="btnReject" destination="8G2-oR-7aS" id="b5H-gV-YU4"/>
+                <outlet property="tvTitle" destination="xFH-Ri-Y3K" id="tmo-sB-lPJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,20 +24,27 @@
                         <action selector="btnCloseTouchUp:" destination="-1" eventType="touchUpInside" id="80f-Fy-dTN"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="invite button.png" translatesAutoresizingMaskIntoConstraints="NO" id="L0e-vD-eGH">
-                    <rect key="frame" x="125" y="41" width="50" height="50"/>
-                </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xFH-Ri-Y3K">
-                    <rect key="frame" x="8" y="99" width="284" height="35"/>
+                    <rect key="frame" x="8" y="25" width="284" height="102"/>
                     <string key="text">You have new invitations
+You have new invitations
+You have new invitations
+You have new invitations
+You have new invitations
 </string>
                     <color key="textColor" red="0.43921568630000002" green="0.18823529410000001" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXl-Cn-sJd">
-                    <rect key="frame" x="99" y="148" width="103" height="30"/>
-                    <state key="normal" title="load invitations"/>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8G2-oR-7aS">
+                    <rect key="frame" x="67" y="135" width="50" height="50"/>
+                    <connections>
+                        <action selector="btnCloseTouchUp:" destination="-1" eventType="touchUpInside" id="nax-MX-acL"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yXl-Cn-sJd">
+                    <rect key="frame" x="184" y="135" width="50" height="50"/>
+                    <state key="normal" title="load invitations" image="tick.png"/>
                     <connections>
                         <action selector="btnOKTouchUp:" destination="-1" eventType="touchUpInside" id="pbd-z6-Gzl"/>
                     </connections>
@@ -46,6 +55,6 @@
         </view>
     </objects>
     <resources>
-        <image name="invite button.png" width="500" height="500"/>
+        <image name="tick.png" width="200" height="200"/>
     </resources>
 </document>
