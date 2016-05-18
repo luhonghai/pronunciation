@@ -163,13 +163,16 @@
 
 </style>
 <div id="page-wrapper">
-    <div class="row">
+    <div style="padding-bottom: 0px;"class="row">
         <div class="col-sm-12">
-            <h4 class="page-header header-company"><%=company%> >
-                reports > lessons</h4>
+            <h4 style="padding-bottom: 0px" class="page-header header-company"><%=company%> >
+                reports > phonemes</h4>
         </div>
     </div>
     <div class="row">
+        <div class="col-lg-12">
+            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;margin-bottom: 25px" class="header">report phonemes</h2>
+        </div>
         <div class="col-sm-1"><label style="float: left;">student:</label></div>
         <div class="col-sm-11">
             <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">

@@ -28,7 +28,8 @@ function editCourse(){
             action: action_edit_course,
             idCourse : idCourse,
             name: getCourseName().val(),
-            description: getCourseDescription().val()
+            description: getCourseDescription().val(),
+            share : getCourseShare().val()
         },
         dataType : "text",
         success : function(data){
@@ -948,7 +949,12 @@ function UpdateStateCourse(){
     if(isEditedContent){
         state = "edited";
     }else{
-        state = "duplicated";
+        if(isEditedTitle){
+            state = "edited title";
+        }else{
+            state = "duplicated";
+        }
+
     }
     $.ajax({
         url : servletPublish,

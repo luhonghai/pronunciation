@@ -37,17 +37,20 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-sm-12">
-            <h4 class="page-header header-company"><%=company%> >
+            <h4 style="padding-bottom: 0px" class="page-header header-company"><%=company%> >
                 reports</h4>
         </div>
     </div>
     <div class="row">
+        <div class="col-lg-12">
+            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">reports</h2>
+        </div>
         <div id="notification" class="col-sm-12">
-            <label style="color : #376092">you had not created any class, to create a class :</label>
+            <label style="color : #376092">You had not created any class, to create a class :</label>
                 <a href="my-classes.jsp"> click here</a>
         </div>
         <div id="selection-filter" class="col-sm-12">
-            <div class="col-sm-1"><label>classes:</label></div>
+            <div class="col-sm-1"><label>class:</label></div>
             <div class="col-sm-3">
                 <select class="form-control" id="listClass">
                 </select>

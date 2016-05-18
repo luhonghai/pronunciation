@@ -146,6 +146,9 @@
     #confirmDelete .form-group{
         margin-bottom: 0px;
     }
+    .multiselect-container{
+        width  :100%;
+    }
 
 </style>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME),"").toString();%>
@@ -159,7 +162,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="header">My classes</h2>
+            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">my classes</h2>
         </div>
         <div style="padding-bottom: 10px" class="col-sm-12">
             <button id="addClass" class="btn btn-default" style="background-color: #F7964A;color: white;border-radius: 3px; padding: 5px 10px;">add class <i class="fa fa-plus"></i> </button>
@@ -186,8 +189,8 @@
             <div class="modal-body">
                 <div>
                     <p>Use this page to create and manage your classes.</p>
-                    <p>Add a class (name and description) and assign courses and students that you have availale in 'my courses' and 'my students' respectively.</p>
-                    <p><strong>Note</strong>: You will only be able to add courses that have been published, licenced students and external student that have been linked to you. You will not be able to add external students that are pending acceptence or that have reiected an invitation.</p>
+                    <p>Add a class (name and description) and assign courses and students that you have available in 'my courses' and 'my students' respectively.</p>
+                    <p><strong>Note</strong>: You will only be able to add courses that have been published, student that have been linked to you. You will not be able to add students that are pending acceptence or that have reiected an invitation.</p>
                     <p>Select a class from the list to view or edit the detail or to delete the class completely.</p>
                     <p>When a class has been created (or edited) and saved, the students will receive a notification on their phones.</p>
                     <p>If new courses are added, they will be available for use by the students assigned to class.</p>
@@ -402,7 +405,7 @@
                         </div>
                         <div class="col-sm-6">
                             <img style="float: right;cursor: pointer" id="deleteItems"
-                                 src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
+                                 src="/images/teacher/report_tick48x48.gif" width="36px" height="36px"/>
                         </div>
                     </div>
                 </form>
