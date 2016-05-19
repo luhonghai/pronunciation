@@ -73,7 +73,7 @@ public class CMTSERVICES {
                    dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
                    try {
                        SqliteService generateSqlite = new SqliteService(idCourse);
-                       generateSqlite.start();
+                       generateSqlite.clearData();
                    }catch (Exception e){}
                    return SUCCESS;
                }
@@ -82,7 +82,7 @@ public class CMTSERVICES {
                 dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
                 try {
                     SqliteService generateSqlite = new SqliteService(idCourse);
-                    generateSqlite.start();
+                    generateSqlite.clearData();
                 }catch (Exception e){}
                 return SUCCESS;
             }

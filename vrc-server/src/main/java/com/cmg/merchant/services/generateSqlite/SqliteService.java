@@ -158,7 +158,7 @@ public class SqliteService extends Thread{
      * @throws Exception
      */
     public void clearData() throws Exception {
-  /*      try {
+        try {
             LvDAO lvdao = new LvDAO();
             List<com.cmg.lesson.data.jdo.level.Level> list = lvdao.listIn(idCourse);
             if(list!=null && list.size() > 0){
@@ -177,8 +177,7 @@ public class SqliteService extends Thread{
                 }
             }
         }catch (Exception e){
-
-        }*/
+        }
         TCHDAO dao = new TCHDAO();
         int version = dao.getLatestVersion(idCourse)+1;
         String projectName = this.idCourse + "-v" + version + ".zip";
