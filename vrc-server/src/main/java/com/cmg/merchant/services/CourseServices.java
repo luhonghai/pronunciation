@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by lantb on 2016-02-02.
@@ -40,7 +42,7 @@ public class CourseServices {
             .getName());
     public String SUCCESS = "success";
     public String ERROR = "error";
-
+    private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     /**
      * use for get max version
      *
@@ -252,13 +254,26 @@ public class CourseServices {
      * @param idCourse
      * @return
      */
-    public String deleteCourse(String idCourse){
-        CDAO cDao = new CDAO();
+    public String deleteCourse(final String idCourse){
+        //CDAO cDao = new CDAO();
         CMTDAO mapDao = new CMTDAO();
         try {
             if(mapDao.removeMappingCourse(idCourse)){
-                cDao.deleteCourseStep1(idCourse);
-                cDao.deleteCourseStep2(idCourse);
+               /* Thread t1 = new Thread(new Runnable() {
+                    public void run() {
+                        CDAO cDao = new CDAO();
+                        cDao.deleteCourseStep1(idCourse);
+                        cDao.deleteCourseStep2(idCourse);
+                    }
+                });
+                t1.start();*/
+                executorService.submit(new Runnable() {
+                    public void run() {
+                        CDAO cDao = new CDAO();
+                        cDao.deleteCourseStep1(idCourse);
+                        cDao.deleteCourseStep2(idCourse);
+                    }
+                });
                 return SUCCESS;
             }
         } catch (Exception e) {

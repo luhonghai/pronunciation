@@ -314,17 +314,23 @@ public class ReportLessonService {
      */
     public int generateClassScoreWord(List<StudentMappingClass> listStudent,String idLesson,String word){
         int totalScore = 0;
+        int deviceNumber = 0;
         if(listStudent.size() > 0){
             for(StudentMappingClass st : listStudent){
                 String student = st.getStudentName();
                 String latestSessionStudent = reportLessonDAO.getLatestSessionIdIn3Months(student, idLesson);
                 if(latestSessionStudent!=null && reportLessonDAO.checkUserCompletedLesson(student, idLesson, latestSessionStudent)){
                     int temp = reportLessonDAO.getAvgScoreWordInLessonOfUser(student, idLesson, word,latestSessionStudent);
-                    totalScore = totalScore + temp;
+                    if(temp  > 0){
+                        totalScore = totalScore + temp;
+                        deviceNumber ++;
+                    }
+
                 }
             }
         }
-        return listStudent.size() == 0 ? 0 : Math.round(totalScore/listStudent.size());
+        if(totalScore == 0 && deviceNumber == 0) return 0;
+        return listStudent.size() == 0 ? 0 : Math.round(totalScore/deviceNumber);
     }
 
     /**
@@ -352,6 +358,7 @@ public class ReportLessonService {
      */
     public int generateClassScorePhoneme(List<StudentMappingClass> listStudent,String idLesson, String ipa){
         int totalScore = 0;
+        int deviceNumber = 0;
         if(listStudent.size() > 0){
             for(StudentMappingClass st : listStudent){
                 String student = st.getStudentName();
@@ -360,11 +367,13 @@ public class ReportLessonService {
                     int temp = reportLessonDAO.getAvgScorePhonemesInLessonOfUser(student, idLesson, ipa,latestSessionStudent);
                     if(temp!=-1){
                         totalScore = totalScore + temp;
+                        deviceNumber++;
                     }
                 }
             }
         }
-        return listStudent.size() == 0 ? 0 : Math.round(totalScore/listStudent.size());
+        if(totalScore == 0 && deviceNumber == 0) return 0;
+        return listStudent.size() == 0 ? 0 : Math.round(totalScore/deviceNumber);
     }
     /**
      *

@@ -16,8 +16,10 @@ import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.data.jdo.test.TestMapping;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.merchant.common.Sqlite;
+import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
+import com.cmg.merchant.util.CourseGenerateListener;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.jdo.DatabaseVersion;
 import com.cmg.vrc.processor.CommandExecutor;
@@ -51,7 +53,9 @@ import java.util.logging.Logger;
 /**
  * Created by lantb on 2016-04-20.
  */
-public class SqliteService extends Thread{
+public class SqliteService implements Runnable {
+
+    static final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Override
     public void run(){
@@ -60,6 +64,10 @@ public class SqliteService extends Thread{
         }catch (Exception e){
 
         }
+    }
+
+    public void start() {
+        executorService.submit(this);
     }
 
 
@@ -91,6 +99,15 @@ public class SqliteService extends Thread{
     private String idCourse;
     private File targetDir;
     private AWSHelper awsHelper;
+    private CourseGenerateListener listener;
+
+    public CourseGenerateListener getListener() {
+        return listener;
+    }
+
+    public void setListener(CourseGenerateListener listener) {
+        this.listener = listener;
+    }
 
     /**
      *
@@ -103,6 +120,7 @@ public class SqliteService extends Thread{
         if (!targetDir.exists() || !targetDir.isDirectory()) {
             targetDir.mkdirs();
         }
+
 
     }
     /**
@@ -156,6 +174,27 @@ public class SqliteService extends Thread{
      * @throws Exception
      */
     public void clearData() throws Exception {
+  /*      try {
+            LvDAO lvdao = new LvDAO();
+            List<com.cmg.lesson.data.jdo.level.Level> list = lvdao.listIn(idCourse);
+            if(list!=null && list.size() > 0){
+                int index = 0;
+                for(com.cmg.lesson.data.jdo.level.Level lv : list){
+                    if(index == 0){
+                        com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
+                        tmp.setIsDefaultActivated(true);
+                        lvdao.put(tmp);
+                        continue;
+                    }
+                    com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
+                    tmp.setIsDefaultActivated(false);
+                    lvdao.put(tmp);
+                    index ++;
+                }
+            }
+        }catch (Exception e){
+
+        }*/
         TCHDAO dao = new TCHDAO();
         int version = dao.getLatestVersion(idCourse)+1;
         String projectName = this.idCourse + "-v" + version + ".zip";
@@ -275,11 +314,17 @@ public class SqliteService extends Thread{
                 tch.setPathAws(projectName);
                 dao.put(tch);
                 appendMessage("Zip completed. local file in : " + dbZip.getAbsolutePath());
+                if (listener != null)
+                    listener.onCourseCompleted(idCourse);
             } else {
                 appendError("No zipped SQLite database found");
+                if (listener != null)
+                    listener.onError();
             }
         } else {
             appendError("No SQLite database found");
+            if (listener != null)
+                listener.onError();
         }
     }
 

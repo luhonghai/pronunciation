@@ -6,7 +6,7 @@ var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 var servletCopy = "/CopyServlet";
-var servletDrapDrop = "/DragDropServlet"
+var servletDrapDrop = "/DragDropServlet";
 var progress;
 /**
  * connect to server when edit course
@@ -73,7 +73,7 @@ function deleteCourse(){
                 currentPopup.modal('hide');
                 confirmDeletePopup().modal('hide');
                 swalNew("", "deleted successfully", "success");
-                window.location.href = "/my-courses.jsp";
+                location.assign("/my-courses.jsp");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
