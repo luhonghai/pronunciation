@@ -42,24 +42,12 @@ class InviAcceptPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        DeviceManager.hideLockScreen()
         hidenLoadding()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
-    }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
     }
 
     /*
@@ -72,13 +60,12 @@ class InviAcceptPopupVC: UIViewController {
     }
     */
     @IBAction func btnClose(sender: AnyObject) {
-        delegate?.closePopup(self)
+        delegate?.closePopup!(self)
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
         showLoadding()
-        DeviceManager.showLockScreen()
-        delegate?.inviAcceptPopupVCTouchOK(indexSelected)
+        delegate?.inviAcceptPopupVCTouchOK!(indexSelected)
     }
     
 

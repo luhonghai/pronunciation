@@ -12,12 +12,12 @@ class FileHelper {
     
     class func getAccentEasyBaseUrl() -> String {
         // TODO try to get base url by environment
-        return "http://accenteasytomcat-sat.ap-southeast-1.elasticbeanstalk.com"
+        //return "http://accenteasytomcat-sat.ap-southeast-1.elasticbeanstalk.com"
         //return "http://reg.accenteasy.com"
         //return "http://reg.accenteasy.com"
         //return "http://192.168.1.196:8080"
         //hoang pc
-        //return "http://192.168.1.19:8080"
+        return "http://192.168.1.22:8080"
         //return "http://localhost:8080"
     }
     

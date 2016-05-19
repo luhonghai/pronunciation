@@ -1,0 +1,1 @@
+mvn clean install br.com.ingenieux:beanstalk-maven-plugin:upload-source-bundle br.com.ingenieux:beanstalk-maven-plugin:create-application-version br.com.ingenieux:beanstalk-maven-plugin:update-environment -P $1

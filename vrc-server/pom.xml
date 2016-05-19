@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>4.0.030</version>
 	<artifactId>server</artifactId>
+	<version>4.0.030</version>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
 	<description>VRC Server</description>
@@ -134,7 +134,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>
@@ -157,6 +157,7 @@
 									<pluginExecutionFilter>
 										<groupId>org.datanucleus</groupId>
 										<artifactId>datanucleus-maven-plugin</artifactId>
+										<versionRange>[4.0.1,)</versionRange>
 										<goals>
 											<goal>enhance</goal>
 										</goals>
@@ -340,9 +341,6 @@
 
 	<profiles>
 		<profile>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<id>env-dev</id>
 			<properties>
                 <sysenv>DEV</sysenv>
@@ -469,6 +467,9 @@
 		</profile>
 
 		<profile>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<id>mac</id>
 			<properties>
 				<sysenv>MAC</sysenv>
@@ -564,6 +565,40 @@
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
 				<url.active.account>http://accenteasytomcat-sat.elasticbeanstalk.com/activate</url.active.account>
 				<url.reset.password>http://accenteasytomcat-sat.elasticbeanstalk.com/reset-password.jsp</url.reset.password>
+				<beanstalk.environmentName>accenteasytomcat-sat</beanstalk.environmentName>
+				<beanstalk.environmentRef>accenteasytomcat-sat.elasticbeanstalk.com</beanstalk.environmentRef>
+				<beanstalk.cnamePrefix>accenteasytomcat-sat</beanstalk.cnamePrefix>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>env-dev-accenteasy</id>
+			<properties>
+				<sysenv>DEV-AE</sysenv>
+				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
+				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
+				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
+				<project.dir>/var/log/tomcat8/mobile</project.dir>
+				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
+				<javax.jdo.option.ConnectionUserName>root</javax.jdo.option.ConnectionUserName>
+				<javax.jdo.option.ConnectionPassword>root</javax.jdo.option.ConnectionPassword>
+				<databaseHost>127.0.0.1</databaseHost>
+				<databaseName>accenteasy</databaseName>
+				<databasePort>3306</databasePort>
+				<contact.us.email>support@accenteasy.com</contact.us.email>
+				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
+				<contact.us.email.password>W3lcom3123</contact.us.email.password>
+				<voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
+				<model.fst.ser>/vol/Sphinx/en_us_nostress/model.fst.ser</model.fst.ser>
+				<acousticModelPath>file:///vol/Sphinx/wsj-en-us</acousticModelPath>
+				<dictionaryPath>file:///vol/Sphinx/dict/cmuphonemedict</dictionaryPath>
+				<languageModelPath>file:///vol/Sphinx/en-70k.lm</languageModelPath>
+				<grammarPath>/vol/Sphinx/grammar</grammarPath>
+				<analyzeServer>http://localhost:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
+				<recipients>feedback@accenteasy.com</recipients>
+				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://localhost:8080/vrc/activate</url.active.account>
+				<url.reset.password>http://localhost:8080/vrc/reset-password.jsp</url.reset.password>
 				<beanstalk.environmentName>accenteasytomcat-sat</beanstalk.environmentName>
 				<beanstalk.environmentRef>accenteasytomcat-sat.elasticbeanstalk.com</beanstalk.environmentRef>
 				<beanstalk.cnamePrefix>accenteasytomcat-sat</beanstalk.cnamePrefix>

@@ -49,7 +49,7 @@ class InviPopupOverviewVC: UIViewController {
     */
 
     @IBAction func btnCloseTouchUp(sender: AnyObject) {
-        delegate?.closePopup(self)
+        delegate?.closePopup!(self)
     }
 
 }

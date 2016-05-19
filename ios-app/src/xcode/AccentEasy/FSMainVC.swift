@@ -95,6 +95,26 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     override func viewDidLoad() {
+        
+        //check invitation and redirect to InvitaionMainVC
+        if (GlobalData.getInstance().isShowInvitation) {
+            //count invitation
+            var countInvitation:Int=0
+            for invitation in AccountManager.currentUser().invitationData {
+                if invitation.status == InvitationStatus.pending {
+                    countInvitation += 1
+                }
+            }
+            if (countInvitation > 0){
+                //move to invitation page
+                let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("InvitationMainVC") as! InvitationMainVC
+                //self.navigationController?.popToRootViewControllerAnimated(false)
+                self.navigationController?.pushViewController(nextController, animated: false)
+                GlobalData.getInstance().isShowInvitation = false
+                return
+            }
+        }
+        
         GlobalData.getInstance().isOnLessonMain = false
         super.viewDidLoad()
 //        swiper = SloppySwiper(navigationController: self.navigationController)

@@ -9,8 +9,9 @@
 import Foundation
 
 @objc protocol InvitationPopupDelegate {
-    func closePopup(sender: AnyObject)
-    func inviAcceptPopupVCTouchOK(sender: AnyObject)
-    func invitationPopupVCTouchOK(sender: AnyObject)
-    func invitationPopupVCTouchReject(sender: AnyObject)
+    optional func closePopup(sender: AnyObject)
+    optional func inviAcceptPopupVCTouchOK(sender: AnyObject)
+    optional func invitationPopupVCTouchOK(sender: AnyObject)
+    optional func invitationPopupVCTouchReject(sender: AnyObject)
+    optional func invitationNotificationPopupTouchOK(sender: AnyObject)
 }

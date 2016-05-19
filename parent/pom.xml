@@ -14,7 +14,7 @@
 
     <modules>
         <module>../sphinx4</module>
-        <module>../dict-generator</module>
+        <!-- <module>../dict-generator</module> -->
         <module>../vrc-server</module>
     </modules>
 
