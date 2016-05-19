@@ -6,7 +6,6 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.services.generateSqlite.SqliteService;
-import com.cmg.merchant.util.CourseGenerateListener;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.data.GcmMessage;
 import com.cmg.vrc.data.dao.impl.*;
@@ -15,11 +14,13 @@ import com.cmg.vrc.util.UUIDGenerator;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Notification;
 import com.google.gson.Gson;
-import org.datanucleus.store.types.wrappers.backed.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by CMGT400 on 3/25/2016.
@@ -164,7 +165,7 @@ public class ClassService {
         }
         return list;
     }
-    public String addClassToDb(String teacherName,String className,String definition,final String jsonClient){
+    public String addClassToDb(String teacherName,String className,String definition,String jsonClient){
         ClassJDO classs = new ClassJDO();
         int version=0;
         String uuid="";
@@ -197,44 +198,19 @@ public class ClassService {
                     studentMappingClass.setIsDeleted(false);
                     studentMappingClassDAO.put(studentMappingClass);
                 }
-                final String[] listCourse = studentCourse.getCourses();
-                final List<String> checker = Collections.synchronizedList(new ArrayList<String>());
-                for (final String s : listCourse) {
+                String[] listCourse = studentCourse.getCourses();
+                for (String s : listCourse) {
                     CourseMappingClass courseMappingClass = new CourseMappingClass();
                     courseMappingClass.setIdClass(uuid);
                     courseMappingClass.setIdCourse(s);
                     courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
                     courseMappingClass.setIsDeleted(false);
                     courseMappingClassDAO.put(courseMappingClass);
-                    SqliteService generateSqlite = new SqliteService(s);
-                    generateSqlite.setListener(new CourseGenerateListener() {
-                        @Override
-                        public void onError() {
-                            checker.add(s);
-                        }
-
-                        @Override
-                        public void onCourseCompleted(String idCourse) {
-                            checker.add(s);
-                        }
-                    });
-                    generateSqlite.start();
+                  /*  SqliteService generateSqlite = new SqliteService(s);
+                    generateSqlite.start();*/
                 }
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while (checker.size() != listCourse.length) {
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        System.out.println("Send notification");
-                        com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
-                        util.sendNotificationWhenCreateClass(jsonClient);
-                    }
-                }).start();
+                com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                util.sendNotificationWhenCreateClass(jsonClient);
                 message= "success";
             }else{
                 message= "exist";
@@ -339,8 +315,8 @@ public class ClassService {
                         courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
                         courseMappingClass.setIsDeleted(false);
                         courseMappingClassDAO.put(courseMappingClass);
-                        SqliteService generateSqlite = new SqliteService(s);
-                        generateSqlite.start();
+                       /* SqliteService generateSqlite = new SqliteService(s);
+                        generateSqlite.start();*/
                     }
                     message = "success";
                 }else{

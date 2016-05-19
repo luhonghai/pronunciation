@@ -19,7 +19,6 @@ import com.cmg.merchant.common.Sqlite;
 import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
-import com.cmg.merchant.util.CourseGenerateListener;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.jdo.DatabaseVersion;
 import com.cmg.vrc.processor.CommandExecutor;
@@ -53,9 +52,7 @@ import java.util.logging.Logger;
 /**
  * Created by lantb on 2016-04-20.
  */
-public class SqliteService implements Runnable {
-
-    static final ExecutorService executorService = Executors.newFixedThreadPool(4);
+public class SqliteService extends Thread{
 
     @Override
     public void run(){
@@ -64,10 +61,6 @@ public class SqliteService implements Runnable {
         }catch (Exception e){
 
         }
-    }
-
-    public void start() {
-        executorService.submit(this);
     }
 
 
@@ -99,15 +92,6 @@ public class SqliteService implements Runnable {
     private String idCourse;
     private File targetDir;
     private AWSHelper awsHelper;
-    private CourseGenerateListener listener;
-
-    public CourseGenerateListener getListener() {
-        return listener;
-    }
-
-    public void setListener(CourseGenerateListener listener) {
-        this.listener = listener;
-    }
 
     /**
      *
@@ -314,17 +298,11 @@ public class SqliteService implements Runnable {
                 tch.setPathAws(projectName);
                 dao.put(tch);
                 appendMessage("Zip completed. local file in : " + dbZip.getAbsolutePath());
-                if (listener != null)
-                    listener.onCourseCompleted(idCourse);
             } else {
                 appendError("No zipped SQLite database found");
-                if (listener != null)
-                    listener.onError();
             }
         } else {
             appendError("No SQLite database found");
-            if (listener != null)
-                listener.onError();
         }
     }
 

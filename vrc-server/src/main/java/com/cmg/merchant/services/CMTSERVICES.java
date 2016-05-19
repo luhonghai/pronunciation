@@ -9,6 +9,7 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.services.generateSqlite.SqliteService;
 import com.cmg.merchant.services.treeview.DataServices;
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 
@@ -70,11 +71,19 @@ public class CMTSERVICES {
                } else{
                    CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
                    dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                   try {
+                       SqliteService generateSqlite = new SqliteService(idCourse);
+                       generateSqlite.start();
+                   }catch (Exception e){}
                    return SUCCESS;
                }
             }else{
                 CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
                 dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                try {
+                    SqliteService generateSqlite = new SqliteService(idCourse);
+                    generateSqlite.start();
+                }catch (Exception e){}
                 return SUCCESS;
             }
         }catch (Exception e){

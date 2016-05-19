@@ -979,6 +979,16 @@ function UpdateStateCourse(){
  *
  */
 function publishCourse(checkData){
+    getDivContainTree().hide();
+    getProcessBar().show();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 120,
+        onFinish: function () {
+            getProcessBar().hide();
+            getDivContainTree().show();
+            progress.progressTimer('destroy');
+        }
+    });
     $.ajax({
         url : servletPublish,
         type : "POST",
@@ -1002,6 +1012,17 @@ function publishCourse(checkData){
         error: function () {
             swalNew("","could not connect to server","error");
         }
+    }).error(function(){
+        progress.progressTimer('error', {
+            errorText:'error',
+            onFinish:function(){
+                getDivContainTree().show();
+                progress.progressTimer('destroy');
+                swalNew("","publish course fail","error");
+            }
+        });
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 }
 
