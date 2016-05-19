@@ -558,6 +558,31 @@ class AccountManager {
                 }
             })
     }
+    
+    class func fetchGooglePlusInfo(accessToken:String, userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        let client = Client()
+            .baseUrl("https://www.googleapis.com")
+            .onError({e in Logger.log(e)
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        client.get("/oauth2/v3/userinfo?access_token=\(accessToken)").end({(res:Response) -> Void in
+                if(res.error) {
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                } else {
+                    do {
+                        print("Google user info response \(res.text)")
+                        let userData = try NSJSONSerialization.JSONObjectWithData(res.data!, options:[]) as? [String:AnyObject]
+                        if let gender = userData!["gender"] as? String {
+                            Logger.log("User \(userProfile.username) gender \(gender)")
+                            userProfile.gender = gender == "male"
+                        }
+                    } catch {
+                        NSLog("Account Information could not be loaded")
+                    }
+                    completion(userProfile: userProfile, success: true, message: "success")
+                }
+            })
+    }
 
 
 }
