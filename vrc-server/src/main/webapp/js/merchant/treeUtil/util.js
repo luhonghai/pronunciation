@@ -671,10 +671,8 @@ function drag2drop(){
                         var parentAction = api.itemData(parent)._targetLoad;
                         console.log(parentAction + " " + targetLoadTest);
                         if(parentAction.trim() !== targetLoadTest.trim()){
-                            console.log('not equal');
                             dragDrop.parentId = parentId;
                         }else{
-                            console.log('equal');
                             var idLesson = api.itemData(parent)._idLessonForTest;
                             dragDrop.parentId = idLesson;
                         }
@@ -682,9 +680,7 @@ function drag2drop(){
                         dragDrop.childId = childId;
                         if(action == targetLoadQuestion){
                             var nameQ = dropData.label;
-                            //var indexQ = nameQ.split(" ")[1];
                             var indexQ = dropData._positionQ;
-                            console.log(indexQ);
                             dragDrop.indexDrop = indexQ;
                         }else{
                             dragDrop.indexDrop = indexDrop;

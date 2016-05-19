@@ -699,6 +699,7 @@
     <div class="modal-dialog" style="width:500px">
         <div class="modal-content" style="border-radius: 20px">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h2 style="font-weight: 700;font-size: 18px" class="modal-title">reports</h2>
             </div>
             <div class="modal-body">

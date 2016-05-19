@@ -19,6 +19,8 @@ function validateFormCourse(){
         getCourseValidateMessage().show();
         return false;
     }
+
+
    /* var description = getCourseDescription().val();
     if(description == '' || typeof description === "undefined"){
         getLevelDescription().focus();

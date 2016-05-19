@@ -1,6 +1,9 @@
 <%@tag description="Head" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <head>
+        <meta http-equiv='cache-control' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='pragma' content='no-cache'>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1">
