@@ -17,6 +17,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by lantb on 2016-03-07.
@@ -35,7 +36,25 @@ public class CMTSERVICES {
         }
     }
 
-
+    /**
+     *
+     */
+    public void generateAllPublishCourse(){
+        try {
+           CMTDAO dao = new CMTDAO();
+           List<CourseMappingTeacher> list = dao.getAllPublishCourse(Constant.STATUS_PUBLISH);
+           if(list!=null && list.size() > 0){
+               for(CourseMappingTeacher cmt : list){
+                   System.out.println("generate sql lite for course id : " + cmt.getcID());
+                   publishCourse(cmt.getcID(), false);
+                   System.out.println("done generate sql lite for course id : " + cmt.getcID());
+                   System.out.println("========================================================");
+               }
+           }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     /**
      *
      * @param idCourse

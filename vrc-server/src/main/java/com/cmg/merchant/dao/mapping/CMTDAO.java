@@ -34,6 +34,20 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
         return null;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public List<CourseMappingTeacher> getAllPublishCourse(String status) throws Exception{
+        List<CourseMappingTeacher> list = list("WHERE status == :1 && isDeleted == :2 ", status, false);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
 
     /**
      *
