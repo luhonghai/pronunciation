@@ -470,7 +470,9 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
                     Logger.log(e)
-                    weakSelf!.showErrorAnalyzing()
+                    dispatch_async(dispatch_get_main_queue(),{
+                        weakSelf!.showErrorAnalyzing()
+                    })
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
             let question = weakSelf!.arrQuestionOfLC[weakSelf!.indexCurrentQuestion]

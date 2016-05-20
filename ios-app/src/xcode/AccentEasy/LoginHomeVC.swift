@@ -78,7 +78,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 withError error: NSError!) {
         if (error == nil) {
             //show loadding
-            self.showLoadding()
+            self.showLoadding("processing")
             Logger.log("run in google sign in")
             print(user)
             // Perform any operations on signed in user here.
@@ -253,7 +253,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     self.registerUserProfile()
                     
                     //show loadding
-                    self.showLoadding()
+                    self.showLoadding("processing")
                 }
             })
         }
@@ -291,7 +291,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     //
                     weakSelf!.fetchCourses(userProfile)
                 } else {
-                    weakSelf!.hidenLoadding()
+                    //weakSelf!.hidenLoadding()
                     AccountManager.showError("could not login", message: message)
                 }
             })
