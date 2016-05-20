@@ -289,10 +289,11 @@ public class ClassService {
             //ClassJDO classJDO=new ClassJDO();
             ClassJDO classJDO = classDAO.getById(idClass);
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
+            SessionUtil sUtil = new SessionUtil();
             if(classJDO!=null) {
                 if(!checkNameExisted(teacherName,idClass,nameClass)){
-                    com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
-                    util.sendNotificationWhenUpdateClass(request,teacherName,idClass,jsonClient);
+                    List<Course> listCourseDb = classDAO.getMyCoursesOnClass(idClass, sUtil.getTid(request), Constant.STATUS_PUBLISH);
+                    List<StudentMappingTeacher> listStudentDb = classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
                     String[] listStudent = studentCourse.getStudents();
                     String[] listCourse = studentCourse.getCourses();
                     classJDO.setClassName(nameClass);
@@ -318,6 +319,8 @@ public class ClassService {
                        /* SqliteService generateSqlite = new SqliteService(s);
                         generateSqlite.start();*/
                     }
+                    com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                    util.sendNotificationWhenUpdateClass(request,listCourseDb,listStudentDb,jsonClient);
                     message = "success";
                 }else{
                     message = "name existed";

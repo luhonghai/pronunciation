@@ -59,7 +59,8 @@ public class Notification {
      * @param idClass
      * @param jsonClient
      */
-    public void sendNotificationWhenUpdateClass(HttpServletRequest request, String teacherName, String idClass, String jsonClient){
+    public void sendNotificationWhenUpdateClass(HttpServletRequest request, List<Course> listCourseDb,
+                                                List<StudentMappingTeacher> listStudentDb, String jsonClient){
         try {
             Gson gson = new Gson();
             ClassDAO classDAO = new ClassDAO();
@@ -67,8 +68,6 @@ public class Notification {
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
             String[] listStudentClient = studentCourse.getStudents();
             String[] listCourseClient = studentCourse.getCourses();
-            List<Course> listCourseDb = classDAO.getMyCoursesOnClass(idClass, util.getTid(request), Constant.STATUS_PUBLISH);
-            List<StudentMappingTeacher> listStudentDb = classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
             //filter data
             sendNotificationToUser(getStudentNew(listStudentDb,listStudentClient),request, GcmMessage.TYPE_UPDATE_COURSE);
             ArrayList<Course> listCourseNew = getCourseNew(listCourseDb,listCourseClient);
