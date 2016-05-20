@@ -231,13 +231,14 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     //add data for JSONStringUserProfile
                     var username = result.valueForKey("email")
                     
-                    var gender = result.valueForKey("gender")
-                    print("gender \(gender)")
-                    
                     if username == nil {
                         username = "\(userId)@facebook.com"
                     }
                     let userProfile:UserProfile = AccountManager.currentUser(username! as! String)
+                    if let gender = result.valueForKey("gender") {
+                        Logger.log("gender \(gender)")
+                        userProfile.gender = gender as! String == "male"
+                    }
                     userProfile.username = username as! String
                     userProfile.name = result.valueForKey("name") as! String
                     let dob = result.valueForKey("birthday");
