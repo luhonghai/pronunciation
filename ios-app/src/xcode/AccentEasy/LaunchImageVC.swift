@@ -17,6 +17,7 @@ class LaunchImageVC: UIViewController {
     var willCheckLogin:Bool = true
     var currentDate:NSDate = NSDate()
     var startSecond:Double!
+    var isShowLoadding = false
     
     var currentUser: UserProfile!
     
@@ -24,7 +25,9 @@ class LaunchImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        showLoadding("installing...")
+        
+        //get minute
+        startSecond = currentDate.timeIntervalSince1970
         
         currentUser = AccountManager.currentUser()
         // Do any additional setup after loading the view.
@@ -54,14 +57,12 @@ class LaunchImageVC: UIViewController {
             }
         }
         
-
-        
-        //get minute
-        startSecond = currentDate.timeIntervalSince1970
     }
     
     override func viewDidDisappear(animated: Bool) {
-        hidenLoadding()
+        if isShowLoadding {
+            hidenLoadding()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -82,6 +83,11 @@ class LaunchImageVC: UIViewController {
         
         if currentDate.timeIntervalSince1970 - startSecond < 4 {
             return
+        }
+        
+        if (currentDate.timeIntervalSince1970 - startSecond >= 10) && !isShowLoadding{
+            showLoadding("installing...")
+            isShowLoadding = true
         }
 
         nextScreen = nextScreen + 1

@@ -209,7 +209,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func fetchFacebookProfile(){
         
         if FBSDKAccessToken.currentAccessToken() != nil {
-            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me?fields=id,name,email,birthday", parameters: nil)
+            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me?fields=id,name,email,birthday,gender", parameters: nil)
             graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
                 
                 if ((error) != nil) {
@@ -230,6 +230,9 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     let fbUser = ["accessToken": accessToken, "user": result]
                     //add data for JSONStringUserProfile
                     var username = result.valueForKey("email")
+                    
+                    var gender = result.valueForKey("gender")
+                    print("gender \(gender)")
                     
                     if username == nil {
                         username = "\(userId)@facebook.com"

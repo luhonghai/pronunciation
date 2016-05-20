@@ -65,7 +65,6 @@ class InviAcceptPopupVC: UIViewController {
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
-        showLoadding()
         delegate?.inviAcceptPopupVCTouchOK!(indexSelected)
     }
     

@@ -278,13 +278,11 @@ class InvitationMainVC: BaseUIViewController, UITableViewDataSource, UITableView
     }
     
     func getCourseData() {
-        weak var weakSelf = self
-        AccountManager.fetchCourses(AccountManager.currentUser()) { (userProfile, success, message) -> Void in
-            dispatch_async(dispatch_get_main_queue(),{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            AccountManager.fetchCourses(AccountManager.currentUser()) { (userProfile, success, message) -> Void in
                 //TODO show error message
                 AccountManager.updateProfile(userProfile)
-                weakSelf!.hidenLoadding()
-            })
+            }
         }
     }
 
@@ -295,6 +293,7 @@ class InvitationMainVC: BaseUIViewController, UITableViewDataSource, UITableView
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
         AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
                 weakSelf!.dismissPopupViewController(.Fade)
@@ -305,6 +304,7 @@ class InvitationMainVC: BaseUIViewController, UITableViewDataSource, UITableView
                 } else {
                     AccountManager.showError("could not update", message: message)
                 }
+                weakSelf!.hidenLoadding()
                 //reload course
                 weakSelf!.getCourseData()
             })
@@ -318,6 +318,7 @@ class InvitationMainVC: BaseUIViewController, UITableViewDataSource, UITableView
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
         AccountManager.updateAcceptData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
                 weakSelf!.dismissPopupViewController(.Fade)
@@ -328,6 +329,7 @@ class InvitationMainVC: BaseUIViewController, UITableViewDataSource, UITableView
                 } else {
                     AccountManager.showError("could not update", message: message)
                 }
+                weakSelf!.hidenLoadding()
                 //reload course
                 weakSelf!.getCourseData()
             })
@@ -341,6 +343,7 @@ class InvitationMainVC: BaseUIViewController, UITableViewDataSource, UITableView
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
         AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
                 weakSelf!.dismissPopupViewController(.Fade)

@@ -140,6 +140,40 @@ class BaseNotification: NSObject, InvitationPopupDelegate {
             })
         }
     }
+    
+    
+    func moveToInvitationPage() {
+        let nextController = viewController.storyboard?.instantiateViewControllerWithIdentifier("InvitationMainVC") as! InvitationMainVC
+        viewController.navigationController?.pushViewController(nextController, animated: false)
+
+    }
+    
+    func moveToCoursePage() {
+        let nextController = viewController.storyboard?.instantiateViewControllerWithIdentifier("CoursesViewController") as! CoursesViewController
+        viewController.navigationController?.pushViewController(nextController, animated: false)    }
+
+    
+    
+    func getInvitationDataInApp() {
+        weak var weakSelf = self
+        AccountManager.getInvitationData(AccountManager.currentUser()) { (userProfile, success, message) in
+            dispatch_async(dispatch_get_main_queue(),{
+                weakSelf!.showPopup()
+            })
+        }
+    }
+    
+    func getCourseDataInApp() {
+        weak var weakSelf = self
+        AccountManager.fetchCourses(AccountManager.currentUser()) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                //TODO show error message
+                AccountManager.updateProfile(userProfile)
+                weakSelf!.showPopup()
+            })
+        }
+    }
+
 
     func getNotificationMessage(notification: NSNotification){
         if let info = notification.userInfo as? Dictionary<String,AnyObject> {
@@ -164,17 +198,32 @@ class BaseNotification: NSObject, InvitationPopupDelegate {
         }
     }
     
-    
-    func showReceivedMessageInApp(notification: NSNotification) {
-        Logger.log("run in showReceivedMessageInApp")
-        //parser notification return
-        getNotificationMessage(notification)
+    func showPopup() {
         //open popup
         let invitationNotificationPopup:InvitationNotificationPopup = InvitationNotificationPopup(nibName: "InvitationNotificationPopup", bundle: nil)
         invitationNotificationPopup.message = title
         invitationNotificationPopup.delegate = self
         viewController.presentpopupViewController(invitationNotificationPopup, animationType: .Fade, completion: {() -> Void in })
+    }
+    
+    
+    func showReceivedMessageInApp(notification: NSNotification) {
+        Logger.log("run in showReceivedMessageInApp")
+        //parser notification return
+        getNotificationMessage(notification)
         
+        if invitationMessage.type == 1 {
+            //invitation process
+            Logger.log("notification invitation process")
+            getInvitationDataInApp()
+        } else if invitationMessage.type == 2 {
+            //update course process
+            Logger.log("notification update course process")
+            getCourseDataInApp()
+        } else {
+            Logger.log("notification type null")
+        }
+
         
         /*if let info = notification.userInfo as? Dictionary<String,AnyObject> {
          print (info)
@@ -201,16 +250,16 @@ class BaseNotification: NSObject, InvitationPopupDelegate {
         Logger.log("invitationNotificationPopupTouchOK")
         viewController.dismissPopupViewController(.Fade)
         //load
-        viewController.showLoadding("Loading data...")
+        //viewController.showLoadding("Loading data...")
         
         if invitationMessage.type == 1 {
             //invitation process
             Logger.log("notification invitation process")
-            getInvitationData()
+            moveToInvitationPage()
         } else if invitationMessage.type == 2 {
             //update course process
             Logger.log("notification update course process")
-            getCourseData()
+            moveToCoursePage()
         } else {
             Logger.log("notification type null")
         }
