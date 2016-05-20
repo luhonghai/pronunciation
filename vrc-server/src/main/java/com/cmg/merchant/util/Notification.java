@@ -294,7 +294,7 @@ public class Notification {
                         Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).notification(new com.google.android.gcm.server.Notification.Builder("").title(message.getTitle()).body(message.getContent()).build()).priority(Message.Priority.HIGH).build();
                         MessageService messageService = new MessageService(mMessage);
                         messageService.doPostMessage(gcmIds);
-                        System.out.println("send message to user : "  +user.getUsername() + " success");
+                        System.out.println("send message to user : "  +user.getUsername() + " success!");
                     }
                 }
             }

@@ -6,7 +6,7 @@
 
 function btnSaveCourse(){
     $(document).on("click","#btnSaveCourse",function(){
-        if(validateFormAddCourse()){
+        if(validateFormCourse()){
             editCourse();
         }
     });
