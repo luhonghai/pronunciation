@@ -55,8 +55,8 @@ public class Notification {
     /**
      *
      * @param request
-     * @param teacherName
-     * @param idClass
+     * @param listCourseDb
+     * @param listStudentDb
      * @param jsonClient
      */
     public void sendNotificationWhenUpdateClass(HttpServletRequest request, List<Course> listCourseDb,
