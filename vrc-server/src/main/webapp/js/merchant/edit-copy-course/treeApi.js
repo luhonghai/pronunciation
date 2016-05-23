@@ -72,8 +72,8 @@ function initTree(){
     treeAPI.init({
         success: function(item) {
             this.open(item);
-            var itemData = treeAPI.itemData(item);
-            if(itemData['id'] == idCourse && itemData['_stateOfCourse'].trim() != 'duplicated'){
+            var itemData = treeAPI.itemData($('#'+idCourse));
+            if(itemData['_stateOfCourse'].trim() != 'duplicated'){
                 enablePublishBtn();
             }
             enableAddLevel();
