@@ -47,7 +47,7 @@
                 <p>The following students:</p>
                 <div id="listInvitationAccept">
                 </div>
-                <p>have accept your invitation.</p>
+                <p>have accepted your invitation.</p>
                 <p>They will now be available to add to your classes and you will be able to view reports on their progess.</p>
             </div>
         </div>

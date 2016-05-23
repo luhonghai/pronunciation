@@ -60,6 +60,7 @@ function loadContent(action,id){
                 $.each(data, function(i, item){
                     drawLessonPreview(item);
                 });
+                getLessonScreen().find('.body-popup-obj').hide();
                 showScreen(getLessonScreen().attr('id'));
             }else if(action == targetLoadLesson){
                 clearBodyQuestion();

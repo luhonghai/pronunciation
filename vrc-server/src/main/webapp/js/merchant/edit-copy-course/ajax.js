@@ -6,6 +6,7 @@ var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 var servletCopy = "/CopyServlet";
+var servletDrapDrop = "/DragDropServlet";
 var progress;
 var state;
 /**
@@ -35,7 +36,7 @@ function editCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                if(nameOfCourse != getCourseName().val){
+                if(nameOfCourse.trim() != getCourseName().val().trim()){
                     isEditedTitle = true;
                     UpdateStateCourse();
                 }
@@ -77,7 +78,7 @@ function deleteCourse(){
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
                 swalNew("", "deleted successfully", "success");
-                window.location.href = "/my-courses.jsp";
+                location.assign("/my-courses.jsp");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
@@ -966,6 +967,9 @@ function UpdateStateCourse(){
         },
         dataType : "text",
         success : function(data){
+            if(state.trim() != "duplicated"){
+                $('#'+idCourse).find('.aciTreeItem').css("background-color","#558ED5");
+            }
             enablePublishBtn();
         },
         error: function () {
@@ -978,6 +982,16 @@ function UpdateStateCourse(){
  *
  */
 function publishCourse(checkData){
+    getDivContainTree().hide();
+    getProcessBar().show();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 120,
+        onFinish: function () {
+            getProcessBar().hide();
+            getDivContainTree().show();
+            progress.progressTimer('destroy');
+        }
+    });
     $.ajax({
         url : servletPublish,
         type : "POST",
@@ -1001,6 +1015,17 @@ function publishCourse(checkData){
         error: function () {
             swalNew("","could not connect to server","error");
         }
+    }).error(function(){
+        progress.progressTimer('error', {
+            errorText:'error',
+            onFinish:function(){
+                getDivContainTree().show();
+                progress.progressTimer('destroy');
+                swalNew("","publish course fail","error");
+            }
+        });
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 }
 

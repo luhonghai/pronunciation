@@ -36,7 +36,10 @@ public class DataServices {
         try {
             Course c = dao.getById(idCourse);
             CourseMappingTeacher cmt = cmtdao.getByIdCourse(idCourse);
-            if(cmt!=null)  c.setShare(cmt.getSr());
+            if(cmt!=null) {
+                c.setShare(cmt.getSr());
+                c.setState(cmt.getState());
+            }
             return c;
         }catch (Exception e){
             logger.error(e);

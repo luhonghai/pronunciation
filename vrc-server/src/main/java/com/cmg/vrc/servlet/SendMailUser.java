@@ -374,13 +374,19 @@ public class SendMailUser extends HttpServlet{
         doPost(request,response);
     }
 
+    /**
+     *
+     * @param emails
+     * @param admin
+     * @param companyName
+     */
     private void sendMailUserNotExist(List<String> emails, Admin admin, String companyName){
         StudentMappingTeacherDAO studentMappingTeacherDAO =new StudentMappingTeacherDAO();
         if(emails!=null && emails.size() > 0){
             for(String email : emails){
                 try {
                     MailService mailService = new MailService();
-                    mailService.sendEmail(email, "Teacher invite you to join their classroom", mailService.generateEmailInviteUserNotExisted(email, admin.getFirstName(), admin.getLastName(), companyName));
+                    mailService.sendEmail(email, "Invitation to connect with your teacher on accenteasy", mailService.generateEmailInviteUserNotExisted(email, admin.getFirstName(), admin.getLastName(), companyName));
                     StudentMappingTeacher tmp= studentMappingTeacherDAO.getByStudentAndTeacher(email,admin.getUserName());
                     if(tmp == null){
                         StudentMappingTeacher stm=new StudentMappingTeacher();

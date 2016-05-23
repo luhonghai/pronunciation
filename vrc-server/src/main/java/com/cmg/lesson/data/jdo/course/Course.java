@@ -33,6 +33,10 @@ public class Course implements Mirrorable {
     @NotPersistent
     private String share;
 
+    @NotPersistent
+    private String state;
+
+
     public String getShare() {
         return share;
     }
@@ -100,4 +104,12 @@ public class Course implements Mirrorable {
         this.dateCreated = dateCreated;
     }
     public Course(){}
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

@@ -235,7 +235,7 @@
                 reports > lessons</h4>
         </div>
         <div class="col-lg-12">
-            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">report lessons</h2>
+            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">lessons</h2>
         </div>
     </div>
     <div class="row well">

@@ -204,7 +204,7 @@
       <button id="inviteStudents" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> invite students <i class="fa fa-plus"></i> </button>
     </div>
     <div class="col-sm-12">
-      <p>Use this page to manage the student that you want to assign to classes.</p>
+      <p>Use this page to manage the students that you want to assign to classes.</p>
       <p>Select the button above to invite students.</p>
     </div>
   </div>
@@ -382,12 +382,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 style="font-weight: 700;font-size:18px" class="modal-title">remove student</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">remove students</h2>
       </div>
       <div class="modal-body">
-        <p>if you remove a licenced student from your 'my students' page, they will still be available on your company list (licensed students page) to add again later.</p>
-        <p>If you remove and external student, the invitation process will need to be used to add them again. (Teacher to student or student to teacher).</p>
-        <p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>
+        <p>If you remove a student from your list, the invitation process will need to be used to add them again. (Teacher to student or student to teacher).</p>
+        <p>The student will also be removed from any classes they have been assigned to and they will no longer have access to any associated courses.</p>
       </div>
     </div>
   </div>

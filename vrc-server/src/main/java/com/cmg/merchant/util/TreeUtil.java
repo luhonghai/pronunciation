@@ -63,6 +63,7 @@ public class TreeUtil {
             node.set_popupId(Constant.POPUP_COURSE);
             node.set_details(c.getShare());
             node.set_actionClick(Constant.ACTION_EDIT_COURSE);
+            node.set_stateOfCourse(c.getState());
             node.setOpen(true);
         }else{
             node.set_message(ERROR);

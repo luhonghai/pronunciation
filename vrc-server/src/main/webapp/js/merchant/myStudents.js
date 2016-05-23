@@ -9,6 +9,7 @@ function listMyStudent(){
         success:function(data){
             if(data.message=="success" && data.students!=null){
                 var listMyStudent=data.students;
+                $("#listMyStudent").html("");
                 var $button;
                 for(var i=0;i<listMyStudent.length;i++){
                     if(listMyStudent[i].licence==true){

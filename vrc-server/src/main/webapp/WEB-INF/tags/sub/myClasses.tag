@@ -190,7 +190,7 @@
                 <div>
                     <p>Use this page to create and manage your classes.</p>
                     <p>Add a class (name and description) and assign courses and students that you have available in 'my courses' and 'my students' respectively.</p>
-                    <p><strong>Note</strong>: You will only be able to add courses that have been published, student that have been linked to you. You will not be able to add students that are pending acceptence or that have reiected an invitation.</p>
+                    <p><strong>Note</strong>: You will only be able to add courses that have been published, students that have been linked to you. You will not be able to add students that are pending acceptance or that have rejected an invitation.</p>
                     <p>Select a class from the list to view or edit the detail or to delete the class completely.</p>
                     <p>When a class has been created (or edited) and saved, the students will receive a notification on their phones.</p>
                     <p>If new courses are added, they will be available for use by the students assigned to class.</p>

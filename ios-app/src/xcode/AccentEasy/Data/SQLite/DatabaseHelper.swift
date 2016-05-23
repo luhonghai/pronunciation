@@ -135,7 +135,7 @@ public class DatabaseHelper {
                 completion(success: false)
             });
         var willLoad = false
-        client.get("/CheckVersion").type("json").query(["version" : String(dbVersion.version), "profile":JSONHelper.toJson(AccountManager.currentUser())]).send([])
+        client.get("/CheckVersion").type("json").query(["version" : String(dbVersion.version), "profile" : JSONHelper.toJson(AccountManager.currentUser())]).send([])
             .end({(res:Response) -> Void in
                 if(res.error) { // status of 2xx
                     //handleResponseJson(res.body)

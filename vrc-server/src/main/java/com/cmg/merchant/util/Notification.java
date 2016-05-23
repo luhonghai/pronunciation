@@ -55,11 +55,12 @@ public class Notification {
     /**
      *
      * @param request
-     * @param teacherName
-     * @param idClass
+     * @param listCourseDb
+     * @param listStudentDb
      * @param jsonClient
      */
-    public void sendNotificationWhenUpdateClass(HttpServletRequest request, String teacherName, String idClass, String jsonClient){
+    public void sendNotificationWhenUpdateClass(HttpServletRequest request, List<Course> listCourseDb,
+                                                List<StudentMappingTeacher> listStudentDb, String jsonClient){
         try {
             Gson gson = new Gson();
             ClassDAO classDAO = new ClassDAO();
@@ -67,8 +68,6 @@ public class Notification {
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
             String[] listStudentClient = studentCourse.getStudents();
             String[] listCourseClient = studentCourse.getCourses();
-            List<Course> listCourseDb = classDAO.getMyCoursesOnClass(idClass, util.getTid(request), Constant.STATUS_PUBLISH);
-            List<StudentMappingTeacher> listStudentDb = classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
             //filter data
             sendNotificationToUser(getStudentNew(listStudentDb,listStudentClient),request, GcmMessage.TYPE_UPDATE_COURSE);
             ArrayList<Course> listCourseNew = getCourseNew(listCourseDb,listCourseClient);
@@ -283,7 +282,7 @@ public class Notification {
         try {
             GcmMessage message = new GcmMessage(type);
             UserDeviceDAO userDeviceDAO = new UserDeviceDAO();
-            UsageDAO usageDAO=new UsageDAO();
+            UsageDAO usageDAO = new UsageDAO();
             for(User user : listStudent){
                 List<String> gcmIds = new ArrayList<>();
                 Usage usage=usageDAO.getByUserName(user.getUsername());
@@ -295,10 +294,13 @@ public class Notification {
                         Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).notification(new com.google.android.gcm.server.Notification.Builder("").title(message.getTitle()).body(message.getContent()).build()).priority(Message.Priority.HIGH).build();
                         MessageService messageService = new MessageService(mMessage);
                         messageService.doPostMessage(gcmIds);
+                        System.out.println("send message to user : "  +user.getUsername() + " success!");
                     }
                 }
             }
         } catch (Exception e) {
+            System.out.println("can not send message to all user");
+            e.printStackTrace();
         }
     }
 

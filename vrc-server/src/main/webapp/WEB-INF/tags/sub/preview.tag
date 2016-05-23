@@ -73,7 +73,7 @@
                                         <div id="close-popup-obj" style="text-align: right;padding:2px 5px 0px 0px;cursor:pointer" class='container-selection'>
                                             <label>x</label>
                                         </div>
-                                        <div style="padding: 0px 10px;" class='container-selection'>
+                                        <div style="padding: 0px 10px;width:150px;word-wrap: break-word;" class='container-selection'>
                                             <label class="obj-description">x</label>
                                         </div>
                                     </div>

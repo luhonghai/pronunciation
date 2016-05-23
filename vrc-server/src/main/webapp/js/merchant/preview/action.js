@@ -50,13 +50,28 @@ function clickCircleQuestion(){
 function showPoUpObjDescription(){
     $(document).on('click','.selection-popup-obj',function(){
         var description = $(this).attr('description');
-        getLessonScreen().find('.body-popup-obj').find('.obj-description').html(description);
-        getLessonScreen().find('.body-popup-obj').show();
+        if(description.length > 30){
+            var temp = description.substring(0,30) + "...";
+            getLessonScreen().find('.body-popup-obj').find('.obj-description').html(temp);
+            getLessonScreen().find('.body-popup-obj').find('.obj-description').attr("title",description);
+            getLessonScreen().find('.body-popup-obj').show();
+        }else{
+            getLessonScreen().find('.body-popup-obj').find('.obj-description').html(description);
+            getLessonScreen().find('.body-popup-obj').show();
+        }
+
     });
     $(document).on('click','#circle-popup-obj',function(){
         var description = $(this).attr('description');
-        getLessonScreen().find('.body-popup-obj').find('.obj-description').html(description);
-        getLessonScreen().find('.body-popup-obj').show();
+        if(description.length > 30){
+            var temp = description.substring(0,30) + "...";
+            getLessonScreen().find('.body-popup-obj').find('.obj-description').html(temp);
+            getLessonScreen().find('.body-popup-obj').find('.obj-description').attr("title",description);
+            getLessonScreen().find('.body-popup-obj').show();
+        }else{
+            getLessonScreen().find('.body-popup-obj').find('.obj-description').html(description);
+            getLessonScreen().find('.body-popup-obj').show();
+        }
     });
 }
 function previewCourse(){

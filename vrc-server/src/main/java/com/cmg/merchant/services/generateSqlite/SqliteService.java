@@ -16,6 +16,7 @@ import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.data.jdo.test.TestMapping;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.merchant.common.Sqlite;
+import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.vrc.common.Constant;
@@ -104,6 +105,7 @@ public class SqliteService extends Thread{
             targetDir.mkdirs();
         }
 
+
     }
     /**
      *
@@ -151,11 +153,37 @@ public class SqliteService extends Thread{
         }
     }
 
+    public void clearData() throws Exception {
+        clearData(true);
+    }
+
     /**
      *
      * @throws Exception
      */
-    public void clearData() throws Exception {
+    public void clearData(boolean overrideDefaultActivated) throws Exception {
+        if (overrideDefaultActivated) {
+            try {
+                LvDAO lvdao = new LvDAO();
+                List<com.cmg.lesson.data.jdo.level.Level> list = lvdao.listIn(idCourse);
+                if (list != null && list.size() > 0) {
+                    int index = 0;
+                    for (com.cmg.lesson.data.jdo.level.Level lv : list) {
+                        if (index == 0) {
+                            com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
+                            tmp.setIsDefaultActivated(true);
+                            lvdao.put(tmp);
+                        } else {
+                            com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
+                            tmp.setIsDefaultActivated(false);
+                            lvdao.put(tmp);
+                        }
+                        index++;
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
         TCHDAO dao = new TCHDAO();
         int version = dao.getLatestVersion(idCourse)+1;
         String projectName = this.idCourse + "-v" + version + ".zip";
@@ -252,6 +280,7 @@ public class SqliteService extends Thread{
                 } catch (Exception e) {
                     appendError("Could not clean unnecessary data in table " + e.getMessage());
                 }
+                conn.createStatement().execute("vacuum");
             } catch (Exception e) {
                 appendError("Could not clean database " + lessonDb.getAbsolutePath() + e.getMessage());
             } finally {

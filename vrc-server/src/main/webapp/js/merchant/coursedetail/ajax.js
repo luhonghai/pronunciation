@@ -6,7 +6,7 @@ var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 var servletCopy = "/CopyServlet";
-var servletDrapDrop = "/DragDropServlet"
+var servletDrapDrop = "/DragDropServlet";
 var progress;
 /**
  * connect to server when edit course
@@ -73,7 +73,7 @@ function deleteCourse(){
                 currentPopup.modal('hide');
                 confirmDeletePopup().modal('hide');
                 swalNew("", "deleted successfully", "success");
-                window.location.href = "/my-courses.jsp";
+                location.assign("/my-courses.jsp");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -920,6 +920,16 @@ function enablePublishBtn(){
  *
  */
 function publishCourse(checkData){
+    getDivContainTree().hide();
+    getProcessBar().show();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 120,
+        onFinish: function () {
+            getProcessBar().hide();
+            getDivContainTree().show();
+            progress.progressTimer('destroy');
+        }
+    });
     $.ajax({
         url : servletPublish,
         type : "POST",
@@ -944,6 +954,17 @@ function publishCourse(checkData){
             $('#confirmPublish').modal('hide');
             swalNew("","could not connect to server","error");
         }
+    }).error(function(){
+        progress.progressTimer('error', {
+            errorText:'error',
+            onFinish:function(){
+                getDivContainTree().show();
+                progress.progressTimer('destroy');
+                swalNew("","publish course fail","error");
+            }
+        });
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 }
 /**

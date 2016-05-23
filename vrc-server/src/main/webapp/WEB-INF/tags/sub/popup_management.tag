@@ -404,8 +404,7 @@
                 <form class="form-horizontal" id="addQuestion" name="addform">
                     <div class="form-group">
                         <label class="control-label">Please add the words that you want to be used for this question. If
-                            you add more than one word they will be randomised to give variety to the student.Double
-                            click on a word to edit or delete</label>
+                            you add more than one word they will be randomised to give variety to the student.Click on a word to edit or delete</label>
                     </div>
                     <div class="form-group">
                         <a id="btnAddWord"
@@ -699,6 +698,7 @@
     <div class="modal-dialog" style="width:500px">
         <div class="modal-content" style="border-radius: 20px">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <h2 style="font-weight: 700;font-size: 18px" class="modal-title">reports</h2>
             </div>
             <div class="modal-body">

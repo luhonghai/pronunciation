@@ -9,13 +9,13 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.services.generateSqlite.SqliteService;
 import com.cmg.merchant.services.treeview.DataServices;
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lantb on 2016-03-07.
@@ -34,7 +34,25 @@ public class CMTSERVICES {
         }
     }
 
-
+    /**
+     *
+     */
+    public void generateAllPublishCourse(){
+        try {
+           CMTDAO dao = new CMTDAO();
+           List<CourseMappingTeacher> list = dao.getAllPublishCourse(Constant.STATUS_PUBLISH);
+           if(list!=null && list.size() > 0){
+               for(CourseMappingTeacher cmt : list){
+                   System.out.println("generate sql lite for course id : " + cmt.getcID());
+                   publishCourse(cmt.getcID(), false);
+                   System.out.println("done generate sql lite for course id : " + cmt.getcID());
+                   System.out.println("========================================================");
+               }
+           }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     /**
      *
      * @param idCourse
@@ -70,11 +88,19 @@ public class CMTSERVICES {
                } else{
                    CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
                    dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                   try {
+                       SqliteService generateSqlite = new SqliteService(idCourse);
+                       generateSqlite.clearData();
+                   }catch (Exception e){}
                    return SUCCESS;
                }
             }else{
                 CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
                 dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                try {
+                    SqliteService generateSqlite = new SqliteService(idCourse);
+                    generateSqlite.clearData();
+                }catch (Exception e){}
                 return SUCCESS;
             }
         }catch (Exception e){

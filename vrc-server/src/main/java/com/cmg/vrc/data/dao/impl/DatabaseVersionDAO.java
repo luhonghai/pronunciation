@@ -124,6 +124,13 @@ public class DatabaseVersionDAO extends DataAccess<DatabaseVersion> {
         }
     }
 
+    public DatabaseVersion getLatestDatabaseVersionOld() throws Exception {
+        List<DatabaseVersion> list = list(" WHERE type == null || type == 0 ORDER BY version DESC", true);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
     public DatabaseVersion getSelectedVersion() throws Exception {
         List<DatabaseVersion> list = list(" WHERE selected == :1", true);
         if (list != null && list.size() > 0)
