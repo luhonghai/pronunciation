@@ -405,7 +405,13 @@ class AccountManager {
 //                    session.courses.append(c2)
 //                    session.selectedCourse = c1
                     // Remove after merge code
-                    session.courses = response.data
+                    var arrAECourse = [AECourse]()
+                    for aeCourse in response.data {
+                        if let url = aeCourse.dbURL {
+                            arrAECourse.append(aeCourse)
+                        }
+                    }
+                    session.courses = arrAECourse
                     if DatabaseHelper.updateCourses(session) {
                         userProfile.courseSession = session
                         completion(userProfile: userProfile, success: true, message: "success")

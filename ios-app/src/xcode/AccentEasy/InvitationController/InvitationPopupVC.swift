@@ -71,12 +71,10 @@ class InvitationPopupVC: UIViewController {
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
-        showLoadding()
         delegate?.invitationPopupVCTouchOK!(indexSelected)
     }
     
     @IBAction func btnRejectTouchUp(sender: AnyObject) {
-        showLoadding()
         delegate?.invitationPopupVCTouchReject!(indexSelected)
     }
     

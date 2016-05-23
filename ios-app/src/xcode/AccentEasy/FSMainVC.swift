@@ -577,7 +577,9 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
                     Logger.log(e)
-                    weakSelf!.showErrorAnalyzing()
+                    dispatch_async(dispatch_get_main_queue(),{
+                        weakSelf!.showErrorAnalyzing()
+                    })
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
             Logger.log("request token \(weakSelf!.userProfile.token)")
@@ -811,6 +813,7 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func changeColorRed(){
+        
         btnRecord.backgroundColor = ColorHelper.APP_RED
         btnPlay.backgroundColor = ColorHelper.APP_RED
         btnPlayDemo.setTitleColor(ColorHelper.APP_RED, forState: UIControlState.Normal)

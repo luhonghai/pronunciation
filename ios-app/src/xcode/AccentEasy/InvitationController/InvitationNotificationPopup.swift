@@ -48,6 +48,7 @@ class InvitationNotificationPopup: UIViewController {
         super.viewDidDisappear(animated)
         //hidenLoadding()
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

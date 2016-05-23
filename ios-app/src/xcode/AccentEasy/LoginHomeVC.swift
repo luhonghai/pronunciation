@@ -78,7 +78,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 withError error: NSError!) {
         if (error == nil) {
             //show loadding
-            self.showLoadding()
+            self.showLoadding("processing")
             Logger.log("run in google sign in")
             print(user)
             // Perform any operations on signed in user here.
@@ -209,7 +209,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func fetchFacebookProfile(){
         
         if FBSDKAccessToken.currentAccessToken() != nil {
-            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me?fields=id,name,email,birthday", parameters: nil)
+            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me?fields=id,name,email,birthday,gender", parameters: nil)
             graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
                 
                 if ((error) != nil) {
@@ -235,6 +235,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                         username = "\(userId)@facebook.com"
                     }
                     let userProfile:UserProfile = AccountManager.currentUser(username! as! String)
+                    if let gender = result.valueForKey("gender") {
+                        Logger.log("gender \(gender)")
+                        userProfile.gender = gender as! String == "male"
+                    }
                     userProfile.username = username as! String
                     userProfile.name = result.valueForKey("name") as! String
                     let dob = result.valueForKey("birthday");
@@ -249,7 +253,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     self.registerUserProfile()
                     
                     //show loadding
-                    self.showLoadding()
+                    self.showLoadding("processing")
                 }
             })
         }
@@ -287,7 +291,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     //
                     weakSelf!.fetchCourses(userProfile)
                 } else {
-                    weakSelf!.hidenLoadding()
+                    //weakSelf!.hidenLoadding()
                     AccountManager.showError("could not login", message: message)
                 }
             })
