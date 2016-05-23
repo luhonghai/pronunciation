@@ -153,30 +153,36 @@ public class SqliteService extends Thread{
         }
     }
 
+    public void clearData() throws Exception {
+        clearData(true);
+    }
+
     /**
      *
      * @throws Exception
      */
-    public void clearData() throws Exception {
-        try {
-            LvDAO lvdao = new LvDAO();
-            List<com.cmg.lesson.data.jdo.level.Level> list = lvdao.listIn(idCourse);
-            if(list!=null && list.size() > 0){
-                int index = 0;
-                for(com.cmg.lesson.data.jdo.level.Level lv : list){
-                    if(index == 0){
-                        com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
-                        tmp.setIsDefaultActivated(true);
-                        lvdao.put(tmp);
-                        continue;
+    public void clearData(boolean overrideDefaultActivated) throws Exception {
+        if (overrideDefaultActivated) {
+            try {
+                LvDAO lvdao = new LvDAO();
+                List<com.cmg.lesson.data.jdo.level.Level> list = lvdao.listIn(idCourse);
+                if (list != null && list.size() > 0) {
+                    int index = 0;
+                    for (com.cmg.lesson.data.jdo.level.Level lv : list) {
+                        if (index == 0) {
+                            com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
+                            tmp.setIsDefaultActivated(true);
+                            lvdao.put(tmp);
+                        } else {
+                            com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
+                            tmp.setIsDefaultActivated(false);
+                            lvdao.put(tmp);
+                        }
+                        index++;
                     }
-                    com.cmg.lesson.data.jdo.level.Level tmp = lvdao.getById(lv.getId());
-                    tmp.setIsDefaultActivated(false);
-                    lvdao.put(tmp);
-                    index ++;
                 }
+            } catch (Exception e) {
             }
-        }catch (Exception e){
         }
         TCHDAO dao = new TCHDAO();
         int version = dao.getLatestVersion(idCourse)+1;
