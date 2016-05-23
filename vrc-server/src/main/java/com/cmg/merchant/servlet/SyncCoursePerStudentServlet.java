@@ -28,9 +28,10 @@ public class SyncCoursePerStudentServlet extends BaseServlet {
         Gson gson = new Gson();
         ResponseData<ArrayList<TeacherCourseHistory>> responseData = new ResponseData<>();
         try {
+            CourseSyncService service = new CourseSyncService();
             if (action.equalsIgnoreCase(ACTION_LIST_ALL_COURSE) && profile.length() > 0) {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
-                CourseSyncService service = new CourseSyncService();
+
                 String username = user.getUsername();
                 logger.info("load course of user " + username);
                 ArrayList<TeacherCourseHistory> list = service.listCourseByUser(username);
@@ -38,6 +39,16 @@ public class SyncCoursePerStudentServlet extends BaseServlet {
                 responseData.setData(list);
                 responseData.setStatus(true);
                 responseData.setMessage("success");
+            } if (action.equalsIgnoreCase("demo")) {
+                TeacherCourseHistory tmp = service.courseCMG(true);
+                if (tmp != null) {
+                    responseData.setStatus(true);
+                    responseData.setMessage("Generate new CMG course version " + tmp.getVersion());
+                } else {
+                    responseData.setStatus(false);
+                    responseData.setMessage("No CMG course found");
+                }
+
             } else {
                 responseData.setStatus(false);
                 responseData.setMessage("invalid parameter");

@@ -301,10 +301,13 @@ public class UnitTesting {
             lmq.setId("tesst");
             dao.put(lmq);*/
 
-            AdminDAO dao = new AdminDAO();
-            String usn = "demoTeacher1@c-mg.com";
-            Admin adm = dao.getUserByEmailPassword(usn.toLowerCase(),StringUtil.md5("123"));
-            System.out.println(adm.getUserName());
+//            AdminDAO dao = new AdminDAO();
+//            String usn = "demoTeacher1@c-mg.com";
+//            Admin adm = dao.getUserByEmailPassword(usn.toLowerCase(),StringUtil.md5("123"));
+//            System.out.println(adm.getUserName());
+
+            DatabaseVersionDAO databaseVersionDAO = new DatabaseVersionDAO();
+            System.out.print(new Gson().toJson(databaseVersionDAO.getLatestDatabaseVersionOld()));
         } catch (Exception e) {
             e.printStackTrace();
         }
