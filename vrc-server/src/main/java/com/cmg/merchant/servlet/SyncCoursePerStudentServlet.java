@@ -39,7 +39,7 @@ public class SyncCoursePerStudentServlet extends BaseServlet {
                 responseData.setData(list);
                 responseData.setStatus(true);
                 responseData.setMessage("success");
-            } if (action.equalsIgnoreCase("demo")) {
+            } else if (action.equalsIgnoreCase("demo")) {
                 TeacherCourseHistory tmp = service.courseCMG(true);
                 if (tmp != null) {
                     responseData.setStatus(true);

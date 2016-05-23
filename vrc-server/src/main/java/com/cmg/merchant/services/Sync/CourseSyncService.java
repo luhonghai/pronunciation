@@ -78,6 +78,7 @@ public class CourseSyncService {
                     tmp.setVersion(tmp.getVersion());
                     tmp.setCmgCourse(true);
                     tmp.setName("demo");
+                    tmp.setIdCourse(course.getId());
                 }
 //                DatabaseVersion db = databaseVersionDAO.getSelectedVersion();
 //                TeacherCourseHistory tmp = new TeacherCourseHistory();

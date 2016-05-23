@@ -94,6 +94,7 @@
                 <option value="1" selected="selected">New</option>
               <option value="0">Old</option>
             </select>
+            <br/>
             <label class="control-label">Title Notification:</label>
             <textarea type="text" id="notification" name="lessonChange" rows="2" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
             <label class="control-label">Lesson change:</label>
