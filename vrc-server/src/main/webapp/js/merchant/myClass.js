@@ -61,7 +61,7 @@ function openAdd(){
                     }
                     $('#addCourses').multiselect('destroy');
                     if(index > 12 ){
-                        $('#addCourses').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#addCourses').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#addCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     }
@@ -79,7 +79,7 @@ function openAdd(){
                     }
                     $('#addStudents').multiselect('destroy');
                     if(index > 12){
-                        $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#addStudents').multiselect({ enableFiltering: true,buttonWidth: '100%'});
                     }
@@ -318,7 +318,7 @@ function openEdit(){
 
                     $('#editCourses').multiselect('destroy');
                     if(index > 12){
-                        $('#editCourses').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#editCourses').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#editCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     }
@@ -341,7 +341,7 @@ function openEdit(){
                     }
                     $('#editStudents').multiselect('destroy');
                     if(index > 12){
-                        $('#editStudents').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#editStudents').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     }

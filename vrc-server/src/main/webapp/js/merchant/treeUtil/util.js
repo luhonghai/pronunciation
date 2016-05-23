@@ -642,6 +642,12 @@ function drag2drop(){
                         //do not move the test node
                         return false;
                     }
+                    if(dragData._allowDragDrop == false){
+                        //do not move level have not test question
+                        return false;
+                    }
+
+
                    /* if(dropData._targetLoad == targetLoadQuestion){
                         //do not move the test node
                         return false;

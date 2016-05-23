@@ -404,5 +404,24 @@ public class CourseServices {
         return SUCCESS;
     }
 
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
+    public boolean allowLevelDragDrop(String idLevel){
+        LvDAO dao = new LvDAO();
+        try {
+            boolean existedInTest = dao.checkQuestionTestInLevel(idLevel);
+            boolean existedInObj = dao.checkQuestionObjInLevel(idLevel);
+            if(!existedInObj || !existedInTest ){
+                return false;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
 }
 
