@@ -552,6 +552,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
     
     func openDetailView(model: UserVoiceModel) {
         DeviceManager.showLockScreen()
+        print("openDetailView LockScreen()")
         let lessonDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("LessonDetailVC") as! LessonDetailVC
         lessonDetailVC.userVoiceModelResult = model
         lessonDetailVC.arrQuestionOfLC = arrQuestionOfLC
@@ -981,6 +982,12 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             }
             indexCurrentQuestion = indexPath.item
             Logger.log(indexCurrentQuestion)
+            
+            
+            Logger.log("word of question: \(question.listWord.count)")
+            if question.listWord.count < 2 {
+                return
+            }
             disableViewSelectQuestion()
             randomWord(question)
         }
@@ -990,6 +997,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         isShowDetail = false
         var randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
         while question.listWord[randomIndex].word == selectedWord.word {
+            print(randomIndex)
             randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
         }
         selectedWord = question.listWord[randomIndex]
@@ -1225,13 +1233,15 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             self.arrQuestionOfLC[self.indexCurrentQuestion].selectedWord = self.selectedWord
             self.cvQuestionList.reloadData()
             weak var weakSelf = self
-            //move detail screen
-            DeviceManager.showLockScreen()
-            delay(0.8, closure: { 
-                if self.isShowDetail {
+            
+            if weakSelf!.isShowDetail {
+                //move detail screen
+                DeviceManager.showLockScreen()
+                print("onAnimationMax LockScreen()")
+                delay(0.8, closure: {
                     weakSelf!.openDetailView(weakSelf!.currentMode)
-                }
-            })
+                })
+            }
            
             self.analyzingView.didCompleteDisplayScore = false
         }
