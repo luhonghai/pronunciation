@@ -274,6 +274,7 @@ public class SqliteService extends Thread{
                 } catch (Exception e) {
                     appendError("Could not clean unnecessary data in table " + e.getMessage());
                 }
+                conn.createStatement().execute("vacuum");
             } catch (Exception e) {
                 appendError("Could not clean database " + lessonDb.getAbsolutePath() + e.getMessage());
             } finally {

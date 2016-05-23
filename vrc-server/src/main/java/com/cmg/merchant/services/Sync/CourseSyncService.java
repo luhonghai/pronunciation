@@ -76,6 +76,7 @@ public class CourseSyncService {
                     tmp.setUrlDownload(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
                             + "/" + tmp.getPathAws()));
                     tmp.setVersion(tmp.getVersion());
+                    tmp.setCmgCourse(true);
                     tmp.setName("demo");
                 }
 //                DatabaseVersion db = databaseVersionDAO.getSelectedVersion();
