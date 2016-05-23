@@ -385,7 +385,7 @@
         <h2 style="font-weight: 700;font-size:18px" class="modal-title">remove students</h2>
       </div>
       <div class="modal-body">
-        <p>If you remove a student, from your list, the invitation process will need to be used to add them again.(Teacher to student or student to teacher).</p>
+        <p>If you remove a student from your list, the invitation process will need to be used to add them again. (Teacher to student or student to teacher).</p>
         <p>The student will also be removed from any classes they have been assigned to and they will no longer have access to any associated courses.</p>
       </div>
     </div>

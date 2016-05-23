@@ -404,8 +404,7 @@
                 <form class="form-horizontal" id="addQuestion" name="addform">
                     <div class="form-group">
                         <label class="control-label">Please add the words that you want to be used for this question. If
-                            you add more than one word they will be randomised to give variety to the student.Double
-                            click on a word to edit or delete</label>
+                            you add more than one word they will be randomised to give variety to the student.Click on a word to edit or delete</label>
                     </div>
                     <div class="form-group">
                         <a id="btnAddWord"

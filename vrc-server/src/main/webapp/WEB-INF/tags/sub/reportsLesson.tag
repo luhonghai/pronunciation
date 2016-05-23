@@ -43,7 +43,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">reports</h2>
+            <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">lessons</h2>
         </div>
         <div id="notification" class="col-sm-12">
             <label style="color : #376092">You had not created any class, to create a class :</label>
