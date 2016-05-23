@@ -5035,11 +5035,11 @@ about this lesson</string>
         <image name="tick.png" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8jd-vc-94q"/>
-        <segue reference="b3j-3D-4fV"/>
         <segue reference="Udu-EY-icj"/>
+        <segue reference="b3j-3D-4fV"/>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="4c6-2C-7Wp"/>
         <segue reference="eFf-YZ-v5D"/>
         <segue reference="Ceg-og-m1t"/>
-        <segue reference="cQm-kD-9I0"/>
     </inferredMetricsTieBreakers>
 </document>
