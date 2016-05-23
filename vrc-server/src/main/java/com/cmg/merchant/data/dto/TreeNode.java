@@ -80,6 +80,8 @@ public class TreeNode {
 
     private int _positionQ;
 
+    private String _stateOfCourse;
+
     public int getPositionQ() {
         return _positionQ;
     }
@@ -250,5 +252,13 @@ public class TreeNode {
 
     public void set_type(String _type) {
         this._type = _type;
+    }
+
+    public String get_stateOfCourse() {
+        return _stateOfCourse;
+    }
+
+    public void set_stateOfCourse(String _stateOfCourse) {
+        this._stateOfCourse = _stateOfCourse;
     }
 }

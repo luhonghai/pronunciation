@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by lantb on 2016-02-03.
  */
 @WebServlet(name = "MyCourseServlet")
-public class MyCourseServlet extends BaseServlet {
+public class    MyCourseServlet extends BaseServlet {
     private static String ACTION_ADD_COURSE = "addcourse";
     private static String ACTION_LIST_ALL = "listall";
     private static String ACTION_SEARCH_HEADER = "searchHeader";

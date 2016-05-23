@@ -204,7 +204,7 @@
       <button id="inviteStudents" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> invite students <i class="fa fa-plus"></i> </button>
     </div>
     <div class="col-sm-12">
-      <p>Use this page to manage the student that you want to assign to classes.</p>
+      <p>Use this page to manage the students that you want to assign to classes.</p>
       <p>Select the button above to invite students.</p>
     </div>
   </div>

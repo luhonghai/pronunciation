@@ -21,8 +21,6 @@ function validateFormCourse(){
     }
     var share = getCourseShare().val();
     if(share == '' || typeof share ==="undefined"){
-        /*getMsgAddCourse().html("please select a share option");
-         getMsgAddCourse().show();*/
         getPopUpHelp().find(".modal-title").html("please select a share option");
         getPopUpHelp().find(".modal-body").empty();
         var $html = $("<div>");

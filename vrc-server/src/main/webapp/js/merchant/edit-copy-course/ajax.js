@@ -36,7 +36,7 @@ function editCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                if(nameOfCourse != getCourseName().val){
+                if(nameOfCourse.trim() != getCourseName().val().trim()){
                     isEditedTitle = true;
                     UpdateStateCourse();
                 }
@@ -967,6 +967,9 @@ function UpdateStateCourse(){
         },
         dataType : "text",
         success : function(data){
+            if(state.trim() != "duplicated"){
+                $('#'+idCourse).find('.aciTreeItem').css("background-color","#558ED5");
+            }
             enablePublishBtn();
         },
         error: function () {

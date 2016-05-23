@@ -12,6 +12,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -426,7 +427,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
@@ -628,7 +633,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
@@ -686,7 +695,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
@@ -744,7 +757,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
