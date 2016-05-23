@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedbackVC: UIViewController, UITextViewDelegate {
+class FeedbackVC: BaseUIViewController, UITextViewDelegate {
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnOpenLink: UIButton!

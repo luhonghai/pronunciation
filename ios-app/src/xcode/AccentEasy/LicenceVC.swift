@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LicenceVC: UIViewController {
+class LicenceVC: BaseUIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var webView: UIWebView!

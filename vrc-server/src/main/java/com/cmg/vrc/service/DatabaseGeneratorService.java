@@ -79,6 +79,12 @@ public class DatabaseGeneratorService {
             TestMapping.class
     };
 
+    private static final Class[] WORD_TABLES = {
+            IpaMapArpabet.class,
+            WordCollection.class,
+            Country.class,
+    };
+
     private static final Logger logger = Logger.getLogger(DatabaseGeneratorService.class.getName());
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -123,12 +129,21 @@ public class DatabaseGeneratorService {
 
     int version;
 
+    int type;
+
     private DatabaseGeneratorService() {
     }
 
-    public void generate(String admin,String lessonChange, String titleNotification) {
+    public void generate(String admin,String lessonChange, String titleNotification, String type) {
         if (!isRunning()) {
             synchronized (this) {
+                if (type != null && type.length() > 0) {
+                    try {
+                        this.type = Integer.parseInt(type);
+                    } catch (Exception e) {
+
+                    }
+                }
                 setRunning(true);
                 this.admin = admin;
                 this.lessonChange=lessonChange;
@@ -255,7 +270,7 @@ public class DatabaseGeneratorService {
 
     private void generateDatabase() throws Exception {
         List<String> tables = new ArrayList<>();
-        for (Class<?> clazz : LESSON_TABLES) {
+        for (Class<?> clazz : (type == 0 ? LESSON_TABLES : WORD_TABLES)) {
             String tableName = getTableName(clazz).toUpperCase();
             appendMessage("Sync table: " + tableName);
             tables.add(tableName);
@@ -326,6 +341,7 @@ public class DatabaseGeneratorService {
                         } catch (Exception e) {}
                     }
                 }
+                conn.createStatement().execute("vacuum");
             } catch (Exception e) {
                 appendError("Could not clean database " + lessonDb.getAbsolutePath(),e);
             } finally {
@@ -351,6 +367,7 @@ public class DatabaseGeneratorService {
                 databaseVersion.setSelectedDate(now);
                 databaseVersion.setCreatedDate(now);
                 databaseVersion.setFileName(projectName);
+                databaseVersion.setType(type);
                 databaseVersion.setVersion(version);
                 awsHelper.upload(Constant.FOLDER_DATABASE + "/" + projectName, dbZip);
                 dao.removeSelected();

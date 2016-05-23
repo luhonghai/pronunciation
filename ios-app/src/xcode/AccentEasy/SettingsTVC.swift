@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsTVC: UITableViewController, LSPopupVCDelegate {
+class SettingsTVC: BaseUITableViewController, LSPopupVCDelegate {
 
     var userProfile:UserProfile!
     
@@ -74,6 +74,7 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         //update profile
         print("run update profile")
         print(userProfile)

@@ -9,7 +9,7 @@
 import UIKit
 import SloppySwiper
 
-class IPAMainPageController: UIViewController {
+class IPAMainPageController: BaseUIViewController {
 
     @IBOutlet weak var btnConsonant: UIButton!
     @IBOutlet weak var btnRP: UIButton!

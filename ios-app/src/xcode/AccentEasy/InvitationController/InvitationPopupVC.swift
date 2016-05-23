@@ -46,7 +46,8 @@ class InvitationPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        hidenLoadding()
+        super.viewDidDisappear(animated)
+        //hidenLoadding()
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,12 +71,10 @@ class InvitationPopupVC: UIViewController {
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
-        showLoadding()
         delegate?.invitationPopupVCTouchOK!(indexSelected)
     }
     
     @IBAction func btnRejectTouchUp(sender: AnyObject) {
-        showLoadding()
         delegate?.invitationPopupVCTouchReject!(indexSelected)
     }
     

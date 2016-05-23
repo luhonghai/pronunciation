@@ -8,7 +8,7 @@
 import EZAudio
 import SloppySwiper
 
-class IPAChartController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate,
+class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate,
  UIGestureRecognizerDelegate {
     
     @IBOutlet weak var collectionIPA: UICollectionView!
@@ -36,10 +36,12 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         activateAudioSession()
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
 //        swiper = SloppySwiper(navigationController: self.navigationController)
 //        self.navigationController?.delegate = swiper
 //        self.navigationController?.interactivePopGestureRecognizer?.enabled = false

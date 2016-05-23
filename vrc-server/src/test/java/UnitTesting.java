@@ -301,15 +301,13 @@ public class UnitTesting {
             lmq.setId("tesst");
             dao.put(lmq);*/
 
-           /* AdminDAO dao = new AdminDAO();
-            String usn = "demoTeacher1@c-mg.com";
-            Admin adm = dao.getUserByEmailPassword(usn.toLowerCase(),StringUtil.md5("123"));
-            System.out.println(adm.getUserName());*/
-            CourseSyncService service = new CourseSyncService();
-            ArrayList<TeacherCourseHistory> list = service.listCourseByUser("pablo.dropbox01@gmail.com");
-            for(TeacherCourseHistory tch : list){
-                System.out.println(tch.getPathAws() + " " + tch.getVersion());
-            }
+//            AdminDAO dao = new AdminDAO();
+//            String usn = "demoTeacher1@c-mg.com";
+//            Admin adm = dao.getUserByEmailPassword(usn.toLowerCase(),StringUtil.md5("123"));
+//            System.out.println(adm.getUserName());
+
+            CMTSERVICES cmtservices = new CMTSERVICES();
+            cmtservices.generateAllPublishCourse();
         } catch (Exception e) {
             e.printStackTrace();
         }

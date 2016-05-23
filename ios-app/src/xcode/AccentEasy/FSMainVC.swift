@@ -12,7 +12,7 @@ import EZAudio
 import Darwin
 import SloppySwiper
 
-class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, HelpButtonDelegate {
+class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, HelpButtonDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -95,6 +95,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         //check invitation and redirect to InvitaionMainVC
         if (GlobalData.getInstance().isShowInvitation) {
@@ -116,7 +117,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         }
         
         GlobalData.getInstance().isOnLessonMain = false
-        super.viewDidLoad()
+        
 //        swiper = SloppySwiper(navigationController: self.navigationController)
 //        self.navigationController?.delegate = swiper
         DeviceManager.requestMicrophonePermission {
@@ -309,6 +310,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
         //loginParameter = NSUserDefaults()
         //let username:String = loginParameter.objectForKey("username") as! String
         //if username != "hoang" {
@@ -574,7 +577,9 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
                     Logger.log(e)
-                    weakSelf!.showErrorAnalyzing()
+                    dispatch_async(dispatch_get_main_queue(),{
+                        weakSelf!.showErrorAnalyzing()
+                    })
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
             Logger.log("request token \(weakSelf!.userProfile.token)")
@@ -708,7 +713,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 self.analyzingView.switchType(AnalyzingType.RECORDING)
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                     weakSelf!.microphone.startFetchingAudio()
-                    weakSelf!.recorder = EZRecorder(URL: weakSelf!.getTmpFilePath(), clientFormat: weakSelf!.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: weakSelf!)
+                    weakSelf!.recorder = EZRecorder(URL: weakSelf!.getTmpFilePath(), clientFormat: weakSelf!.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.M4A, delegate: weakSelf!)
                 }
                 }
             })
@@ -808,6 +813,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func changeColorRed(){
+        
         btnRecord.backgroundColor = ColorHelper.APP_RED
         btnPlay.backgroundColor = ColorHelper.APP_RED
         btnPlayDemo.setTitleColor(ColorHelper.APP_RED, forState: UIControlState.Normal)

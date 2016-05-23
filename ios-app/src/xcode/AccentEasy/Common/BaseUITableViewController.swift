@@ -11,14 +11,18 @@ import Foundation
 class BaseUITableViewController: UITableViewController {
     
     var baseNotification: BaseNotification!
-        
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         baseNotification = BaseNotification(viewController: self)
     }
-        
-    deinit {
-        baseNotification.clean()
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        if baseNotification != nil {
+            Logger.log("run in BaseUIViewController deinit")
+            baseNotification.clean()
+        }
     }
     
 }

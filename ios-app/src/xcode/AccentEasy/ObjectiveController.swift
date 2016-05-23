@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewDelegate, LessonTipPopupVCDelegate {
+class ObjectiveController: BaseUIViewController, UITableViewDataSource, UITableViewDelegate, LessonTipPopupVCDelegate {
     
     
     @IBOutlet weak var scoreTest: AnalyzingView!
@@ -90,6 +90,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         scoreTest.refreshLayout()
     }
     

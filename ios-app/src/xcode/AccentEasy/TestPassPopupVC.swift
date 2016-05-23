@@ -66,11 +66,13 @@ class TestPassPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         print("viewDidDisappear")
         NSNotificationCenter.defaultCenter().postNotificationName("testPassMove", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         print("viewDidAppear")
         
     }

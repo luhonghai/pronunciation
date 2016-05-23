@@ -255,8 +255,19 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     
     private func redraw()
     {
-        let lockQueue = dispatch_queue_create("com.cmg.analyzingview.LockQueue", nil)
-        dispatch_sync(lockQueue) {
+        if #available(iOS 8.1, *) {
+            let lockQueue = dispatch_queue_create("com.cmg.analyzingview.LockQueue", nil)
+            dispatch_sync(lockQueue) {
+                self.doDraw()
+            }
+        } else {
+            doDraw()
+        }
+        
+        
+    }
+    
+    func doDraw(){
         let currentTime: Double = NSDate().timeIntervalSince1970 * 1000.0
         let updateTime = 100.0
         let step = 4
@@ -324,8 +335,6 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             self.waveformLayer.path = path;
             self.innerCircleLayer.path = innerCirclePath;
             self.outerCircleLayer.path = outerCirclePath;
-        }
-        
         }
     }
     
