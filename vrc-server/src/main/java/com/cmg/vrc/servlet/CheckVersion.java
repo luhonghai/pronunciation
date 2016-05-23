@@ -1,6 +1,7 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
+import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
 import com.cmg.vrc.data.jdo.DatabaseVersion;
 import com.cmg.vrc.util.AWSHelper;
@@ -30,14 +31,24 @@ public class CheckVersion extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Gson gson = new Gson();
         String version = request.getParameter("version");
+        String profile = request.getParameter("profile");
         PrintWriter out = response.getWriter();
         VersionResponseData responseData = new VersionResponseData();
         responseData.setStatus(false);
         try {
             int v = Integer.parseInt(version);
             DatabaseVersionDAO databaseVersionDAO = new DatabaseVersionDAO();
-            DatabaseVersion db = databaseVersionDAO.getSelectedVersion();
+            DatabaseVersion db;
+            if (profile != null) {
+                UserProfile userProfile = gson.fromJson(profile, UserProfile.class);
+                logger.info("User " + userProfile.getUsername() + " request database version. JSON data: " + profile);
+                // A new style version
+                db = databaseVersionDAO.getSelectedVersion();
+            } else {
+                db = databaseVersionDAO.getLatestDatabaseVersionOld();
+            }
             if (db != null) {
                 if (db.getVersion() != v) {
                     AWSHelper awsHelper = new AWSHelper();
@@ -58,7 +69,7 @@ public class CheckVersion extends HttpServlet {
             logger.error("Could not get selected database version",e);
             responseData.setMessage("Error when get database version. Message: " + e.getMessage());
         }
-        out.print(new Gson().toJson(responseData));
+        out.print(gson.toJson(responseData));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

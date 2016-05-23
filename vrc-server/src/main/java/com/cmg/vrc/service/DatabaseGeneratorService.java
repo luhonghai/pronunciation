@@ -123,12 +123,21 @@ public class DatabaseGeneratorService {
 
     int version;
 
+    int type;
+
     private DatabaseGeneratorService() {
     }
 
-    public void generate(String admin,String lessonChange, String titleNotification) {
+    public void generate(String admin,String lessonChange, String titleNotification, String type) {
         if (!isRunning()) {
             synchronized (this) {
+                if (type != null && type.length() > 0) {
+                    try {
+                        this.type = Integer.parseInt(type);
+                    } catch (Exception e) {
+
+                    }
+                }
                 setRunning(true);
                 this.admin = admin;
                 this.lessonChange=lessonChange;
@@ -351,6 +360,7 @@ public class DatabaseGeneratorService {
                 databaseVersion.setSelectedDate(now);
                 databaseVersion.setCreatedDate(now);
                 databaseVersion.setFileName(projectName);
+                databaseVersion.setType(type);
                 databaseVersion.setVersion(version);
                 awsHelper.upload(Constant.FOLDER_DATABASE + "/" + projectName, dbZip);
                 dao.removeSelected();

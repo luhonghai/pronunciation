@@ -18,7 +18,7 @@ class MyCollectionViewCell: UICollectionViewCell {
     
 }
 
-class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate {
+class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate {
 
     var userProfileSaveInApp:NSUserDefaults!
 
@@ -153,6 +153,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         viewAnalyzing.refreshLayout()
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
@@ -292,8 +293,10 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     
     func audioPlayer(audioPlayer: EZAudioPlayer!, reachedEndOfAudioFile audioFile: EZAudioFile!) {
-        self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
-        showColorOfScoreResult(userVoiceModelResult.score)
+        dispatch_async(dispatch_get_main_queue(),{
+            self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
+            self.showColorOfScoreResult(self.userVoiceModelResult.score)
+        })
     }
     
     func pressShowChart(sender: IPAPopupVC?) {
@@ -513,6 +516,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordSelected.word)
     }
 }

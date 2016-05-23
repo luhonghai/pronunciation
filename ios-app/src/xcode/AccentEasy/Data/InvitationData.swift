@@ -77,3 +77,26 @@ public class InvitationData: Mappable{
     }
     
 }
+
+
+public class InvitationMessage: Mappable{
+    public var type:Int!
+    public var title:String!
+    public var content:String!
+    
+    required public init?(_ map: Map) {
+        
+    }
+    
+    required public init(){
+        
+    }
+    
+    // Mappable
+    public func mapping(map: Map) {
+        type    <= map["type"]
+        title    <= map["title"]
+        content    <= map["content"]
+    }
+    
+}

@@ -478,13 +478,6 @@
 			remoteGlobalIDString = C141C7FC1C3E203C001D1F9C;
 			remoteInfo = SwiftSidebarMenu;
 		};
-		C146F1C21CE0437400B20594 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7A6FA8C2C720CCCF1CE8023AEC8BF789;
-			remoteInfo = "youtube-ios-player-helper";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */

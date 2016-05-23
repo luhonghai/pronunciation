@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
+class LevelControllerTVC: BaseUITableViewController, LSPopupVCDelegate {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     

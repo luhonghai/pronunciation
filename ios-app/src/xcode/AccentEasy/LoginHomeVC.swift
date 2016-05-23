@@ -77,13 +77,18 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
                 withError error: NSError!) {
         if (error == nil) {
+            //show loadding
+            self.showLoadding("processing")
             Logger.log("run in google sign in")
+            print(user)
             // Perform any operations on signed in user here.
             let userId:String = user.userID                  // For client-side use only!
             let idToken:String = user.authentication.idToken // Safe to send to the server
             let name:String = user.profile.name
             let email:String = user.profile.email
             //let birthday = user.profile.
+            Logger.log("Google plus access token \(user.authentication.accessToken)")
+            Logger.log("Google plus id token \(user.authentication.idToken)")
             let urlImage:String = user.profile.imageURLWithDimension(320).absoluteString
             //Logger.log("avatar")
             //Logger.log(urlAvate)
@@ -114,12 +119,12 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
             //userProfile.dob = result.valueForKey("birthday") as! String
             userProfile.additionalToken = idToken
             userProfile.loginType = UserProfile.TYPE_GOOGLE_PLUS
-            
             currentUser = userProfile
-            self.registerUserProfile()
-            //show loadding
-            self.showLoadding()
-            
+            weak var weakSelf = self
+            AccountManager.fetchGooglePlusInfo(user.authentication.accessToken, userProfile: currentUser, completion: { (userProfile, success, message) in
+                weakSelf!.currentUser = userProfile
+                weakSelf!.registerUserProfile()
+            })
         } else {
             Logger.log("\(error.localizedDescription)")
             // [START_EXCLUDE silent]
@@ -204,7 +209,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func fetchFacebookProfile(){
         
         if FBSDKAccessToken.currentAccessToken() != nil {
-            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me?fields=id,name,email,birthday", parameters: nil)
+            let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me?fields=id,name,email,birthday,gender", parameters: nil)
             graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
                 
                 if ((error) != nil) {
@@ -230,6 +235,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                         username = "\(userId)@facebook.com"
                     }
                     let userProfile:UserProfile = AccountManager.currentUser(username! as! String)
+                    if let gender = result.valueForKey("gender") {
+                        Logger.log("gender \(gender)")
+                        userProfile.gender = gender as! String == "male"
+                    }
                     userProfile.username = username as! String
                     userProfile.name = result.valueForKey("name") as! String
                     let dob = result.valueForKey("birthday");
@@ -244,7 +253,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     self.registerUserProfile()
                     
                     //show loadding
-                    self.showLoadding()
+                    self.showLoadding("processing")
                 }
             })
         }
@@ -282,7 +291,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     //
                     weakSelf!.fetchCourses(userProfile)
                 } else {
-                    weakSelf!.hidenLoadding()
+                    //weakSelf!.hidenLoadding()
                     AccountManager.showError("could not login", message: message)
                 }
             })

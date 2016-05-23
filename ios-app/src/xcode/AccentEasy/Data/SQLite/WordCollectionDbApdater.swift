@@ -28,9 +28,9 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
                     //Logger.log("Complete download ipa audio \(ipa.mp3URLShort)")
                 })
             }
-            if ipa.imgTongue != nil && !ipa.imgTongue.isEmpty {
+            /*if ipa.imgTongue != nil && !ipa.imgTongue.isEmpty {
                 try! ImageLoader.load(NSURL(string: ipa.imgTongue)!)
-            }
+            }*/
         }
     }
     

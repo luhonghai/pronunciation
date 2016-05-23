@@ -17,7 +17,7 @@ class QuestionCVCell: UICollectionViewCell {
     
 }
 
-class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate, LessonTipPopupVCDelegate, HelpButtonDelegate {
+class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate, LessonTipPopupVCDelegate, HelpButtonDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -122,8 +122,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     
     override func viewDidLoad() {
-        GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
+        
+        GlobalData.getInstance().isOnLessonMain = true
 //        swiper = SloppySwiper(navigationController: self.navigationController)
 //        self.navigationController?.delegate = swiper
         DeviceManager.requestMicrophonePermission {
@@ -352,6 +353,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         //loginParameter = NSUserDefaults()
         //let username:String = loginParameter.objectForKey("username") as! String
         //if username != "hoang" {
@@ -468,7 +470,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
                     Logger.log(e)
-                    weakSelf!.showErrorAnalyzing()
+                    dispatch_async(dispatch_get_main_queue(),{
+                        weakSelf!.showErrorAnalyzing()
+                    })
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
             let question = weakSelf!.arrQuestionOfLC[weakSelf!.indexCurrentQuestion]
@@ -618,7 +622,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 self.isRecording = true
                 self.analyzingView.clear()
                 self.microphone.startFetchingAudio()
-                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: self)
+                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.M4A, delegate: self)
                 self.analyzingView.switchType(AnalyzingType.RECORDING)
                 }
             })

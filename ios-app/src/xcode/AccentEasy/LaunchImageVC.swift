@@ -17,6 +17,7 @@ class LaunchImageVC: UIViewController {
     var willCheckLogin:Bool = true
     var currentDate:NSDate = NSDate()
     var startSecond:Double!
+    var isShowLoadding = false
     
     var currentUser: UserProfile!
     
@@ -24,6 +25,10 @@ class LaunchImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //get minute
+        startSecond = currentDate.timeIntervalSince1970
+        
         currentUser = AccountManager.currentUser()
         // Do any additional setup after loading the view.
         number = 1
@@ -31,6 +36,7 @@ class LaunchImageVC: UIViewController {
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
         
         weak var weakSelf = self;
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             DatabaseHelper.checkDatabaseVersion() {(success) -> Void in
                 print (success)
@@ -42,15 +48,21 @@ class LaunchImageVC: UIViewController {
                     //TODO show alert no database found
                     print ("error checkDatabaseVersion")
                 } else {
-                    let wordCollectionDb = WordCollectionDbApdater()
-                    wordCollectionDb.prepare()
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                        let wordCollectionDb = WordCollectionDbApdater()
+                        wordCollectionDb.prepare()
+                    }
                 }
                 weakSelf!.willClose = true
             }
         }
         
-        //get minute
-        startSecond = currentDate.timeIntervalSince1970
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        if isShowLoadding {
+            hidenLoadding()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,6 +83,11 @@ class LaunchImageVC: UIViewController {
         
         if currentDate.timeIntervalSince1970 - startSecond < 4 {
             return
+        }
+        
+        if (currentDate.timeIntervalSince1970 - startSecond >= 10) && !isShowLoadding{
+            showLoadding("installing...")
+            isShowLoadding = true
         }
 
         nextScreen = nextScreen + 1
