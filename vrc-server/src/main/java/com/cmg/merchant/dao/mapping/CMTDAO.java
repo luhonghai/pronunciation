@@ -12,6 +12,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -30,6 +31,20 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
         List<CourseMappingTeacher> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
         if(list!=null && list.size() > 0){
             return list.get(0);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public List<CourseMappingTeacher> getAllPublishCourse(String status) throws Exception{
+        List<CourseMappingTeacher> list = list("WHERE status == :1 && isDeleted == :2 ", status, false);
+        if(list!=null && list.size() > 0){
+            return list;
         }
         return null;
     }
@@ -60,9 +75,9 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET status=?  WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET status=?,dateCreated=?  WHERE id=?");
         try {
-            q.execute(status,id);
+            q.execute(status,new Date(System.currentTimeMillis()),id);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -229,7 +244,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
     }
 
 
-    /**
+   /* *//**
      *
      * @param cpId
      * @param tId
@@ -239,7 +254,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @param sr
      * @return list if have record and null if not
      * @throws Exception
-     */
+     *//*
     public List<CourseMappingTeacher> getCourses(String cpId, String tId, String cId,
                                                     String status, String state, String sr,Date createDateFrom,Date createDateTo) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -316,7 +331,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
             q.closeAll();
             pm.close();
         }
-    }
+    }*/
 
     /**
      *
@@ -412,7 +427,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
@@ -614,7 +633,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
@@ -672,7 +695,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
@@ -730,7 +757,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                         dto.setState(array[4].toString());
                     }
                     if(array[5]!=null){
-                        dto.setDateCreated(array[5].toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                        Date d = sdf1.parse(array[5].toString().split(" ")[0]);
+                        String dc = sdf.format(d);
+                        dto.setDateCreated(dc);
                     }
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());

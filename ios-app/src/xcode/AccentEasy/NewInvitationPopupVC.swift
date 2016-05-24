@@ -58,7 +58,7 @@ class NewInvitationPopupVC: UIViewController {
     
     
     @IBAction func btnCloseTouchUp(sender: AnyObject) {
-        delegate?.closePopup(self)
+        delegate?.closePopup!(self)
     }
 
 }

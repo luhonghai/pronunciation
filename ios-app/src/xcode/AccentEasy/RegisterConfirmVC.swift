@@ -54,17 +54,6 @@ class RegisterConfirmVC: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
-    }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
-    }
-    
     @IBAction func confirmCodeTapped(sender: AnyObject) {
         DeviceManager.doIfConnectedToNetwork { (status) -> Void in
             if status {

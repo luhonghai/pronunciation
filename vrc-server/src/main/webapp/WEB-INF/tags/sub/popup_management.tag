@@ -1,3 +1,4 @@
+<%@ tag import="com.cmg.merchant.common.Constant" %>
 <style>
     .count-character{
         float: right;
@@ -41,6 +42,11 @@
         font-weight : 700 !important;
         font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
     }
+
+    .cbstyle {
+        box-shadow: inset 0 1px 1px rgba(255, 250, 250, 0.075) !important;
+        width: 10%;
+    }
 </style>
 <div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
@@ -49,12 +55,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrowCourse" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupCourse' class="modal-title">course management</h2>
+                <h2 id='titlePopupCourse' style="font-weight: 700;font-size:18px;" class="modal-title">course management</h2>
                 <h4 id="validateMsgCourse" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -73,6 +79,28 @@
                         <div class="col-md-8">
                             <textarea rows="2" class="form-control" id="courseDescription" name="description"
                                       placeholder="Course description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="shareall">share all:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" class="form-control cbstyle"
+                                   id="shareall" checked name="share" value="<%=Constant.SHARE_ALL%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="mycompany">share - my
+                            company:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" style="padding-top: 10px" class="form-control cbstyle"
+                                   id="mycompany" name="share" value="<%=Constant.SHARE_IN_COMPANY%>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="private">private:</label>
+                        <div class="col-md-6">
+                            <input type="checkbox" style="padding-top: 10px" class="form-control cbstyle"
+                                   id="private" name="share" value="<%=Constant.SHARE_PRIVATE%>">
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -107,12 +135,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrow" class="modal-title"
-                                                  style="text-align: left;">
-                </label></div>
+                         style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
+                </label>
+                </div>
 
-                <h2 id='titlePopup' class="modal-title">add level</h2>
+                <h2 id='titlePopup' style="font-weight: 700;font-size: 18px" class="modal-title">add level</h2>
                 <h4 id="validateLvMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -165,12 +194,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrowObj" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupObj' class="modal-title">Add Objective</h2>
+                <h2 id='titlePopupObj' style="font-weight: 700;font-size: 18px" class="modal-title">Add Objective</h2>
                 <h4 id="validateObjMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -223,12 +252,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 <div class="contain-arrow"><label id="arrowTest" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupTest' class="modal-title">Add Test</h2>
+                <h2 id='titlePopupTest' style="font-weight: 700;font-size: 18px" class="modal-title">Add Test</h2>
                 <h4 id="validateTestMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your level
                     name</h4>
             </div>
             <div class="modal-body">
@@ -275,12 +304,13 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
                 <div class="contain-arrow"><label id="arrowLesson" class="modal-title"
-                                                  style="text-align: left; padding-left: 15px;">
+                                                  style="text-align: left; padding-left: 15px;
+                                                  font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 id='titlePopupLesson' class="modal-title">add lesson</h2>
+                <h2 id='titlePopupLesson' style="font-weight: 700;font-size: 18px" class="modal-title">add lesson</h2>
                 <h4 id="validateLessonMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your lesson
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your lesson
                     name</h4>
             </div>
             <div class="modal-body">
@@ -323,10 +353,10 @@
                              style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
 
                         <div class="col-md-8">
-                            <textarea onkeyup="countChars('lessonDetail');" maxlength="240" rows="3"
+                            <textarea onkeyup="countChars('lessonDetail');" maxlength="600" rows="3"
                                       class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>
-                            <span class="count-character" id="count-lesson-details">0 of 240 characters</span>
+                            <span class="count-character" id="count-lesson-details">0 of 600 characters</span>
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -363,19 +393,18 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
                 <div class="contain-arrow"><label id="arrowQuestion" class="modal-title"
-                                                  style="text-align: left;">
+                                                  style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
 
-                <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
+                <h2 align="center" id='titlePopupQuestion' style="font-weight: 700;font-size: 18px" class="modal-title">question management</h2>
                 <h4 id="validateQuestionMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;"></h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="addQuestion" name="addform">
                     <div class="form-group">
                         <label class="control-label">Please add the words that you want to be used for this question. If
-                            you add more than one word they will be randomised to give variety to the student.Double
-                            click on a word to edit or delete</label>
+                            you add more than one word they will be randomised to give variety to the student.Click on a word to edit or delete</label>
                     </div>
                     <div class="form-group">
                         <a id="btnAddWord"
@@ -423,11 +452,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
                 <div class="contain-arrow"><label id="arrowQuestionTest" class="modal-title"
-                                                    style="text-align: left;">
+                                                    style="text-align: left;font-weight: 200 !important;font-size: 14px !important;">
                 </label></div>
-                <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
+                <h2 align="center" style="font-weight: 700;font-size: 18px" id='titlePopupTestWord' class="modal-title">add test question</h2>
                 <h4 id="validateQuestionForTestMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;"></h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="addTestWord" name="addform">
@@ -506,13 +535,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">x</span></button>
-                <div id="contain-arrow"><label id="arrowWord" class="modal-title"></label></div>
+                <div id="contain-arrow"><label id="arrowWord" style="font-weight: 200 !important;font-size: 14px !important;" class="modal-title"></label></div>
                 <input type="hidden" id="idLesson">
                 <input type="hidden" id="AddOrEditWord">
 
-                <h2 id="title-add-word" style="text-align: center" class="modal-title">word management</h2>
+                <h2 id="title-add-word" style="text-align: center;font-weight: 700;font-size: 18px;" class="modal-title">word management</h2>
                 <h4 id="validateWordMsg" class="modal-title validateMsg"
-                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
+                    style="text-align: center;font-weight: 200;font-size:14px;color:red;display:none;">Enter your word</h4>
             </div>
             <div class="modal-body">
                 <form name="add" class="form-horizontal" id="addWords">
@@ -524,10 +553,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-3  col-sm-2" style="padding:0px">
-                            <label class="control-label">Word:</label>
+                            <label class="control-label">word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
-                            <input type="text" id="addWord" name="addWord" class=" form-control">
+                            <input autofocus autocomplete="off" type="text" id="addWord" name="addWord" class=" form-control">
                         </div>
                         <div class="col-xs-4  col-sm-4">
                             <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"
@@ -603,7 +632,7 @@
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h2 class="modal-title" style="font-weight: 700;">preview and/or duplicate a course</h2>
+                <h2 class="modal-title" style="font-weight: 700;font-size: 18px">preview and/or duplicate a course</h2>
             </div>
             <div class="modal-body">
 
@@ -650,7 +679,7 @@
                                  height="36px"/>
                         </div>
                         <div class="col-md-6">
-                            <img id="ConfirmDeletebtn" style="float:right" src="/images/popup/trash_50x50.gif"
+                            <img id="ConfirmDeletebtn" style="float:right" src="/images/teacher/report_tick48x48.gif"
                                  width="36px" height="36px"/>
                         </div>
                     </div>
@@ -662,11 +691,15 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
+
+
+
 <div id="helpReportModal" class="modal fade">
     <div class="modal-dialog" style="width:500px">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 20px">
             <div class="modal-header">
-                <h2 class="modal-title">report</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <h2 style="font-weight: 700;font-size: 18px" class="modal-title">reports</h2>
             </div>
             <div class="modal-body">
                 <div>
@@ -689,6 +722,32 @@
                     <p style="color: red;">2.Select a phoneme.</p>
                     <p style="color: red;">3.Select a time period.</p>--%>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="confirmPublish" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-bottom: 15px">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 style="text-align: center;font-weight: 700;font-size: 18px;" class="modal-title"></h2>
+            </div>
+            <div class="modal-body">
+                <form name="add" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label style="font-weight: 200;font-size: 14px;">You have duplicate data in your course that will not be published, do you wish to continue?</label>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 0px;" class="form-group">
+                        <div class="col-sm-6"><label class="cancelLbl"
+                                                     id="cancel-publish" style="font-weight:200;float:left;cursor: pointer;padding-top:15px"><u>cancel</u></label></div>
+                        <div class="col-sm-6"><img title="publish course" id="btn-confirm-pb" class="btn" style="float: right; padding: 0px; cursor: pointer; opacity: inherit;" src="/images/treeview/publish_button.gif" width="36px" height="36px"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

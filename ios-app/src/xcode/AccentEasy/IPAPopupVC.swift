@@ -42,6 +42,7 @@ class IPAPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         isShow = false
     }
     

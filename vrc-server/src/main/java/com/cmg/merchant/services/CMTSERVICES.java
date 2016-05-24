@@ -1,17 +1,21 @@
 package com.cmg.merchant.services;
 
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.common.Color;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.services.generateSqlite.SqliteService;
+import com.cmg.merchant.services.treeview.DataServices;
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by lantb on 2016-03-07.
@@ -22,16 +26,99 @@ public class CMTSERVICES {
     public String ERROR = "error";
     public String SUCCESS = "success";
 
+    public void deleteDataCopied(String idCourse){
+        try {
+
+        }catch (Exception e){
+
+        }
+    }
+
+    /**
+     *
+     */
+    public void generateAllPublishCourse(){
+        try {
+           CMTDAO dao = new CMTDAO();
+           List<CourseMappingTeacher> list = dao.getAllPublishCourse(Constant.STATUS_PUBLISH);
+           if(list!=null && list.size() > 0){
+               for(CourseMappingTeacher cmt : list){
+                   System.out.println("generate sql lite for course id : " + cmt.getcID());
+                   publishCourse(cmt.getcID(), false);
+                   System.out.println("done generate sql lite for course id : " + cmt.getcID());
+                   System.out.println("========================================================");
+               }
+           }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     /**
      *
      * @param idCourse
      * @return
      */
-    public String publishCourse(String idCourse){
+    public boolean checkDataCopied(String idCourse){
+        try {
+            CDAO dao = new CDAO();
+            boolean check = dao.checkData1(idCourse);
+            if(!check){
+                return dao.checkData2(idCourse);
+            }else{
+                return check;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String publishCourse(String idCourse, boolean checkData){
+        CMTDAO dao = new CMTDAO();
+        try {
+            if(checkData){
+               boolean check = checkDataCopied(idCourse);
+               if(check){
+                   return "showpopup";
+               } else{
+                   CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+                   dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                   try {
+                       SqliteService generateSqlite = new SqliteService(idCourse);
+                       generateSqlite.clearData();
+                   }catch (Exception e){}
+                   return SUCCESS;
+               }
+            }else{
+                CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+                dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+                try {
+                    SqliteService generateSqlite = new SqliteService(idCourse);
+                    generateSqlite.clearData();
+                }catch (Exception e){}
+                return SUCCESS;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ERROR;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String unPublishCourse(String idCourse){
         CMTDAO dao = new CMTDAO();
         try {
             CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
-            dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+            dao.updateStatus(cmt.getId(), Constant.STATUS_NOT_PUBLISH);
             return SUCCESS;
         }catch (Exception e){
             e.printStackTrace();
@@ -147,7 +234,7 @@ public class CMTSERVICES {
                     new Comparator<CourseDTO>() {
                         @Override
                         public int compare(final CourseDTO a, final CourseDTO d) {
-                            return (a.getNameCourse().compareTo(d.getNameCourse()));
+                            return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
                         }
                     });
             for(CourseDTO dto : list){
@@ -178,16 +265,19 @@ public class CMTSERVICES {
             if(list.size() > 0 ){
                 for(CourseDTO dto : list){
                     if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED) ||
-                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
+                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)
+                            || dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)){
                         String cpCloneName = cpDao.getById(dto.getCpCloneId()).getCompanyName();
                         dto.setCompanyName(cpCloneName);
                         if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED)){
-                            dto.setBackgroundColor(Color.MY_COURSE_EDITED_COLOR);
-                        }else{
-                            dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                           dto.setBackgroundColor(Color.MY_COURSE_EDITED_CONTENT);
+                        }else if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
+                            dto.setBackgroundColor(Color.MY_COURSE_COPY_NOT_CHANGE);
+                        }else if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)){
+                            dto.setBackgroundColor(Color.MY_COURSE_EDITED_TITLE);
                         }
                         dto.setTextColor(Color.TEXT_COLOR);
-                        if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
+                        if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED) || dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)){
                             dto.setPageLink("/edit-copy-course.jsp?idCourse=" + dto.getIdCourse());
                         }else{
                             dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
@@ -201,9 +291,15 @@ public class CMTSERVICES {
                         dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
                     }
                 }
+                Collections.sort(list,
+                        new Comparator<CourseDTO>() {
+                            @Override
+                            public int compare(final CourseDTO a, final CourseDTO d) {
+                                return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                            }
+                        });
             }
         }catch (Exception e){
-
         }
         return list;
     }
@@ -229,7 +325,8 @@ public class CMTSERVICES {
      * @param tId
      * @return
      */
-    public ArrayList<CourseDTO> searchHeaderMyCourse(String cpId, String tId, String cName){
+    public ArrayList<CourseDTO> searchHeaderMyCourse(String cpId, String tId, String cName,
+                                                     String teacherName){
         ArrayList<CourseDTO> list = new ArrayList<>();
         try {
             CMTDAO dao = new CMTDAO();
@@ -238,18 +335,40 @@ public class CMTSERVICES {
             if(list.size() > 0 ) {
                 for (CourseDTO dto : list) {
                     if (dto.getState().equalsIgnoreCase(Constant.STATE_EDITED) ||
-                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)) {
+                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)
+                            || dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)) {
                         String cpCloneName = cpDao.getById(dto.getCpCloneId()).getCompanyName();
                         dto.setCompanyName(cpCloneName);
-                        dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                        if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED)){
+                            dto.setBackgroundColor(Color.MY_COURSE_EDITED_CONTENT);
+                        }else if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
+                            dto.setBackgroundColor(Color.MY_COURSE_COPY_NOT_CHANGE);
+                        }else if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)){
+                            dto.setBackgroundColor(Color.MY_COURSE_EDITED_TITLE);
+                        }
                         dto.setTextColor(Color.TEXT_COLOR);
-                        dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                        if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED) || dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)){
+                            dto.setPageLink("/edit-copy-course.jsp?idCourse=" + dto.getIdCourse());
+                        }else{
+                            dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                        }
                     } else {
                         dto.setBackgroundColor(Color.MY_COURSE_CREATED_BY_TEACHER);
                         dto.setTextColor(Color.TEXT_COLOR);
                         dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
                     }
+                    if(isAssignToClass(dto.getIdCourse(),teacherName)){
+                        dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
+                    }
+
                 }
+                Collections.sort(list,
+                        new Comparator<CourseDTO>() {
+                            @Override
+                            public int compare(final CourseDTO a, final CourseDTO d) {
+                                return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                            }
+                        });
             }
         }catch (Exception e){
 
@@ -267,7 +386,9 @@ public class CMTSERVICES {
      * @param tId
      * @return
      */
-    public ArrayList<CourseDTO> searchCourseDetailMyCourse(String cpName,String cName,String dateFrom, String dateTo ,String cpId, String tId){
+    public ArrayList<CourseDTO> searchCourseDetailMyCourse(String cpName,String cName,String dateFrom,
+                                                           String dateTo ,String cpId, String tId,
+                                                           String teacherName){
         CMTDAO dao = new CMTDAO();
         ClientCodeDAO cpDao = new ClientCodeDAO();
         ArrayList<CourseDTO> list = new ArrayList<>();
@@ -282,18 +403,39 @@ public class CMTSERVICES {
             if(list!=null && list.size()>0){
                 for (CourseDTO dto : list) {
                     if (dto.getState().equalsIgnoreCase(Constant.STATE_EDITED) ||
-                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)) {
+                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)
+                            || dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)) {
                         String cpCloneName = cpDao.getById(dto.getCpCloneId()).getCompanyName();
                         dto.setCompanyName(cpCloneName);
-                        dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                        if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED)){
+                            dto.setBackgroundColor(Color.MY_COURSE_EDITED_CONTENT);
+                        }else if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
+                            dto.setBackgroundColor(Color.MY_COURSE_COPY_NOT_CHANGE);
+                        }else if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)){
+                            dto.setBackgroundColor(Color.MY_COURSE_EDITED_TITLE);
+                        }
                         dto.setTextColor(Color.TEXT_COLOR);
-                        dto.setPageLink("/edit-copy-course.jsp?idCourse=" + dto.getIdCourse());
+                        if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED) || dto.getState().equalsIgnoreCase(Constant.STATE_EDITED_TITLE)){
+                            dto.setPageLink("/edit-copy-course.jsp?idCourse=" + dto.getIdCourse());
+                        }else{
+                            dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                        }
                     } else {
                         dto.setBackgroundColor(Color.MY_COURSE_CREATED_BY_TEACHER);
                         dto.setTextColor(Color.TEXT_COLOR);
                         dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
                     }
+                    if(isAssignToClass(dto.getIdCourse(),teacherName)){
+                        dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
+                    }
                 }
+                Collections.sort(list,
+                        new Comparator<CourseDTO>() {
+                            @Override
+                            public int compare(final CourseDTO a, final CourseDTO d) {
+                                return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                            }
+                        });
             }
         }catch (Exception e){
         }
@@ -337,7 +479,15 @@ public class CMTSERVICES {
                     dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
                 }
                 dto.setTextColor(Color.TEXT_COLOR);
+                dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
+            Collections.sort(list,
+                    new Comparator<CourseDTO>() {
+                        @Override
+                        public int compare(final CourseDTO a, final CourseDTO d) {
+                            return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                        }
+                    });
         }
         return list;
     }
@@ -388,7 +538,15 @@ public class CMTSERVICES {
                     dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
                 }
                 dto.setTextColor(Color.TEXT_COLOR);
+                dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
             }
+            Collections.sort(list,
+                    new Comparator<CourseDTO>() {
+                        @Override
+                        public int compare(final CourseDTO a, final CourseDTO d) {
+                            return (a.getNameCourse().toLowerCase().compareTo(d.getNameCourse().toLowerCase()));
+                        }
+                    });
         }
         return list;
     }

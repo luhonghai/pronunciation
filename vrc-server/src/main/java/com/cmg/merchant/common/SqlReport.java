@@ -42,11 +42,16 @@ public class SqlReport {
             "where s.sessionId = 'paramSessionId' and ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false and ques.isDeleted=false) " +
             "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false;";*/
 
-    private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
+   /* private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
             "on lmq.idQuestion = q.id " +
             "where q.id not in (select idQuestion from SESSIONSCORE " +
             "where sessionId = 'paramSessionId') " +
-            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false";
+            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false";*/
+
+    private String SQL_CHECK_USER_COMPLETED_LESSON="Select * from (select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
+            "    on lmq.idQuestion = q.id where lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false ) as tmp1 " +
+            "left join (select idQuestion from SESSIONSCORE where sessionId = 'paramSessionId') as tmp2 " +
+            "on tmp1.id = tmp2.idQuestion";
 
     private String SQL_CALCULATE_USER_SCORE_LESSON="select s.IDQUESTION,ulh.SCORE,ulh.SERVERTIME,s.sessionId from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
             "    on s.IDUSERLESSONHISTORY = ulh.ID " +
@@ -112,13 +117,13 @@ public class SqlReport {
             "and ls.id='paramLessonId' and map.IPA='paramIpa'" +
             "and ls.isDeleted=false";
 
-    private String SQL_LIST_STUDENT_BY_TEACHER = "select STUDENTNAME from STUDENTMAPPINGCLASS as smc " +
+    private String SQL_LIST_STUDENT_BY_TEACHER = "select smc.STUDENTNAME from STUDENTMAPPINGCLASS as smc " +
             "  inner join CLASSMAPPINGTEACHER as cmt " +
-            "    on smc.idClass = cmt.idClass " +
+            "  on smc.idClass = cmt.idClass " +
             "where cmt.teacherName='paramTName' " +
-            "and smc.ISDELETED=false and cmt.ISDELETED=false";
+            "and smc.ISDELETED=false and cmt.ISDELETED=false GROUP BY smc.STUDENTNAME";
 
-    private String SQL_CALCULATE_PHONEME_SCORE_BY_USER = "select ulh.SERVERTIME, AVG(pls.TOTALSCORE) from USERLESSONHISTORY as ulh " +
+    private String SQL_CALCULATE_PHONEME_SCORE_BY_USER = "select ulh.SERVERTIME, pls.TOTALSCORE from USERLESSONHISTORY as ulh " +
             "inner join PHONEMELESSONSCORE as pls " +
             "on ulh.id=pls.IDUSERLESSONHISTORY " +
             "inner join IPAMAPARPABET as map " +
@@ -331,7 +336,7 @@ public class SqlReport {
      */
     public String getSqlCheckUserCompletedLesson(String student, String idLesson, String sessionId){
         String sql = SQL_CHECK_USER_COMPLETED_LESSON;
-        sql = sql.replaceAll("paramstudent",student);
+        //sql = sql.replaceAll("paramstudent",student);
         sql = sql.replaceAll("paramIdLesson",idLesson);
         sql = sql.replaceAll("paramSessionId",sessionId);
         return sql;

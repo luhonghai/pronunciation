@@ -9,6 +9,7 @@ function listMyStudent(){
         success:function(data){
             if(data.message=="success" && data.students!=null){
                 var listMyStudent=data.students;
+                $("#listMyStudent").html("");
                 var $button;
                 for(var i=0;i<listMyStudent.length;i++){
                     if(listMyStudent[i].licence==true){
@@ -22,6 +23,7 @@ function listMyStudent(){
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
                         $("#listMyStudent").append($button).html();
+                        continue;
 
                     }else if(listMyStudent[i].status=='accept'){
                         $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
@@ -35,6 +37,7 @@ function listMyStudent(){
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
                         $("#listMyStudent").append($button).html();
+                        continue;
 
                     }else if(listMyStudent[i].status=='reject'){
                         $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
@@ -48,8 +51,9 @@ function listMyStudent(){
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
                         $("#listMyStudent").append($button).html();
+                        continue;
 
-                    }else if(listMyStudent[i].mappingBy=='teacher'){
+                    }else if(listMyStudent[i].mappingBy=='Teacher' && listMyStudent[i].status=='pending'){
                         $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
                             '<a class="a-info-student" style="background-color:#558ED5;">' +
                             '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+
@@ -61,10 +65,10 @@ function listMyStudent(){
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
                         $("#listMyStudent").append($button).html();
-
+                        continue;
                     }else{
                         $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
-                            '<a class="a-info-student" style="background-color:#7330A5">' +
+                            '<a class="a-info-student" style="background-color:#7030A0">' +
                             '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+
                              '<label class="studentMail">' + listMyStudent[i].studentName+'</label> ' +
                             '<img src="/images/teacher/pending_invite_48x48.gif" style="width: 18px;height: 18px;"></a>' +
@@ -290,7 +294,7 @@ function readListMail(txt) {
     var data =  txt.split(',');
     var output = [];
     for (var i = 0; i < data.length; i++) {
-        if(data[i].length > 0 && data[i]!="" && typeof data[i] !== 'undefined'){
+        if(data[i].trim().length > 0 && data[i].trim()!="" && typeof data[i] !== 'undefined'){
             output.push(data[i]);
         }
     }
@@ -321,6 +325,11 @@ function closeConfirmPopUp(){
         $('#'+popup).modal('hide');
     });
 }
+function focusInput(){
+    $('.modal').on('shown.bs.modal', function() {
+        $(this).find('input:first').focus();
+    });
+}
 
 function collapseMenu(){
     /*$("#li-students").find('ul').addClass('in');*/
@@ -341,5 +350,6 @@ $(document).ready(function(){
     deleted();
     deleteStudent();
     listMyStudent();
+    focusInput();
 });
 

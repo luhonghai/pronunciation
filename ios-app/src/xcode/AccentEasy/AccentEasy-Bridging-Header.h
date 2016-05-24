@@ -8,6 +8,7 @@
 #import "SQLite-Bridging.h"
 #import "ObjectMapper.h"
 #import <CommonCrypto/CommonCrypto.h>
+#import <Google/CloudMessaging.h>
 //#import "RecordingView.h"
 //#import <GoogleSignIn/GoogleSignIn.h>
 //#import "SSZipArchive.h"

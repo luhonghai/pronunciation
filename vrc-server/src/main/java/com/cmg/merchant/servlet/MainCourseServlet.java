@@ -30,6 +30,9 @@ public class MainCourseServlet extends BaseServlet {
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         String action = (String) StringUtil.isNull(request.getParameter("action"), 0).toString();
         SessionUtil util = new SessionUtil();
         Gson gson = new Gson();
@@ -53,7 +56,7 @@ public class MainCourseServlet extends BaseServlet {
         }else if(action.equalsIgnoreCase(ACTION_SEARCH_HEADER) && util.checkSessionValid(request)){
             CMTSERVICES services = new CMTSERVICES();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
-            ArrayList<CourseDTO> list = services.searchCourseHeader(name,util.getCpId(request),util.getTid(request));
+            ArrayList<CourseDTO> list = services.searchCourseHeader(name.toLowerCase(),util.getCpId(request),util.getTid(request));
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(action.equalsIgnoreCase(ACTION_SEARCH_DETAIL) && util.checkSessionValid(request)){
@@ -62,7 +65,7 @@ public class MainCourseServlet extends BaseServlet {
             String cName = (String) StringUtil.isNull(request.getParameter("cName"), "").toString();
             String dateFrom = (String) StringUtil.isNull(request.getParameter("dateFrom"), "1999-01-01").toString();
             String dateTo = (String) StringUtil.isNull(request.getParameter("dateTo"), "2100-01-01").toString();
-            ArrayList<CourseDTO> list = services.searchCourseDetail(cpName,cName,dateFrom,dateTo,util.getCpId(request),util.getTid(request));
+            ArrayList<CourseDTO> list = services.searchCourseDetail(cpName.toLowerCase(),cName.toLowerCase(),dateFrom,dateTo,util.getCpId(request),util.getTid(request));
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }

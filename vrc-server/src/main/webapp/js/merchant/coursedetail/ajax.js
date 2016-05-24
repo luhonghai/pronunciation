@@ -6,7 +6,7 @@ var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 var servletCopy = "/CopyServlet";
-var servletDrapDrop = "/DragDropServlet"
+var servletDrapDrop = "/DragDropServlet";
 var progress;
 /**
  * connect to server when edit course
@@ -28,7 +28,8 @@ function editCourse(){
             action: action_edit_course,
             idCourse : idCourse,
             name: getCourseName().val(),
-            description: getCourseDescription().val()
+            description: getCourseDescription().val(),
+            share : getCourseShare().val()
         },
         dataType : "text",
         success : function(data){
@@ -72,7 +73,7 @@ function deleteCourse(){
                 currentPopup.modal('hide');
                 confirmDeletePopup().modal('hide');
                 swalNew("", "deleted successfully", "success");
-                window.history.back();
+                location.assign("/my-courses.jsp");
             }else{
                 //add false show the error
                 confirmDeletePopup().modal('hide');
@@ -104,7 +105,8 @@ function addLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -139,6 +141,8 @@ function editLevel(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                var idLevelUpdate = currentPopup.find(".idHidden").val();
+                removeIdCopied(idLevelUpdate.trim());
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
             }else{
@@ -204,13 +208,15 @@ function addObj(){
             action: action_add_obj,
             idLevel : getObjName().attr("idLevel"),
             name: getObjName().val(),
-            description: getObjDescription().val()
+            description: getObjDescription().val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -238,13 +244,16 @@ function editObj(){
             idObj : currentPopup.find(".idHidden").val(),
             idLevel : getObjName().attr("idLevel"),
             name: getObjName().val(),
-            description: getObjDescription().val()
+            description: getObjDescription().val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                var idObjUpdate = currentPopup.find(".idHidden").val();
+                removeIdCopied(idObjUpdate.trim());
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
             }else{
@@ -270,7 +279,8 @@ function deleteObj(){
         data : {
             action: action_delete_obj,
             idLevel : getObjName().attr("idLevel"),
-            idObj : currentPopup.find(".idHidden").val()
+            idObj : currentPopup.find(".idHidden").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -305,13 +315,15 @@ function addTest(){
         data : {
             action: action_add_test,
             idLevel : getPercentPass().attr("idLevel"),
-            percent: getPercentPass().val()
+            percent: getPercentPass().val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -338,12 +350,15 @@ function editTest(){
             action: action_edit_test,
             idTest : currentPopup.find(".idHidden").val(),
             idLevel : getPercentPass().attr("idLevel"),
-            percent: getPercentPass().val()
+            percent: getPercentPass().val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                var idTest = currentPopup.find(".idHidden").val();
+                removeIdCopied(idTest.trim());
                 reloadTree();
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
@@ -370,7 +385,8 @@ function deleteTest(){
         data : {
             action: action_delete_test,
             idLevel : getPercentPass().attr("idLevel"),
-            idTest : currentPopup.find(".idHidden").val()
+            idTest : currentPopup.find(".idHidden").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -408,13 +424,15 @@ function addLesson(){
             name: getNameLesson().val(),
             description:getDescriptionLesson().val(),
             type:getTypeLesson().val(),
-            details:getDetailLesson().val()
+            details:getDetailLesson().val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
+                var id = data.split(":")[1];
+                reloadTree(id,"add");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
@@ -442,13 +460,16 @@ function editLesson(){
             name: getNameLesson().val(),
             description:getDescriptionLesson().val(),
             type:getTypeLesson().val(),
-            details:getDetailLesson().val()
+            details:getDetailLesson().val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                var idLesson = currentPopup.find(".idHidden").val();
+                removeIdCopied(idLesson.trim());
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
             }else{
@@ -470,7 +491,8 @@ function deleteLesson(){
         data : {
             action: action_delete_lesson,
             idObj : getNameLesson().attr("objID"),
-            idLesson : currentPopup.find(".idHidden").val()
+            idLesson : currentPopup.find(".idHidden").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -506,7 +528,8 @@ function addQuestions(listWord){
         data : {
             action: action_add_question,
             listWord: JSON.stringify(myObject),
-            idLesson: $("#idLesson").val()
+            idLesson: $("#idLesson").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -548,7 +571,8 @@ function editQuestions(listWord){
         data : {
             action: action_edit_question,
             listWord: JSON.stringify(myObject),
-            idQuestion: currentPopup.find(".idHidden").val()
+            idQuestion: currentPopup.find(".idHidden").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -585,7 +609,8 @@ function deleteQuestion(){
         data : {
             action: action_delete_question,
             idLesson : getQuestionListWordEdit().attr("idLesson"),
-            idQuestion: currentPopup.find(".idHidden").val()
+            idQuestion: currentPopup.find(".idHidden").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -625,7 +650,8 @@ function addQuestionsForTest(listWord){
             listWord: JSON.stringify(myObject),
             idLesson: $("#idLesson").val(),
             type:$("#testType").val(),
-            description:$("#explanation").val()
+            description:$("#explanation").val(),
+            idCourse : idCourse
 
         },
         dataType : "text",
@@ -636,7 +662,7 @@ function addQuestionsForTest(listWord){
                 currentPopup.find(".validateMsg").css("color","red")
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swalNew("Success!", "added successfully", "success");
+                swalNew("", "added successfully", "success");
             }else{
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.find(".validateMsg").css("color","red")
@@ -669,7 +695,8 @@ function editQuestionsForTest(listWord){
             listWord: JSON.stringify(myObject),
             idQuestion: currentPopup.find(".idHidden").val(),
             type:$("#testType").val(),
-            description:$("#explanation").val()
+            description:$("#explanation").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -678,7 +705,7 @@ function editQuestionsForTest(listWord){
                 currentPopup.find(".validateMsg").css("color","red")
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
-                swalNew("Success!", "updated successfully", "success");
+                swalNew("", "updated successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
@@ -706,7 +733,8 @@ function deleteQuestionForTest(){
         data : {
             action: action_delete_question_test,
             idLesson : getExplanationTest().attr("idLesson"),
-            idQuestion: currentPopup.find(".idHidden").val()
+            idQuestion: currentPopup.find(".idHidden").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -737,7 +765,8 @@ function removeWords(word){
         data : {
             action: action_delete_word,
             word:word,
-            idQuestion: currentPopup.find(".idHidden").val()
+            idQuestion: currentPopup.find(".idHidden").val(),
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
@@ -826,8 +855,8 @@ function loadPhonemes(){
                     getAddWord().attr("idWord", data.id);
                     getAddWord().attr("nameWord", data.word);
                     //$("#loadPhonemes").attr("disabled",true);
-                    getPhonemeLable().html("Arpabet:");
-                    getWeightLable().html("Weight:");
+                    getPhonemeLable().html("arpabet:");
+                    getWeightLable().html("weight:");
                     getIPAlable().html("Ipa:");
                     getListPhonemes().html("");
                     getListWeight().html("");
@@ -890,25 +919,52 @@ function enablePublishBtn(){
 /**
  *
  */
-function publishCourse(){
+function publishCourse(checkData){
+    getDivContainTree().hide();
+    getProcessBar().show();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 120,
+        onFinish: function () {
+            getProcessBar().hide();
+            getDivContainTree().show();
+            progress.progressTimer('destroy');
+        }
+    });
     $.ajax({
         url : servletPublish,
         type : "POST",
         data : {
             action: "publish",
-            idCourse : idCourse
+            idCourse : idCourse,
+            checkData : checkData
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 window.location.href = "/my-courses.jsp";
-            }else{
+                $('#confirmPublish').modal('hide');
+            }else if(data.indexOf("showpopup")!= -1){
+                $('#confirmPublish').modal('show');
+            }else {
+                $('#confirmPublish').modal('hide');
                 swalNew("","could not connect to server","error");
             }
         },
         error: function () {
+            $('#confirmPublish').modal('hide');
             swalNew("","could not connect to server","error");
         }
+    }).error(function(){
+        progress.progressTimer('error', {
+            errorText:'error',
+            onFinish:function(){
+                getDivContainTree().show();
+                progress.progressTimer('destroy');
+                swalNew("","publish course fail","error");
+            }
+        });
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 }
 /**
@@ -957,7 +1013,9 @@ function DragDrop(action,parentId,childId,index,move){
         },
         dataType : "text",
         success : function(data){
-
+            if(action == targetLoadQuestion){
+                reloadTree();
+            }
         },
         error: function () {
 

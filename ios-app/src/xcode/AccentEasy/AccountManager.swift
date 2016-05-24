@@ -430,10 +430,17 @@ class AccountManager {
 //                    session.courses.append(c2)
 //                    session.selectedCourse = c1
                     // Remove after merge code
-                    session.courses = response.data
+                    var arrAECourse = [AECourse]()
+                    for aeCourse in response.data {
+                        if let url = aeCourse.dbURL {
+                            arrAECourse.append(aeCourse)
+                        }
+                    }
+                    session.courses = arrAECourse
                     if DatabaseHelper.updateCourses(session) {
                         userProfile.courseSession = session
                         completion(userProfile: userProfile, success: true, message: "success")
+                        
                     } else {
                         completion(userProfile: userProfile, success: false, message: "could not fetch course databases")
                     }
@@ -473,7 +480,7 @@ class AccountManager {
                         } else {
                             Logger.log("\(result.message)")
                             //fake data
-                            //var fakeData = "{\"invitationData\":[{\"id\":\"id\",\"studentName\":\"hoang.nguyen1@c-mg.com\",\"teacherName\":\"teacher1@c-mg.com\",\"firstTeacherName\":\"hoang1\",\"lastTeacherName\":\"nguyen1\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen2@c-mg.com\",\"teacherName\":\"teacher2@c-mg.com\",\"firstTeacherName\":\"hoang2\",\"lastTeacherName\":\"nguyen2\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen3@c-mg.com\",\"teacherName\":\"teacher3@c-mg.com\",\"firstTeacherName\":\"hoang3\",\"lastTeacherName\":\"nguyen3\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen4@c-mg.com\",\"teacherName\":\"teacher4@c-mg.com\",\"firstTeacherName\":\"hoang4\",\"lastTeacherName\":\"nguyen4\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen5@c-mg.com\",\"teacherName\":\"teacher5@c-mg.com\",\"firstTeacherName\":\"hoang5\",\"lastTeacherName\":\"nguyen5\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen6@c-mg.com\",\"teacherName\":\"teacher6@c-mg.com\",\"firstTeacherName\":\"hoang6\",\"lastTeacherName\":\"nguyen6\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen7@c-mg.com\",\"teacherName\":\"teacher7@c-mg.com\",\"firstTeacherName\":\"hoang7\",\"lastTeacherName\":\"nguyen7\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen8@c-mg.com\",\"teacherName\":\"teacher8@c-mg.com\",\"firstTeacherName\":\"hoang8\",\"lastTeacherName\":\"nguyen8\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen9@c-mg.com\",\"teacherName\":\"teacher9@c-mg.com\",\"firstTeacherName\":\"hoang9\",\"lastTeacherName\":\"nguyen9\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen10@c-mg.com\",\"teacherName\":\"teacher10@c-mg.com\",\"firstTeacherName\":\"hoang10\",\"lastTeacherName\":\"nguyen10\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen11@c-mg.com\",\"teacherName\":\"teacher11@c-mg.com\",\"firstTeacherName\":\"hoang11\",\"lastTeacherName\":\"nguyen11\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen12@c-mg.com\",\"teacherName\":\"teacher12@c-mg.com\",\"firstTeacherName\":\"hoang12\",\"lastTeacherName\":\"nguyen12\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"}]}"
+                            //var fakeData = "{\"invitationData\":[{\"id\":\"id\ ",\"studentName\":\"hoang.nguyen1@c-mg.com\",\"teacherName\":\"teacher1@c-mg.com\",\"firstTeacherName\":\"hoang1\",\"lastTeacherName\":\"nguyen1\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen2@c-mg.com\",\"teacherName\":\"teacher2@c-mg.com\",\"firstTeacherName\":\"hoang2\",\"lastTeacherName\":\"nguyen2\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen3@c-mg.com\",\"teacherName\":\"teacher3@c-mg.com\",\"firstTeacherName\":\"hoang3\",\"lastTeacherName\":\"nguyen3\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen4@c-mg.com\",\"teacherName\":\"teacher4@c-mg.com\",\"firstTeacherName\":\"hoang4\",\"lastTeacherName\":\"nguyen4\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen5@c-mg.com\",\"teacherName\":\"teacher5@c-mg.com\",\"firstTeacherName\":\"hoang5\",\"lastTeacherName\":\"nguyen5\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen6@c-mg.com\",\"teacherName\":\"teacher6@c-mg.com\",\"firstTeacherName\":\"hoang6\",\"lastTeacherName\":\"nguyen6\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen7@c-mg.com\",\"teacherName\":\"teacher7@c-mg.com\",\"firstTeacherName\":\"hoang7\",\"lastTeacherName\":\"nguyen7\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen8@c-mg.com\",\"teacherName\":\"teacher8@c-mg.com\",\"firstTeacherName\":\"hoang8\",\"lastTeacherName\":\"nguyen8\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen9@c-mg.com\",\"teacherName\":\"teacher9@c-mg.com\",\"firstTeacherName\":\"hoang9\",\"lastTeacherName\":\"nguyen9\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen10@c-mg.com\",\"teacherName\":\"teacher10@c-mg.com\",\"firstTeacherName\":\"hoang10\",\"lastTeacherName\":\"nguyen10\",\"companyName\":\"cmg cmg cmg\",\"status\":\"accept\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen11@c-mg.com\",\"teacherName\":\"teacher11@c-mg.com\",\"firstTeacherName\":\"hoang11\",\"lastTeacherName\":\"nguyen11\",\"companyName\":\"cmg cmg cmg\",\"status\":\"reject\"},{\"id\":\"id\",\"studentName\":\"hoang.nguyen12@c-mg.com\",\"teacherName\":\"teacher12@c-mg.com\",\"firstTeacherName\":\"hoang12\",\"lastTeacherName\":\"nguyen12\",\"companyName\":\"cmg cmg cmg\",\"status\":\"pending\"}]}"
                             //let inviData = Mapper<UserProfile>().map(fakeData)!
                             //currentUser.invitationData = inviData.invitationData
                             //AccountManager.updateProfile(currentUser)
@@ -582,6 +589,31 @@ class AccountManager {
                         
                     }
                     
+                }
+            })
+    }
+    
+    class func fetchGooglePlusInfo(accessToken:String, userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        let client = Client()
+            .baseUrl("https://www.googleapis.com")
+            .onError({e in Logger.log(e)
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        client.get("/oauth2/v3/userinfo?access_token=\(accessToken)").end({(res:Response) -> Void in
+                if(res.error) {
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                } else {
+                    do {
+                        print("Google user info response \(res.text)")
+                        let userData = try NSJSONSerialization.JSONObjectWithData(res.data!, options:[]) as? [String:AnyObject]
+                        if let gender = userData!["gender"] as? String {
+                            Logger.log("User \(userProfile.username) gender \(gender)")
+                            userProfile.gender = gender == "male"
+                        }
+                    } catch {
+                        NSLog("Account Information could not be loaded")
+                    }
+                    completion(userProfile: userProfile, success: true, message: "success")
                 }
             })
     }

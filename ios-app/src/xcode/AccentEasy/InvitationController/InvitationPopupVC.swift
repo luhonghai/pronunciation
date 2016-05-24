@@ -46,26 +46,15 @@ class InvitationPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        DeviceManager.hideLockScreen()
-        hidenLoadding()
+        super.viewDidDisappear(animated)
+        //hidenLoadding()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
-    }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
-    }
-    
+
 
     /*
     // MARK: - Navigation
@@ -78,19 +67,15 @@ class InvitationPopupVC: UIViewController {
     */
 
     @IBAction func btnCloseTouchUp(sender: AnyObject) {
-        delegate?.closePopup(self)
+        delegate?.closePopup!(self)
     }
     
     @IBAction func btnOKTouchUp(sender: AnyObject) {
-        showLoadding()
-        DeviceManager.showLockScreen()
-        delegate?.invitationPopupVCTouchOK(indexSelected)
+        delegate?.invitationPopupVCTouchOK!(indexSelected)
     }
     
     @IBAction func btnRejectTouchUp(sender: AnyObject) {
-        showLoadding()
-        DeviceManager.showLockScreen()
-        delegate?.invitationPopupVCTouchReject(indexSelected)
+        delegate?.invitationPopupVCTouchReject!(indexSelected)
     }
     
 }

@@ -7,7 +7,7 @@
 //
 
 
-class LessonCollectionController: UIViewController, UITableViewDataSource, UITableViewDelegate, LessonTipPopupVCDelegate  {
+class LessonCollectionController: BaseUIViewController, UITableViewDataSource, UITableViewDelegate, LessonTipPopupVCDelegate  {
 
     @IBOutlet weak var bgObjectiveHelp: UIView!
     

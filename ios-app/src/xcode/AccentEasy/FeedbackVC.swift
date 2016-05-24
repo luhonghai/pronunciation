@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedbackVC: UIViewController, UITextViewDelegate {
+class FeedbackVC: BaseUIViewController, UITextViewDelegate {
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnOpenLink: UIButton!
@@ -143,17 +143,6 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
     @IBAction func btnOpenUrl(sender: AnyObject) {
         let url = NSURL(string: "http://www.accenteasy.com/useraccounts/TnC")!
         UIApplication.sharedApplication().openURL(url)
-    }
-    
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
-    }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
     }
     
     @IBAction func sendButtonTouchUp(sender: AnyObject) {

@@ -97,8 +97,9 @@ function loadDataReport(studentName,phoneme,dateFrom,dateTo){
             var arrayScore = [];
             var tmp = data.listScorePhonemes;
             var checkInValid = false;
+            if(tmp.length == 0) checkInValid = true;
             for(var i=0;i<tmp.length;i++){
-                if(tmp[0].serverTime == 0){
+                if(tmp[0].serverTime == 0 || typeof tmp[0].serverTime == "undefined"){
                     checkInValid = true;
                 }
                 arrayTime.push(tmp[i].serverTime);
@@ -129,7 +130,7 @@ function openReportPreview(){
         for(var i = 0 ; i < times.length; i++){
             if(times[i] > 0){
                 data.push([times[i],scores[i]]);
-                if(scores[i] > topScore){
+                if(parseInt(scores[i]) > parseInt(topScore)){
                     topScore = scores[i];
                 }
             }

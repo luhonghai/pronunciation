@@ -34,6 +34,17 @@ public class Test implements Mirrorable {
     @Persistent
     private int version;
 
+    @Persistent
+    private boolean isCopied;
+
+    public boolean isCopied() {
+        return isCopied;
+    }
+
+    public void setIsCopied(boolean isCopied) {
+        this.isCopied = isCopied;
+    }
+
     public Date getDateCreated() {
         return dateCreated;
     }

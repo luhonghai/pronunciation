@@ -24,17 +24,22 @@ public class TreeEditNodeServlet extends BaseServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         String action = (String) StringUtil.isNull(request.getParameter("action"), "").toString();
+        String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+        CMTSERVICES cmtservices = new CMTSERVICES();
+        cmtservices.unPublishCourse(idCourse);
         if(action.equalsIgnoreCase(Constant.ACTION_EDIT_COURSE)){
-            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
+            String share = (String) StringUtil.isNull(request.getParameter("share"), "").toString();
             CourseServices services = new CourseServices();
-            String txt = services.updateCourse(idCourse,name,description);
+            String txt = services.updateCourse(idCourse,name,description,share);
             response.getWriter().println(txt);
         }else
         if(action.equalsIgnoreCase(Constant.ACTION_EDIT_LEVEL)){
-            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
@@ -64,13 +69,14 @@ public class TreeEditNodeServlet extends BaseServlet {
             String lessonType = (String) StringUtil.isNull(request.getParameter("type"), "").toString();
             String lessonDetail = (String) StringUtil.isNull(request.getParameter("details"), "").toString();
             LessonServices lessonServices = new LessonServices();
-            String txt = lessonServices.updateLesson(idObjective,idLesson, lessonName,lessonDescription,lessonType,lessonDetail);
+            String txt = lessonServices.updateLesson(idObjective,idLesson, lessonName,
+                    lessonDescription,lessonType,lessonDetail);
             response.getWriter().println(txt);
         }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_QUESTION)){
             Gson gson=new Gson();
             String listWord =(String) StringUtil.isNull(request.getParameter("listWord"), "").toString();
             String idQuestion=(String) StringUtil.isNull(request.getParameter("idQuestion"), "").toString();
-            ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
+            ListWordAddQuestion listWords = gson.fromJson(listWord, ListWordAddQuestion.class);
             QuestionServices questionServices=new QuestionServices();
             String txt = questionServices.updateWordToQuestion(listWords,idQuestion);
             response.getWriter().println(txt);
@@ -82,7 +88,8 @@ public class TreeEditNodeServlet extends BaseServlet {
             String description = (String) StringUtil.isNull(request.getParameter("description"), "");
             ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
             QuestionServices questionServices=new QuestionServices();
-            String txt = questionServices.updateWordToQuestionForTest(listWords,idQuestion,typeOfQuestion,description);
+            String txt = questionServices.updateWordToQuestionForTest(listWords,idQuestion,
+                    typeOfQuestion,description);
             response.getWriter().println(txt);
         }
     }

@@ -12,7 +12,7 @@
 }
 
 #preview-popup #screen-level div.header{
-    text-align: center;
+    text-align: right;
 }
 #screen-level .body-screen{
     min-height : 350px;
@@ -20,9 +20,11 @@
 
 #preview-popup #screen-objective div.header{
     padding : 0px 5px 0px 5px;
+    text-align: right;
 }
 #preview-popup #screen-lesson div.header{
     padding : 0px 5px 0px 5px;
+    text-align: right;
 }
 #screen-objective div.body-screen{
     margin-top:10px;
@@ -178,7 +180,7 @@ div.big-circle{
     background-color: white;
     z-index: 1000;
     border: 1px solid #a2afc8;
-    margin: 50px;
+    margin: 30px;
     border-radius: 2px;
     top: 100px;
     position: absolute;

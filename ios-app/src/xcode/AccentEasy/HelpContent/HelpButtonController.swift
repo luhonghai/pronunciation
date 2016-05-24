@@ -37,6 +37,10 @@ class HelpButtonController : UIView, BEMCheckBoxDelegate {
         doContinue()
     }
     
+    @IBAction func tapHelpContext(sender: UITapGestureRecognizer) {
+        Logger.log("Tap help context")
+        doContinue()
+    }
     var delegate: HelpButtonDelegate?
     
     var timer: NSTimer!

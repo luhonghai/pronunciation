@@ -2,9 +2,7 @@ package com.cmg.lesson.data.jdo.course;
 
 import com.cmg.vrc.data.Mirrorable;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 import java.util.Date;
 
 /**
@@ -20,6 +18,7 @@ public class Course implements Mirrorable {
     private String name;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String description;
 
     @Persistent
@@ -30,6 +29,21 @@ public class Course implements Mirrorable {
 
     @Persistent
     private int version;
+
+    @NotPersistent
+    private String share;
+
+    @NotPersistent
+    private String state;
+
+
+    public String getShare() {
+        return share;
+    }
+
+    public void setShare(String share) {
+        this.share = share;
+    }
 
     @Override
     public String getId() {
@@ -90,4 +104,12 @@ public class Course implements Mirrorable {
         this.dateCreated = dateCreated;
     }
     public Course(){}
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

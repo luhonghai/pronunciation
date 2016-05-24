@@ -19,7 +19,31 @@ public class LessonMappingQuestionDAO extends DataAccess<LessonMappingQuestion> 
     public LessonMappingQuestionDAO(){super(LessonMappingQuestion.class);}
 
 
-
+    /**
+     *  use for get latest version in table
+     * @return latest version
+     * @throws Exception
+     */
+    public int getLatestIndex(String idLesson) throws Exception{
+        int version = 0;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT max(position) FROM " + LessonMappingQuestion.class.getCanonicalName());
+        q.setFilter("idLesson == paramIdLesson && isDeleted == false");
+        q.declareParameters("String paramIdLesson");
+        try {
+            if (q != null) {
+                version = (int) q.execute(idLesson);
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return version;
+    }
     /**
      *  use for get latest version in table
      * @return latest version
@@ -145,6 +169,32 @@ public class LessonMappingQuestionDAO extends DataAccess<LessonMappingQuestion> 
 
         return check;
     }
+
+    /**
+     *
+     * @param idLesson
+     * @return
+     */
+    public boolean updateIndex(String idLesson, String idQuestion,int index){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonMappingQuestion.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET position=? WHERE idLesson=? and idQuestion=?");
+        try {
+            q.execute(index,idLesson,idQuestion);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
+
 
 
 

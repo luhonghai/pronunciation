@@ -198,14 +198,14 @@
   </div>
   <div class="row">
     <div class="col-lg-12">
-      <h2 class="header">My students</h2>
+      <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">my students</h2>
     </div>
     <div style="padding-bottom: 10px" class="col-sm-12">
       <button id="inviteStudents" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> invite students <i class="fa fa-plus"></i> </button>
     </div>
     <div class="col-sm-12">
-      <p>Use this page to manage the student that you want to assign to classes.</p>
-      <p>Select the button above to invite students that have installed the application without a company licence.</p>
+      <p>Use this page to manage the students that you want to assign to classes.</p>
+      <p>Select the button above to invite students.</p>
     </div>
   </div>
   <div class="row">
@@ -226,36 +226,37 @@
     <div class="modal-content"  style="border-radius:20px">
       <div class="modal-header"  style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" style="font-weight: 700;">my students</h2>
-
+        <h2 class="modal-title" style="font-weight: 700;font-size:18px;">my students</h2>
       </div>
       <div class="modal-body">
         <div>
-          <p>This page displays a list of students that are available to add to your classes (added or invited by you) and students that have sent a request to join your classes.</p>
-          <p>The students are colour coded as follows:</p>
+          <p>On this page you can manage invitations and create a list of students to assign to your classes..</p>
           <div  style="margin-bottom: 5px;">
-            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #003366;"> <p style="display: inline;">licensed by your institution</p>
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;
+            background-color: #558ED5;"> <p style="display: inline;">student name bars.</p>
           </div>
           <div style="margin-bottom: 5px;">
-            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">external (not licensed by your institution)</p>
-          </div>
-          <div style="margin-bottom: 5px;">
-            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #990099;"> <p style="display: inline;">pending approval to join your class/s (select to approve or reject the request)</p>
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;
+            background-color: #7030A0;"> <p style="display: inline;">If a student has sent a request to join your class/s the name bar is displayed
+            in a different colour until you have accepted their request.</p>
           </div>
           <div>
-            <p>External student have the following status indicators:</p>
+            <p>The following status indicators are displayed:</p>
           </div>
           <div style="margin-bottom: 5px;">
-            <img src="/images/popup/accepted_48x48.gif" style="width: 24px;height: 24px;background-color:#33ccff;"> <p style="display: inline;">invitation has been accepted, the student can be added to your classes.</p>
+            <img src="/images/popup/accepted_48x48.gif" style="width: 24px;height: 24px;background-color:#558ED5;">
+            <p style="display: inline;">invitation has been accepted, the student can be added to your classes.</p>
           </div>
           <div style="margin-bottom: 5px;">
-            <img src="/images/teacher/rejected_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">invitation has been rejected by the student and they are not available to add to your classes. Note: the invite is still available to accept on the student's phone</p>
+            <img src="/images/teacher/rejected_48x48.gif" style="width: 24px;height: 24px;background-color: #558ED5;">
+            <p style="display: inline;">invitation has been rejected by the student and they are not available to add to your classes. Note: the invite is still available to accept on the student’s phone.</p>
           </div>
           <div style="margin-bottom: 5px;">
-            <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">your invitation is waiting for a response from the student</p>
+            <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;background-color: #558ED5;">
+            <p style="display: inline;">your invitation is waiting for a response from the student.</p>
           </div>
-          <p>If a student's licence key expires or if it is revoked, they will be removed from all lists and will no loger have access to any courses that have been shared with them.</p>
-          <p> Select a student and follow the instructions to remove them from your list. Licenced students will still be available on your company list (students page) to add again Later. If you remove external students, the invitation process will need to be used.(Teacher to student or student to teacher)</p>
+          <p>Select a student name bar and follow the instructions to remove them from your list. If you remove students, the invitation process will need to be used if you wish to add
+            them again later. (Teacher to student or student to teacher)</p>
           <%--<p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>--%>
         </div>
       </div>
@@ -270,8 +271,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 id="titleInvite" class="modal-title">invite students</h2>
-        <h4 id="validateLvMsg" class="modal-title validateMsg" style="text-align: center;font-weight: 200;
+        <h2 id="titleInvite" style="font-weight: 700;font-size:18px" class="modal-title">invite students</h2>
+        <h4 id="validateLvMsg" class="modal-title validateMsg" style="text-align: center;font-weight: 200;font-size:14px;
         color:red;display:none;"></h4>
       </div>
       <div class="modal-body">
@@ -306,7 +307,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">invite students</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">invite students</h2>
       </div>
       <div class="modal-body">
         <p>Enter the email addresses of the students that you wish to add to your classes separated by a comma in the text box.</p>
@@ -330,7 +331,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 style="color: red;" class="modal-title">invalid email address</h4>
+        <h4 style="color: red;font-weight: 700;font-size:18px" class="modal-title">invalid email address</h4>
       </div>
       <div class="modal-body">
         <p>Sorry, the following student/s were not found:</p>
@@ -348,7 +349,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">remove students</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">remove students</h2>
       </div>
       <div class="modal-body">
         <form name="add" class="form-horizontal">
@@ -381,12 +382,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">remove student</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">remove students</h2>
       </div>
       <div class="modal-body">
-        <p>if you remove a licenced student from your 'my students' page, they will still be available on your company list (licensed students page) to add again later.</p>
-        <p>If you remove and external student, the invitation process will need to be used to add them again. (Teacher to student or student to teacher).</p>
-        <p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>
+        <p>If you remove a student from your list, the invitation process will need to be used to add them again. (Teacher to student or student to teacher).</p>
+        <p>The student will also be removed from any classes they have been assigned to and they will no longer have access to any associated courses.</p>
       </div>
     </div>
   </div>
@@ -397,7 +397,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">invitation from student</h2>
+        <h2 style="font-weight: 700;font-size:18px" class="modal-title">invitation from student</h2>
       </div>
       <div class="modal-body">
           <u style="color: #0044cc;"> <p align="center" id="studentInvitation"></p></u>
@@ -421,7 +421,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 clas="modal-title">confirm rejection</h4>
+        <h4 style="font-weight: 700;font-size:18px" clas="modal-title">confirm rejection</h4>
       </div>
       <div class="modal-body">
         <form name="add" class="form-horizontal">
@@ -456,7 +456,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">confirm deletion</h4>
+        <h4 style="font-weight: 700;font-size:18px" class="modal-title">confirm deletion</h4>
       </div>
       <div class="modal-body">
         <u style="color: #0044cc;"> <p align="center" id="studentconfirmRemove"></p></u>
@@ -464,7 +464,7 @@
           <div style="margin-bottom: 0px" class="form-group">
             <div class="col-sm-6"><label class="cancelLbl" popup-id="confirmRemove"
                                          id="cancelRemove" style="font-weight:200;float:left;cursor: pointer;padding-top:15px"><u>cancel</u></label></div>
-            <div class="col-sm-6"><img  id="yesRemove" style="color:green;float: right;" src="/images/popup/trash_50x50.gif" width="36px" height="36px" /></div>
+            <div class="col-sm-6"><img  id="yesRemove" style="color:green;float: right;" src="/images/teacher/report_tick48x48.gif" width="36px" height="36px" /></div>
           </div>
         </form>
       </div>

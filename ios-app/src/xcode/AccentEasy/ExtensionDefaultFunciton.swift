@@ -62,3 +62,22 @@ extension UITextView {
 
     }
 }
+
+extension UIViewController{
+    func showLoadding(message : String = "Please wait..."){
+        self.showWaitOverlayWithText(message)
+        DeviceManager.showLockScreen()
+    }
+    
+    func hidenLoadding(){
+        DeviceManager.hideLockScreen()
+        self.removeAllOverlays()
+    }
+    
+    func showError(){
+        dispatch_async(dispatch_get_main_queue(),{
+            self.hidenLoadding()
+            AccountManager.showError()
+        })
+    }
+}

@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: transparent;padding-bottom: 10px;">
                 <button id="close-popup-preview" type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h2 class="modal-title" style="font-weight: 700;"></h2>
+                <h2 class="modal-title" style="font-weight: 700;font-size: 18px"></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -31,7 +31,7 @@
                                     <div class="header">
                                         <img back="screen-level" class="slide-back" src="/images/popup/preview_back.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <div style="text-align: right;float:right;width:150px">
+                                        <div class="title" style="text-align: right;float:right;width:150px">
                                             <label>Level 1</label>
                                         </div>
                                     </div>
@@ -57,7 +57,7 @@
                                     <div class="header">
                                         <img back="screen-objective" class="slide-back" src="/images/popup/preview_back.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <div style="float:right;width:150px">
+                                        <div class="title" style="float:right;width:150px">
                                             <marquee>Level 1 - My Objective</marquee>
                                         </div>
                                     </div>
@@ -73,7 +73,7 @@
                                         <div id="close-popup-obj" style="text-align: right;padding:2px 5px 0px 0px;cursor:pointer" class='container-selection'>
                                             <label>x</label>
                                         </div>
-                                        <div style="padding: 0px 10px;" class='container-selection'>
+                                        <div style="padding: 0px 10px;width:150px;word-wrap: break-word;" class='container-selection'>
                                             <label class="obj-description">x</label>
                                         </div>
                                     </div>

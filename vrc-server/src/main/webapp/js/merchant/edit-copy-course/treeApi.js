@@ -53,7 +53,16 @@ function initTree(){
             }else{
                 item.find(".aciTreeItem").append('<span class="aciTreeText"><img style="vertical-align: middle;padding-left: 5px;width: 30px;height: 20px;" src="/images/treeview/pencil_purple.gif"></span>');
             }
-            if (itemData['id'] == idCourse && !isEditedTitle){
+
+            if (itemData['id'] == idCourse && itemData['_stateOfCourse'].trim() == 'duplicated'){
+                item.find('.aciTreeItem').css('background-color', "#7030A0");
+            }
+
+            if(itemData['_targetLoad'] == targetLoadQuestion && itemData['_isCopied']){
+                item.find('.aciTreeItem').css('background-color', "#7030A0");
+            }
+
+            if(checkIdCopied(itemData['id'])){
                 item.find('.aciTreeItem').css('background-color', "#7030A0");
             }
 
@@ -63,6 +72,10 @@ function initTree(){
     treeAPI.init({
         success: function(item) {
             this.open(item);
+            var itemData = treeAPI.itemData($('#'+idCourse));
+            if(itemData['_stateOfCourse'].trim() != 'duplicated'){
+                enablePublishBtn();
+            }
             enableAddLevel();
         }
     });

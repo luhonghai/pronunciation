@@ -72,10 +72,11 @@ class IPAInfoPopup: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-       
+       super.viewDidAppear(animated)
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         isShowing = false
     }
 

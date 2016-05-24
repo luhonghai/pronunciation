@@ -22,9 +22,9 @@ function drawWord(data){
         getListWeight().css({"width":(idx+1)*35});
         getListIPA().css({"width":(idx+1)*35});
     });
-    getPhonemeLable().html("Arpabet:");
-    getWeightLable().html("Weight:");
-    getIPAlable().html("Ipa:");
+    getPhonemeLable().html("arpabet:");
+    getWeightLable().html("weight:");
+    getIPAlable().html("ipa:");
     $("#wordModal1").show();
     $("#wordModal2").show();
 }

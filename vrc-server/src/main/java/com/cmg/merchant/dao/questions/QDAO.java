@@ -218,12 +218,31 @@ public class QDAO extends DataAccess<Question> {
         return list;
     }
 
+
     /**
      *
-     * @param id
+     * @param idQuestion
      * @return
-     * @throws Exception
      */
+    public boolean updateCopied(String idQuestion){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata questionTable = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + questionTable.getTable() + " SET isCopied=?,name=? WHERE id=?");
+        try {
+            q.execute(false,"question",idQuestion);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
 
 
 }

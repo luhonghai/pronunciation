@@ -176,8 +176,10 @@ public class OServices {
                 tmp.setId(newId);
                 if(newName) {
                     tmp.setName("copy of " + obj.getName());
+                    tmp.setIsCopied(true);
                 }else{
                     tmp.setName(obj.getName());
+                    tmp.setIsCopied(false);
                 }
                 tmp.setDescription(obj.getDescription());
                 tmp.setIsDeleted(false);

@@ -16,14 +16,26 @@ function loadContent(action,id){
         dataType : "json",
         success : function(data){
             if(action == targetLoadCourse){
-                getHeaderLevel().find('marquee').html(nameOfCourse + " - levels");
+                var title = nameOfCourse + " - levels";
+                if(title.length > 20){
+                    getHeaderLevel().html("<marquee>" + title + "</marquee>");
+                }else{
+                    getHeaderLevel().html("<label>" + title + "</label>");
+                }
+
                 clearBodyLevel();
                 $.each(data, function(i, item){
                     drawLevelPreview(item);
                 });
                 showScreen(getLevelScreen().attr('id'));
             }else if(action == targetLoadLevel){
-                getHeaderObj().find('label').html(getPopUpPreview().find("#"+id).find('label').html());
+                var title = getPopUpPreview().find("#"+id).find('label').html();
+                if(title.length > 20){
+                    getHeaderObj().find('.title').html("<marquee>" + title + "</marquee>");
+                }else{
+                    getHeaderObj().find('.title').html("<label>" + title + "</label>");
+                }
+
                 clearBodyObj();
                 $.each(data.list, function(i, item){
                     drawObjPreview(item);
@@ -31,17 +43,24 @@ function loadContent(action,id){
                 clearBodyTest();
                 if(data.test!=null){
                     drawTestPreview(data.test);
+                }else{
+                    drawTestPreview(null);
                 }
                 showScreen(getObjScreen().attr('id'));
             }else if(action == targetLoadObj){
-                getHeaderLesson().find('marquee').html(getHeaderObj().find('label').html() +" - "
-                    + getPopUpPreview().find("#"+id).find('label').html());
+                var title = getHeaderObj().find('label').html() +" - "  + getPopUpPreview().find("#"+id).find('label').html();
+                if(title.length > 20){
+                    getHeaderLesson().find('.title').html("<marquee>" + title + "</marquee>");
+                }else{
+                    getHeaderLesson().find('.title').html("<label>" + title + "</label>");
+                }
                 clearBodyLesson();
                 var descriptionObj = getPopUpPreview().find("#"+id).attr('description');
                 getLessonScreen().find('.selection-popup-obj').attr('description',descriptionObj);
                 $.each(data, function(i, item){
                     drawLessonPreview(item);
                 });
+                getLessonScreen().find('.body-popup-obj').hide();
                 showScreen(getLessonScreen().attr('id'));
             }else if(action == targetLoadLesson){
                 clearBodyQuestion();

@@ -205,6 +205,7 @@ public class ReportLessonService {
     public String drawCircle(String idLesson, String student, String idClass){
         Information information = new Information();
         long startTime = System.currentTimeMillis();
+        System.out.println("======draw circle==========");
         try {
             Reports report = new Reports();
             String latestSession = reportLessonDAO.getLatestSessionIdIn3Months(student,idLesson);
@@ -313,19 +314,23 @@ public class ReportLessonService {
      */
     public int generateClassScoreWord(List<StudentMappingClass> listStudent,String idLesson,String word){
         int totalScore = 0;
-        int size = 0;
+        int deviceNumber = 0;
         if(listStudent.size() > 0){
             for(StudentMappingClass st : listStudent){
                 String student = st.getStudentName();
                 String latestSessionStudent = reportLessonDAO.getLatestSessionIdIn3Months(student, idLesson);
-                if(latestSessionStudent!=null){
+                if(latestSessionStudent!=null && reportLessonDAO.checkUserCompletedLesson(student, idLesson, latestSessionStudent)){
                     int temp = reportLessonDAO.getAvgScoreWordInLessonOfUser(student, idLesson, word,latestSessionStudent);
-                    totalScore = totalScore + temp;
-                    size = size + 1;
+                    if(temp  > 0){
+                        totalScore = totalScore + temp;
+                        deviceNumber ++;
+                    }
+
                 }
             }
         }
-        return size == 0 ? 0 : Math.round(totalScore/size);
+        if(totalScore == 0 && deviceNumber == 0) return 0;
+        return listStudent.size() == 0 ? 0 : Math.round(totalScore/deviceNumber);
     }
 
     /**
@@ -353,21 +358,22 @@ public class ReportLessonService {
      */
     public int generateClassScorePhoneme(List<StudentMappingClass> listStudent,String idLesson, String ipa){
         int totalScore = 0;
-        int size = 0;
+        int deviceNumber = 0;
         if(listStudent.size() > 0){
             for(StudentMappingClass st : listStudent){
                 String student = st.getStudentName();
                 String latestSessionStudent = reportLessonDAO.getLatestSessionIdIn3Months(student, idLesson);
-                if(latestSessionStudent!=null){
+                if(latestSessionStudent!=null && reportLessonDAO.checkUserCompletedLesson(student, idLesson, latestSessionStudent)){
                     int temp = reportLessonDAO.getAvgScorePhonemesInLessonOfUser(student, idLesson, ipa,latestSessionStudent);
                     if(temp!=-1){
                         totalScore = totalScore + temp;
-                        size = size + 1;
+                        deviceNumber++;
                     }
                 }
             }
         }
-        return size == 0 ? 0 : Math.round(totalScore/size);
+        if(totalScore == 0 && deviceNumber == 0) return 0;
+        return listStudent.size() == 0 ? 0 : Math.round(totalScore/deviceNumber);
     }
     /**
      *
@@ -380,6 +386,7 @@ public class ReportLessonService {
         Information container = new Information();
         Reports report = new Reports();
         long startTime = System.currentTimeMillis();
+        System.out.println("=====draw report=========");
         try {
             List<Integer> studentScoreList = null;
             List<Integer> classScoreList = null;
@@ -399,7 +406,6 @@ public class ReportLessonService {
                         }else{
                             classScoreList.add(0);
                         }
-
                     }else{
                         studentScoreList.add(0);
                         classScoreList.add(0);
@@ -412,11 +418,11 @@ public class ReportLessonService {
             }
 
             List<String> listPhonemes = reportLessonDAO.getListPhonemes();
-            List<String> listPhonemesPracticed = reportLessonDAO.getListPhonemes();
+            List<String> listPhonemesPracticed = reportLessonDAO.getPhonemesInSession(student,idLesson,latestSessionStudent);
             if(listPhonemes!=null &&  listPhonemes.size()>0){
                 studentScoreList = new ArrayList<>();
                 classScoreList = new ArrayList<>();
-                for(String ipa : listPhonemes){
+                for(String ipa : listPhonemesPracticed){
                     if(listPhonemesPracticed.contains(ipa)){
                         int studentScore = generateStudentScorePhoneme(student, idLesson, ipa, latestSessionStudent);
                         studentScoreList.add(studentScore);
@@ -431,7 +437,7 @@ public class ReportLessonService {
                     }
 
                 }
-                report.setPhonemes(listPhonemes);
+                report.setPhonemes(listPhonemesPracticed);
                 report.setPhonemesClassScore(classScoreList);
                 report.setPhonemesStudentScore(studentScoreList);
             }

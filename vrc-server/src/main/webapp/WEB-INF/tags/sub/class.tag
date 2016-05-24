@@ -47,6 +47,9 @@
     </div>
   </div>
   <div style="padding-bottom: 20px;">
+    <div style="padding-left: 0px" class="col-lg-12">
+      <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;" class="header">classes</h2>
+    </div>
     <p class="textNormal">Your 'my classes' page is the place where you can bring together your courses and students to create classes.</p>
   </div>
 
@@ -60,7 +63,7 @@
       </div>
       <div class="row">
         <label class="col-sm-2"></label>
-        <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_students80x80.gif" title="my students" style="text-align: center"></div>
+        <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_students80x80.png" title="my students" style="text-align: center;width:80px;height: 80px"></div>
         <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_courses80x80.gif" title="my courses"></div>
         <label class="col-sm-2"></label>
       </div>
@@ -78,7 +81,7 @@
     <div class="modal-content modal-body-help">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title">classes</h2>
+        <h2 style="font-weight: 700;font-size: 18px" class="modal-title">classes</h2>
       </div>
       <div class="modal-body">
         <p class="textNormal">Select ‘my classes’ to  create, edit and delete classes.</p>

@@ -11,8 +11,10 @@ public class Constant {
     public static String STATUS_NOT_PUBLISH = "unpublish";
 
     public static String STATE_CREATED = "created";
+    public static String STATE_EDITED_TITLE = "edited title";
     public static String STATE_EDITED = "edited";
     public static String STATE_DUPLICATED = "duplicated";
+
 
     public static String SHARE_ALL = "all";
     public static String SHARE_IN_COMPANY = "my company";

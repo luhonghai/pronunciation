@@ -171,13 +171,20 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         }
     }
 
+    /**
+     *
+     * @param idClass
+     * @param teacherName
+     * @return
+     */
     public List<StudentMappingTeacher> getStudentByTeacherNameOnClass(String idClass, String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         TypeMetadata metaStudentMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT teacher.id, teacher.studentName, teacher.teacherName FROM " + metaStudentMappingTeacher.getTable() + " teacher inner join "+metaStudentMappingClass.getTable()+" class on teacher.studentName=class.studentName WHERE teacher.teacherName='"+teacherName+"' and class.idClass='"+idClass+"' and class.isDeleted = false and teacher.isDeleted = false and teacher.status='accept'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT teacher.id, teacher.studentName, teacher.teacherName FROM " + metaStudentMappingTeacher.getTable() + " teacher inner join " + metaStudentMappingClass.getTable() + " class on teacher.studentName=class.studentName WHERE teacher.teacherName='" + teacherName + "' and class.idClass='" + idClass + "' and class.isDeleted = false and teacher.isDeleted = false and teacher.status='accept'");
+        List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
         try {
-            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
+
             List<Object> objects = (List<Object>) q.execute();
             for (Object object : objects) {
                 Object[] data = (Object[]) object;
@@ -187,15 +194,23 @@ public class ClassDAO extends DataAccess<ClassJDO> {
                 studentMappingTeacher.setTeacherName(data[2].toString());
                 studentMappingTeachers.add(studentMappingTeacher);
             }
-            return studentMappingTeachers;
         } catch (Exception e) {
-            throw e;
+           e.printStackTrace();
         } finally {
             q.closeAll();
             pm.close();
         }
+        return studentMappingTeachers;
     }
 
+    /**
+     *
+     * @param idClass
+     * @param teacherID
+     * @param idCompany
+     * @param status
+     * @return
+     */
     public List<Course> getMyCourses(String idClass, String teacherID,String idCompany,String status){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaCourse = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
@@ -206,8 +221,8 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID inner join CLIENTCODE as company on mapping.cpID = company.id  where course.id not IN (select idCourse FROM " + metaCourseMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and mapping.tID='"+teacherID+"' and company.id='"+idCompany+"' and mapping.status='"+status+"' and course.isDeleted = false and mapping.isDeleted = false and company.isDeleted=false";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+        List<Course> courses = new ArrayList<>();
         try {
-            List<Course> courses = new ArrayList<>();
             List<Object> objects = (List<Object>) q.execute();
             for (Object object : objects) {
                 Object[] data = (Object[]) object;
@@ -229,13 +244,14 @@ public class ClassDAO extends DataAccess<ClassJDO> {
                 }
                 courses.add(course);
             }
-            return courses;
+
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         } finally {
             q.closeAll();
             pm.close();
         }
+        return courses;
     }
 
     public List<Course> getMyCoursesOnClass(String idClass, String teacherID,String status){
@@ -246,6 +262,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         StringBuffer query = new StringBuffer();
         String firstQuery = "select DISTINCT course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID inner join "+metaCourseMappingClass.getTable()+" class on course.id=class.idCourse where class.idClass='"+idClass+"'  and mapping.tID='"+teacherID+"' and mapping.status='"+status+"' and course.isDeleted=false and mapping.isDeleted=false and class.isDeleted=false";
         query.append(firstQuery);
+        System.out.println("query get course selected in class " + query.toString());
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<Course> courses = new ArrayList<>();
@@ -329,6 +346,8 @@ public class ClassDAO extends DataAccess<ClassJDO> {
             pm.close();
         }
     }
+
+
 
     public void updateStudentMappingClassEdit(String idClass) throws Exception{
 

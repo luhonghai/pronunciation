@@ -136,15 +136,15 @@
 					<%}%>
 						<li id="li-class">
 							<a href="class.jsp"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> classes </a>
-							<ul>
-								<li>
+							<ul class="collapse in">
+								<li >
 									<a href="my-classes.jsp"><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px;">  my classes </a>
 								</li>
 							</ul>
 						</li>
 						<li id="li-courses">
 							<a href="main-courses.jsp"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> courses </a>
-							<ul>
+							<ul class="collapse in">
 								<li>
 									<a href="my-courses.jsp"><img src="/images/teacher/my%20courses48x48.gif" style="width: 24px;height: 24px;">  my courses </a>
 								</li>
@@ -152,7 +152,7 @@
 						</li>
 						<li id="li-reports">
 							<a href="reports.jsp"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> reports </a>
-							<ul>
+							<ul class="collapse in">
 								<li>
 									<a href="reports-lesson.jsp"><img src="/images/teacher/report_help_lessons.png" style="width: 24px;height: 24px;">  lessons </a>
 								</li>
@@ -202,11 +202,12 @@
 <!-- /Header -->
 
 <script>
-	$('#side-menu li').on('click', function() {
+	$('#side-menu li').on('click', function(e) {
+		e.stopPropagation();
 		var $el = $(this);
 		var $a = $el.find('a');
 		if ($a.length && $a.attr('href')) {
-			location.href = $a.attr('href');
+			window.location.href = $a.attr('href');
 		}
 	});
 </script>

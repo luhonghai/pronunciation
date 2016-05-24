@@ -17,6 +17,32 @@
         font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         font-size: 14px;
     }
+    .modal-content {
+        border-radius: 20px;
+    }
+
+    h2.header{
+        color: #376092;
+        font-weight: 700;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        margin-top: 0px;
+    }
+
+    .modal-content{
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+    }
+    .modal-header {
+        border-bottom: transparent;
+        padding-bottom: 0px;
+        text-align: center;
+    }
+
+    .modal-title {
+        font-weight: 700;
+    }
+
 
 </style>
 

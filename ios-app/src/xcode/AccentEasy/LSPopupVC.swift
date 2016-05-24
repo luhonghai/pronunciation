@@ -82,6 +82,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         // Update default selected country
         Logger.log("check country")
         validateCountry()

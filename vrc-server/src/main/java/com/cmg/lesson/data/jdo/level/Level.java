@@ -4,10 +4,7 @@ import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.vrc.data.Mirrorable;
 
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -30,6 +27,7 @@ public class Level implements Mirrorable {
     private boolean isDefaultActivated;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String description;
 
     @Persistent
@@ -52,6 +50,17 @@ public class Level implements Mirrorable {
 
     @NotPersistent
     private Test test;
+
+    @Persistent
+    private boolean isCopied;
+
+    public boolean isCopied() {
+        return isCopied;
+    }
+
+    public void setIsCopied(boolean isCopied) {
+        this.isCopied = isCopied;
+    }
 
     public ArrayList<Objective> getList() {
         return list;

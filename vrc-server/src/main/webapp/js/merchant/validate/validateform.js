@@ -19,6 +19,20 @@ function validateFormCourse(){
         getCourseValidateMessage().show();
         return false;
     }
+    var share = getCourseShare().val();
+    if(share == '' || typeof share ==="undefined"){
+        getPopUpHelp().find(".modal-title").html("please select a share option");
+        getPopUpHelp().find(".modal-body").empty();
+        var $html = $("<div>");
+        $html.html("<p>Sharing your course. By default, when you publish it, " +
+            "the course you create will be available for use by other companies. " +
+            "You can change the sharing settings by selecting ‘my company’ (to share with other teachers " +
+            "in your institution or company) or ‘private’ (not shared with anyone else).</p>");
+        getPopUpHelp().find(".modal-body").html($html);
+        getPopUpHelp().modal('show');
+        return false;
+    }
+
    /* var description = getCourseDescription().val();
     if(description == '' || typeof description === "undefined"){
         getLevelDescription().focus();
@@ -87,7 +101,7 @@ function validateFormTest(){
     var percent = getPercentPass().val();
     if (percent == '' || typeof percent === "undefined") {
         getPercentPass().focus();
-        getTestValidateMessage().html("please enter number");
+        getTestValidateMessage().html("please enter a value less than 100");
         getTestValidateMessage().show();
         return false;
     }
@@ -95,14 +109,14 @@ function validateFormTest(){
         var p = percent.split(".")[0];
         if(p.length > 2){
             getPercentPass().focus();
-            getTestValidateMessage().html("please enter percent smaller than 100 percent");
+            getTestValidateMessage().html("please enter a value less than 100");
             getTestValidateMessage().show();
             return false;
         }
     }else{
         if(percent.length > 2){
             getPercentPass().focus();
-            getTestValidateMessage().html("please enter percent smaller than 100 percent");
+            getTestValidateMessage().html("please enter a value less than 100");
             getTestValidateMessage().show();
             return false;
         }

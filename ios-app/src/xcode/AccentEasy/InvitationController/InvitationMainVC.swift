@@ -32,12 +32,13 @@ class InvitationTableViewCell: UITableViewCell {
     
 }
 
-class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, InvitationPopupDelegate{
+class InvitationMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, InvitationPopupDelegate{
     
     var arrShow = ["hoang","nguyen","minh","hoang","nguyen","minh","hoang","nguyen","minh"]
     //var fakeData = "{\"invitationData\":[{\"name\":\"hoang.nguyen1\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen2\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen3\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen4\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen5\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen6\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen7\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen8\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen9\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen10\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen11\",\"status\":\"pending\"},{\"name\":\"hoang.nguyen12\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen13\",\"status\":\"delete\"},{\"name\":\"hoang.nguyen14\",\"status\":\"accept\"},{\"name\":\"hoang.nguyen15\",\"status\":\"pending\"}]}"
     var userProfile:UserProfile =  UserProfile()
     var countInvitation:Int=0
+    var isMenuOpenInviPage = false
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -45,6 +46,17 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
     @IBOutlet weak var btnStudent: UIButton!
     @IBOutlet weak var btnChallenge: UIButton!
     @IBOutlet weak var btnHelp: UIButton!
+    
+    override func loadView() {
+        super.loadView()
+        
+        GlobalData.getInstance().isInvitationPage = true
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        GlobalData.getInstance().isInvitationPage = false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +78,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         
         //userProfile = Mapper<UserProfile>().map(fakeData)!
         
-        print(userProfile.invitationData)
+        //print(userProfile.invitationData)
         
         /*var data:InvitationData = InvitationData()
         for index in 0...10 {
@@ -265,16 +277,15 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         self.dismissPopupViewController(.Fade)
     }
     
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
+    func getCourseData() {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            AccountManager.fetchCourses(AccountManager.currentUser()) { (userProfile, success, message) -> Void in
+                //TODO show error message
+                AccountManager.updateProfile(userProfile)
+            }
+        }
     }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
-    }
+
     
     //touch ok in InviAcceptPopupVC
     func inviAcceptPopupVCTouchOK(sender: AnyObject){
@@ -282,6 +293,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
         AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
                 weakSelf!.dismissPopupViewController(.Fade)
@@ -292,7 +304,9 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
                 } else {
                     AccountManager.showError("could not update", message: message)
                 }
-
+                weakSelf!.hidenLoadding()
+                //reload course
+                weakSelf!.getCourseData()
             })
             
         }
@@ -304,6 +318,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
         AccountManager.updateAcceptData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
                 weakSelf!.dismissPopupViewController(.Fade)
@@ -314,7 +329,9 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
                 } else {
                     AccountManager.showError("could not update", message: message)
                 }
-                
+                weakSelf!.hidenLoadding()
+                //reload course
+                weakSelf!.getCourseData()
             })
             
         }
@@ -326,6 +343,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         let index = sender as! Int
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
+        weakSelf!.showLoadding()
         AccountManager.updateRejectData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
                 weakSelf!.dismissPopupViewController(.Fade)
@@ -336,7 +354,7 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
                 } else {
                     AccountManager.showError("could not update", message: message)
                 }
-                
+                weakSelf!.hidenLoadding()
             })
             
         }
@@ -349,10 +367,8 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
         let id = userProfile.invitationData[index].id
         weak var weakSelf = self
         weakSelf!.showLoadding()
-        DeviceManager.showLockScreen()
         AccountManager.updateDeleteData(AccountManager.currentUser(), id: id) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(), {
-                DeviceManager.hideLockScreen()
                 weakSelf!.hidenLoadding()
                 if success {
                     //userProfile.invitationData[index].status = InvitationStatus.accept
@@ -362,7 +378,8 @@ class InvitationMainVC: UIViewController, UITableViewDataSource, UITableViewDele
                 } else {
                     AccountManager.showError("could not update", message: message)
                 }
-                
+                //reload course
+                weakSelf!.getCourseData()
             })
             
         }

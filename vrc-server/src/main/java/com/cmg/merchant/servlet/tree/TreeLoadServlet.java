@@ -26,7 +26,11 @@ public class TreeLoadServlet extends BaseServlet {
     private static NodeServices nService = new NodeServices();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         Gson gson = new Gson();
+        String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
         String target = (String) StringUtil.isNull(request.getParameter("target"), "").toString();
         String idTarget = (String) StringUtil.isNull(request.getParameter("idTarget"), "").toString();
         Boolean showBtnAction =  (Boolean) StringUtil.switchBoolean(request.getParameter("showBtnAction"), false);
@@ -36,19 +40,19 @@ public class TreeLoadServlet extends BaseServlet {
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_LEVEL)){
-            ArrayList<TreeNode> list = nService.loadLevel(idTarget,showBtnAction);
+            ArrayList<TreeNode> list = nService.loadLevel(idTarget,showBtnAction,idCourse);
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_OBJECTIVE)){
-            ArrayList<TreeNode> list = nService.loadObjective(idTarget,showBtnAction);
+            ArrayList<TreeNode> list = nService.loadObjective(idTarget,showBtnAction,idCourse);
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_TEST)){
-            ArrayList<TreeNode> list = nService.loadTest(idTarget,showBtnAction);
+            ArrayList<TreeNode> list = nService.loadTest(idTarget,showBtnAction,idCourse);
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_LESSONS)){
-            ArrayList<TreeNode> list = nService.loadLesson(idTarget, showBtnAction);
+            ArrayList<TreeNode> list = nService.loadLesson(idTarget, showBtnAction,idCourse);
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }

@@ -31,36 +31,55 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     func loadList(notification: NSNotification){
+        weak var weakSelf = self
         dispatch_async(dispatch_get_main_queue(),{
             //load data here
             let indexChart = notification.object as! Int
             //loadTable(word)
-            let firstController = self.getItemController(indexChart + 1)
-            if (firstController != nil) {
-                let startingViewControllers: NSArray = [firstController!]
-                self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-            }
+            weakSelf!.loadViewController(indexChart + 1)
         })
+    }
+    
+    func loadViewController(index: Int) {
+        do {
+            weak var weakSelf = self
+            let controller = self.getItemController(index)
+            if (controller != nil) {
+                let startingViewControllers: NSArray = [controller!]
+                self.dataSource = nil
+                self.dataSource = self
+                self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false) { (finished) in
+                    
+                }
+
+//                self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true) { (finished) in
+//                    if finished {
+//                        dispatch_async(dispatch_get_main_queue(),{
+//                            weakSelf!.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+//                        })
+//                    }
+//                }
+            }
+        } catch {
+            
+        }
     }
     
     
     func loadWord(notification: NSNotification){
+        weak var weakSelf = self
         dispatch_async(dispatch_get_main_queue(),{
             //load data here
             let word = notification.object as! String
-            self.dataSource = nil
+            weakSelf!.dataSource = nil
             do {
-                let wc = try self.lessonDbAdapter.findByWord(word)
+                let wc = try weakSelf!.lessonDbAdapter.findByWord(word)
                 Logger.log("Load graph for word \(wc.word). Pronunciation: \(wc.getArpabetList())")
-                self.word = word
-                self.arpabets = wc.getArpabetList()
-                self.dataSource = self
-                self.loadView()
-                let firstController = self.getItemController(0)
-                if (firstController != nil) {
-                    let startingViewControllers: NSArray = [firstController!]
-                    self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-                }
+                weakSelf!.word = word
+                weakSelf!.arpabets = wc.getArpabetList()
+                weakSelf!.dataSource = weakSelf!
+                weakSelf!.loadView()
+                weakSelf!.loadViewController(0)
             } catch {
                 
             }

@@ -42,6 +42,20 @@ public class LessonCollection implements Mirrorable {
     @NotPersistent
     private int index;
 
+    @Persistent
+    private String title;
+
+    @Persistent
+    private boolean isCopied;
+
+    public boolean isCopied() {
+        return isCopied;
+    }
+
+    public void setIsCopied(boolean isCopied) {
+        this.isCopied = isCopied;
+    }
+
     public int getIndex() {
         return index;
     }
@@ -57,10 +71,6 @@ public class LessonCollection implements Mirrorable {
     public void setTitle(String title) {
         this.title = title;
     }
-
-    @Persistent
-    private String title;
-
 
     public String getNameUnique() {
         return nameUnique;

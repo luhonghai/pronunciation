@@ -28,6 +28,10 @@ public class GlobalData {
     
     var isOnLessonMain = false
     
+    var isShowInvitation = true
+    
+    var isInvitationPage = false
+    
     public static func getInstance() -> GlobalData {
         if (instance == nil) {
             instance = GlobalData()

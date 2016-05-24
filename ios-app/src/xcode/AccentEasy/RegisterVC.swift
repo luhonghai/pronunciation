@@ -119,19 +119,6 @@ class RegisterVC: UIViewController, UITextFieldDelegate{
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
-
-    func showLoadding(){
-        //show watting..
-        let text = "Please wait..."
-        self.showWaitOverlayWithText(text)
-    }
-    
-    func hidenLoadding(){
-        // Remove watting
-        self.removeAllOverlays()
-    }
-
-    
         
     @IBAction func registerTapped(sender: AnyObject) {
         DeviceManager.doIfConnectedToNetwork { (status) -> Void in
