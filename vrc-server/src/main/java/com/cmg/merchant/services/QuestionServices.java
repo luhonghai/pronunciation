@@ -13,6 +13,7 @@ import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.merchant.dao.lessons.LMQDAO;
+import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.questions.QDAO;
 import com.cmg.merchant.dao.questions.QMLDAO;
 import com.cmg.merchant.dao.test.TDAO;
@@ -29,6 +30,8 @@ import com.cmg.merchant.data.dto.WeightDTO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by lantb on 2016-03-16.
@@ -37,6 +40,7 @@ public class QuestionServices {
     private static final Logger logger = Logger.getLogger(LessonServices.class.getName());
     private String ERROR = "error";
     private String SUCCESS = "success";
+    private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     /**
      *  use for get max version
      * @return max version in table
@@ -78,7 +82,7 @@ public class QuestionServices {
         QuestionDAO dao = new QuestionDAO();
         try {
             version = dao.getLatestVersion();
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info("Can not get max version in table because : " + e.getMessage());
         }
         return version +1;
@@ -570,7 +574,7 @@ public class QuestionServices {
      */
     public String deleteWordOfQuestion(String idQuestion, String idWord){
         WordOfQuestionDAO dao = new WordOfQuestionDAO();
-        String message=null;
+        String message = null;
         try{
             boolean isDelete=dao.deleteWordofQuestion(idQuestion, idWord);
             if (isDelete){
@@ -592,18 +596,20 @@ public class QuestionServices {
      * @param idQuestion
      * @return
      */
-    public String deleteQuestion(String idLesson, String idQuestion ){
+    public String deleteQuestion(String idLesson,final String idQuestion ){
         QDAO dao = new QDAO();
         try {
             boolean check = dao.removeMappingQuestionWithLesson(idLesson, idQuestion);
             if(!check){
                 return ERROR + ": an error has been occurred in server";
+            }else {
+                executorService.submit(new Runnable() {
+                    public void run() {
+                        QDAO dao = new QDAO();
+                        dao.deletedQuestion(idQuestion);
+                    }
+                });
             }
-             check = dao.deletedQuestion(idQuestion);
-            if(!check){
-                return ERROR + ": an error has been occurred in server";
-            }
-
         }catch (Exception e){
             return ERROR + ": an error has been occurred in server";
         }
@@ -640,7 +646,7 @@ public class QuestionServices {
      * @param idQuestion
      * @param type
      * @param description
-     * @param idCourse
+     * @param
      * @return
      */
     public String updateWordToQuestionForTest(ListWordAddQuestion listWords,String idQuestion,

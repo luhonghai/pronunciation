@@ -7,6 +7,7 @@ import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.services.course.CourseService;
+import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.course.CMLDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.level.LvDAO;
@@ -17,6 +18,8 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by lantb on 2016-02-23.
@@ -26,6 +29,7 @@ public class LevelServices {
             .getName());
     private String SUCCESS = "success";
     private String ERROR = "error";
+    private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     /**
      *  use for get max version
      * @return max version in table
@@ -163,13 +167,18 @@ public class LevelServices {
      * @param idLevel
      * @return
      */
-    public String deleteLevel(String idCourse, String idLevel){
-        LvDAO dao = new LvDAO();
+    public String deleteLevel(String idCourse,final String idLevel){
         try {
-            removeMappingLevelFromCourse(idCourse, idLevel);
-            dao.deleteStep1(idLevel);
-            dao.deleteStep2(idLevel);
-            return SUCCESS;
+            if(removeMappingLevelFromCourse(idCourse, idLevel)) {
+                executorService.submit(new Runnable() {
+                    public void run() {
+                        LvDAO dao = new LvDAO();
+                        dao.deleteStep1(idLevel);
+                        dao.deleteStep2(idLevel);
+                    }
+                });
+                return SUCCESS;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -256,7 +265,7 @@ public class LevelServices {
         try {
             index = dao.getMaxIndex(idLevel);
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             logger.error(e);
         }
         return index +1;

@@ -244,7 +244,7 @@ public class CourseServices {
                 return true;
             }
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return false;
     }
@@ -259,14 +259,6 @@ public class CourseServices {
         CMTDAO mapDao = new CMTDAO();
         try {
             if(mapDao.removeMappingCourse(idCourse)){
-               /* Thread t1 = new Thread(new Runnable() {
-                    public void run() {
-                        CDAO cDao = new CDAO();
-                        cDao.deleteCourseStep1(idCourse);
-                        cDao.deleteCourseStep2(idCourse);
-                    }
-                });
-                t1.start();*/
                 executorService.submit(new Runnable() {
                     public void run() {
                         CDAO cDao = new CDAO();

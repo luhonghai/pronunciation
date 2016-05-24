@@ -5,6 +5,7 @@ import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.merchant.dao.lessons.LDAO;
+import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.objective.ODAO;
 import com.cmg.merchant.dao.objective.OMLDAO;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -13,6 +14,8 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by lantb on 2016-02-25.
@@ -20,6 +23,7 @@ import java.util.List;
 public class LessonServices {
     private static final Logger logger = Logger.getLogger(LessonServices.class.getName());
     private String ERROR = "error";
+    private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     private String SUCCESS = "success";
     /**
      *  use for get max version
@@ -165,19 +169,20 @@ public class LessonServices {
      * @param idObj
      * @return
      */
-    public String deleteLesson(String idObj, String idLesson ){
+    public String deleteLesson(String idObj,final String idLesson ){
         LDAO dao = new LDAO();
         try {
             boolean check = dao.removeMappingLessonWithObj(idObj, idLesson);
             if(!check){
                 return ERROR + ": an error has been occurred in server";
+            }else{
+                executorService.submit(new Runnable() {
+                    public void run() {
+                        LDAO dao = new LDAO();
+                        dao.deletedLesson(idLesson);
+                    }
+                });
             }
-
-            check = dao.deletedLesson(idLesson);
-            if(!check){
-                return ERROR + ": an error has been occurred in server";
-            }
-
         }catch (Exception e){
             return ERROR + ": an error has been occurred in server";
         }

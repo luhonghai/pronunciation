@@ -21,6 +21,10 @@ function isNumberKey(evt,e){
 }
 
 function editCourse(){
+    currentPopup.find(".validateMsg").html("Your course is being edited..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveCourse").attr("disabled","disabled");
     $.ajax({
         url : servletEdit,
         type : "POST",
@@ -38,6 +42,7 @@ function editCourse(){
                 currentParent = null;
                 firstLoad = true;
                 reloadTree();
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.modal('hide');
                 changeHeaderCourseName(getCourseName().val());
                 $("#listWord").empty();
@@ -45,12 +50,16 @@ function editCourse(){
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
-                currentPopup.find(".validateMsg").show()
+                currentPopup.find(".validateMsg").show();
             };
+            currentPopup.find("#btnSaveCourse").removeAttr("disabled");
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
+            currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveCourse").removeAttr("disabled");
         }
     });
 }
@@ -92,6 +101,10 @@ function deleteCourse(){
 
 
 function addLevel(){
+    currentPopup.find(".validateMsg").html("Your level is being added..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveLevel").attr("disabled","disabled");
     $.ajax({
         url : servletAdd,
         type : "POST",
@@ -107,17 +120,24 @@ function addLevel(){
                 //reload the tree
                 var id = data.split(":")[1];
                 reloadTree(id,"add");
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
                 //add false show the error
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveLevel").removeAttr("disabled");
         },
         error: function () {
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
             currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveLevel").removeAttr("disabled");
         }
     });
 }
@@ -126,6 +146,10 @@ function addLevel(){
  * connect to server when edit level
  */
 function editLevel(){
+    currentPopup.find(".validateMsg").html("Your level is being edited..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveLevel").attr("disabled","disabled");
     $.ajax({
         url : servletEdit,
         type : "POST",
@@ -143,17 +167,24 @@ function editLevel(){
                 reloadTree();
                 var idLevelUpdate = currentPopup.find(".idHidden").val();
                 removeIdCopied(idLevelUpdate.trim());
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
             }else{
                 //add false show the error
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveLevel").removeAttr("disabled");
         },
         error: function () {
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
             currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveLevel").removeAttr("disabled");
         }
     });
 }
@@ -201,6 +232,10 @@ function deleteLevel(){
  * connect to server when add obj
  */
 function addObj(){
+    currentPopup.find(".validateMsg").html("Your objective is being added..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveObj").attr("disabled","disabled");
     $.ajax({
         url : servletAdd,
         type : "POST",
@@ -217,17 +252,24 @@ function addObj(){
                 //reload the tree
                 var id = data.split(":")[1];
                 reloadTree(id,"add");
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
                 //add false show the error
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveObj").removeAttr("disabled");
         },
         error: function () {
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
             currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveObj").removeAttr("disabled");
         }
     });
 }
@@ -236,6 +278,10 @@ function addObj(){
  * connect to server when edit obj
  */
 function editObj(){
+    currentPopup.find(".validateMsg").html("Your objective is being edited..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveObj").attr("disabled","disabled");
     $.ajax({
         url : servletEdit,
         type : "POST",
@@ -254,17 +300,24 @@ function editObj(){
                 reloadTree();
                 var idObjUpdate = currentPopup.find(".idHidden").val();
                 removeIdCopied(idObjUpdate.trim());
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
             }else{
                 //add false show the error
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveObj").removeAttr("disabled");
         },
         error: function () {
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
             currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveObj").removeAttr("disabled");
         }
     });
 }
@@ -415,6 +468,10 @@ function deleteTest(){
 
 
 function addLesson(){
+    currentPopup.find(".validateMsg").html("Your lesson is being added..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveLesson").attr("disabled","disabled");
     $.ajax({
         url : servletAdd,
         type : "POST",
@@ -433,23 +490,34 @@ function addLesson(){
                 //reload the tree
                 var id = data.split(":")[1];
                 reloadTree(id,"add");
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
                 //add false show the error
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveLesson").removeAttr("disabled");
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("could not connect to server!");
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
+            currentPopup.find(".validateMsg").html("could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveLesson").removeAttr("disabled");
         }
     });
 }
 
 
 function editLesson(){
+    currentPopup.find(".validateMsg").html("Your lesson is being edited..");
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
+    currentPopup.find(".validateMsg").show();
+    currentPopup.find("#btnSaveLesson").attr("disabled","disabled");
     $.ajax({
         url : servletEdit,
         type : "POST",
@@ -470,17 +538,24 @@ function editLesson(){
                 reloadTree();
                 var idLesson = currentPopup.find(".idHidden").val();
                 removeIdCopied(idLesson.trim());
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.modal('hide');
                 swalNew("", "updated successfully", "success");
             }else{
                 //add false show the error
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
+            currentPopup.find("#btnSaveLesson").removeAttr("disabled");
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("could not connect to server");
+            currentPopup.find(".validateMsg").hide();
+            currentPopup.find(".validateMsg").css("color","red");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
+            currentPopup.find("#btnSaveLesson").removeAttr("disabled");
         }
     });
 }
@@ -519,7 +594,7 @@ function deleteLesson(){
 function addQuestions(listWord){
     myObject.listWord = listWord;
     currentPopup.find(".validateMsg").html("Your question is being saved..");
-    currentPopup.find(".validateMsg").css("color","#A6A6A6")
+    currentPopup.find(".validateMsg").css("color","#A6A6A6");
     currentPopup.find(".validateMsg").show();
     currentPopup.find("#btnSaveQuestion").attr("disabled","disabled");
     $.ajax({
@@ -536,14 +611,14 @@ function addQuestions(listWord){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
-                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").hide();
                 currentPopup.modal('hide');
                 swalNew("", "added successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
-                currentPopup.find(".validateMsg").css("color","red")
+                currentPopup.find(".validateMsg").css("color","red");
                 currentPopup.find(".validateMsg").html(data.split(":")[1]);
                 currentPopup.find(".validateMsg").show();
             }
@@ -551,7 +626,7 @@ function addQuestions(listWord){
         },
         error: function () {
             currentPopup.find(".validateMsg").hide();
-            currentPopup.find(".validateMsg").css("color","red")
+            currentPopup.find(".validateMsg").css("color","red");
             currentPopup.find(".validateMsg").html("could not connect to server!");
             currentPopup.find(".validateMsg").show();
             currentPopup.find("#btnSaveQuestion").removeAttr("disabled");

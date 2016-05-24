@@ -435,8 +435,59 @@ function focusInput(){
     $('.modal').on('shown.bs.modal', function() {
         $(this).find('input:first').focus();
     });
+    $('.modal').on('hide.bs.modal', function() {
+        var showDropdown = false;
+        $(this).find('select').parent().find('div.btn-group').each(function(){
+            var c = $(this).attr('class');
+            if(c.indexOf('open') != -1){
+                $(this).removeClass('open');
+                showDropdown = true;
+            }
+        });
+        if(showDropdown){
+            return false;
+        }
+    });
 }
 
+function onchangeDropdown(){
+    $('#editCourses').on('change', function(){
+        var courses = [];
+        $('#editCourses option:selected').map(function(a, item){ courses.push(item.value);});
+        if(courses.length > 0 ){
+            $("#edits").find(".validateMsg").hide();
+        }
+
+
+    });
+    $('#editStudents').on('change', function(){
+        var students = [];
+        $('#editStudents option:selected').map(function(a, item){ students.push(item.value);});
+        if(students.length > 0 ){
+            $("#edits").find(".validateMsg").hide();
+            return false;
+        }
+    });
+
+    $('#addCourses').on('change', function(){
+        var courses = [];
+        $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
+        if(courses.length > 0 ){
+            $("#add").find(".validateMsg").hide();
+        }
+
+
+    });
+    $('#addStudents').on('change', function(){
+        var students = [];
+        $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
+        if(students.length > 0 ){
+            $("#add").find(".validateMsg").hide();
+            return false;
+        }
+    });
+
+}
 $(document).ready(function(){
     $('#help-icons').show();
     collapseMenu();
@@ -452,5 +503,6 @@ $(document).ready(function(){
     helpEditMyClass();
     listMyClasses();
     focusInput();
+    onchangeDropdown();
 });
 

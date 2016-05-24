@@ -3,6 +3,7 @@ package com.cmg.merchant.services;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.objective.ODAO;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
@@ -10,6 +11,8 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by lantb on 2016-02-25.
@@ -18,6 +21,7 @@ public class OServices {
     private static final Logger logger = Logger.getLogger(OServices.class.getName());
     private String ERROR = "error";
     private String SUCCESS = "success";
+    private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     /**
      *  use for get max version
      * @return max version in table
@@ -91,22 +95,20 @@ public class OServices {
      * @param idObj
      * @return
      */
-    public String deleteObj(String idLevel, String idObj){
-        ODAO dao = new ODAO();
+    public String deleteObj(String idLevel,final String idObj){
         LevelServices lvServices = new LevelServices();
         try {
             boolean check = lvServices.removeMappingObjToLv(idLevel, idObj);
             if(check){
-                check = dao.deletedObjective(idObj);
-                if(!check){
-                    return ERROR + ": an error has been occurred in server";
-                }
+                executorService.submit(new Runnable() {
+                    public void run() {
+                        ODAO dao = new ODAO();
+                        dao.deletedObjective(idObj);
+                    }
+                });
             }else{
                 return ERROR + ": an error has been occurred in server";
             }
-
-
-
         }catch (Exception e){
             return ERROR + ": an error has been occurred in server";
         }
