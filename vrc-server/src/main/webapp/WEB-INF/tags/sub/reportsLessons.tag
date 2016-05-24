@@ -217,18 +217,21 @@
         font-size : 14px;
     }
 
+
+    .sweet-alert {
+        font-weight: 200 !important;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+        font-size: 16px !important;
+        width: 400px !important;
+        border-radius: 20px;
+    }
+
+
 </style>
 <%
-    ClassDAO dao = new ClassDAO();
     String company = StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();
-    String student = StringUtil.isNull(request.getParameter("name"),"").toString();
-    String idClass = StringUtil.isNull(request.getParameter("idClass"),"").toString();
-    String className = StringUtil.isNull(dao.getById(idClass).getClassName(),"").toString();
 %>
 <div id="page-wrapper">
-    <input id="studentName" type="hidden" value="<%=student%>">
-    <input id="class-id" type="hidden" value="<%=idClass%>">
-    <input id="class-name" type="hidden" value="<%=className%>">
     <div class="row">
         <div class="col-sm-12">
             <h4 style="padding-bottom: 0px" class="page-header header-company"><%=company%> >
@@ -245,7 +248,8 @@
                     <label>class:</label>
                 </div>
                 <div class="col-sm-9">
-                    <select class="form-control" id="listClass" disabled="disabled">
+                    <label class="lazyload"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></label>
+                    <select style="display:none;" class="form-control" id="listClass">
                     </select>
                 </div>
             </div>
@@ -254,7 +258,8 @@
                     <label>student:</label>
                 </div>
                 <div class="col-sm-9">
-                    <select class="form-control" id="listUser" disabled="disabled">
+                    <label class="lazyload"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></label>
+                    <select style="display:none;" class="form-control" id="listUsers">
                     </select>
                 </div>
             </div>
@@ -263,7 +268,8 @@
                     <label>course:</label>
                 </div>
                 <div class="col-sm-9">
-                    <select class="form-control" id="listCourse">
+                    <label class="lazyload"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></label>
+                    <select style="display:none;" class="form-control" id="listCourse">
                     </select>
                 </div>
             </div>
@@ -274,7 +280,8 @@
                     <label>level:</label>
                 </div>
                 <div class="col-sm-9">
-                    <select class="form-control" id="listLevel">
+                    <label class="lazyload"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></label>
+                    <select style="display:none;" class="form-control" id="listLevel">
                     </select>
                 </div>
             </div>
@@ -283,7 +290,8 @@
                     <label>objective:</label>
                 </div>
                 <div class="col-sm-9">
-                    <select class="form-control" id="listObj">
+                    <label class="lazyload"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></label>
+                    <select style="display:none;" class="form-control" id="listObj">
                     </select>
                 </div>
             </div>

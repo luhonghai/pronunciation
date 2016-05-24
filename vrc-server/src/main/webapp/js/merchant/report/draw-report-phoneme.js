@@ -12,70 +12,6 @@ function drawReport(data){
             lines: { show: true }
         }
     ];
-/*
-    var arrayTimes = $("#report-popup").attr("times").split(",");
-    if(arrayTimes.length > 1){
-        var min_x = 0;
-        var max_x = 0;
-        min_x = arrayTimes[0];
-        max_x = arrayTimes[arrayTimes.length-1];
-        var options = {
-            series: {
-                shadowSize: 5
-            },
-            xaxis: {
-                mode: "time",
-                timeformat:"%d/%m/%Y %H:%M:%S",
-                tickSize : [1, "day"],
-                axisLabel: "Time",
-                min : min_x - 1000,
-                max : max_x + 1000
-            },
-            yaxis: {
-                min : 0,
-                max : 100
-            },
-            grid: {
-                hoverable: true,
-                borderWidth: 1,
-                mouseActiveRadius: 50,
-                backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
-                axisMargin: 10
-            }, hooks: {
-                draw: [raw]
-            }
-        };
-        var chart =  $.plot($("#placeholder"), dataset, options);
-    }else{
-        var options = {
-            series: {
-                shadowSize: 5
-            },
-            xaxis: {
-                mode: "time",
-                timeformat:"%d/%m/%Y %H:%M:%S",
-                tickSize : [12, "month"],
-                axisLabel: "Time",
-                //min : min_x - 1000,
-                //max : max_x + 1000
-            },
-            yaxis: {
-                min : 0,
-                max : 100
-            },
-            grid: {
-                hoverable: true,
-                borderWidth: 1,
-                mouseActiveRadius: 50,
-                backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
-                axisMargin: 10
-            }, hooks: {
-                draw: [raw]
-            }
-        };
-        var chart =  $.plot($("#placeholder"), dataset, options);
-    }*/
-
     var options = {
         series: {
             shadowSize: 5
@@ -152,26 +88,4 @@ function mouseOverChart(){
             previousPoint = null;
         }
     });
-}
-
-
-
-function combineMinDate(){
-    var dateMin =  $("#dateFrom").val();
-    var d = dateMin.split("/")[0];
-    var m = dateMin.split("/")[1];
-    var y = dateMin.split("/")[2];
-    var min = y + "-" + m +"-"+d;
-   // console.log(min);
-    return min;
-}
-
-function combineMaxDate(){
-    var dateMax =  $("#dateTo").val();
-    var d = dateMax.split("/")[0];
-    var m = dateMax.split("/")[1];
-    var y = dateMax.split("/")[2];
-    var max = y + "-" + m +"-"+d;
-   // console.log(max);
-    return max;
 }

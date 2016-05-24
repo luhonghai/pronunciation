@@ -160,6 +160,14 @@
         z-index: 100000;
     }
 
+    .sweet-alert {
+        font-weight: 200 !important;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+        font-size: 16px !important;
+        width: 400px !important;
+        border-radius: 20px;
+    }
+
 
 </style>
 <div id="page-wrapper">

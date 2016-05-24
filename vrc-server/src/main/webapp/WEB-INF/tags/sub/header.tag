@@ -154,7 +154,7 @@
 							<a href="reports.jsp"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> reports </a>
 							<ul class="collapse in">
 								<li>
-									<a href="reports-lesson.jsp"><img src="/images/teacher/report_help_lessons.png" style="width: 24px;height: 24px;">  lessons </a>
+									<a href="reports-lessons.jsp"><img src="/images/teacher/report_help_lessons.png" style="width: 24px;height: 24px;">  lessons </a>
 								</li>
 								<li>
 									<a href="reports-phonemes.jsp"><img src="/images/teacher/report_help_phonemes.png" style="width: 24px;height: 24px;">  phonemes </a>
