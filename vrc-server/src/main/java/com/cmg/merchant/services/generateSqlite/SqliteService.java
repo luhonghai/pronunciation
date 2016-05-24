@@ -1,11 +1,8 @@
 package com.cmg.merchant.services.generateSqlite;
 
-import com.cmg.lesson.data.jdo.country.Country;
-import com.cmg.lesson.data.jdo.country.CountryMappingCourse;
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
-import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.objectives.Objective;
@@ -14,13 +11,11 @@ import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.data.jdo.test.TestMapping;
-import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.merchant.common.Sqlite;
 import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.vrc.common.Constant;
-import com.cmg.vrc.data.jdo.DatabaseVersion;
 import com.cmg.vrc.processor.CommandExecutor;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.util.AWSHelper;
@@ -31,22 +26,14 @@ import net.lingala.zip4j.model.ZipParameters;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Level;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 /**
