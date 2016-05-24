@@ -56,6 +56,28 @@ class LessonDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollec
     //save data
     let lessonDBAdapter = LessonDBAdapter()
     
+    /*colection view setup
+     *************************************************************/
+    @IBOutlet weak var cvQuestionList: UICollectionView!
+    var arrQuestionOfLC = [AEQuestion]()
+    var indexCurrentQuestion:Int!
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let numberOfSections = self.cvQuestionList.numberOfSections()
+        //print("numberOfSections \(numberOfSections)")
+        let numberOfRows = indexCurrentQuestion
+            //self.cvQuestionList.numberOfItemsInSection(numberOfSections-1)
+        //print("numberOfRows \(numberOfRows)")
+        if numberOfRows > 0 {
+            dispatch_async(dispatch_get_main_queue(), {
+                let indexPath = NSIndexPath(forRow: numberOfRows-1, inSection: (numberOfSections-1))
+                self.cvQuestionList.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+            })
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activateAudioSession()
@@ -549,8 +571,6 @@ class LessonDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollec
     
     /*colection view setup
      *************************************************************/
-    @IBOutlet weak var cvQuestionList: UICollectionView!
-    var arrQuestionOfLC = [AEQuestion]()
     
     func closeToltaScorelPopup(sender: ToltalScorePopupVC) {
         self.dismissPopupViewController(.Fade)

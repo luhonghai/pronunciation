@@ -119,7 +119,26 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         
     }
     
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if indexCurrentQuestion == nil {
+            indexCurrentQuestion = 0
+        }
+        
+        let numberOfSections = self.cvQuestionList.numberOfSections()
+        //print("numberOfSections \(numberOfSections)")
+        let numberOfRows = indexCurrentQuestion
+        //self.cvQuestionList.numberOfItemsInSection(numberOfSections-1)
+        //print("numberOfRows \(numberOfRows)")
+        if numberOfRows > 0 {
+            dispatch_async(dispatch_get_main_queue(), {
+                let indexPath = NSIndexPath(forRow: numberOfRows-1, inSection: (numberOfSections-1))
+                self.cvQuestionList.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+            })
+        }
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -384,10 +403,6 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-        
-    }
-    
     override func viewDidLayoutSubviews() {
         roundButton()
     }
@@ -561,6 +576,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         lessonDetailVC.objectiveScore = objectiveScore
         lessonDetailVC.testScore = testScore
         lessonDetailVC.isLessonCollection = isLessonCollection
+        lessonDetailVC.indexCurrentQuestion = indexCurrentQuestion
         self.navigationController?.pushViewController(lessonDetailVC, animated: true)
     }
     

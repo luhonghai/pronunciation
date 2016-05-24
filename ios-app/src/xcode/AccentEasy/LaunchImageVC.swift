@@ -49,7 +49,7 @@ class LaunchImageVC: UIViewController {
                     Logger.log("error checkDatabaseVersion")
                     dispatch_async(dispatch_get_main_queue(),{
                         
-                        SweetAlert().showAlert("Khong tai duoc CSDL", subTitle: "check internet di em oi", style: AlertStyle.Error, buttonTitle: "Ok") {(isOk) -> Void in
+                        SweetAlert().showAlert("Could not download database", subTitle: "Unable to open due to a poor network connection. Please try again later.", style: AlertStyle.Error, buttonTitle: "Ok") {(isOk) -> Void in
                             //if isOk == true {
                                 //self.performSegueWithIdentifier("ConfirmRegisterGoToLogin", sender: self)
                             //}

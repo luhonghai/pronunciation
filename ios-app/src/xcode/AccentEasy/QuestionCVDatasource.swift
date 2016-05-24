@@ -57,10 +57,12 @@ class QuestionCVDatasource: NSObject, UICollectionViewDataSource, UICollectionVi
                 cell.lblQuestion.text = "T\(indexPath.item+1)"
             }
             cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
+            cell.userInteractionEnabled = true
         } else if question.recorded && question.enabled {
             let averageScore:Int = Int(round(question.listScore.average))
             cell.lblQuestion.text = String(averageScore)
             cell.lblQuestion.backgroundColor = questionCVChangeColor(averageScore)
+            cell.userInteractionEnabled = true
         } else {
             if isLessonCollection {
                 cell.lblQuestion.text = "Q\(indexPath.item+1)"
@@ -91,7 +93,7 @@ class QuestionCVDatasource: NSObject, UICollectionViewDataSource, UICollectionVi
     // MARK: - UICollectionViewDelegate protocol
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
-        Logger.log("You selected cell #\(indexPath.item)!")
+        Logger.log("QuestionCVDatasource You selected cell #\(indexPath.item)!")
         delegateDetail?.backToMain?()
         delegateMain?.selectedCellQuestionInDetail?(indexPath.item)
         //self.navigationController?.popViewControllerAnimated(true)
