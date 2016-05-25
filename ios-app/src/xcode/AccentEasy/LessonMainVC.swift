@@ -981,6 +981,8 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
 
     }
     
+    //var isreloadQuestion = false
+    
     // MARK: - UICollectionViewDelegate protocol
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
@@ -991,7 +993,9 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             if !isLessonCollection{
                 //test lesson colection, one recoder per test
                 if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+                    //isreloadQuestion = true
                     indexCurrentQuestion = indexPath.item
+                    print("reloadQuestion")
                     reloadQuestion(indexCurrentQuestion)
                     return
                 }
@@ -1001,9 +1005,13 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             
             
             Logger.log("word of question: \(question.listWord.count)")
-            if question.listWord.count < 2 {
+            /*if question.listWord.count < 2 && !isLessonCollection {
                 return
-            }
+            } else if question.listWord.count < 2 && isLessonCollection {
+                indexCurrentQuestion = indexPath.item
+                reloadQuestion(indexCurrentQuestion)
+                return
+            }*/ 
             disableViewSelectQuestion()
             randomWord(question)
         }
@@ -1012,9 +1020,11 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
     func randomWord(question:AEQuestion){
         isShowDetail = false
         var randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
-        while question.listWord[randomIndex].word == selectedWord.word {
-            print(randomIndex)
-            randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+        if question.listWord.count > 1 {
+            while question.listWord[randomIndex].word == selectedWord.word {
+                print(randomIndex)
+                randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+            }
         }
         selectedWord = question.listWord[randomIndex]
         //question.selectedWord = selectedWord
@@ -1052,8 +1062,9 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             selectedWord = word
             //self.chooseWord(selectedWord.word)
             //var score =  arrQuestionOfLesson[cellIndex].listScore[arrQuestionOfLesson[cellIndex].listScore.count-1]
+            weak var weakSelf = self
             delay(1, closure: {
-                GlobalData.getInstance().selectedWord = self.currentMode.word
+                GlobalData.getInstance().selectedWord = weakSelf!.currentMode.word
                 NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.currentMode.word)
                 NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                 NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: self.currentMode.word)

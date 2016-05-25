@@ -37,7 +37,7 @@ class LaunchImageVC: UIViewController {
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
         
         weak var weakSelf = self;
-        isExistedDatabase = FileHelper.isExists(DatabaseHelper.getLessonDatabaseFile(), directory: false)
+        isExistedDatabase = FileHelper.isExists(DatabaseHelper.getLessonDatabaseFile()!, directory: false)
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             DatabaseHelper.checkDatabaseVersion() {(success) -> Void in
