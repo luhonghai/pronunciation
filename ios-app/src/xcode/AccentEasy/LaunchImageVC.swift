@@ -18,6 +18,7 @@ class LaunchImageVC: UIViewController {
     var currentDate:NSDate = NSDate()
     var startSecond:Double!
     var isShowLoadding = false
+    var isExistedDatabase = false
     
     var currentUser: UserProfile!
     
@@ -36,6 +37,7 @@ class LaunchImageVC: UIViewController {
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
         
         weak var weakSelf = self;
+        isExistedDatabase = FileHelper.isExists(DatabaseHelper.getLessonDatabaseFile(), directory: false)
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             DatabaseHelper.checkDatabaseVersion() {(success) -> Void in
@@ -96,7 +98,11 @@ class LaunchImageVC: UIViewController {
         }
         
         if (currentDate.timeIntervalSince1970 - startSecond >= 10) && !isShowLoadding{
-            showLoadding("installing...")
+            if isExistedDatabase {
+                showLoadding("loading...")
+            } else {
+                showLoadding("installing...")
+            }
             isShowLoadding = true
         }
 
