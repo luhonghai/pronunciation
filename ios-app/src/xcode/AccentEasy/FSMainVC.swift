@@ -709,12 +709,15 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
                 self.btnRecord.enabled = true
                 self.isRecording = true
                 self.analyzingView.clear()
-                weak var weakSelf = self
+                //weak var weakSelf = self
                 self.analyzingView.switchType(AnalyzingType.RECORDING)
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    weakSelf!.microphone.startFetchingAudio()
-                    weakSelf!.recorder = EZRecorder(URL: weakSelf!.getTmpFilePath(), clientFormat: weakSelf!.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.M4A, delegate: weakSelf!)
-                }
+                    
+                self.microphone.startFetchingAudio()
+                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.AIFF, delegate: self)
+            
+                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    
+                //}
                 }
             })
         }

@@ -639,7 +639,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
                 self.isRecording = true
                 self.analyzingView.clear()
                 self.microphone.startFetchingAudio()
-                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.M4A, delegate: self)
+                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.AIFF, delegate: self)
                 self.analyzingView.switchType(AnalyzingType.RECORDING)
                 }
             })
