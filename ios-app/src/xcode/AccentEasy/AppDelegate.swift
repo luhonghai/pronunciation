@@ -69,14 +69,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, GGLIns
     func showLockScreen(notification: NSNotification)
     {
         if !lockScreen.isShowing {
-            lockScreen.show(UIScreen.mainScreen().applicationFrame)
+            dispatch_async(dispatch_get_main_queue(),{
+                self.lockScreen.show(UIScreen.mainScreen().applicationFrame)
+            })
         }
     }
     
     func hideLockScreen(notification: NSNotification)
     {
         if lockScreen.isShowing {
-            lockScreen.close()
+            dispatch_async(dispatch_get_main_queue(),{
+                self.lockScreen.close()
+            })
         }
     }
     
