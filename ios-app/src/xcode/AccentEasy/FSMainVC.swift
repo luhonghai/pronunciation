@@ -622,6 +622,7 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
                             })
                         }
                         else {
+                            DeviceManager.showLockScreen()
                             //handleErrorJson(res.body)
                             Logger.log("Analyze result \(res.text)")
                             let result = Mapper<VoidModelResult>().map(res.text)
