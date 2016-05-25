@@ -25,6 +25,7 @@ function drawWord(data){
     getPhonemeLable().html("arpabet:");
     getWeightLable().html("weight:");
     getIPAlable().html("ipa:");
+    $('#container-equal-weight').show();
     $("#wordModal1").show();
     $("#wordModal2").show();
 }
@@ -40,4 +41,5 @@ function drawPhonemeOfWord(data){
         getListWeight().css({"width":(idx+1)*35});
         getListIPA().css({"width":(idx+1)*35});
     });
+    $('#container-equal-weight').show();
 }

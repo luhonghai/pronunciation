@@ -448,6 +448,8 @@ function showAddWord(){
         $("#addWordModal").attr("type","add-new-word");
         $("#addWordModal").modal('show');
         $("#addWordModal").find('#title-add-word').html("add word");
+        $('#container-equal-weight').hide();
+        $('#equalweight').prop("checked",false);
         $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
 }
@@ -475,6 +477,8 @@ function showAddWordForTest(){
         $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
         $("#addWordModal").find('#title-add-word').html("add test word");
+        $('#container-equal-weight').hide();
+        $('#equalweight').prop("checked",false);
         $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
 }
@@ -487,6 +491,7 @@ function openEditWords(){
         getListPhonemes().html("");
         getListWeight().html("");
         getListIPA().html("");
+        $('#equalweight').prop("checked",false);
         if(currentPopup.find(".action").val() == action_add_question) {
             var word= $(this).closest("div").find('p').text();
             if(listWord !=null && listWord.length>0){
@@ -555,7 +560,6 @@ function removeWord(){
                 $.each(listWord, function(i){
                     if(listWord[i].nameWord === word) {
                         listWord.splice(i,1);
-                        console.log(listWord);
                         return false;
                     }
                 });
@@ -568,7 +572,6 @@ function removeWord(){
                 $.each(listWord, function(i){
                     if(listWord[i].nameWord === word) {
                         listWord.splice(i,1);
-                        console.log(listWord);
                         return false;
                     }
                 });
@@ -829,7 +832,33 @@ function disableEnter(){
         }
     });
 }
+function clickEqualWeight(){
+    $('#equalweight').on('change', function() {
+       if($(this).prop('checked')){
+           $('.phoneme-weight').each(function(){
+                $(this).val(1);
+           });
+           $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
+       }
+    });
+
+    $(document).on('change', '.phoneme-weight', function(e) {
+        var enterV =  $('.phoneme-weight').length;
+        $('.phoneme-weight').each(function(){
+            var v = $(this).val();
+            if(typeof v != "undefined" && v.trim() !=""){
+                enterV = enterV - 1;
+            }
+        });
+        if(enterV == 0){
+            $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
+        }else{
+            $('#equalweight').prop("checked",false);
+        }
+    });
+}
 $(document).ready(function(){
+    clickEqualWeight();
     removeWord();
     saveWord();
     showAddWord();
