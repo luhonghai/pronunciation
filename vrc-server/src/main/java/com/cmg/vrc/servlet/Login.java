@@ -3,8 +3,10 @@ package com.cmg.vrc.servlet;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
+import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 import com.cmg.vrc.data.dao.impl.TeacherMappingCompanyDAO;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.data.jdo.ClientCode;
 import com.cmg.vrc.data.jdo.TeacherMappingCompany;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
@@ -56,7 +58,11 @@ import java.io.IOException;
                     if(admin.getRole()== Constant.ROLE_STAFF || admin.getRole()==Constant.ROLE_TEACHER){
                         TeacherMappingCompany teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
                         if(teacherMappingCompany!=null) {
-                            session.setAttribute(SessionUtil.ATT_CPNAME, teacherMappingCompany.getCompany());
+                            ClientCodeDAO cpDao = new ClientCodeDAO();
+                            ClientCode company = cpDao.getById(teacherMappingCompany.getIdCompany());
+                            if(company!=null){
+                                session.setAttribute(SessionUtil.ATT_CPNAME, company.getCompanyName());
+                            }
                             session.setAttribute(SessionUtil.ATT_CPID, teacherMappingCompany.getIdCompany());
                             session.setAttribute(SessionUtil.ATT_TID, admin.getId());
                             session.setAttribute(SessionUtil.ATT_FNAME,admin.getFirstName());

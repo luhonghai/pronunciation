@@ -49,6 +49,10 @@ public class Admins extends HttpServlet {
         private String content;
     }
 
+
+
+
+
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -83,15 +87,9 @@ public class Admins extends HttpServlet {
                 admin.draw = draw;
                 admin.recordsTotal = count;
                 admin.recordsFiltered = count;
-                admin.data = adminDAO.listAll(start, length, search, col, oder, username, first, last);
-//                for(int i=0;i<admin.data.size();i++){
-//                    int a=admin.data.get(i).getRole();
-//                    if(a==1){
-//
-//                    }
-//                }
-
-//                List<com.cmg.vrc.data.jdo.LicenseCode> list=lis.listAll(start,length);
+                List<Admin> fromDb = adminDAO.listAll(start, length, search, col, oder, username, first, last);
+                List<Admin> toClient = adminDAO.addedCompanyToUser(fromDb);
+                admin.data = toClient;
                 Gson gson = new Gson();
                 String admins = gson.toJson(admin);
                 response.getWriter().write(admins);
@@ -108,26 +106,42 @@ public class Admins extends HttpServlet {
             String lastname = request.getParameter("lastname");
             String password = request.getParameter("password");
             String role = request.getParameter("role");
-
+            String idCompany = request.getParameter("idCompany");
             int ro = 0;
-            if (role.length() > 0 && role.equals("Admin")) {
+            boolean addTeacherStaff = false;
+            if (role.equals("Admin")) {
                 ro = Constant.ROLE_ADMIN;
-            }
-            if (role.length() > 0 && role.equals("User")) {
+            }else if (role.equals("User")) {
                 ro = Constant.ROLE_USER;
+            }else if (role.equals("Staff")){
+                ro = Constant.ROLE_STAFF;
+                addTeacherStaff = true;
+            }else if (role.equals("Teacher")){
+                ro = Constant.ROLE_TEACHER;
+                addTeacherStaff = true;
             }
             try {
                 Admin a = adminDAO.getUserByEmail(username);
-                Admin ad=new Admin();
+
                 if (a != null) {
                     response.getWriter().write("error");
                 } else {
+                    Admin ad=new Admin();
                     ad.setUserName(username);
                     ad.setPassword(StringUtil.md5(password));
                     ad.setFirstName(firstname);
                     ad.setLastName(lastname);
                     ad.setRole(ro);
                     adminDAO.put(ad);
+                    if(addTeacherStaff){
+                        TeacherMappingCompanyDAO dao = new TeacherMappingCompanyDAO();
+                        TeacherMappingCompany tmc = new TeacherMappingCompany();
+                        tmc.setIdCompany(idCompany);
+                        tmc.setUserName(username);
+                        tmc.setIsDeleted(false);
+                        tmc.setType(role);
+                        dao.put(tmc);
+                    }
                     response.getWriter().write("success");
 
                 }
@@ -139,16 +153,24 @@ public class Admins extends HttpServlet {
         if (request.getParameter("edit") != null) {
             String idd = request.getSession().getAttribute("id").toString();
             String id = request.getParameter("id");
+            String username = request.getParameter("username");
             String firstname = request.getParameter("firstname");
             String lastname = request.getParameter("lastname");
             String password = request.getParameter("password");
             String role = request.getParameter("role");
+            String idCompany = request.getParameter("idCompany");
             int ro = 0;
-            if (role.length() > 0 && role.equals("Admin")) {
+            boolean addTeacherStaff = false;
+            if (role.equals("Admin")) {
                 ro = Constant.ROLE_ADMIN;
-            }
-            if (role.length() > 0 && role.equals("User")) {
+            }else if (role.equals("User")) {
                 ro = Constant.ROLE_USER;
+            }else if (role.equals("Staff")){
+                ro = Constant.ROLE_STAFF;
+                addTeacherStaff = true;
+            }else if (role.equals("Teacher")){
+                ro = Constant.ROLE_TEACHER;
+                addTeacherStaff = true;
             }
             try {
                 if (!id.equals(idd)) {
@@ -164,6 +186,24 @@ public class Admins extends HttpServlet {
                     }
                     admi.setRole(ro);
                     adminDAO.put(admi);
+                    if (addTeacherStaff){
+                        TeacherMappingCompanyDAO dao = new TeacherMappingCompanyDAO();
+                        TeacherMappingCompany tmc = dao.getCompanyByTeacherName(username);
+                        if(tmc!=null){
+                            TeacherMappingCompany tmp = dao.getById(tmc.getId());
+                            tmp.setIdCompany(idCompany);
+                            tmp.setType(role);
+                            dao.put(tmp);
+                        }else{
+                            TeacherMappingCompany tmp = new TeacherMappingCompany();
+                            tmp.setIdCompany(idCompany);
+                            tmp.setUserName(username);
+                            tmp.setIsDeleted(false);
+                            tmp.setType(role);
+                            dao.put(tmp);
+                        }
+
+                    }
                     response.getWriter().write("success");
                 } else if (id.equals(idd)) {
                     Admin admi = adminDAO.getById(id);
@@ -176,7 +216,6 @@ public class Admins extends HttpServlet {
                     if (lastname.length() > 0) {
                         admi.setLastName(lastname);
                     }
-                    //admi.setRole(ro);
                     adminDAO.put(admi);
                     response.getWriter().write("success");
                 } else {
@@ -232,157 +271,6 @@ public class Admins extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        if(request.getParameter("addTeacher")!=null){
-            String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
-            Gson gson = new Gson();
-            try{
-                TeacherOrStaffMappingCompany dto = gson.fromJson(jsonClient, TeacherOrStaffMappingCompany.class);
-                Admin ad=new Admin();
-                String role=dto.getRole();
-                int ro = 0;
-                if (role.length() > 0 && role.equals("Staff")) {
-                    ro = Constant.ROLE_STAFF;
-                }
-                if (role.length() > 0 && role.equals("Teacher")) {
-                    ro = Constant.ROLE_TEACHER;
-                }
-                Admin a = adminDAO.getUserByEmail(dto.getFullName());
-                if (a != null) {
-                    response.getWriter().write("exist");
-                } else {
-                    ad.setFirstName(dto.getFirstName());
-                    ad.setUserName(dto.getFullName());
-                    ad.setLastName(dto.getLastName());
-                    ad.setPassword(StringUtil.md5(dto.getPassword()));
-                    ad.setRole(ro);
-                    adminDAO.put(ad);
-
-                    List<Company> companies = dto.getCompanies();
-                    if (ro == Constant.ROLE_STAFF) {
-                        for (Company company : companies) {
-
-                            TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
-                            teacherMappingCompany.setIsDeleted(false);
-                            teacherMappingCompany.setIdCompany(company.getIdCompany());
-                            teacherMappingCompany.setCompany(company.getCompanyName());
-                            teacherMappingCompany.setUserName(dto.getFullName());
-                            teacherMappingCompany.setType(Constant.STAFF);
-                            teacherMappingCompanyDAO.put(teacherMappingCompany);
-                        }
-                    } else {
-                        for (Company company : companies) {
-                            TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
-                            teacherMappingCompany.setIsDeleted(false);
-                            teacherMappingCompany.setIdCompany(company.getIdCompany());
-                            teacherMappingCompany.setCompany(company.getCompanyName());
-                            teacherMappingCompany.setUserName(dto.getFullName());
-                            teacherMappingCompany.setType(Constant.TEACHER);
-                            teacherMappingCompanyDAO.put(teacherMappingCompany);
-                        }
-                    }
-
-                    response.getWriter().write("success");
-                }
-            }catch (Exception e){
-               e.getStackTrace();
-            }
-        }
-
-        if(request.getParameter("editTeacher")!=null){
-            String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
-            Gson gson = new Gson();
-            try{
-                TeacherOrStaffMappingCompany dto = gson.fromJson(jsonClient, TeacherOrStaffMappingCompany.class);
-                String role=dto.getRole();
-                int ro = 0;
-                if (role.length() > 0 && role.equals("Staff")) {
-                    ro = Constant.ROLE_STAFF;
-                }
-                if (role.length() > 0 && role.equals("Teacher")) {
-                    ro = Constant.ROLE_TEACHER;
-                }
-                Admin admin = adminDAO.getUserByEmail(dto.getFullName());
-                int roleold=admin.getRole();
-                String username=admin.getUserName();
-
-                admin.setFirstName(dto.getFirstName());
-                admin.setLastName(dto.getLastName());
-                if(dto.getPassword().length()>0) {
-                    admin.setPassword(StringUtil.md5(dto.getPassword()));
-                }
-                admin.setRole(ro);
-                adminDAO.put(admin);
-
-                    List<Company> companies = dto.getCompanies();
-                if(ro==roleold) {
-                        for (Company company : companies) {
-                            TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
-                            teacherMappingCompany.setIsDeleted(false);
-                            teacherMappingCompany.setIdCompany(company.getIdCompany());
-                            teacherMappingCompany.setCompany(company.getCompanyName());
-                            teacherMappingCompany.setUserName(dto.getFullName());
-                            teacherMappingCompanyDAO.put(teacherMappingCompany);
-                        }
-                }else{
-                    for (Company company : companies) {
-                        TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
-                        teacherMappingCompany.setIsDeleted(false);
-                        teacherMappingCompany.setIdCompany(company.getIdCompany());
-                        teacherMappingCompany.setCompany(company.getCompanyName());
-                        teacherMappingCompany.setUserName(dto.getFullName());
-                        if(ro==Constant.ROLE_STAFF){
-                            teacherMappingCompany.setType(Constant.STAFF);
-                        }else{
-                            teacherMappingCompany.setType(Constant.TEACHER);
-                        }
-                        teacherMappingCompanyDAO.put(teacherMappingCompany);
-                    }
-                }
-
-                response.getWriter().write("success");
-
-            }catch (Exception e){
-                e.getStackTrace();
-            }
-        }
-        if (request.getParameter("getCompany") != null) {
-            ClientCodeDAO clientCodeDAO = new ClientCodeDAO();
-            String role=request.getParameter("role");
-            String username=request.getParameter("username");
-            companys company=new companys();
-            try {
-                Admin admin=adminDAO.getUserByEmail(username);
-                int ro = admin.getRole();
-                if(ro==Constant.ROLE_STAFF) {
-                    List<ClientCode> clientCode = clientCodeDAO.getCompanyByStaff(username);
-                    List<ClientCode> check=clientCodeDAO.CompanyStaff(username);
-                    company.message = "success";
-                    company.clientCodes = clientCode;
-                    company.check=check;
-                    Gson gson = new Gson();
-                    String companys = gson.toJson(company);
-                    response.getWriter().write(companys);
-                }else {
-                    List<ClientCode> clientCodes = clientCodeDAO.getCompanyByTeacherName(username);
-                    List<ClientCode> check=clientCodeDAO.CompanyTeacher(username);
-                    company.message = "success";
-                    company.clientCodes = clientCodes;
-                    company.check=check;
-                    Gson gson = new Gson();
-                    String companys = gson.toJson(company);
-                    response.getWriter().write(companys);
-                }
-
-            } catch (Exception e) {
-                company.message="error";
-                company.clientCodes=null;
-                company.check=null;
-                Gson gson = new Gson();
-                String companys = gson.toJson(company);
-                response.getWriter().write(companys);
-                e.printStackTrace();
-            }
-        }
 
 
         if(request.getParameter("edittest")!=null) {
@@ -396,8 +284,6 @@ public class Admins extends HttpServlet {
                         test.content = "<select name=\"editrole\" id=\"editrole\" class=\"form-control\" required=\"required\"> ' +\n" +
                                 "            '<option value=\"Admin\">Admin</option> ' +\n" +
                                 "            '<option value=\"User\">User</option> ' +\n" +
-                                "            '<option value=\"Staff\">Staff</option> ' +\n" +
-                                "            '<option value=\"Teacher\">Teacher</option> ' +\n" +
                                 "            '</select>";
                     } else {
                         test.content = "<select name=\"editrole\" id=\"editrole\" class=\"form-control\" required=\"required\"> ' +\n" +

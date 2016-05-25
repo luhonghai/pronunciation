@@ -190,16 +190,16 @@ function validateFormAdd(){
     var students = [];
     $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
     $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
-    if(courses.length == 0 ){
+    /*if(courses.length == 0 ){
         $("#add").find(".validateMsg").html("please choose a course");
         $("#add").find(".validateMsg").show();
         return false;
-    }
-    if(students.length == 0 ){
+    }*/
+    /*if(students.length == 0 ){
         $("#add").find(".validateMsg").html("please choose a student");
         $("#add").find(".validateMsg").show();
         return false;
-    }
+    }*/
     return true;
 }
 function validateFormEdit(){
@@ -215,16 +215,16 @@ function validateFormEdit(){
     var students = [];
     $('#editCourses option:selected').map(function(a, item){ courses.push(item.value);});
     $('#editStudents option:selected').map(function(a, item){ students.push(item.value);});
-    if(courses.length == 0 ){
+    /*if(courses.length == 0 ){
         $("#edits").find(".validateMsg").html("please choose a course");
         $("#edits").find(".validateMsg").show();
         return false;
-    }
-    if(students.length == 0 ){
+    }*/
+    /*if(students.length == 0 ){
         $("#edits").find(".validateMsg").html("please choose a student");
         $("#edits").find(".validateMsg").show();
         return false;
-    }
+    }*/
     return true;
 }
 

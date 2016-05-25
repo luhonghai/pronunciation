@@ -124,7 +124,7 @@ public class ClientCodeServlet extends HttpServlet {
                 licenseCodeCompany.setIsDeleted(true);
                 licenseCodeCompanyDAO.put(licenseCodeCompany);
                 LicenseCode licenseCode=licenseCodeDAO.getByCode(licenseCodeCompanies.get(i).getCode());
-               licenseCode.setIsDeleted(true);
+                licenseCode.setIsDeleted(true);
                 licenseCodeDAO.put(licenseCode);
             }
 

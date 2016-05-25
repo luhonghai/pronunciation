@@ -107,7 +107,7 @@
               <div class="form-group">
                 <p id="UserNameExitAdd" class="UserNameExitAdd" style="color:red;margin-left:50px;display: none;">User name exits</p>
                 <label class="col-xs-4  col-sm-3 control-label ">UserName:</label>
-                <div class="col-xs-8  col-sm-9">
+                <div class="col-xs-8 col-sm-9">
                   <input autocomplete="off"  type="text" id="addusername" name="addusername" class=" form-control" style="padding-left: 0px;">
                   <p id="nameadds" class="nameadd" style="color:red; display: none;">Required field to enter data</p>
                   <p id="nameaddsemail" class="nameaddemail" style="color:red; display: none;">Email format wrong!</p>
@@ -115,13 +115,13 @@
               </div>
               <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">FirstName:</label>
-                <div class="col-xs-8  col-sm-9">
+                <div class="col-xs-8 col-sm-9">
                   <input autocomplete="off" type="text" id="addfirstname" name="addfirstname" class="col-xs-8  col-sm-9 form-control">
                 </div>
 
               </div>
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">LastName:</label>
+                <label class="col-xs-4 col-sm-3 control-label">LastName:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input autocomplete="off" type="text" id="addlastname" name="addlastname" class="col-xs-8  col-sm-9 form-control">
                 </div>
@@ -138,7 +138,7 @@
               </div>
               <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">Role:</label>
-                <div class="col-xs-4  col-sm-5">
+                <div class="col-xs-8  col-sm-9">
                   <select name="addrole" id="addrole" class="form-control" required="required">
                     <option value="Admin">Admin</option>
                     <option value="User">User</option>
@@ -147,7 +147,14 @@
                   </select>
                   <p id="roleadds" class="roleadd" style="color:red; display: none">Required field to enter data</p>
                 </div>
+              </div>
+              <div id="container-company" style="display: none" class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label">Company:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <select  class="form-control" id="select-company">
 
+                  </select>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
@@ -178,17 +185,17 @@
             <form  autocomplete="off" name="Edit" class="form-horizontal"
                   style="margin-top: 25px" id="editform">
               <input type="hidden" id="idedit" name="idedit">
-              <input type="hidden" id="usernames" name="usernames">
+              <input type="hidden" id="usernames-edit" name="usernames">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">FirstName:</label>
+                <label class="col-xs-4  col-sm-3 control-label">First Name:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input autocomplete="off" type="text" id="editfirstname" name="editfirstname" class=" form-control">
                 </div>
 
               </div>
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">LastName:</label>
+                <label class="col-xs-4  col-sm-3 control-label">Last Name:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input autocomplete="off" type="text" id="editlastname" name="editlastname" class=" form-control">
                 </div>
@@ -203,16 +210,22 @@
               </div>
               <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">Role:</label>
-                <div id="editRoles" class="col-xs-4  col-sm-5">
+                <div id="editRoles" class="col-xs-8 col-sm-9">
 
+                </div>
+              </div>
+              <div id="container-company-edit" style="display: none" class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label">Company:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <select disabled class="form-control" id="select-company-edit">
+
+                  </select>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Yes</button>
                 <button type="button" name="closeedit" id="closeedit" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-
               </div>
-
             </form>
           </div>
         </div>
@@ -240,86 +253,6 @@
         <div class="modal-footer">
           <button type="button" name="YesDelete" id="deleteItems" class="btn btn-default" >Yes</button>
           <button type="button" name="closedelete" id="closedelete" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div id="teacher" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"
-                aria-hidden="true">&times;</button>
-        <label class="modal-title" align="center" style="font-size: 250%">Mapping Teacher or Staff to Company</label>
-      </div>
-      <form  name="form-delete" >
-        <div class="modal-body">
-          <div id="container-add-company" style="height:150px;">
-            <input type="hidden" id="fullNames" name="fullNames">
-            <input type="hidden" id="firstNames" name="firstNames">
-            <input type="hidden" id="lastNames" name="lastNames">
-            <input type="hidden" id="passwords" name="passwords">
-            <input type="hidden" id="roles" name="roles">
-            <label class="col-xs-4  col-sm-4 control-label ">Company:</label>
-            <div class="col-xs-8  col-sm-8" style="padding-left: 0px;">
-              <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
-              <select style="display:none;" multiple class="form-control" id="select-company">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-
-              </select>
-            </div>
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" name="addteacher" id="addteacher" class="btn btn-default" >Yes</button>
-          <button type="button" name="closeteacer" id="closeteacer" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div id="teachers" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"
-                aria-hidden="true">&times;</button>
-        <label class="modal-title" align="center" style="font-size: 250%">Mapping Teacher or Staff to Company</label>
-      </div>
-      <form name="form-delete" >
-        <div class="modal-body">
-          <div id="container-add-company-edit" style="height:150px;">
-            <input type="hidden" id="fullNamesEdit" name="fullNamesEdit">
-            <input type="hidden" id="firstNamesEdit" name="firstNames">
-            <input type="hidden" id="lastNamesEdits" name="lastNames">
-            <input type="hidden" id="passwordsEdit" name="passwords">
-            <input type="hidden" id="rolesEdit" name="roles">
-            <label class="col-xs-4  col-sm-4 control-label ">Company:</label>
-            <div class="col-xs-8  col-sm-8" style="padding-left: 0px;">
-              <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
-              <select style="display:none;" multiple class="form-control" id="select-company-edit">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-
-              </select>
-            </div>
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" name="editteacher" id="editteacher" class="btn btn-default" >Yes</button>
-          <button type="button" name="closeeditteacer" id="closeeditteacer" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
         </div>
       </form>
     </div>

@@ -2,6 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -29,7 +30,8 @@ public class Admin implements Mirrorable {
     @Persistent
     private String lastName;
 
-
+    @NotPersistent
+    private String idCompany;
 
     @Override
     public String getId() {
@@ -85,5 +87,13 @@ public class Admin implements Mirrorable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getIdCompany() {
+        return idCompany;
+    }
+
+    public void setIdCompany(String idCompany) {
+        this.idCompany = idCompany;
     }
 }
