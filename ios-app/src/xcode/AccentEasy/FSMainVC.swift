@@ -46,11 +46,28 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
     
     var freestyleDBAdapter:FreeStyleDBAdapter!
     
+    var requestCount = 0
     
     var lessonDBAdapter: WordCollectionDbApdater!
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        Logger.log("Reset request count")
+        requestCount = 0
+        if isRecording {
+            self.microphone.stopFetchingAudio()
+            if (self.recorder != nil) {
+                self.recorder.closeAudioFile()
+                
+            }
+            self.analyzingView.switchType(AnalyzingType.DEFAULT)
+            isRecording = false
+        }
     }
     
     var isShowSlider = true
@@ -566,7 +583,8 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
         let databaseBundle = NSBundle.mainBundle()
         let dbZipPath = databaseBundle.pathForResource("fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw", ofType: "wav")
         Logger.log(dbZipPath)
-        
+        requestCount = requestCount + 1
+        let rCount = Int(requestCount)
         
         weak var weakSelf = self
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -577,61 +595,71 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
                     Logger.log(e)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        weakSelf!.showErrorAnalyzing()
-                    })
+                    if rCount == weakSelf!.requestCount {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            weakSelf!.showErrorAnalyzing()
+                        })
+                    } else {
+                        Logger.log("Request count not matched. Expected: \(weakSelf!.requestCount). Actural \(rCount)")
+                    }
                 });
+
             NSLog(weakSelf!.getTmpFilePath().path!)
             Logger.log("request token \(weakSelf!.userProfile.token)")
             client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (GlobalData.IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
                 .set("header", "headerValue")
                 .timeout(5 * 60 * 1000)
                 .end({(res:Response) -> Void in
+                    Logger.log("Current request count \(rCount). Weak view request count \(weakSelf!.requestCount). View request count \(self.requestCount)")
                     Logger.log(res)
-                    if(res.error) { // status of 2xx
-                        //handleResponseJson(res.body)
-                        //Logger.log(res.body)
-                        Logger.log(res.text)
-                        dispatch_async(dispatch_get_main_queue(),{
-                            weakSelf!.showErrorAnalyzing()
-                        })
-                    }
-                    else {
-                        //handleErrorJson(res.body)
-                        Logger.log("Analyze result \(res.text)")
-                        let result = Mapper<VoidModelResult>().map(res.text)
-                        let status:Bool = result!.status
-                        let message:String = result!.message
-                        let userVoiceModel = result!.data
-                        //  print (userVoiceModel.word)
-                        if status {
-                            userVoiceModel.score = round(userVoiceModel.score)
-                            self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
-                            weakSelf!.currentMode = userVoiceModel
-                            weakSelf!.saveDatabase(userVoiceModel)
-                            FileHelper.getFilePath("audio", directory: true)
-                            do {
-                                try FileHelper.writeFile(FileHelper.getFilePath("audio/\(userVoiceModel.id).json"), content: JSONHelper.toJson(userVoiceModel))
-                            } catch {
-                                
-                            }
-                            FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
-                            
-                            //register suceess
-                            dispatch_async(dispatch_get_main_queue(),{
-                                NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
-                                NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-                                weakSelf!.scoreResult = round(userVoiceModel.score)
-                                weakSelf!.analyzingView.willDisplayScore = true
-                            })
-                        } else {
-                            //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                    if rCount == weakSelf!.requestCount {
+                        if(res.error) { // status of 2xx
+                            //handleResponseJson(res.body)
+                            //Logger.log(res.body)
+                            Logger.log(res.text)
                             dispatch_async(dispatch_get_main_queue(),{
                                 weakSelf!.showErrorAnalyzing()
                             })
                         }
-                        //Logger.log(result?.message)
-                        //Logger.log(result?.status)
+                        else {
+                            //handleErrorJson(res.body)
+                            Logger.log("Analyze result \(res.text)")
+                            let result = Mapper<VoidModelResult>().map(res.text)
+                            let status:Bool = result!.status
+                            let message:String = result!.message
+                            let userVoiceModel = result!.data
+                            //  print (userVoiceModel.word)
+                            if status {
+                                userVoiceModel.score = round(userVoiceModel.score)
+                                self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
+                                weakSelf!.currentMode = userVoiceModel
+                                weakSelf!.saveDatabase(userVoiceModel)
+                                FileHelper.getFilePath("audio", directory: true)
+                                do {
+                                    try FileHelper.writeFile(FileHelper.getFilePath("audio/\(userVoiceModel.id).json"), content: JSONHelper.toJson(userVoiceModel))
+                                } catch {
+                                    
+                                }
+                                FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
+                                
+                                //register suceess
+                                dispatch_async(dispatch_get_main_queue(),{
+                                    NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
+                                    NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+                                    weakSelf!.scoreResult = round(userVoiceModel.score)
+                                    weakSelf!.analyzingView.willDisplayScore = true
+                                })
+                            } else {
+                                //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                                dispatch_async(dispatch_get_main_queue(),{
+                                    weakSelf!.showErrorAnalyzing()
+                                })
+                            }
+                            //Logger.log(result?.message)
+                            //Logger.log(result?.status)
+                        }
+                    } else {
+                        Logger.log("Request count not matched. Expected: \(weakSelf!.requestCount). Actural \(rCount)")
                     }
                 })
         }
@@ -698,6 +726,7 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
             self.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
             self.changeColorLoadWord()
             isRecording = false
+            requestCount = requestCount + 1
             return
         } else{
             DeviceManager.doIfConnectedToNetwork({ (status) -> Void in
@@ -1048,4 +1077,5 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
+    
 }
