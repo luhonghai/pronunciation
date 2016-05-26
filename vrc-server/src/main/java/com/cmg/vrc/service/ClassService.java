@@ -11,6 +11,7 @@ import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -164,7 +165,7 @@ public class ClassService {
         String uuid="";
         String message=null;
         try {
-            classs=classDAO.getClassName(className);
+            classs = classDAO.getClassName(className);
             if(!checkNameExisted(teacherName,null,className)) {
                 StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
                 uuid = UUIDGenerator.generateUUID();
@@ -199,10 +200,11 @@ public class ClassService {
                     courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
                     courseMappingClass.setIsDeleted(false);
                     courseMappingClassDAO.put(courseMappingClass);
-                    SqliteService generateSqlite = new SqliteService(s);
-                    generateSqlite.start();
+                  /*  SqliteService generateSqlite = new SqliteService(s);
+                    generateSqlite.start();*/
                 }
-
+                com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                util.sendNotificationWhenCreateClass(jsonClient);
                 message= "success";
             }else{
                 message= "exist";
@@ -265,20 +267,34 @@ public class ClassService {
         return false;
     }
 
-    public String editClassToDb(String teacherName, String idClass,String nameClass,String definition,String jsonClient){
+    /**
+     *
+     * @param request
+     * @param teacherName
+     * @param idClass
+     * @param nameClass
+     * @param definition
+     * @param jsonClient
+     * @return
+     */
+    public String editClassToDb(HttpServletRequest request,String teacherName, String idClass,String nameClass,String definition,String jsonClient){
         String message=null;
         try {
             //ClassJDO classJDO=new ClassJDO();
             ClassJDO classJDO = classDAO.getById(idClass);
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
+            SessionUtil sUtil = new SessionUtil();
             if(classJDO!=null) {
                 if(!checkNameExisted(teacherName,idClass,nameClass)){
+                    List<Course> listCourseDb = classDAO.getMyCoursesOnClass(idClass, sUtil.getTid(request), Constant.STATUS_PUBLISH);
+                    List<StudentMappingTeacher> listStudentDb = classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
+                    String[] listStudent = studentCourse.getStudents();
+                    String[] listCourse = studentCourse.getCourses();
                     classJDO.setClassName(nameClass);
                     classJDO.setDefinition(definition);
                     classDAO.put(classJDO);
                     classDAO.updateCourseMappingClassEdit(idClass);
                     classDAO.updateStudentMappingClassEdit(idClass);
-                    String[] listStudent = studentCourse.getStudents();
                     for (String s : listStudent) {
                         StudentMappingClass studentMappingClass = new StudentMappingClass();
                         studentMappingClass.setIdClass(idClass);
@@ -287,7 +303,6 @@ public class ClassService {
                         studentMappingClass.setIsDeleted(false);
                         studentMappingClassDAO.put(studentMappingClass);
                     }
-                    String[] listCourse = studentCourse.getCourses();
                     for (String s : listCourse) {
                         CourseMappingClass courseMappingClass = new CourseMappingClass();
                         courseMappingClass.setIdClass(idClass);
@@ -295,9 +310,11 @@ public class ClassService {
                         courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
                         courseMappingClass.setIsDeleted(false);
                         courseMappingClassDAO.put(courseMappingClass);
-                        SqliteService generateSqlite = new SqliteService(s);
-                        generateSqlite.start();
+                       /* SqliteService generateSqlite = new SqliteService(s);
+                        generateSqlite.start();*/
                     }
+                    com.cmg.merchant.util.Notification util = new com.cmg.merchant.util.Notification();
+                    util.sendNotificationWhenUpdateClass(request,listCourseDb,listStudentDb,jsonClient);
                     message = "success";
                 }else{
                     message = "name existed";
@@ -312,6 +329,7 @@ public class ClassService {
         }
         return message;
     }
+
     public String deleteClass(String idClass){
         String message=null;
         try {

@@ -10,9 +10,17 @@ import java.util.List;
 public class GcmMessage {
 
     public static final int TYPE_DATABASE = 0;
+    public static final int TYPE_INVITE = 1;
+    public static final int TYPE_UPDATE_COURSE = 2;
 
     public GcmMessage(int type) {
         this.type = type;
+        this.title = "New accenteasy message" ;
+        if(type == TYPE_INVITE){
+            this.content = "You have received a new invitation";
+        }else if(type == TYPE_UPDATE_COURSE){
+            this.content = "You have received a course update";
+        }
     }
 
     public int getType() {
@@ -70,4 +78,34 @@ public class GcmMessage {
     private Date timestamp = new Date(System.currentTimeMillis());
 
     private List<Language> languages = new ArrayList<>();
+
+    private String title;
+
+    private String content;
+
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

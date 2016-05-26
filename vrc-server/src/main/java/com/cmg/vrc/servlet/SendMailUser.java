@@ -2,10 +2,13 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.country.CountryDAO;
 import com.cmg.lesson.data.jdo.country.Country;
+import com.cmg.merchant.util.Notification;
+import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.GcmMessage;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
+import com.cmg.vrc.service.MailService;
 import com.cmg.vrc.service.MessageService;
 import com.cmg.vrc.util.StringUtil;
 import com.google.android.gcm.server.Message;
@@ -171,16 +174,21 @@ public class SendMailUser extends HttpServlet{
                     }
                 }
                 if(users!=null && users.size()>0 && notExist.size()==0) {
-                    sendGcmMessage(users,teacher);
+                    Notification util = new Notification();
+                    util.sendNotificationWhenInvite(users);
+                    //sendGcmMessage(users,teacher);
                 }
                 if(notExist.size()==0){
                     mails.message = "success";
                     mails.mailError = new ArrayList<String>();
                     mails.mailExist = new ArrayList<String>();
                 }else{
-                    mails.message="error";
-                    mails.mailError=notExist;
-                    mails.mailExist=new ArrayList<String>();;
+                    SessionUtil util = new SessionUtil();
+                    String companyName = util.getCompanyName(request);
+                    sendMailUserNotExist(notExist,admin,companyName);
+                    mails.message = "success";
+                    mails.mailError = new ArrayList<String>();
+                    mails.mailExist = new ArrayList<String>();
                 }
                 String listMails = gson.toJson(mails);
                 response.getWriter().write(listMails);
@@ -362,6 +370,42 @@ public class SendMailUser extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }
+
+
+    /**
+     *
+     * @param emails
+     * @param admin
+     * @param companyName
+     */
+    private void sendMailUserNotExist(List<String> emails, Admin admin, String companyName){
+        StudentMappingTeacherDAO studentMappingTeacherDAO =new StudentMappingTeacherDAO();
+        if(emails!=null && emails.size() > 0){
+            for(String email : emails){
+                try {
+                    MailService mailService = new MailService();
+                    mailService.sendEmail(email, "Invitation to connect with your teacher on accenteasy", mailService.generateEmailInviteUserNotExisted(email, admin.getFirstName(), admin.getLastName(), companyName));
+                    StudentMappingTeacher tmp= studentMappingTeacherDAO.getByStudentAndTeacher(email,admin.getUserName());
+                    if(tmp == null){
+                        StudentMappingTeacher stm=new StudentMappingTeacher();
+                        stm.setStudentName(email);
+                        stm.setTeacherName(admin.getUserName());
+                        stm.setFirstTeacherName(admin.getFirstName());
+                        stm.setLastTeacherName(admin.getLastName());
+                        stm.setIsDeleted(false);
+                        stm.setLicence(false);
+                        stm.setMappingBy(Constant.TEACHER);
+                        stm.setStatus(Constant.STATUS_PENDING);
+                        studentMappingTeacherDAO.put(stm);
+                    }
+
+                }catch (Exception e){
+                }
+            }
+        }
+    }
+
+
     private void sendGcmMessage(List<User> users,String teacher) {
         try {
             appendMessage("Send notification to all user devices");

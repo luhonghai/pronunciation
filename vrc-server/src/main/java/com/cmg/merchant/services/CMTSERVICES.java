@@ -7,6 +7,7 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.services.generateSqlite.SqliteService;
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 
 import java.util.ArrayList;
@@ -32,6 +33,10 @@ public class CMTSERVICES {
         try {
             CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
             dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
+            try {
+                SqliteService generateSqlite = new SqliteService(idCourse);
+                generateSqlite.clearData();
+            }catch (Exception e){}
             return SUCCESS;
         }catch (Exception e){
             e.printStackTrace();

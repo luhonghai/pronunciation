@@ -52,13 +52,12 @@ public class ClassServlet extends HttpServlet {
             String idClass=request.getParameter("id");
             String list = classService.openEditClass(teacherName,idClass,util.getTid(request),util.getCpId(request));
             response.getWriter().write(list);
-
         }else if(action.equalsIgnoreCase("editClass")){
             String idClass=request.getParameter("id");
             String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
             String definition= (String) StringUtil.isNull(request.getParameter("difinition"),"");
             String name = (String) StringUtil.isNull(request.getParameter("classname"), "");
-            String list = classService.editClassToDb(teacherName,idClass, name, definition, jsonClient);
+            String list = classService.editClassToDb(request,teacherName,idClass, name, definition, jsonClient);
             response.getWriter().write(list);
         }else if(action.equalsIgnoreCase("deleteClass")){
             String idClass=request.getParameter("id");
