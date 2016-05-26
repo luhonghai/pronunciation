@@ -20,6 +20,7 @@ class IPAInfoPopup: UIViewController {
     @IBOutlet weak var btnVideo: UIButton!
     var delegate: IPAPopupViewControllerDelegate?
     
+    @IBOutlet weak var btnUp: UIButton!
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
     
@@ -28,6 +29,33 @@ class IPAInfoPopup: UIViewController {
     @IBAction func playVideo(sender: AnyObject) {
         let youtubePlayer = YouTubePlayer()
         youtubePlayer.show(selectedIpa.youtubeVideoId)
+    }
+    @IBAction func clickUp(sender: AnyObject) {
+        delegate!.goToViewController(nil, vcId: "FSMainVC")
+        delay(0.1) {
+            let words = self.selectedIpa.getWordList()
+            if words.count > 0 {
+                let lessonDBAdapter = WordCollectionDbApdater()
+                var count = 0
+                var selectedWord = ""
+                while count < 10 {
+                    let randomIndex = Int(arc4random_uniform(UInt32(words.count)))
+                    do {
+                        if let word: WordCollection = try lessonDBAdapter.findByWord(words[randomIndex]) {
+                            selectedWord = word.word
+                            Logger.log("Choose word \(selectedWord) for phoneme \(self.selectedIpa.arpabet)")
+                            break
+                        }
+                    } catch {
+                        
+                    }
+                    count = count + 1
+                }
+                if !selectedWord.isEmpty {
+                    NSNotificationCenter.defaultCenter().postNotificationName("loadWord", object: selectedWord)
+                }
+            }
+        }
     }
     
     @IBAction func clickClose(sender: AnyObject) {
@@ -50,6 +78,7 @@ class IPAInfoPopup: UIViewController {
         btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
         btnPlay.layer.cornerRadius = btnPlay.frame.width / 2
+        btnUp.layer.cornerRadius = btnUp.frame.width / 2
         
         btnVideo.layer.cornerRadius = btnPlay.frame.width / 2
         btnVideo.hidden = selectedIpa.youtubeVideoId == nil || selectedIpa.youtubeVideoId.isEmpty

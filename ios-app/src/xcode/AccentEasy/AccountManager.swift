@@ -239,6 +239,7 @@ class AccountManager {
                     let result:AvgPhonemeScore = JSONHelper.fromJson(res.text!)
                     if result.data != nil {
                         Logger.log("Avg phoneme score count \(result.data?.count)")
+                        userProfile.phonemeScores = result.data!
                     }
                     completion(userProfile: userProfile, success: result.status!, message: result.message!)
                 }
@@ -439,16 +440,15 @@ class AccountManager {
                     session.courses = arrAECourse
                     if DatabaseHelper.updateCourses(session) {
                         userProfile.courseSession = session
-                        completion(userProfile: userProfile, success: true, message: "success")
-                        
+                        getAvgPhonemeScore(userProfile) { (userProfile, success, message) in
+                            completion(userProfile: userProfile, success: true, message: "success")
+                        }
                     } else {
                         completion(userProfile: userProfile, success: false, message: "could not fetch course databases")
                     }
                 }
             })
-        getAvgPhonemeScore(userProfile) { (userProfile, success, message) in
-            
-        }
+       
     }
     
     class func getInvitationData(userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {

@@ -519,4 +519,8 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
         super.viewDidDisappear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordSelected.word)
     }
+    
+    func goToViewController(sender: IPAPopupVC?, vcId: String) {
+        
+    }
 }

@@ -53,6 +53,8 @@ public class UserProfile: Mappable {
     
     public var courseSession = AECourseSession()
     
+    public var phonemeScores = [String: Int]()
+    
     /*private String ;
     private List<LicenseData> ;*/
     

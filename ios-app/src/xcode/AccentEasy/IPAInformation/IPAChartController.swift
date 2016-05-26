@@ -11,6 +11,11 @@ import SloppySwiper
 class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate,
  UIGestureRecognizerDelegate {
     
+    enum IPAChartMode {
+        case HEAR_PHONEME
+        case VIEW_MY_SCORE
+    }
+    
     @IBOutlet weak var collectionIPA: UICollectionView!
     
     var dbAdapter: WordCollectionDbApdater!
@@ -21,6 +26,8 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
     var selectedType = IPAMapArpabet.VOWEL
     
+    var selectedMode = IPAChartMode.VIEW_MY_SCORE
+    
     var player: EZAudioPlayer!
     
     var selectedIpa: IPAMapArpabet!
@@ -28,6 +35,8 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     var swiper: SloppySwiper!
     
     var popup:IPAInfoPopup!
+    
+    var userProfile: UserProfile!
     
     @IBOutlet weak var lblTitle: UILabel!
     
@@ -51,6 +60,7 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         } catch {
             
         }
+        userProfile = AccountManager.currentUser()
         if selectedType == IPAMapArpabet.VOWEL {
             lblTitle.text = "vowels"
         } else {
@@ -88,14 +98,32 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    
+        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! IPAChartCell
         let ipa = ipaList[indexPath.item]
         cell.lblIPA.text = ipa.ipa
-        if ipa.color != nil && !ipa.color.isEmpty {
-            cell.lblIPA.backgroundColor = Multimedia.colorWithHexString(ipa.color)
+        if selectedMode == IPAChartMode.HEAR_PHONEME {
+            if ipa.color != nil && !ipa.color.isEmpty {
+                cell.lblIPA.backgroundColor = Multimedia.colorWithHexString(ipa.color)
+            } else {
+                cell.lblIPA.backgroundColor = ColorHelper.APP_DEFAULT
+            }
         } else {
-            cell.lblIPA.backgroundColor = ColorHelper.APP_DEFAULT
+            if let score = userProfile.phonemeScores[ipa.arpabet] {
+                if score >= 0 {
+                    if score >= 80 {
+                        cell.lblIPA.backgroundColor = ColorHelper.APP_GREEN
+                    } else if score >= 45 {
+                        cell.lblIPA.backgroundColor = ColorHelper.APP_ORANGE
+                    } else {
+                        cell.lblIPA.backgroundColor = ColorHelper.APP_RED
+                    }
+                } else {
+                    cell.lblIPA.backgroundColor = ColorHelper.APP_GRAY
+                }
+            } else {
+                cell.lblIPA.backgroundColor = ColorHelper.APP_GRAY
+            }
         }
         cell.layer.cornerRadius = 10
         return cell
@@ -195,4 +223,9 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
     
+    func goToViewController(sender: IPAPopupVC?, vcId: String) {
+        self.dismissPopupViewController(SLpopupViewAnimationType.Fade)
+        let nextController = self.storyboard?.instantiateViewControllerWithIdentifier(vcId)
+        self.navigationController?.pushViewController(nextController!, animated: false)
+    }
 }

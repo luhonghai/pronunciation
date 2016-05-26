@@ -732,4 +732,8 @@ class LessonDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollec
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
+    
+    func goToViewController(sender: IPAPopupVC?, vcId: String) {
+        
+    }
 }

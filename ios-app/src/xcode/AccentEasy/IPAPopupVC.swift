@@ -11,6 +11,7 @@ import UIKit
 protocol IPAPopupViewControllerDelegate {
     func pressPlayExample(sender: IPAPopupVC?)
     func pressShowChart(sender: IPAPopupVC?)
+    func goToViewController(sender: IPAPopupVC?, vcId: String)
 }
 
 class IPAPopupVC: UIViewController {
