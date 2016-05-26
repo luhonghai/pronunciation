@@ -18,6 +18,7 @@ class LaunchImageVC: UIViewController {
     var currentDate:NSDate = NSDate()
     var startSecond:Double!
     var isShowLoadding = false
+    var isExistedDatabase = false
     
     var currentUser: UserProfile!
     
@@ -36,6 +37,7 @@ class LaunchImageVC: UIViewController {
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
         
         weak var weakSelf = self;
+        isExistedDatabase = FileHelper.isExists(DatabaseHelper.getLessonDatabaseFile()!, directory: false)
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             DatabaseHelper.checkDatabaseVersion() {(success) -> Void in
@@ -46,7 +48,17 @@ class LaunchImageVC: UIViewController {
                 lessonDBAdapter.prepare()
                 if !success {
                     //TODO show alert no database found
-                    print ("error checkDatabaseVersion")
+                    Logger.log("error checkDatabaseVersion")
+                    dispatch_async(dispatch_get_main_queue(),{
+                        
+                        SweetAlert().showAlert("Could not download database", subTitle: "Unable to open due to a poor network connection. Please try again later.", style: AlertStyle.Error, buttonTitle: "Ok") {(isOk) -> Void in
+                            //if isOk == true {
+                                //self.performSegueWithIdentifier("ConfirmRegisterGoToLogin", sender: self)
+                            //}
+                            //UIControl().sendAction(Selector("suspend"), to: UIApplication.sharedApplication(), forEvent: nil)
+                            exit(0)
+                        }
+                    })
                 } else {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                         let wordCollectionDb = WordCollectionDbApdater()
@@ -86,7 +98,11 @@ class LaunchImageVC: UIViewController {
         }
         
         if (currentDate.timeIntervalSince1970 - startSecond >= 10) && !isShowLoadding{
-            showLoadding("installing...")
+            if isExistedDatabase {
+                showLoadding("loading...")
+            } else {
+                showLoadding("installing...")
+            }
             isShowLoadding = true
         }
 

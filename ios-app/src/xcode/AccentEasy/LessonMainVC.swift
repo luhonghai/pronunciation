@@ -39,6 +39,8 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
     
     var swiper: SloppySwiper!
     
+    var requestCount = 0
+    
     //@IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnRecord: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
@@ -56,6 +58,22 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+       
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        Logger.log("Reset request count")
+        requestCount = 0
+        if isRecording {
+            self.microphone.stopFetchingAudio()
+            if (self.recorder != nil) {
+                self.recorder.closeAudioFile()
+                
+            }
+            self.analyzingView.switchType(AnalyzingType.DEFAULT)
+            isRecording = false
+        }
     }
     
     var isShowSlider = true
@@ -119,7 +137,26 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         
     }
     
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if indexCurrentQuestion == nil {
+            indexCurrentQuestion = 0
+        }
+        
+        let numberOfSections = self.cvQuestionList.numberOfSections()
+        //print("numberOfSections \(numberOfSections)")
+        let numberOfRows = indexCurrentQuestion
+        //self.cvQuestionList.numberOfItemsInSection(numberOfSections-1)
+        //print("numberOfRows \(numberOfRows)")
+        if numberOfRows > 0 {
+            dispatch_async(dispatch_get_main_queue(), {
+                let indexPath = NSIndexPath(forRow: numberOfRows-1, inSection: (numberOfSections-1))
+                self.cvQuestionList.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: true)
+            })
+        }
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -384,10 +421,6 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-        
-    }
-    
     override func viewDidLayoutSubviews() {
         roundButton()
     }
@@ -459,7 +492,8 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         let databaseBundle = NSBundle.mainBundle()
         let dbZipPath = databaseBundle.pathForResource("fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw", ofType: "wav")
         Logger.log(dbZipPath)
-        
+        requestCount = requestCount + 1
+        let rCount = Int(requestCount)
         
         weak var weakSelf = self
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -470,9 +504,13 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
                     Logger.log(e)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        weakSelf!.showErrorAnalyzing()
-                    })
+                    if rCount == weakSelf!.requestCount {
+                        dispatch_async(dispatch_get_main_queue(),{
+                            weakSelf!.showErrorAnalyzing()
+                        })
+                    } else {
+                        Logger.log("Request count not matched. Expected: \(weakSelf!.requestCount). Actural \(rCount)")
+                    }
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
             let question = weakSelf!.arrQuestionOfLC[weakSelf!.indexCurrentQuestion]
@@ -496,55 +534,61 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
                 .timeout(5 * 60 * 1000)
                 .end({(res:Response) -> Void in
                     Logger.log(res)
-                    if(res.error) { // status of 2xx
-                        //handleResponseJson(res.body)
-                        //Logger.log(res.body)
-                        Logger.log(res.text)
-                        dispatch_async(dispatch_get_main_queue(),{
-                            weakSelf!.showErrorAnalyzing()
-                        })
-                    }
-                    else {
-                        //handleErrorJson(res.body)
-                        Logger.log("Analyze result \(res.text)")
-                        let result = Mapper<VoidModelResult>().map(res.text)
-                        let status:Bool = result!.status
-                        let message:String = result!.message
-                        let userVoiceModel = result!.data
-                        
-                        //  print (userVoiceModel.word)
-                        if status {
-                            userVoiceModel.score = round(userVoiceModel.score)
-                            //TODO remove it
-                            //userVoiceModel.score = 99
-                            self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
-                            weakSelf!.currentMode = userVoiceModel
-                            weakSelf!.saveDatabase(userVoiceModel)
-                            FileHelper.getFilePath("audio", directory: true)
-                            do {
-                                try FileHelper.writeFile(FileHelper.getFilePath("audio/\(userVoiceModel.id).json"), content: JSONHelper.toJson(userVoiceModel))
-                            } catch {
-                                
-                            }
-                            FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
-                            
-                            //register suceess
-                            dispatch_async(dispatch_get_main_queue(),{
-                                NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
-                                NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-                                NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
-                                weakSelf!.analyzingView.willDisplayScore = true
-                            })
-                            
-                            
-                        } else {
-                            //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                    Logger.log("Current request count \(rCount). Weak view request count \(weakSelf!.requestCount). View request count \(self.requestCount)")
+                    if rCount == weakSelf!.requestCount {
+                        if(res.error) { // status of 2xx
+                            //handleResponseJson(res.body)
+                            //Logger.log(res.body)
+                            Logger.log(res.text)
                             dispatch_async(dispatch_get_main_queue(),{
                                 weakSelf!.showErrorAnalyzing()
                             })
                         }
-                        //Logger.log(result?.message)
-                        //Logger.log(result?.status)
+                        else {
+                            DeviceManager.showLockScreen()
+                            //handleErrorJson(res.body)
+                            Logger.log("Analyze result \(res.text)")
+                            let result = Mapper<VoidModelResult>().map(res.text)
+                            let status:Bool = result!.status
+                            let message:String = result!.message
+                            let userVoiceModel = result!.data
+                            
+                            //  print (userVoiceModel.word)
+                            if status {
+                                userVoiceModel.score = round(userVoiceModel.score)
+                                //TODO remove it
+                                //userVoiceModel.score = 99
+                                self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
+                                weakSelf!.currentMode = userVoiceModel
+                                weakSelf!.saveDatabase(userVoiceModel)
+                                FileHelper.getFilePath("audio", directory: true)
+                                do {
+                                    try FileHelper.writeFile(FileHelper.getFilePath("audio/\(userVoiceModel.id).json"), content: JSONHelper.toJson(userVoiceModel))
+                                } catch {
+                                    
+                                }
+                                FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
+                                
+                                //register suceess
+                                dispatch_async(dispatch_get_main_queue(),{
+                                    NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
+                                    NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+                                    NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
+                                    weakSelf!.analyzingView.willDisplayScore = true
+                                })
+                                
+                                
+                            } else {
+                                //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                                dispatch_async(dispatch_get_main_queue(),{
+                                    weakSelf!.showErrorAnalyzing()
+                                })
+                            }
+                            //Logger.log(result?.message)
+                            //Logger.log(result?.status)
+                        }
+                    } else {
+                        Logger.log("Request count not matched. Expected: \(weakSelf!.requestCount). Actural \(rCount)")
                     }
                 })
         }
@@ -552,6 +596,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
     
     func openDetailView(model: UserVoiceModel) {
         DeviceManager.showLockScreen()
+        print("openDetailView LockScreen()")
         let lessonDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("LessonDetailVC") as! LessonDetailVC
         lessonDetailVC.userVoiceModelResult = model
         lessonDetailVC.arrQuestionOfLC = arrQuestionOfLC
@@ -560,6 +605,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
         lessonDetailVC.objectiveScore = objectiveScore
         lessonDetailVC.testScore = testScore
         lessonDetailVC.isLessonCollection = isLessonCollection
+        lessonDetailVC.indexCurrentQuestion = indexCurrentQuestion
         self.navigationController?.pushViewController(lessonDetailVC, animated: true)
     }
     
@@ -610,6 +656,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             self.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
             self.changeColorLoadWord()
             isRecording = false
+            requestCount = requestCount + 1
             ennableViewRecord()
             return
         } else{
@@ -622,7 +669,7 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
                 self.isRecording = true
                 self.analyzingView.clear()
                 self.microphone.startFetchingAudio()
-                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.M4A, delegate: self)
+                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.AIFF, delegate: self)
                 self.analyzingView.switchType(AnalyzingType.RECORDING)
                 }
             })
@@ -964,6 +1011,8 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
 
     }
     
+    //var isreloadQuestion = false
+    
     // MARK: - UICollectionViewDelegate protocol
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
@@ -974,13 +1023,25 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             if !isLessonCollection{
                 //test lesson colection, one recoder per test
                 if arrQuestionOfLC[indexCurrentQuestion].isTestLook {
+                    //isreloadQuestion = true
                     indexCurrentQuestion = indexPath.item
+                    print("reloadQuestion")
                     reloadQuestion(indexCurrentQuestion)
                     return
                 }
             }
             indexCurrentQuestion = indexPath.item
             Logger.log(indexCurrentQuestion)
+            
+            
+            Logger.log("word of question: \(question.listWord.count)")
+            /*if question.listWord.count < 2 && !isLessonCollection {
+                return
+            } else if question.listWord.count < 2 && isLessonCollection {
+                indexCurrentQuestion = indexPath.item
+                reloadQuestion(indexCurrentQuestion)
+                return
+            }*/ 
             disableViewSelectQuestion()
             randomWord(question)
         }
@@ -989,8 +1050,11 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
     func randomWord(question:AEQuestion){
         isShowDetail = false
         var randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
-        while question.listWord[randomIndex].word == selectedWord.word {
-            randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+        if question.listWord.count > 1 {
+            while question.listWord[randomIndex].word == selectedWord.word {
+                print(randomIndex)
+                randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+            }
         }
         selectedWord = question.listWord[randomIndex]
         //question.selectedWord = selectedWord
@@ -1028,8 +1092,9 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             selectedWord = word
             //self.chooseWord(selectedWord.word)
             //var score =  arrQuestionOfLesson[cellIndex].listScore[arrQuestionOfLesson[cellIndex].listScore.count-1]
+            weak var weakSelf = self
             delay(1, closure: {
-                GlobalData.getInstance().selectedWord = self.currentMode.word
+                GlobalData.getInstance().selectedWord = weakSelf!.currentMode.word
                 NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.currentMode.word)
                 NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                 NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: self.currentMode.word)
@@ -1225,13 +1290,15 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
             self.arrQuestionOfLC[self.indexCurrentQuestion].selectedWord = self.selectedWord
             self.cvQuestionList.reloadData()
             weak var weakSelf = self
-            //move detail screen
-            DeviceManager.showLockScreen()
-            delay(0.8, closure: { 
-                if self.isShowDetail {
+            
+            if weakSelf!.isShowDetail {
+                //move detail screen
+                DeviceManager.showLockScreen()
+                print("onAnimationMax LockScreen()")
+                delay(0.8, closure: {
                     weakSelf!.openDetailView(weakSelf!.currentMode)
-                }
-            })
+                })
+            }
            
             self.analyzingView.didCompleteDisplayScore = false
         }
