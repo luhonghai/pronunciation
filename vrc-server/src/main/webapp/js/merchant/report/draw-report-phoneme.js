@@ -18,11 +18,11 @@ function drawReport(data){
         },
         xaxis: {
             mode: "time",
-            //timeformat:"%d/%m/%Y %H:%M:%S",
-            //tickSize : [12, "month"],
+            timeformat:"%d/%m/%Y",
+            tickSize : [12, "month"],
             axisLabel: "Time",
-            min : data[0][0],
-            max : data[data.length-1][0]
+            //min : min_x - 1000,
+            //max : max_x + 1000
         },
         yaxis: {
             min : 0,
@@ -35,7 +35,7 @@ function drawReport(data){
             backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
             axisMargin: 10
         }, hooks: {
-            draw: []
+            draw: [raw]
         }
     };
     var chart =  $.plot($("#placeholder"), dataset, options);
