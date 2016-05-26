@@ -31,6 +31,9 @@ public class ReportsLessons extends HttpServlet {
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         ReportLessonService service=new ReportLessonService();
         Gson gson=new Gson();
         String action=(String) StringUtil.isNull(request.getParameter("action"),"");

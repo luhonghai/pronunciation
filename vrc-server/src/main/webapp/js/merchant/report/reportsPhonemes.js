@@ -1,17 +1,42 @@
 var avg;
 var servlet = "/ReportsPhonemes";
 var dataReport;
-function listStudents(){
+function getProcessBar(){
+    return $("#process-bar");
+}
+function showAllParam(){
+    $('.param').each(function(){
+        $(this).show();
+    });
+}
+
+function hideAllParam(){
+    $('.param').each(function(){
+        $(this).hide();
+    });
+}
+function loadData(){
+    hideAllParam();
+    getProcessBar().show();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 20,
+        onFinish: function () {
+            getProcessBar().delay(2000).hide();
+            showAllParam();
+            progress.progressTimer('destroy');
+        }
+    });
         $.ajax({
             url: servlet,
             type: "POST",
             dataType: "json",
             data: {
-                action: "loadStudent"
+                action: "load"
             },
             success: function (data) {
                 if(data.message=="success"){
                     $("#listUsers").empty();
+                    $("#listPhonemes").empty();
                     $('#listUsers').removeAttr("disabled");
                     if(data.listStudent!=null && data.listStudent.length>0){
                         var items=data.listStudent;
@@ -23,64 +48,64 @@ function listStudents(){
                     $('#listUsers').multiselect('destroy');
                     $('#listUsers').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
                     $('#listUsers').multiselect('refresh');
+
+                    if(data.listPhonemes!=null && data.listPhonemes.length>0){
+                        var items= data.listPhonemes;
+                        for(var i=0;i<items.length;i++){
+                            $("#listPhonemes").append('<option value="' + items[i].arpabet + '">' + items[i].ipa + '</option>');
+                        }
+                        $('#listPhonemes').multiselect('destroy');
+                        $('#listPhonemes').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
+                        $('#listPhonemes').multiselect('refresh');
+                    }
                 }else{
                     $('#listUsers').attr("disabled","disabled");
                     $('#listUsers').multiselect('destroy');
                     $('#listUsers').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
                     $('#listUsers').multiselect('refresh');
+                    $('#listPhonemes').attr("disabled","disabled");
+                    $('#listPhonemes').multiselect('destroy');
+                    $('#listPhonemes').multiselect({ enableFiltering: true, buttonWidth: '50px'});
+                    $('#listPhonemes').multiselect('refresh');
                 }
             },
             error: function () {
                 swalNew("", "could not connect to server", "error");
             }
 
+        }).error(function(){
+            progress.progressTimer('error', {
+                errorText:'ERROR!',
+                onFinish:function(){
+                    swalNew("", "could not connect to server", "error");
+                }
+            });
+        }).done(function(){
+            progress.progressTimer('complete');
         });
 }
-function listPhonemes(){
-    $.ajax({
-        url: servlet,
-        type: "POST",
-        dataType: "json",
-        data: {
-            action: "loadPhonemes"
-        },
-        success: function (data) {
-            $("#listPhonemes").empty();
-            if(data.listPhonemes!=null && data.listPhonemes.length>0){
-                    var items=data.listPhonemes;
-                    for(var i=0;i<items.length;i++){
-                        $("#listPhonemes").append('<option value="' + items[i].arpabet + '">' + items[i].ipa + '</option>');
-                    }
-                    $('#listPhonemes').multiselect('destroy');
-                    $('#listPhonemes').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '50px'});
-                    $('#listPhonemes').multiselect('refresh');
-            }else{
-                $('#listPhonemes').attr("disabled","disabled");
-                $('#listPhonemes').multiselect('destroy');
-                $('#listPhonemes').multiselect({ enableFiltering: true, buttonWidth: '50px'});
-                $('#listPhonemes').multiselect('refresh');
-                swalNew("", "an error has been occurred in server", "error");
-                $('.row').hide();
-            }
 
-        },
-        error: function () {
-            swalNew("", "could not connect to server", "error");
-        }
-
-    });
-}
 function loadInfo(){
     $(document).on("click","#loadInfo",function(){
         var studentName = $('#listUsers option:selected').val();
         var phoneme = $("#listPhonemes").val();
         var dateFrom = $("#dateFrom").val();
-        var dateTo = $("#dateTo").val();
-        loadDataReport(studentName,phoneme,dateFrom,dateTo);
+        var type = $("#period").val();
+        loadDataReport(studentName,phoneme,dateFrom,type);
     })
 }
 
-function loadDataReport(studentName,phoneme,dateFrom,dateTo){
+function loadDataReport(studentName,phoneme,dateFrom,type){
+    hideAllParam();
+    getProcessBar().show();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 20,
+        onFinish: function () {
+            getProcessBar().delay(2000).hide();
+            showAllParam();
+            progress.progressTimer('destroy');
+        }
+    });
     $.ajax({
         url: servlet,
         type: "POST",
@@ -90,9 +115,13 @@ function loadDataReport(studentName,phoneme,dateFrom,dateTo){
             studentName:studentName,
             phoneme:phoneme,
             dateFrom:dateFrom,
-            dateTo:dateTo
+            type : type
         },
         success: function (data) {
+            if(data == null){
+                swalNew("", "we could not found any data to build the report", "error");
+                return;
+            }
             var arrayTime = [];
             var arrayScore = [];
             var tmp = data.listScorePhonemes;
@@ -107,8 +136,10 @@ function loadDataReport(studentName,phoneme,dateFrom,dateTo){
             }
 
             if(checkInValid){
-                swalNew("", "We could not found any data to build the report", "error");
+                swalNew("", "we could not found any data to build the report", "error");
             }else{
+                $("#report-popup").attr("sdate",data.dateStart);
+                $("#report-popup").attr("edate",data.dateEnd);
                 $("#report-popup").attr("times",arrayTime);
                 $("#report-popup").attr("scores",arrayScore);
                 $("#report-popup").modal('show');
@@ -118,6 +149,15 @@ function loadDataReport(studentName,phoneme,dateFrom,dateTo){
             swalNew("", "could not connect to server", "error");
         }
 
+    }).error(function(){
+        progress.progressTimer('error', {
+            errorText:'ERROR!',
+            onFinish:function(){
+                swalNew("", "could not connect to server", "error");
+            }
+        });
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 }
 
@@ -125,6 +165,8 @@ function openReportPreview(){
     $("#report-popup").on('shown.bs.modal', function () {
         var times = $("#report-popup").attr("times").split(",");
         var scores = $("#report-popup").attr("scores").split(",");
+        var sdate = $("#report-popup").attr("sdate");
+        var edate = $("#report-popup").attr("edate");
         var data = [];
         var topScore = 0;
         for(var i = 0 ; i < times.length; i++){
@@ -151,12 +193,11 @@ function fillDataReport(topscore){
 }
 function dateFrom(){
     $('#dateFrom').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'DD/MM/YYYY',
+        maxDate: 'now'
     }).on('dp.change',function(e){
-        console.log(e);
         var dateF = $(this).val();
-        var dateT = $('#dateTo').val();
-        if(dateF!= "" && dateF.length > 0 && dateT!="" && dateT.length > 0){
+        if(dateF!= "" && dateF.length > 0){
             var sName = $('#listUsers option:selected').val();
             if(sName!=null && typeof sName !="undefined"){
                 $("#loadInfo").removeAttr("disabled");
@@ -164,22 +205,7 @@ function dateFrom(){
         }else{
             $("#loadInfo").attr("disabled","disabled");
         }
-    });
-}
-function dateTo(){
-    $('#dateTo').datetimepicker({
-        format: 'DD/MM/YYYY'
-    }).on('dp.change',function(e){
-        var dateF =  $('#dateFrom').val();
-        var dateT = $(this).val();
-        if(dateF!= "" && dateF.length > 0 && dateT!="" && dateT.length > 0){
-            var sName = $('#listUsers option:selected').val();
-            if(sName!=null && typeof sName !="undefined"){
-                $("#loadInfo").removeAttr("disabled");
-            }
-        }else{
-            $("#loadInfo").attr("disabled","disabled");
-        }
+        $('#dateFrom').blur();
     });
 }
 
@@ -192,15 +218,20 @@ function help(){
         $("#helpReportModal").modal('show');
     });
 }
+
+function initPeriod(){
+    $('#period').multiselect('destroy');
+    $('#period').multiselect({ enableFiltering: true, buttonWidth: '200px'});
+    $('#period').multiselect('refresh');
+}
 $(document).ready(function(){
     help();
     dateFrom();
-    dateTo();
     loadInfo();
-    listStudents();
-    listPhonemes();
+    loadData();
     openReportPreview();
     mouseOverChart();
     collapseMenu();
+    initPeriod();
 });
 

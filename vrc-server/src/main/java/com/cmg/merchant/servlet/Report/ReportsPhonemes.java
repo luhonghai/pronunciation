@@ -32,18 +32,21 @@ public class ReportsPhonemes extends BaseServlet {
         String teacherName= (String) StringUtil.isNull(request.getSession().getAttribute("username").toString(),"");
         String action = (String) StringUtil.isNull(request.getParameter("action"),"");
         String result = "error";
-        if(action.equalsIgnoreCase("loadStudent")){
-            result = service.generateListStudent(teacherName);
+        if(action.equalsIgnoreCase("load")){
+            result = service.loadData(teacherName);
+            response.getWriter().println(result);
+        }else  if(action.equalsIgnoreCase("loadStudent")){
+            //result = service.generateListStudent(teacherName);
             response.getWriter().println(result);
         }else if(action.equalsIgnoreCase("loadPhonemes")){
-            result = service.generatePhonemeList();
+            //result = service.generatePhonemeList();
             response.getWriter().println(result);
         }else if(action.equalsIgnoreCase("getReportData")){
             String studentName = (String) StringUtil.isNull(request.getParameter("studentName"),"");
             String arpabet = (String) StringUtil.isNull(request.getParameter("phoneme"),"");
             String startDate = (String) StringUtil.isNull(request.getParameter("dateFrom"),"");
-            String endDate = (String) StringUtil.isNull(request.getParameter("dateTo"),"");
-            result = service.generateDataDrawLineChart(studentName,arpabet,startDate,endDate);
+            String type = (String) StringUtil.isNull(request.getParameter("type"),"");
+            result = service.generateDataDrawLineChart(studentName,arpabet,startDate,type);
             response.getWriter().println(result);
         }
     }

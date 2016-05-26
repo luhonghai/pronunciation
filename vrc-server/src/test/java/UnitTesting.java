@@ -49,6 +49,7 @@ import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.LessonServices;
 import com.cmg.merchant.services.QuestionServices;
 import com.cmg.merchant.services.Report.ReportLessonService;
+import com.cmg.merchant.services.Report.ReportPhonemeService;
 import com.cmg.merchant.services.Sync.CourseSyncService;
 import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.data.dao.impl.*;
@@ -306,8 +307,18 @@ public class UnitTesting {
 //            Admin adm = dao.getUserByEmailPassword(usn.toLowerCase(),StringUtil.md5("123"));
 //            System.out.println(adm.getUserName());
 
-            CMTSERVICES cmtservices = new CMTSERVICES();
-            cmtservices.generateAllPublishCourse();
+       /*     CMTSERVICES cmtservices = new CMTSERVICES();
+            cmtservices.generateAllPublishCourse();*/
+            ReportPhonemeService service = new ReportPhonemeService();
+            /*String s = service.generateReportWeek("anh.nguyen@c-mg.com","Z","18/05/2016");
+            System.out.println(s);*/
+          /*  Date d = service.getDayInNextMonth("01/05/2016");
+            System.out.println(d);*/
+            DateUtil util = new DateUtil();
+            ArrayList<Date> list = util.initHourInDay("25/05/2016");
+            for(Date d : list){
+                System.out.println(d);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

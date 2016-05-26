@@ -18,11 +18,11 @@ function drawReport(data){
         },
         xaxis: {
             mode: "time",
-            timeformat:"%d/%m/%Y %H:%M:%S",
-            tickSize : [12, "month"],
+            //timeformat:"%d/%m/%Y %H:%M:%S",
+            //tickSize : [12, "month"],
             axisLabel: "Time",
-            //min : min_x - 1000,
-            //max : max_x + 1000
+            min : data[0][0],
+            max : data[data.length-1][0]
         },
         yaxis: {
             min : 0,
@@ -35,17 +35,19 @@ function drawReport(data){
             backgroundColor: { colors: ["#ffffff", "#EDF5FF"] },
             axisMargin: 10
         }, hooks: {
-            draw: [raw]
+            draw: []
         }
     };
     var chart =  $.plot($("#placeholder"), dataset, options);
 }
 function raw(plot, ctx){
+    var min = $("#report-popup").attr("sdate");
+    var max = $("#report-popup").attr("edate");
     var data = plot.getData();
     var axes = plot.getAxes();
     var offset = plot.getPlotOffset();
     var bottom = axes.yaxis.p2c(0)+offset.top;
-    var min = $("#dateFrom").val();
+    /*var min = $("#dateFrom").val();*/
     var min_series = data[0];
     var min_d = (min_series.data[0]);
     var minx = offset.left + axes.xaxis.p2c(min_d[0]);
@@ -54,7 +56,7 @@ function raw(plot, ctx){
     //console.log(minx);console.log(miny);console.log(plot);
     ctx.fillText(min, offset.left,bottom +plot.height()/20);
 
-    var max = $("#dateTo").val();
+  /*  var max = $("#dateTo").val();*/
     var max_series = data[data.length - 1];
     var max_d = (max_series.data[max_series.data.length-1]);
     var maxx = offset.left + axes.xaxis.p2c(max_d[0]);
