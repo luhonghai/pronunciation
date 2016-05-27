@@ -43,6 +43,9 @@ public class DatabaseVersion implements Mirrorable {
     @Persistent
     private Date selectedDate;
 
+    @Persistent
+    private Integer type;
+
     public String getId() {
         return id;
     }
@@ -113,5 +116,13 @@ public class DatabaseVersion implements Mirrorable {
 
     public void setTitleNotification(String titleNotification) {
         this.titleNotification = titleNotification;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

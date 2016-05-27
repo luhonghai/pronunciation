@@ -30,7 +30,7 @@ function drawTable(){
             "sDefaultContent": ""
         }, {
             "data": null,
-            "sWidth": "20%",
+            "sWidth": "15%",
             "bSortable": true,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
@@ -44,7 +44,19 @@ function drawTable(){
                 return $("<div/>").append($btn).html();
             }
         }, {
-            "sWidth": "20%",
+            "data": null,
+            "sWidth": "10%",
+            "bSortable": true,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                if (typeof data.type != 'undefined' && data.type != null && data.type == 1) {
+                    return "new";
+                } else {
+                    return "";
+                }
+            }
+        },{
+            "sWidth": "15%",
             "bSortable": false,
             "data": "lessonChange",
             "sDefaultContent": ""
@@ -59,11 +71,11 @@ function drawTable(){
             "data": "createdDate",
             "sDefaultContent": ""
         },{
-                "sWidth": "20%",
-                "bSortable": true,
-                "data": "selectedDate",
-                "sDefaultContent": ""
-            },
+            "sWidth": "20%",
+            "bSortable": true,
+            "data": "selectedDate",
+            "sDefaultContent": ""
+        },
             {
                 "data": null,
                 "sWidth": "12%",
@@ -210,7 +222,8 @@ $(document).ready(function(){
                 data: {
                     action: "load",
                     lessonChange: lessonChange,
-                    notification:notification
+                    notification:notification,
+                    type: $("#selType").val()
                 },
                 success: function (data) {
                     if (data.indexOf("done") != -1) {

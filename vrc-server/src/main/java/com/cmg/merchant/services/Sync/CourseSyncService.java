@@ -4,6 +4,7 @@ import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.jdo.TeacherCourseHistory;
+import com.cmg.merchant.services.generateSqlite.SqliteService;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
 import com.cmg.vrc.data.jdo.DatabaseVersion;
@@ -50,27 +51,45 @@ public class CourseSyncService {
         return list;
     }
 
+
+    public TeacherCourseHistory courseCMG(){
+        return courseCMG(false);
+    }
     /**
      *
      * @return
      */
-    public TeacherCourseHistory courseCMG(){
+    public TeacherCourseHistory courseCMG(boolean forceGenerate){
+        TCHDAO dao = new TCHDAO();
         AWSHelper awsHelper = new AWSHelper();
-        DatabaseVersionDAO databaseVersionDAO = new DatabaseVersionDAO();
         CDAO cDao = new CDAO();
         try {
             Course course = cDao.getByName(com.cmg.merchant.common.Constant.CMG_COURSE_DEMO);
             if(course != null){
-                DatabaseVersion db = databaseVersionDAO.getSelectedVersion();
-                TeacherCourseHistory tmp = new TeacherCourseHistory();
-                int version = db.getVersion();
-                String url = awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
-                        + "/"
-                        + db.getFileName());
-                tmp.setVersion(version);
-                tmp.setUrlDownload(url);
-                tmp.setName("demo");
-                tmp.setIdCourse(course.getId());
+                TeacherCourseHistory tmp  = dao.getLatestFile(course.getId());
+                if (tmp == null || forceGenerate) {
+                    SqliteService sqliteService = new SqliteService(course.getId());
+                    sqliteService.clearData();
+                    tmp = dao.getLatestFile(course.getId());
+                }
+                if(tmp != null){
+                    tmp.setUrlDownload(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
+                            + "/" + tmp.getPathAws()));
+                    tmp.setVersion(tmp.getVersion());
+                    tmp.setCmgCourse(true);
+                    tmp.setName("demo");
+                    tmp.setIdCourse(course.getId());
+                }
+//                DatabaseVersion db = databaseVersionDAO.getSelectedVersion();
+//                TeacherCourseHistory tmp = new TeacherCourseHistory();
+//                int version = db.getVersion();
+//                String url = awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
+//                        + "/"
+//                        + db.getFileName());
+//                tmp.setVersion(version);
+//                tmp.setUrlDownload(url);
+
+//                tmp.setIdCourse(course.getId());
                 return tmp;
             }
         }catch (Exception e){
