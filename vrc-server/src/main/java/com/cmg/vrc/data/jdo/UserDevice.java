@@ -39,6 +39,17 @@ public class UserDevice implements Mirrorable {
     @Persistent
     private Date attachedDate;
 
+    @Persistent
+    private String userLastLogin;
+
+    public String getUserLastLogin() {
+        return userLastLogin;
+    }
+
+    public void setUserLastLogin(String userLastLogin) {
+        this.userLastLogin = userLastLogin;
+    }
+
     public String getModel() {
         return model;
     }
