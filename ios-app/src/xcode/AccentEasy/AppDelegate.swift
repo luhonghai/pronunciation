@@ -62,8 +62,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, GGLIns
         
         // Register for remote notifications
         gcmApplication(application,didFinishLaunchingWithOptions: launchOptions)
-        
+        initGoogleAnalytic()
         return true
+    }
+    
+    func initGoogleAnalytic() {
+        var configureError:NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        
+        // Optional: configure GAI options.
+        let gai = GAI.sharedInstance()
+        gai.trackUncaughtExceptions = true  // report uncaught exceptions
+        //gai.logger.logLevel = GAILogLevel.Error
     }
     
     func showLockScreen(notification: NSNotification)
