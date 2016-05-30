@@ -124,17 +124,20 @@ public class DateUtil {
     public ArrayList<Date> initDayInWeek(String startDate){
         Calendar calToday = new GregorianCalendar();
         calToday.setTime(new Date());
+        calToday.set(Calendar.HOUR_OF_DAY, 12);
         Calendar calSelected = new GregorianCalendar();
         calSelected.setTime(convertStringToDate(startDate));
+        calSelected.set(Calendar.HOUR_OF_DAY, 0);
         ArrayList<Date> tmp = new ArrayList<Date>();
         tmp.add(calSelected.getTime());
         for(int i = 1 ; i < 7 ; i++){
             Calendar calNext = new GregorianCalendar();
             Calendar calTemp = new GregorianCalendar();
             calTemp.setTime(convertStringToDate(startDate));
-            calTemp.add(Calendar.DAY_OF_MONTH ,i);
+            calTemp.add(Calendar.DAY_OF_MONTH, i);
             Date dateTmp = calTemp.getTime();
             calNext.setTime(dateTmp);
+            calNext.set(Calendar.HOUR_OF_DAY, 0);
             if(calNext.before(calToday)){
                 tmp.add(calNext.getTime());
             }else{
@@ -171,6 +174,7 @@ public class DateUtil {
                 calTemp.add(Calendar.DAY_OF_MONTH ,i);
                 Date dateTmp = calTemp.getTime();
                 calNext.setTime(dateTmp);
+                calNext.set(Calendar.HOUR_OF_DAY, 0);
                 if(calNext.before(nextMonth)){
                     tmp.add(calNext.getTime());
                 }else{
@@ -189,6 +193,7 @@ public class DateUtil {
                 calTemp.add(Calendar.DAY_OF_MONTH ,i);
                 Date dateTmp = calTemp.getTime();
                 calNext.setTime(dateTmp);
+                calNext.set(Calendar.HOUR_OF_DAY, 0);
                 if(calNext.before(calToday)){
                     tmp.add(calNext.getTime());
                 }else{
@@ -244,13 +249,16 @@ public class DateUtil {
     public ArrayList<Date> initDayInNextYear(String startDate){
         Calendar calToday = new GregorianCalendar();
         calToday.setTime(new Date());
+        calToday.set(Calendar.HOUR_OF_DAY, 0);
         Calendar calSelected = new GregorianCalendar();
         calSelected.setTime(convertStringToDate(startDate));
+        calSelected.set(Calendar.HOUR_OF_DAY, 0);
         ArrayList<Date> tmp = new ArrayList<Date>();
         tmp.add(calSelected.getTime());
         for(int i = 1; i < 13; i++){
             Calendar calTemp = new GregorianCalendar();
             calTemp.setTime(getDayInNextMonth(startDate,i));
+            calTemp.set(Calendar.HOUR_OF_DAY, 0);
             if(calTemp.before(calToday)){
                 tmp.add(calTemp.getTime());
             }else{

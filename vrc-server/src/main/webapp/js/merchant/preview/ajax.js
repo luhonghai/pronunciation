@@ -17,7 +17,7 @@ function loadContent(action,id){
         success : function(data){
             if(action == targetLoadCourse){
                 var title = nameOfCourse + " - levels";
-                if(title.length > 20){
+                if(title.length > 25){
                     getHeaderLevel().html("<marquee>" + title + "</marquee>");
                 }else{
                     getHeaderLevel().html("<label>" + title + "</label>");
@@ -30,7 +30,7 @@ function loadContent(action,id){
                 showScreen(getLevelScreen().attr('id'));
             }else if(action == targetLoadLevel){
                 var title = getPopUpPreview().find("#"+id).find('label').html();
-                if(title.length > 20){
+                if(title.length > 25){
                     getHeaderObj().find('.title').html("<marquee>" + title + "</marquee>");
                 }else{
                     getHeaderObj().find('.title').html("<label>" + title + "</label>");
@@ -49,7 +49,7 @@ function loadContent(action,id){
                 showScreen(getObjScreen().attr('id'));
             }else if(action == targetLoadObj){
                 var title = getHeaderObj().find('label').html() +" - "  + getPopUpPreview().find("#"+id).find('label').html();
-                if(title.length > 20){
+                if(title.length > 25){
                     getHeaderLesson().find('.title').html("<marquee>" + title + "</marquee>");
                 }else{
                     getHeaderLesson().find('.title').html("<label>" + title + "</label>");

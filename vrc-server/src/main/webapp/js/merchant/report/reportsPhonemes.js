@@ -119,7 +119,7 @@ function loadDataReport(studentName,phoneme,dateFrom,type){
         },
         success: function (data) {
             if(data == null){
-                swalNew("", "we could not found any data to build the report", "error");
+                swalNew("", "no data found", "error");
                 return;
             }
             var arrayTime = [];
@@ -136,7 +136,7 @@ function loadDataReport(studentName,phoneme,dateFrom,type){
             }
 
             if(checkInValid){
-                swalNew("", "we could not found any data to build the report", "error");
+                swalNew("", "no data found", "error");
             }else{
                 $("#report-popup").attr("sdate",data.dateStart);
                 $("#report-popup").attr("edate",data.dateEnd);
@@ -169,8 +169,10 @@ function openReportPreview(){
         var edate = $("#report-popup").attr("edate");
         var data = [];
         var topScore = 0;
+        var ticksDate = [];
         for(var i = 0 ; i < times.length; i++){
             if(times[i] > 0){
+                ticksDate.push(times[i]);
                 data.push([times[i],scores[i]]);
                 if(parseInt(scores[i]) > parseInt(topScore)){
                     topScore = scores[i];
@@ -179,7 +181,7 @@ function openReportPreview(){
         }
         if(data.length > 0){
             fillDataReport(topScore);
-            drawReport(data);
+            drawReport(data,ticksDate,sdate,edate);
         }
     });
 }
@@ -223,6 +225,10 @@ function initPeriod(){
     $('#period').multiselect('destroy');
     $('#period').multiselect({ enableFiltering: true, buttonWidth: '200px'});
     $('#period').multiselect('refresh');
+}
+
+function getTimeStartDate(){
+
 }
 $(document).ready(function(){
     help();

@@ -237,7 +237,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="col-sm-12">
                             <div class="student-username">lan.ta@c-mg.com</div>
                         </div>
@@ -251,7 +251,7 @@
                             <div class="student-avg-score">80</div>
                         </div>
                     </div>
-                    <div id="container" class="col-sm-10">
+                    <div id="container" class="col-sm-9">
                         <div id="holder-chart">
                             <div id="placeholder">
                             </div>

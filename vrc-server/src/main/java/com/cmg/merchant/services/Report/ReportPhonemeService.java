@@ -171,7 +171,10 @@ public class ReportPhonemeService {
             System.out.println("start date : " + sDate);
             System.out.println("end date : " + fDate);
             if(sp!=null) {
+                System.out.println("start date : " + sDate);
+                System.out.println("end date : " + fDate);
                 temp.add(sp);
+                System.out.println("add sp :" + sp.getScore());
             }else{
                 ReportPhoneDao.ScorePhoneme scp = dao.initSp();
                 scp.setServerTime(list.get(i).getTime());
@@ -205,9 +208,9 @@ public class ReportPhonemeService {
             String sDate = util.convertDate(list.get(i));
             String fDate = util.convertDate(list.get(i+1));
             ReportPhoneDao.ScorePhoneme sp = dao.getScorePhonemeByDay(student,ipa,list.get(i).getTime(),list.get(i+1).getTime());
-            System.out.println("start date : " + sDate);
-            System.out.println("end date : " + fDate);
             if(sp!=null) {
+                System.out.println("start date : " + sDate);
+                System.out.println("end date : " + fDate);
                 temp.add(sp);
                 System.out.println("add sp :" + sp.getScore());
             }else{
@@ -243,9 +246,9 @@ public class ReportPhonemeService {
             String sDate = util.convertDate(list.get(i));
             String fDate = util.convertDate(list.get(i+1));
             ReportPhoneDao.ScorePhoneme sp = dao.getScorePhonemeByDay(student,ipa,list.get(i).getTime(),list.get(i+1).getTime());
-            System.out.println("start date : " + sDate);
-            System.out.println("end date : " + fDate);
             if(sp!=null) {
+                System.out.println("start date : " + sDate);
+                System.out.println("end date : " + fDate);
                 temp.add(sp);
                 System.out.println("add sp :" + sp.getScore());
             }else{

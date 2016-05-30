@@ -40,7 +40,7 @@ function ClickOnTree(){
             var popupId = itemData._popupId;
             openPopup(itemData);
         }else{
-            swalNew("","please add test data for the previous level first","error");
+            swalNew("","'please make sure that you have at least one lesson question and at least one test question in all levels before adding the next level.","error");
         }
 
     });
@@ -625,6 +625,7 @@ function drag2drop(){
                     dragDrop = new Object();
                     var drop = api.itemFrom(options.hover);
                     var dropData = api.itemData(drop);
+                    api.close(drop);
                     var dragData = api.itemData(item);
                     if(dropData._isButton){
                         return false;

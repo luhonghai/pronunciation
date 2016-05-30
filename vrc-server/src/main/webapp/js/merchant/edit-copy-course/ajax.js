@@ -978,6 +978,7 @@ function loadPhonemes(){
                     $("#yesadd").attr("disabled", true);
                     getAddWord().focus();
                     getWordValidateMessage().html("sorry this word is not in our dictionary, please try a different word");
+                    getWordValidateMessage().show();
                 }
             },
             error: function () {
