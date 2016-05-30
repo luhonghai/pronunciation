@@ -649,6 +649,10 @@ class FSMainVC: BaseUIViewController, UITableViewDataSource, UITableViewDelegate
                                     NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                                     weakSelf!.scoreResult = round(userVoiceModel.score)
                                     weakSelf!.analyzingView.willDisplayScore = true
+                                    
+                                    AccountManager.getAvgPhonemeScore(AccountManager.currentUser(), completion: { (userProfile, success, message) in
+                                        AccountManager.updateProfile(userProfile)
+                                    })
                                 })
                             } else {
                                 //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)

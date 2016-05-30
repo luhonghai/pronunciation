@@ -44,11 +44,6 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
     var arrIPAMapArpabet = [IPAMapArpabet]()
     var indexCellChoice:Int!
     
-    //var global
-    let redColor = "#ff3333"
-    let orangeColor = "#ff7548"
-    let greenColor = "#579e11"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         activateAudioSession()
@@ -199,8 +194,18 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         cell.lblIPA.text = self.arrIPAMapArpabet[indexPath.item].ipa
         cell.lblIPA.textColor = UIColor.whiteColor()
-        cell.lblIPA.backgroundColor =
-            Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexPath.item].totalScore))
+        
+        var ipaColor: UIColor!
+        let score = round(userVoiceModelResult.result.phonemeScores[indexPath.item].totalScore)
+        if score >= 80 {
+            ipaColor = ColorHelper.APP_GREEN
+        } else if score >= 45 {
+            ipaColor = ColorHelper.APP_ORANGE
+        } else {
+            ipaColor = ColorHelper.APP_RED
+        }
+        
+        cell.lblIPA.backgroundColor = ipaColor
         cell.layer.cornerRadius = 5
         cell.backgroundColor = Multimedia.colorWithHexString("#579e11") // make cell more visible in our example project
         
@@ -221,18 +226,9 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
     var timer:NSTimer!
     
     func displayViewController(animationType: SLpopupViewAnimationType) {
-        
-        let cellColor:UIColor = Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore))
-        ipaPopupVC.view.backgroundColor = cellColor
-        ipaPopupVC.view.layer.cornerRadius = 5
-        ipaPopupVC.lblScore.text = convertScoreToString(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore)
-        ipaPopupVC.lblIPA.text = arrIPAMapArpabet[indexCellChoice].ipa
-        ipaPopupVC.btnPlayExample.tintColor = cellColor
-        ipaPopupVC.btnShowChart.tintColor = cellColor
+        ipaPopupVC.setSelectedIPA(arrIPAMapArpabet[indexCellChoice], score: Int(round(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore)))
         ipaPopupVC.isShow = true
-        
         ipaPopupVC.delegate = self
-        
         clearTimer()
         timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("closeIPAPopup"), userInfo: nil, repeats: true)
         
@@ -307,12 +303,6 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
         toggleSlider()
     }
     
-    func convertScoreToString(score: Float) -> String {
-        var myArray = round(score).description.componentsSeparatedByString(".")
-        return myArray[0] + "%"
-    }
-    
-    
     
     @IBAction func btnPlayTouchUp(sender: AnyObject) {
         if self.player.isPlaying {
@@ -364,20 +354,6 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
         self.player.playAudioFile(EZAudioFile(URL: fileUrl))
     }
     
-    
-    func getIPAColorByScore(score: Float) ->  String{
-        if score < 45 {
-            //color < 45 red
-            return redColor
-        } else if score >= 45 && score < 80 {
-            // 45 <= color < 80 orange
-            return orangeColor
-        } else {
-            //color >= 80 green
-            return greenColor
-        }
-    }
-    
     func showColorOfScoreResult(scoreResult: Float){
         if scoreResult < 45 {
             //color < 45 red
@@ -392,21 +368,21 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
     }
     
     func changeColorRed(){
-        btnPlay.backgroundColor = Multimedia.colorWithHexString(redColor)
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString(redColor), forState: UIControlState.Normal)
-        viewAnalyzing.backgroundColor = Multimedia.colorWithHexString(redColor)
+        btnPlay.backgroundColor = ColorHelper.APP_RED
+        btnPlayDemo.setTitleColor(ColorHelper.APP_RED, forState: UIControlState.Normal)
+        viewAnalyzing.backgroundColor = ColorHelper.APP_RED
     }
     
     func changeColorOrange(){
-        btnPlay.backgroundColor = Multimedia.colorWithHexString(orangeColor)
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString(orangeColor), forState: UIControlState.Normal)
-        viewAnalyzing.backgroundColor = Multimedia.colorWithHexString(orangeColor)
+        btnPlay.backgroundColor = ColorHelper.APP_ORANGE
+        btnPlayDemo.setTitleColor(ColorHelper.APP_ORANGE, forState: UIControlState.Normal)
+        viewAnalyzing.backgroundColor = ColorHelper.APP_ORANGE
     }
     
     func changeColorGreen(){
-        btnPlay.backgroundColor = Multimedia.colorWithHexString(greenColor)
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString(greenColor), forState: UIControlState.Normal)
-        viewAnalyzing.backgroundColor = Multimedia.colorWithHexString(greenColor)
+        btnPlay.backgroundColor = ColorHelper.APP_GREEN
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
+        viewAnalyzing.backgroundColor = ColorHelper.APP_GREEN
     }
 
 
@@ -521,6 +497,9 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
     }
     
     func goToViewController(sender: IPAPopupVC?, vcId: String) {
+        
+    }
+    func pressClosePopup(sender: IPAPopupVC?) {
         
     }
 }

@@ -8,7 +8,7 @@
 import EZAudio
 import SloppySwiper
 
-class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate,
+class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate, LessonTipPopupVCDelegate,
  UIGestureRecognizerDelegate {
     
     enum IPAChartMode {
@@ -36,7 +36,11 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
     var popup:IPAInfoPopup!
     
+    var ipaPopup: IPAPopupVC!
+    
     var userProfile: UserProfile!
+    
+    var helpText = ""
     
     @IBOutlet weak var switchMode: UISwitch!
     @IBOutlet weak var lblTitle: UILabel!
@@ -66,8 +70,10 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     func updateLabelMode() {
         if selectedMode == .VIEW_MY_SCORE {
             lblMode.text = "view my scores"
+            scheduleShowHelp()
         } else if selectedMode == .HEAR_PHONEME {
             lblMode.text = "hear phonemes"
+            clearTimer()
         }
     }
     
@@ -79,6 +85,7 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         switchMode.on = selectedMode != .HEAR_PHONEME
         updateLabelMode()
         dbAdapter = WordCollectionDbApdater()
+        helpText = try! dbAdapter.checkIPAContainVideo() ? "Touch a phoneme to see your average score, listen to the sound and see a video." : "Touch a phoneme to see your average score, listen to the sound and view your score history on a chart."
         do {
             ipaList = try dbAdapter.getIPAMapArpabetByType(selectedType)
         } catch {
@@ -94,11 +101,11 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         collectionIPA.delegate = self
         collectionIPA.dataSource = self
         
-        let lpgr
-            = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
-        lpgr.delaysTouchesBegan = true
-        //lpgr.minimumPressDuration = 2.0
-        collectionIPA.addGestureRecognizer(lpgr)
+//        let lpgr
+//            = UILongPressGestureRecognizer(target: self, action: Selector("handleLongPress:"))
+//        lpgr.delaysTouchesBegan = true
+//        collectionIPA.addGestureRecognizer(lpgr)
+        
         activateAudioSession()
         player = EZAudioPlayer(delegate: self)
         //
@@ -143,10 +150,10 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
                         cell.lblIPA.backgroundColor = ColorHelper.APP_RED
                     }
                 } else {
-                    cell.lblIPA.backgroundColor = ColorHelper.APP_GRAY
+                    cell.lblIPA.backgroundColor = ColorHelper.APP_LIGHT_GRAY
                 }
             } else {
-                cell.lblIPA.backgroundColor = ColorHelper.APP_GRAY
+                cell.lblIPA.backgroundColor = ColorHelper.APP_LIGHT_GRAY
             }
         }
         cell.layer.cornerRadius = 10
@@ -157,9 +164,30 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
+        clearTimer()
         Logger.log("You selected cell #\(indexPath.item)!")
         let ipa = ipaList[indexPath.item]
-        playUrl(ipa.mp3URLShort)
+        switch selectedMode {
+        case .HEAR_PHONEME:
+            playUrl(ipa.mp3URLShort)
+            break
+        case .VIEW_MY_SCORE:
+            let popup = IPAPopupVC(nibName:"IPAPopupVC", bundle: nil)
+            var ipaScore = -1
+            if let score = userProfile.phonemeScores[ipa.arpabet] {
+                ipaScore = score
+            }
+            self.selectedIpa = ipa
+            popup.score = ipaScore
+            popup.selectedIPA = ipa
+            popup.delegate = self
+            popup.isShow = true
+            ipaPopup = popup
+            self.presentpopupViewController(popup, animationType: .Fade, completion: { () -> Void in
+                
+            })
+            break
+        }
     }
     
     func collectionView(collectionView: UICollectionView,
@@ -194,14 +222,18 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
             Logger.log("long press item \(indexPath.item)")
             selectedIpa = ipaList[indexPath.item]
 
-            popup = IPAInfoPopup(nibName:"IPAInfoPopup", bundle: nil)
-            popup.selectedIpa = selectedIpa
-            popup.delegate = self
-            self.presentpopupViewController(popup, animationType: SLpopupViewAnimationType.Fade, completion: { () -> Void in
-                
-            })
+            pressShowTip(nil)
             weakSelf!.playUrl(weakSelf!.selectedIpa.mp3URL)
         }
+    }
+    
+    func pressShowTip(sender: IPAPopupVC?) {
+        popup = IPAInfoPopup(nibName:"IPAInfoPopup", bundle: nil)
+        popup.selectedIpa = selectedIpa
+        popup.delegate = self
+        self.presentpopupViewController(popup, animationType: SLpopupViewAnimationType.Fade, completion: { () -> Void in
+            
+        })
     }
     
     func playUrl(url : String?) {
@@ -227,17 +259,25 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     }
     
     func pressShowChart(sender: IPAPopupVC?) {
+        
+    }
+    
+    func cleanupPopup() {
         weak var weakSelf = self
         if weakSelf != nil && popup != nil && popup.isShowing {
+            weakSelf!.dismissPopupViewController(SLpopupViewAnimationType.Fade)
+        }
+        if weakSelf != nil && ipaPopup != nil && ipaPopup.isShow {
+            weakSelf!.dismissPopupViewController(SLpopupViewAnimationType.Fade)
+        }
+        if weakSelf != nil && lessonTipPopupVC != nil && lessonTipPopupVC.isShow {
             weakSelf!.dismissPopupViewController(SLpopupViewAnimationType.Fade)
         }
     }
     
     override func viewWillDisappear(animated: Bool) {
-        weak var weakSelf = self
-        if weakSelf != nil && popup != nil && popup.isShowing {
-            weakSelf!.dismissPopupViewController(SLpopupViewAnimationType.Fade)
-        }
+        cleanupPopup()
+        clearTimer()
     }
     
     func setNavigationBarTransparent() {
@@ -252,4 +292,48 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier(vcId)
         self.navigationController?.pushViewController(nextController!, animated: false)
     }
+    
+    func pressClosePopup(sender: IPAPopupVC?) {
+        weak var weakSelf = self
+        if sender != nil {
+            cleanupPopup()
+        } else {
+            if weakSelf != nil && ipaPopup != nil {
+                ipaPopup.closeTipPopup()
+            }
+        }
+    }
+    
+    var lessonTipPopupVC:LessonTipPopupVC!
+    
+    func showHelp() {
+        showHelp(helpText)
+    }
+    
+    func showHelp(message: String) {
+        lessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+        lessonTipPopupVC.contentPopup = message
+        lessonTipPopupVC.isShow = true
+        lessonTipPopupVC.delegate = self
+        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+    }
+    
+    func closeLessonTipPopup(sender: LessonTipPopupVC) {
+        self.dismissPopupViewController(.Fade)
+    }
+    
+    var timer:NSTimer!
+    
+    func scheduleShowHelp() {
+        clearTimer()
+        timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(IPAChartController.showHelp as (IPAChartController) -> () -> ()), userInfo: nil, repeats: false)
+    }
+    
+    func clearTimer() {
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
+    }
+    
 }

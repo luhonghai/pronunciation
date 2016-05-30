@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class IPAInfoPopup: UIViewController {
 
     @IBOutlet weak var txtDescription: UITextView!
@@ -59,7 +57,7 @@ class IPAInfoPopup: UIViewController {
     }
     
     @IBAction func clickClose(sender: AnyObject) {
-        delegate!.pressShowChart(nil)
+        delegate!.pressClosePopup(nil)
     }
     @IBAction func doPlayFile(sender: AnyObject) {
         delegate!.pressPlayExample(nil)
@@ -92,9 +90,11 @@ class IPAInfoPopup: UIViewController {
             weak var weakSelf = self
             let url = NSURL(string: selectedIpa!.imgTongue)
             imgTip.load(url!, placeholder: nil, completionHandler: { (status) -> Void in
-                if let image = weakSelf!.imgTip.image {
-                    weakSelf!.imgTip.image = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-                    weakSelf!.imgTip.tintColor = ColorHelper.APP_PURPLE
+                if weakSelf != nil && weakSelf!.imgTip != nil {
+                    if let image = weakSelf!.imgTip.image {
+                        weakSelf!.imgTip.image = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                        weakSelf!.imgTip.tintColor = ColorHelper.APP_PURPLE
+                    }
                 }
             })
         }

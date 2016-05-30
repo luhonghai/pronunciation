@@ -3,10 +3,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IPAPopupVC" customModule="accenteasy" customModuleProvider="target">
             <connections>
+                <outlet property="bgView" destination="PFI-Zp-hwY" id="SU5-RR-jKO"/>
                 <outlet property="btnPlayExample" destination="oCQ-Sa-ZPi" id="HpU-ox-sV2"/>
                 <outlet property="btnShowChart" destination="p3M-oj-eCa" id="g7v-Gm-WPe"/>
                 <outlet property="btnTop" destination="fyz-Gs-bqc" id="cJj-ob-3YB"/>
@@ -17,51 +20,108 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="220" height="220"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oCQ-Sa-ZPi">
-                    <rect key="frame" x="8" y="170" width="40" height="40"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <state key="normal" backgroundImage="ic_play.png"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ysb-VT-OOP">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
                     <connections>
-                        <action selector="btnPlayExampleTouchUp:" destination="-1" eventType="touchUpInside" id="m5o-Xq-p2S"/>
+                        <outletCollection property="gestureRecognizers" destination="0vC-Xx-sVA" appends="YES" id="MMd-Bf-2Cw"/>
                     </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyz-Gs-bqc">
-                    <rect key="frame" x="8" y="8" width="40" height="40"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <state key="normal" backgroundImage="ic_play.png"/>
-                    <connections>
-                        <action selector="btnPlayExampleTouchUp:" destination="-1" eventType="touchUpInside" id="tCj-dh-13a"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3M-oj-eCa">
-                    <rect key="frame" x="170" y="170" width="40" height="40"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <state key="normal" backgroundImage="ic_play.png"/>
-                    <connections>
-                        <action selector="btnPlayExampleTouchUp:" destination="-1" eventType="touchUpInside" id="Lmd-gS-LJA"/>
-                        <action selector="btnShowChartTouchUp:" destination="-1" eventType="touchUpInside" id="5Fd-Ev-BFO"/>
-                    </connections>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pak-Ou-dHt">
-                    <rect key="frame" x="8" y="13" width="204" height="29"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="IPA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAc-4H-V4H">
-                    <rect key="frame" x="8" y="40" width="204" height="122"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="100"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PFI-Zp-hwY">
+                    <rect key="frame" x="190" y="191" width="220" height="219"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAc-4H-V4H">
+                            <rect key="frame" x="8" y="49" width="204" height="122"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="100"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oCQ-Sa-ZPi">
+                            <rect key="frame" x="8" y="171" width="40" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" backgroundImage="ic_play.png"/>
+                            <connections>
+                                <action selector="btnPlayExampleTouchUp:" destination="-1" eventType="touchUpInside" id="m5o-Xq-p2S"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fyz-Gs-bqc">
+                            <rect key="frame" x="8" y="8" width="40" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="BgB-k0-SsR"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="ic_play.png"/>
+                            <connections>
+                                <action selector="btnTopTouchUp:" destination="-1" eventType="touchUpInside" id="duz-ZM-uqo"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3M-oj-eCa">
+                            <rect key="frame" x="172" y="171" width="40" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="xip-Fp-Wdm"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="ic_play.png"/>
+                            <connections>
+                                <action selector="btnShowChartTouchUp:" destination="-1" eventType="touchUpInside" id="5Fd-Ev-BFO"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pak-Ou-dHt">
+                            <rect key="frame" x="8" y="8" width="204" height="29"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="29" id="UCh-fG-v26"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="Pak-Ou-dHt" firstAttribute="top" secondItem="fyz-Gs-bqc" secondAttribute="top" id="6te-rd-g68"/>
+                        <constraint firstItem="ZAc-4H-V4H" firstAttribute="top" secondItem="fyz-Gs-bqc" secondAttribute="bottom" constant="1" id="7Dl-c4-O9p"/>
+                        <constraint firstItem="p3M-oj-eCa" firstAttribute="baseline" secondItem="oCQ-Sa-ZPi" secondAttribute="baseline" id="8Jf-iV-hhj"/>
+                        <constraint firstItem="Pak-Ou-dHt" firstAttribute="trailing" secondItem="PFI-Zp-hwY" secondAttribute="trailingMargin" id="F7e-nM-ugr"/>
+                        <constraint firstAttribute="width" constant="220" id="Fcx-uc-IXs"/>
+                        <constraint firstItem="Pak-Ou-dHt" firstAttribute="leading" secondItem="ZAc-4H-V4H" secondAttribute="leading" id="GEV-D1-YdP"/>
+                        <constraint firstItem="oCQ-Sa-ZPi" firstAttribute="bottom" secondItem="PFI-Zp-hwY" secondAttribute="bottomMargin" id="IYJ-tf-IRs"/>
+                        <constraint firstItem="Pak-Ou-dHt" firstAttribute="trailing" secondItem="ZAc-4H-V4H" secondAttribute="trailing" id="Oj1-Uq-OtT"/>
+                        <constraint firstItem="fyz-Gs-bqc" firstAttribute="leading" secondItem="PFI-Zp-hwY" secondAttribute="leadingMargin" id="S0o-Xj-0oc"/>
+                        <constraint firstItem="fyz-Gs-bqc" firstAttribute="top" secondItem="PFI-Zp-hwY" secondAttribute="topMargin" id="Tgj-UD-SEf"/>
+                        <constraint firstItem="oCQ-Sa-ZPi" firstAttribute="top" secondItem="p3M-oj-eCa" secondAttribute="top" id="UDm-no-QWF"/>
+                        <constraint firstItem="ZAc-4H-V4H" firstAttribute="centerY" secondItem="PFI-Zp-hwY" secondAttribute="centerY" id="W67-mG-i4E"/>
+                        <constraint firstItem="oCQ-Sa-ZPi" firstAttribute="firstBaseline" secondItem="p3M-oj-eCa" secondAttribute="firstBaseline" id="Z8r-kT-D3B"/>
+                        <constraint firstItem="fyz-Gs-bqc" firstAttribute="leading" secondItem="Pak-Ou-dHt" secondAttribute="leading" id="azy-Br-3hW"/>
+                        <constraint firstItem="oCQ-Sa-ZPi" firstAttribute="top" secondItem="ZAc-4H-V4H" secondAttribute="bottom" id="ch7-Ie-XL6"/>
+                        <constraint firstItem="oCQ-Sa-ZPi" firstAttribute="bottom" secondItem="p3M-oj-eCa" secondAttribute="bottom" id="gfs-9R-RTX"/>
+                        <constraint firstItem="ZAc-4H-V4H" firstAttribute="leading" secondItem="oCQ-Sa-ZPi" secondAttribute="leading" id="iyE-fm-6Se"/>
+                        <constraint firstItem="ZAc-4H-V4H" firstAttribute="top" secondItem="Pak-Ou-dHt" secondAttribute="bottom" constant="12" id="mHm-iE-fAZ"/>
+                        <constraint firstItem="fyz-Gs-bqc" firstAttribute="trailing" secondItem="oCQ-Sa-ZPi" secondAttribute="trailing" id="mN4-b0-tyy"/>
+                        <constraint firstAttribute="height" constant="219" id="rGS-uO-gKT"/>
+                        <constraint firstItem="ZAc-4H-V4H" firstAttribute="trailing" secondItem="p3M-oj-eCa" secondAttribute="trailing" id="xx1-sB-7nq"/>
+                    </constraints>
+                </view>
             </subviews>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="288" y="351"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="ysb-VT-OOP" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Dzm-7v-N3b"/>
+                <constraint firstItem="ysb-VT-OOP" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="RNU-tl-Fpk"/>
+                <constraint firstItem="ysb-VT-OOP" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Skr-Sk-o3T"/>
+                <constraint firstItem="PFI-Zp-hwY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="eBq-al-tx7"/>
+                <constraint firstItem="ysb-VT-OOP" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="sZD-7H-8vK"/>
+                <constraint firstItem="PFI-Zp-hwY" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="tRb-ah-t7r"/>
+            </constraints>
+            <point key="canvasLocation" x="313" y="377"/>
         </view>
+        <tapGestureRecognizer id="0vC-Xx-sVA">
+            <connections>
+                <action selector="clickOutside:" destination="-1" id="SkY-Su-WBH"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="ic_play.png" width="128" height="128"/>

@@ -55,7 +55,11 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     }
     
     public func checkIPAContainVideo() throws -> Bool {
-        return try find(LiteTable.IPA_MAP_ARPABET.filter(LiteColumn.YOUTUBE_VIDEO_ID != nil && LiteColumn.YOUTUBE_VIDEO_ID != "")) != nil
+        if let _: IPAMapArpabet = try find(LiteTable.IPA_MAP_ARPABET.filter(LiteColumn.YOUTUBE_VIDEO_ID != nil && LiteColumn.YOUTUBE_VIDEO_ID != "")) {
+            return true
+        } else {
+            return false
+        }
     }
     
     public func getIPAMapArpabetByType(type: String) throws -> Array<IPAMapArpabet> {

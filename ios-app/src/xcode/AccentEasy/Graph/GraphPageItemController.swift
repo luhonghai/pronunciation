@@ -12,6 +12,8 @@ class GraphPageItemController: UIViewController, ChartViewDelegate {
     
     @IBOutlet var chartView: LineChartView!
     
+    var isShow = false
+    
     var data = ""
 
     var isWord = true
@@ -19,6 +21,10 @@ class GraphPageItemController: UIViewController, ChartViewDelegate {
     var itemIndex = 0
     
     var freestyleAdapter: FreeStyleDBAdapter!
+    
+    var resizeFrame = false
+    
+    @IBOutlet weak var constaintHeight: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +35,21 @@ class GraphPageItemController: UIViewController, ChartViewDelegate {
         } else {
             chartView.hidden = true
         }
+        
+        if resizeFrame {
+            let rect = self.view.frame
+            self.view.frame = CGRectMake(rect.origin.x, rect.origin.y + rect.height / 4, rect.width, rect.height / 2)
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        isShow = true
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        isShow = false
     }
     
     func initChart() {

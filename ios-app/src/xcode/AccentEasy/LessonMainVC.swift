@@ -575,6 +575,9 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
                                     NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                                     NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
                                     weakSelf!.analyzingView.willDisplayScore = true
+                                    AccountManager.getAvgPhonemeScore(AccountManager.currentUser(), completion: { (userProfile, success, message) in
+                                        AccountManager.updateProfile(userProfile)
+                                    })
                                 })
                                 
                                 

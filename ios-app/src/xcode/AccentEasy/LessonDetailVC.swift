@@ -381,16 +381,8 @@ class LessonDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollec
     var timer:NSTimer!
     
     func displayViewController(animationType: SLpopupViewAnimationType) {
-        
-        let cellColor:UIColor = Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore))
-        ipaPopupVC.view.backgroundColor = cellColor
-        ipaPopupVC.view.layer.cornerRadius = 5
-        ipaPopupVC.lblScore.text = convertScoreToString(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore)
-        ipaPopupVC.lblIPA.text = arrIPAMapArpabet[indexCellChoice].ipa
-        ipaPopupVC.btnPlayExample.tintColor = cellColor
-        ipaPopupVC.btnShowChart.tintColor = cellColor
+        ipaPopupVC.setSelectedIPA(arrIPAMapArpabet[indexCellChoice], score: Int(round(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore)))
         ipaPopupVC.isShow = true
-        
         ipaPopupVC.delegate = self
         
         clearTimer()
@@ -734,6 +726,10 @@ class LessonDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollec
     }
     
     func goToViewController(sender: IPAPopupVC?, vcId: String) {
+        
+    }
+    
+    func pressClosePopup(sender: IPAPopupVC?) {
         
     }
 }

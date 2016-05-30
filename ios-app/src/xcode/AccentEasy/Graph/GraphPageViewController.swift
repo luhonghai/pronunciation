@@ -16,6 +16,8 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
     
     var word: String!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dataSource = self;
@@ -28,6 +30,7 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadWord:",name:"loadGraph", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"showChart", object: nil)
+        
     }
     
     func loadList(notification: NSNotification){
