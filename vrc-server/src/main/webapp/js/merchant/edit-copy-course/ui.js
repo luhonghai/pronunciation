@@ -11,9 +11,13 @@ function drawWord(data){
     getAddWord().attr("readonly","readonly");
     getAddWord().attr("check-duplicated", "not check");
     getAddWord().val(data.nameWord);
+    var checked = true;
     $.each(data.listWeightPhoneme, function (idx, obj) {
         var phonemeName = obj.phoneme;
         var weightOfPhoneme = obj.weight;
+        if(parseInt(weightOfPhoneme) > 1){
+            checked = false;
+        }
         //alert(jsonItem);
         getListPhonemes().append('<input disabled="disabled" readonly="readonly" index="'+obj.index+'" ipa="'+obj.ipa+'" value="'+phonemeName+'"  type="text">');
         getListIPA().append('<input disabled="disabled" readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
@@ -28,6 +32,7 @@ function drawWord(data){
     $('#container-equal-weight').show();
     $("#wordModal1").show();
     $("#wordModal2").show();
+    $('#equalweight').prop("checked",checked);
 }
 
 function drawPhonemeOfWord(data){
@@ -36,10 +41,11 @@ function drawPhonemeOfWord(data){
         //alert(jsonItem);
         getListPhonemes().append('<input disabled="disabled" readonly="readonly" index="'+obj.index+'" ipa="'+obj.ipa+'" value="'+phonmeName+'"  type="text">');
         getListIPA().append('<input disabled="disabled" readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
-        getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
+        getListWeight().append('<input onkeypress="return isNumberKey(event,this)" value="1" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
         getListPhonemes().css({"width":(idx+1)*35});
         getListWeight().css({"width":(idx+1)*35});
         getListIPA().css({"width":(idx+1)*35});
     });
     $('#container-equal-weight').show();
+    $('#equalweight').prop("checked",true);
 }

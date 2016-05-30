@@ -646,10 +646,10 @@ function drag2drop(){
                         //do not move the test node
                         return false;
                     }
-                    if(dragData._allowDragDrop == false){
+                  /*  if(dragData._allowDragDrop == false){
                         //do not move level have not test question
                         return false;
-                    }
+                    }*/
 
 
                    /* if(dropData._targetLoad == targetLoadQuestion){
@@ -845,17 +845,15 @@ function clickEqualWeight(){
 
     $(document).on('change', '.phoneme-weight', function(e) {
         var enterV =  $('.phoneme-weight').length;
+        var checked = true;
         $('.phoneme-weight').each(function(){
-            var v = $(this).val();
-            if(typeof v != "undefined" && v.trim() !=""){
-                enterV = enterV - 1;
+            var v = parseInt($(this).val());
+            if(v > 1){
+                checked=false;
             }
         });
-        if(enterV == 0){
-            $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
-        }else{
-            $('#equalweight').prop("checked",false);
-        }
+        $('#equalweight').prop("checked",checked);
+
     });
 }
 $(document).ready(function(){
