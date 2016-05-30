@@ -1089,11 +1089,17 @@ class LessonMainVC: BaseUIViewController, EZAudioPlayerDelegate, EZMicrophoneDel
     func reloadQuestion(cellIndex:Int) {
         if let word = arrQuestionOfLC[cellIndex].selectedWord {
             currentMode = arrQuestionOfLC[cellIndex].currentMode
+            //print("currentMode: \(currentMode)")
             selectedWord = word
             //self.chooseWord(selectedWord.word)
             //var score =  arrQuestionOfLesson[cellIndex].listScore[arrQuestionOfLesson[cellIndex].listScore.count-1]
             weak var weakSelf = self
             delay(1, closure: {
+                if weakSelf!.currentMode == nil || weakSelf!.currentMode.word == nil {
+                    return
+                }
+                //print("GlobalData.getInstance().selectedWord: \(GlobalData.getInstance().selectedWord)")
+                //print("weakSelf!.currentMode.word: \(weakSelf!.currentMode.word)")
                 GlobalData.getInstance().selectedWord = weakSelf!.currentMode.word
                 NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.currentMode.word)
                 NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
