@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -3710,7 +3710,7 @@ definition</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0zf-nY-AYE">
-                                <rect key="frame" x="19" y="103" width="337" height="534"/>
+                                <rect key="frame" x="15" y="103" width="344" height="535"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4m1-qN-kB4">
                                     <size key="itemSize" width="50" height="50"/>
@@ -3743,8 +3743,30 @@ definition</string>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hear phonemes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDh-iA-AoY">
+                                <rect key="frame" x="90" y="628" width="155" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="Ucz-Xz-X1i"/>
+                                    <constraint firstAttribute="width" secondItem="jDh-iA-AoY" secondAttribute="height" multiplier="5:1" id="tyN-ck-y7n"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.12156862745098039" green="0.44313725490196076" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="s5E-9I-vVD">
+                                <rect key="frame" x="253" y="628" width="51" height="31"/>
+                                <color key="backgroundColor" red="0.1215686275" green="0.4431372549" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="s5E-9I-vVD" secondAttribute="height" multiplier="49:31" id="q6M-cp-geR"/>
+                                </constraints>
+                                <color key="tintColor" red="0.1215686275" green="0.4431372549" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="onTintColor" red="0.1215686275" green="0.4431372549" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="switchModeValueChanged:" destination="7VA-g0-Jci" eventType="valueChanged" id="prw-qY-oHz"/>
+                                </connections>
+                            </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="vowels" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49U-CG-DBr">
-                                <rect key="frame" x="0.0" y="71" width="375" height="24"/>
+                                <rect key="frame" x="154" y="64" width="68" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.12156862745098039" green="0.44313725490196076" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -3752,13 +3774,17 @@ definition</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="49U-CG-DBr" firstAttribute="width" secondItem="7hy-p9-tCR" secondAttribute="width" id="1jv-qc-OnD"/>
-                            <constraint firstItem="0zf-nY-AYE" firstAttribute="width" secondItem="7hy-p9-tCR" secondAttribute="width" multiplier="0.9" id="83i-Xl-Mjn"/>
-                            <constraint firstItem="49U-CG-DBr" firstAttribute="centerX" secondItem="7hy-p9-tCR" secondAttribute="centerX" id="EcO-tp-507"/>
-                            <constraint firstItem="cHF-ta-7Oc" firstAttribute="top" secondItem="0zf-nY-AYE" secondAttribute="bottom" constant="30" id="ftD-oB-6Kr"/>
-                            <constraint firstItem="0zf-nY-AYE" firstAttribute="top" secondItem="49U-CG-DBr" secondAttribute="bottom" constant="8" id="y1T-F9-nKA"/>
-                            <constraint firstItem="0zf-nY-AYE" firstAttribute="height" secondItem="7hy-p9-tCR" secondAttribute="height" multiplier="0.8" id="y57-Mg-D8n"/>
-                            <constraint firstItem="0zf-nY-AYE" firstAttribute="centerX" secondItem="7hy-p9-tCR" secondAttribute="centerX" id="y8e-Uc-F1c"/>
+                            <constraint firstItem="49U-CG-DBr" firstAttribute="top" secondItem="1YK-XU-QNX" secondAttribute="bottom" id="AOF-XP-OIH"/>
+                            <constraint firstItem="cHF-ta-7Oc" firstAttribute="top" secondItem="jDh-iA-AoY" secondAttribute="bottom" constant="8" id="FVB-bP-2wW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0zf-nY-AYE" secondAttribute="trailing" id="J39-VC-rJC"/>
+                            <constraint firstItem="s5E-9I-vVD" firstAttribute="leading" secondItem="jDh-iA-AoY" secondAttribute="trailing" constant="8" id="Jav-Vk-aeL"/>
+                            <constraint firstItem="0zf-nY-AYE" firstAttribute="top" secondItem="49U-CG-DBr" secondAttribute="bottom" constant="15" id="d5p-S4-ZoO"/>
+                            <constraint firstItem="s5E-9I-vVD" firstAttribute="centerY" secondItem="jDh-iA-AoY" secondAttribute="centerY" id="dzW-9e-hF5"/>
+                            <constraint firstItem="jDh-iA-AoY" firstAttribute="centerX" secondItem="7hy-p9-tCR" secondAttribute="centerX" constant="-20" id="jRK-UY-zRd"/>
+                            <constraint firstItem="0zf-nY-AYE" firstAttribute="leading" secondItem="7hy-p9-tCR" secondAttribute="leadingMargin" constant="-1" id="jsC-l0-OsS"/>
+                            <constraint firstItem="0zf-nY-AYE" firstAttribute="centerX" secondItem="7hy-p9-tCR" secondAttribute="centerX" id="ksJ-pn-Cec"/>
+                            <constraint firstItem="0zf-nY-AYE" firstAttribute="bottom" secondItem="jDh-iA-AoY" secondAttribute="top" constant="10" id="mJM-dw-K6C"/>
+                            <constraint firstItem="49U-CG-DBr" firstAttribute="centerX" secondItem="7hy-p9-tCR" secondAttribute="centerX" id="uUs-ul-bOs"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1QN-lf-moh">
@@ -3771,7 +3797,9 @@ definition</string>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="collectionIPA" destination="0zf-nY-AYE" id="oYh-q2-pZG"/>
+                        <outlet property="lblMode" destination="jDh-iA-AoY" id="GlN-yU-BEn"/>
                         <outlet property="lblTitle" destination="49U-CG-DBr" id="gRw-YF-iLJ"/>
+                        <outlet property="switchMode" destination="s5E-9I-vVD" id="PLa-jy-l3O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gcX-QK-1Pl" userLabel="First Responder" sceneMemberID="firstResponder"/>

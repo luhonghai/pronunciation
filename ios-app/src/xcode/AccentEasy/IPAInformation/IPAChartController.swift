@@ -38,7 +38,16 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
     var userProfile: UserProfile!
     
+    @IBOutlet weak var switchMode: UISwitch!
     @IBOutlet weak var lblTitle: UILabel!
+    
+    @IBOutlet weak var lblMode: UILabel!
+    
+    @IBAction func switchModeValueChanged(sender: UISwitch) {
+        selectedMode = sender.on ? .VIEW_MY_SCORE : .HEAR_PHONEME
+        updateLabelMode()
+        collectionIPA.reloadData()
+    }
     
     @IBAction func clickBack(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
@@ -49,11 +58,26 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         activateAudioSession()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.switchMode.layer.cornerRadius = self.switchMode.frame.height / 2
+    }
+    
+    func updateLabelMode() {
+        if selectedMode == .VIEW_MY_SCORE {
+            lblMode.text = "view my scores"
+        } else if selectedMode == .HEAR_PHONEME {
+            lblMode.text = "hear phonemes"
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        swiper = SloppySwiper(navigationController: self.navigationController)
 //        self.navigationController?.delegate = swiper
 //        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+        switchMode.on = selectedMode != .HEAR_PHONEME
+        updateLabelMode()
         dbAdapter = WordCollectionDbApdater()
         do {
             ipaList = try dbAdapter.getIPAMapArpabetByType(selectedType)

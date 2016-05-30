@@ -18,7 +18,7 @@ class FileHelper {
         //return "http://192.168.1.196:8080"
         //hoang pc
         //return "http://192.168.1.22:8080"
-        return "http://localhost:8080"
+        return "http://192.168.1.196:8080"
     }
     
     class func getFilePath(path: String, directory: Bool = false) -> String {
