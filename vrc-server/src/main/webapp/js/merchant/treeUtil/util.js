@@ -626,6 +626,7 @@ function drag2drop(){
                     var drop = api.itemFrom(options.hover);
                     var dropData = api.itemData(drop);
                     api.close(drop);
+                    //api.close(item);
                     var dragData = api.itemData(item);
                     if(dropData._isButton){
                         return false;
@@ -829,6 +830,7 @@ function disableEnter(){
     $(document).on('keyup keypress', 'form input[type="text"]', function(e) {
         if(e.which == 13) {
             e.preventDefault();
+            $(this).parent().parent().next().find('.form-control').focus();
             return false;
         }
     });
