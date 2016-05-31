@@ -50,6 +50,8 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
     var menuMode = IPAChartMenuMode.MENU
     
+    var deactiveUnscoredPhoneme = false
+    
     var helpText = ""
     @IBOutlet weak var btnMenu: UIBarButtonItem!
     
@@ -227,15 +229,22 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
             if let score = userProfile.phonemeScores[ipa.arpabet] {
                 ipaScore = score
             }
-            self.selectedIpa = ipa
-            popup.score = ipaScore
-            popup.selectedIPA = ipa
-            popup.delegate = self
-            popup.isShow = true
-            ipaPopup = popup
-            self.presentpopupViewController(popup, animationType: .Fade, completion: { () -> Void in
-                
-            })
+            if ipaScore >= 0 || !deactiveUnscoredPhoneme {
+                self.selectedIpa = ipa
+                if selectedIpa.youtubeVideoId != nil && !selectedIpa.youtubeVideoId.isEmpty {
+                    popup.popupMode = .TIP_VIDEO
+                } else {
+                    popup.popupMode = .TIP_CHART
+                }
+                popup.score = ipaScore
+                popup.selectedIPA = ipa
+                popup.delegate = self
+                popup.isShow = true
+                ipaPopup = popup
+                self.presentpopupViewController(popup, animationType: .Fade, completion: { () -> Void in
+                    
+                })
+            }
             break
         }
     }
@@ -361,11 +370,32 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     }
     
     func showHelp(message: String) {
-        lessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
-        lessonTipPopupVC.contentPopup = message
-        lessonTipPopupVC.isShow = true
-        lessonTipPopupVC.delegate = self
-        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+        if selectedMode == .HEAR_PHONEME {
+            lessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+            lessonTipPopupVC.contentPopup = "Touch a phoneme to hear the sound."
+            lessonTipPopupVC.isShow = true
+            lessonTipPopupVC.delegate = self
+            self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+        } else {
+            var check = false
+            for ipa in ipaList {
+                if let score = userProfile.phonemeScores[ipa.arpabet] {
+                    if score >= 0 {
+                        check = true
+                        break
+                    }
+                }
+            }
+            if !check && deactiveUnscoredPhoneme {
+                Logger.log("No activate phoneme score")
+            } else {
+                lessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+                lessonTipPopupVC.contentPopup = message
+                lessonTipPopupVC.isShow = true
+                lessonTipPopupVC.delegate = self
+                self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+            }
+        }
     }
     
     func closeLessonTipPopup(sender: LessonTipPopupVC) {

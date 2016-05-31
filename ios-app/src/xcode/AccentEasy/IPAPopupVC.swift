@@ -44,11 +44,6 @@ class IPAPopupVC: UIViewController {
         btnTop.layer.cornerRadius = btnTop.frame.size.width/2
         // Do any additional setup after loading the view.
         if selectedIPA != nil {
-            if selectedIPA.youtubeVideoId != nil && !selectedIPA.youtubeVideoId.isEmpty {
-                popupMode = .TIP_VIDEO
-            } else {
-                popupMode = .TIP_CHART
-            }
             updateIPA()
         }
         var pImage = UIImage(named: "ic_play.png")!
@@ -85,6 +80,7 @@ class IPAPopupVC: UIViewController {
     func setSelectedIPA(ipa: IPAMapArpabet, score: Int) {
         self.selectedIPA = ipa
         self.score = score
+        self.popupMode = PopupMode.CHART_VIDEO
         updateIPA()
     }
     
