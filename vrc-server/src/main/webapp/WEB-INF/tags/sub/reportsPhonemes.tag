@@ -97,10 +97,6 @@
         padding-top: 25px;
     }
 
-    .class-avg-text, .student-avg-text {
-        padding-top: 5px;
-    }
-
     #holder-chart {
         box-sizing: border-box;
         width: 100%;
@@ -160,6 +156,18 @@
         z-index: 100000;
     }
 
+    .sweet-alert {
+        font-weight: 200 !important;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+        font-size: 16px !important;
+        width: 400px !important;
+        border-radius: 20px;
+    }
+
+    .param{
+        display: none;
+    }
+
 
 </style>
 <div id="page-wrapper">
@@ -169,17 +177,19 @@
                 reports > phonemes</h4>
         </div>
     </div>
-    <div class="row">
+    <div style="padding-bottom: 0px;" class="row">
         <div class="col-lg-12">
             <h2 style="font-size: 20px;font-weight: 500;color:#17375E;margin-top:0px;margin-bottom: 25px" class="header">phonemes</h2>
         </div>
+    </div>
+    <div class="row param">
         <div class="col-sm-1"><label style="float: left;">student:</label></div>
         <div class="col-sm-11">
             <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">
             </select>
         </div>
     </div>
-    <div class="row">
+    <div class="row param">
         <div class="col-sm-1">
             <label>phoneme:</label>
         </div>
@@ -188,24 +198,32 @@
             </select>
         </div>
     </div>
-    <div class="row">
+    <div class="row param">
         <div class="col-sm-1">
-            <label>from:</label>
+            <label>period:</label>
         </div>
-        <div class="col-sm-2">
-            <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
+        <div class="col-sm-3">
+            <select style="margin-top: 5px;padding: 5px;border-radius:3px; " id="period">
+                <option value="day">Day</option>
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+            </select>
         </div>
-        <div class="col-sm-1">
-            <label>to:</label>
+        <div class="col-sm-4">
+            <div class="col-sm-4"><label>start date:</label></div>
+            <div class="col-sm-8"><input type="text" style="float: left;" class="form-control" id="dateFrom"></div>
         </div>
-        <div class="col-sm-2">
-            <input type='text' style="float: left;" class="form-control" id="dateTo" placeholder="To"/>
-        </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <img id="loadInfo" disabled="disabled" src="/images/teacher/report_tick48x48.gif"
                   title="click here to run the reports" class="btn btn-info"
                  style="cursor: pointer;display: block;"/>
         </div>
+    </div>
+    <div class="row">
+        <div id="first-process" class="col-lg-4" style="padding-top: 20px"></div>
+        <div id="process-bar" class="col-lg-4" style="padding-top: 20px"></div>
+        <div id="last-process" class="col-lg-4" style="padding-top: 20px"></div>
     </div>
 </div>
 <!-- /#wrapper -->
@@ -219,7 +237,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="col-sm-12">
                             <div class="student-username">lan.ta@c-mg.com</div>
                         </div>
@@ -233,7 +251,7 @@
                             <div class="student-avg-score">80</div>
                         </div>
                     </div>
-                    <div id="container" class="col-sm-10">
+                    <div id="container" class="col-sm-9">
                         <div id="holder-chart">
                             <div id="placeholder">
                             </div>
@@ -256,6 +274,8 @@
 <script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.axislabels.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/report/reportsPhonemes.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/report/draw-report-phoneme.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
+
 
 
 

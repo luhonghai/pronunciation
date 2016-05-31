@@ -1,7 +1,9 @@
 package com.cmg.vrc.data.dao.impl;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.data.jdo.TeacherMappingCompany;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
@@ -37,6 +39,31 @@ public class AdminDAO extends DataAccess<Admin> {
         return null;
     }
 
+    /**
+     *
+     * @param tmp
+     * @return
+     */
+    public List<Admin> addedCompanyToUser(List<Admin> tmp){
+        try {
+            if(tmp!=null && tmp.size() > 0){
+                TeacherMappingCompanyDAO tmcDao = new TeacherMappingCompanyDAO();
+                for(Admin ad : tmp){
+                    if(ad.getRole() == Constant.ROLE_TEACHER){
+                        TeacherMappingCompany tcm = tmcDao.getCompanyByTeacherName(ad.getUserName());
+                        if(tcm!=null) ad.setIdCompany(tcm.getIdCompany());
+                    }else if(ad.getRole() == Constant.ROLE_STAFF){
+                        TeacherMappingCompany tcm = tmcDao.getCompanyByTeacherName(ad.getUserName());
+                        if(tcm!=null) ad.setIdCompany(tcm.getIdCompany());
+                    }else{
+                        ad.setIdCompany("not set");
+                    }
+                }
+            }
+        }catch (Exception e){
+        }
+        return tmp;
+    }
     public List<Admin> listAll(int start, int length,String search,int column,String order,String user,String fisrt,String last) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();

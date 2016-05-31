@@ -82,6 +82,8 @@ public class TreeNode {
 
     private String _stateOfCourse;
 
+    private boolean _allowDragDrop;
+
     public int getPositionQ() {
         return _positionQ;
     }
@@ -260,5 +262,13 @@ public class TreeNode {
 
     public void set_stateOfCourse(String _stateOfCourse) {
         this._stateOfCourse = _stateOfCourse;
+    }
+
+    public boolean is_allowDragDrop() {
+        return _allowDragDrop;
+    }
+
+    public void set_allowDragDrop(boolean _allowDragDrop) {
+        this._allowDragDrop = _allowDragDrop;
     }
 }

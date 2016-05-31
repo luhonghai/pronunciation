@@ -2,6 +2,7 @@ package com.cmg.merchant.dao.report;
 
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.merchant.common.SqlReport;
+import com.cmg.merchant.common.SqlReportPhonemes;
 import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 import com.cmg.vrc.util.StringUtil;
@@ -49,6 +50,12 @@ public class ReportPhoneDao {
             this.score = score;
         }
     }
+
+    public ScorePhoneme initSp(){
+        ScorePhoneme sp = new ScorePhoneme();
+        return sp;
+    }
+
     /**
      *
      * @param teacherName
@@ -129,6 +136,48 @@ public class ReportPhoneDao {
             pm.close();
         }
         return listScore;
+    }
+
+
+    /**
+     *
+     * @param student
+     * @param arpabet
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public ScorePhoneme getScorePhonemeByDay(String student, String arpabet, long startDate, long endDate){
+        ArrayList<ScorePhoneme> listScore = new ArrayList<>();
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReportPhonemes sql = new SqlReportPhonemes();
+        String query=sql.getSqlCalculatePhoneScoreByDay(student, arpabet);
+        System.out.println("sql get score of phoneme by day : " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute(startDate,endDate);
+            if(tmp!=null && tmp.size()>0){
+                for(Object obj : tmp){
+                    Object[] data = (Object[]) obj;
+                    ScorePhoneme sp = new ScorePhoneme();
+                    if(data[0]!=null && data[1]!=null){
+                        long time = (long)data[0];
+                        sp.setServerTime(time);
+                        Double value = (Double)data[1];
+                        int score = (int) Math.round(value);
+                        sp.setScore(score);
+                        return sp;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return null;
     }
 
     /**

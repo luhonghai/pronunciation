@@ -22,6 +22,8 @@ public class Reports {
         private String sessionId;
         private String dateCreated;
         private ArrayList<ReportPhoneDao.ScorePhoneme> listScorePhonemes;
+        private String dateStart;
+        private String dateEnd;
 
     public ArrayList<ReportPhoneDao.ScorePhoneme> getListScorePhonemes() {
         return listScorePhonemes;
@@ -120,4 +122,19 @@ public class Reports {
             this.phonemes = phonemes;
         }
 
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
+    }
 }

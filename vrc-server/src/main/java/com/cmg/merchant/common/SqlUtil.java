@@ -122,7 +122,7 @@ public class SqlUtil {
     private String SQL_DELETE_QUESTION =  "Update QUESTION as q " +
             "LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
             "LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
-            "set  " +
+            "set " +
             "q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where q.id = 'paramQuestionId'";
 
 

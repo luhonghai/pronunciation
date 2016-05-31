@@ -588,9 +588,17 @@
                             <div class="row" id="listWeight"></div>
                         </div>
                     </div>
+                    <div id="container-equal-weight" class="form-group" style="display: none;">
+                        <div class="col-xs-3 col-sm-2" style="padding:0px">
+                            <label style="padding-top:14px" class="control-label equal-weight">equal weight:</label>
+                        </div>
+                        <div class="col-xs-5  col-sm-6 group-phoneme-weight">
+                            <div class="row"><input style="width: 8%" type="checkbox" class="form-control cbstyle" id="equalweight" /> </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-xs-12 col-sm-12" style="padding:0px">
-                            <label id="wordModal1" style="display: none">If you would like to
+                           <label id="wordModal1" style="display: none">If you would like to
                                 allocate an increased percentage of the score to a particular phoneme then please give
                                 that phoneme a higher "weight."
                             </label>

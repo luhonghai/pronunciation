@@ -61,7 +61,7 @@ function openAdd(){
                     }
                     $('#addCourses').multiselect('destroy');
                     if(index > 12 ){
-                        $('#addCourses').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#addCourses').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#addCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     }
@@ -79,7 +79,7 @@ function openAdd(){
                     }
                     $('#addStudents').multiselect('destroy');
                     if(index > 12){
-                        $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#addStudents').multiselect({ enableFiltering: true,buttonWidth: '100%'});
                     }
@@ -190,16 +190,16 @@ function validateFormAdd(){
     var students = [];
     $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
     $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
-    if(courses.length == 0 ){
+    /*if(courses.length == 0 ){
         $("#add").find(".validateMsg").html("please choose a course");
         $("#add").find(".validateMsg").show();
         return false;
-    }
-    if(students.length == 0 ){
+    }*/
+    /*if(students.length == 0 ){
         $("#add").find(".validateMsg").html("please choose a student");
         $("#add").find(".validateMsg").show();
         return false;
-    }
+    }*/
     return true;
 }
 function validateFormEdit(){
@@ -215,16 +215,16 @@ function validateFormEdit(){
     var students = [];
     $('#editCourses option:selected').map(function(a, item){ courses.push(item.value);});
     $('#editStudents option:selected').map(function(a, item){ students.push(item.value);});
-    if(courses.length == 0 ){
+    /*if(courses.length == 0 ){
         $("#edits").find(".validateMsg").html("please choose a course");
         $("#edits").find(".validateMsg").show();
         return false;
-    }
-    if(students.length == 0 ){
+    }*/
+    /*if(students.length == 0 ){
         $("#edits").find(".validateMsg").html("please choose a student");
         $("#edits").find(".validateMsg").show();
         return false;
-    }
+    }*/
     return true;
 }
 
@@ -318,7 +318,7 @@ function openEdit(){
 
                     $('#editCourses').multiselect('destroy');
                     if(index > 12){
-                        $('#editCourses').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#editCourses').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#editCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     }
@@ -341,7 +341,7 @@ function openEdit(){
                     }
                     $('#editStudents').multiselect('destroy');
                     if(index > 12){
-                        $('#editStudents').multiselect({ enableFiltering: true,maxHeight: 500, buttonWidth: '100%'});
+                        $('#editStudents').multiselect({ enableFiltering: true,maxHeight: 250, buttonWidth: '100%'});
                     }else{
                         $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     }
@@ -435,8 +435,59 @@ function focusInput(){
     $('.modal').on('shown.bs.modal', function() {
         $(this).find('input:first').focus();
     });
+    $('.modal').on('hide.bs.modal', function() {
+        var showDropdown = false;
+        $(this).find('select').parent().find('div.btn-group').each(function(){
+            var c = $(this).attr('class');
+            if(c.indexOf('open') != -1){
+                $(this).removeClass('open');
+                showDropdown = true;
+            }
+        });
+        if(showDropdown){
+            return false;
+        }
+    });
 }
 
+function onchangeDropdown(){
+    $('#editCourses').on('change', function(){
+        var courses = [];
+        $('#editCourses option:selected').map(function(a, item){ courses.push(item.value);});
+        if(courses.length > 0 ){
+            $("#edits").find(".validateMsg").hide();
+        }
+
+
+    });
+    $('#editStudents').on('change', function(){
+        var students = [];
+        $('#editStudents option:selected').map(function(a, item){ students.push(item.value);});
+        if(students.length > 0 ){
+            $("#edits").find(".validateMsg").hide();
+            return false;
+        }
+    });
+
+    $('#addCourses').on('change', function(){
+        var courses = [];
+        $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
+        if(courses.length > 0 ){
+            $("#add").find(".validateMsg").hide();
+        }
+
+
+    });
+    $('#addStudents').on('change', function(){
+        var students = [];
+        $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
+        if(students.length > 0 ){
+            $("#add").find(".validateMsg").hide();
+            return false;
+        }
+    });
+
+}
 $(document).ready(function(){
     $('#help-icons').show();
     collapseMenu();
@@ -452,5 +503,6 @@ $(document).ready(function(){
     helpEditMyClass();
     listMyClasses();
     focusInput();
+    onchangeDropdown();
 });
 

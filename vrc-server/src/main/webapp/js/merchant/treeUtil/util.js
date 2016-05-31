@@ -40,7 +40,7 @@ function ClickOnTree(){
             var popupId = itemData._popupId;
             openPopup(itemData);
         }else{
-            swalNew("","please add test data for the previous level first","error");
+            swalNew("","'please make sure that you have at least one lesson question and at least one test question in all levels before adding the next level.","error");
         }
 
     });
@@ -448,6 +448,8 @@ function showAddWord(){
         $("#addWordModal").attr("type","add-new-word");
         $("#addWordModal").modal('show');
         $("#addWordModal").find('#title-add-word').html("add word");
+        $('#container-equal-weight').hide();
+        $('#equalweight').prop("checked",false);
         $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
 }
@@ -475,6 +477,8 @@ function showAddWordForTest(){
         $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
         $("#addWordModal").find('#title-add-word').html("add test word");
+        $('#container-equal-weight').hide();
+        $('#equalweight').prop("checked",false);
         $("#addWordModal").find('#btnSaveWord').attr("disabled", true);
     });
 }
@@ -487,6 +491,7 @@ function openEditWords(){
         getListPhonemes().html("");
         getListWeight().html("");
         getListIPA().html("");
+        $('#equalweight').prop("checked",false);
         if(currentPopup.find(".action").val() == action_add_question) {
             var word= $(this).closest("div").find('p').text();
             if(listWord !=null && listWord.length>0){
@@ -555,7 +560,6 @@ function removeWord(){
                 $.each(listWord, function(i){
                     if(listWord[i].nameWord === word) {
                         listWord.splice(i,1);
-                        console.log(listWord);
                         return false;
                     }
                 });
@@ -568,7 +572,6 @@ function removeWord(){
                 $.each(listWord, function(i){
                     if(listWord[i].nameWord === word) {
                         listWord.splice(i,1);
-                        console.log(listWord);
                         return false;
                     }
                 });
@@ -622,6 +625,7 @@ function drag2drop(){
                     dragDrop = new Object();
                     var drop = api.itemFrom(options.hover);
                     var dropData = api.itemData(drop);
+                    api.close(drop);
                     var dragData = api.itemData(item);
                     if(dropData._isButton){
                         return false;
@@ -642,6 +646,12 @@ function drag2drop(){
                         //do not move the test node
                         return false;
                     }
+                  /*  if(dragData._allowDragDrop == false){
+                        //do not move level have not test question
+                        return false;
+                    }*/
+
+
                    /* if(dropData._targetLoad == targetLoadQuestion){
                         //do not move the test node
                         return false;
@@ -823,7 +833,31 @@ function disableEnter(){
         }
     });
 }
+function clickEqualWeight(){
+    $('#equalweight').on('change', function() {
+       if($(this).prop('checked')){
+           $('.phoneme-weight').each(function(){
+                $(this).val(1);
+           });
+           $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
+       }
+    });
+
+    $(document).on('change', '.phoneme-weight', function(e) {
+        var enterV =  $('.phoneme-weight').length;
+        var checked = true;
+        $('.phoneme-weight').each(function(){
+            var v = parseInt($(this).val());
+            if(v > 1){
+                checked=false;
+            }
+        });
+        $('#equalweight').prop("checked",checked);
+
+    });
+}
 $(document).ready(function(){
+    clickEqualWeight();
     removeWord();
     saveWord();
     showAddWord();

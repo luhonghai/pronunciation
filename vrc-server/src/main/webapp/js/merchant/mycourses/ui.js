@@ -13,7 +13,12 @@ function buildCourse(dto){
     if(dto.state == "edited"){
         $lblInfor.html(dto.state + " from " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
     }else if (dto.state == "duplicated" ) {
-        $lblInfor.html(dto.dateCreated.split(" ")[0]);
+        if(dto.cpCloneId == dto.idCompany){
+            $lblInfor.html(dto.state + " " + dto.dateCreated.split(" ")[0]);
+        }else{
+            $lblInfor.html(dto.state  + " from " + dto.companyName +" " + dto.dateCreated.split(" ")[0]);
+        }
+
     }else if (dto.state == "edited title"){
         $lblInfor.html("duplicated"  + " from " + dto.companyName +" " + dto.dateCreated.split(" ")[0]);
     }else {

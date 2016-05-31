@@ -63,6 +63,7 @@ function listAdmin(){
                     $button.attr("first", data.firstName);
                     $button.attr("last", data.lastName);
                     $button.attr("role", data.role);
+                    $button.attr("idCompany", data.idCompany);
                     return $("<div/>").append($button).html();
                 }
             }]
@@ -81,44 +82,35 @@ function adduser(){
             var lastname = $("#addlastname").val();
             var password = $("#addpassword").val();
             var role = $("#addrole").val();
-            if(role=="Admin" || role=="User") {
-                $.ajax({
-                    url: "Admins",
-                    type: "POST",
-                    dataType: "text",
-                    data: {
-                        add: "add",
-                        username: username,
-                        firstname: firstname,
-                        lastname: lastname,
-                        password: password,
-                        role: role
-                    },
-                    success: function (data) {
-                        if (data == "success") {
+            var idCompany = $('#select-company').val();
+            $.ajax({
+                url: "Admins",
+                type: "POST",
+                dataType: "text",
+                data: {
+                    add: "add",
+                    username: username,
+                    firstname: firstname,
+                    lastname: lastname,
+                    password: password,
+                    role: role,
+                    idCompany : idCompany
+                },
+                success: function (data) {
+                    if (data == "success") {
                             $("tbody").html("");
                             myTable.fnDraw();
                             $("#add").modal('hide');
-                        }
-                        if (data == "error") {
-                            $("#UserNameExitAdd").show();
-                        }
-                    },
-                    error: function () {
-                        swal("Error!", "Could not connect to server", "error");
                     }
+                    if (data == "error") {
+                            $("#UserNameExitAdd").show();
+                    }
+                },
+                error: function () {
+                        swal("Error!", "Could not connect to server", "error");
+                }
+            });
 
-                });
-            }else{
-                $(".loading-lesson").show();
-                $("#teacher").modal('show');
-                $("#fullNames").val(username);
-                $("#firstNames").val(firstname);
-                $("#lastNames").val(lastname);
-                $("#passwords").val(password);
-                $("#roles").val(role);
-                getCompany();
-            }
         }
 
     });
@@ -139,17 +131,7 @@ function getCompany(){
                     $(items).each(function(){
                         $("#select-company").append('<option value="' + this.id + '">' + this.companyName + '</option>');
                     });
-                }else{
-                    swal("Info!", "Company unavailable!", "info");
-                    $("#teacher").modal('hide');
-                    return;
                 }
-                $(".loading-lesson").hide();
-                $('#select-company').multiselect('destroy');
-                $('#select-company').multiselect({ enableFiltering: true, buttonWidth: '200px'});
-                $("#container-add-company").find(".btn-group").css("padding-left","14px");
-                $('#select-company').multiselect('refresh');
-
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -157,54 +139,35 @@ function getCompany(){
         error: function () {
             swal("Error!", "Could not connect to server", "error");
         }
-
     });
 }
-function getCompanys(role,username){
+function getCompanyEdit(idCompany){
     $.ajax({
         url: "Admins",
         type: "POST",
         dataType: "json",
         data: {
-            getCompany: "getCompany",
-            role:role,
-            username:username
+            action: "getCompany"
         },
         success: function (data) {
             if(data.message=="success"){
                 $("#select-company-edit").empty();
-                if(data.clientCodes!=null || data.check!=null){
+                if(data.clientCodes!=null){
                     var items=data.clientCodes;
-                    var item=data.check;
-                    if(data.clientCodes!=null && data.check==null){
+                    if(data.clientCodes!=null){
                         $(items).each(function(){
-                            $("#select-company-edit").append('<option value="' + this.id + '">' + this.companyName + '</option>');
-                        });
-                    }
-                    if(data.clientCodes==null && data.check!=null){
-                        $(item).each(function () {
-                            $("#select-company-edit").append("<option selected='selected' value='" + this.id + "'>" + this.companyName + "</option>");
+                            if(this.id.trim() == idCompany.trim()){
+                                $("#select-company-edit").append('<option selected value="' + this.id + '">' + this.companyName + '</option>');
+                            }else{
+                                $("#select-company-edit").append('<option value="' + this.id + '">' + this.companyName + '</option>');
+                            }
 
                         });
                     }
-                    if(data.clientCodes!=null && data.check!=null) {
-                        $(item).each(function () {
-                            $("#select-company-edit").append("<option selected='selected' value='" + this.id + "'>" + this.companyName + "</option>");
-
-                        });
-                        $(items).each(function () {
-                            $("#select-company-edit").append('<option value="' + this.id + '">' + this.companyName + '</option>');
-                        });
-                    }
-                }else{
-                    swal("Info!", "Company unavailable!", "info");
-                    $("#teacher").modal('hide');
-                    return;
                 }
-                $(".loading-lesson").hide();
+                $('#container-company-edit').show();
                 $('#select-company-edit').multiselect('destroy');
-                $('#select-company-edit').multiselect({ enableFiltering: true, buttonWidth: '200px'});
-                $("#container-add-company").find(".btn-group").css("padding-left","14px");
+                $('#select-company-edit').multiselect({ enableFiltering: true, maxHeight:300,buttonWidth: '100%'});
                 $('#select-company-edit').multiselect('refresh');
 
             }else{
@@ -268,12 +231,34 @@ function addMappingTeacherAndCompany(){
 function add(){
     $(document).on("click","#addUser", function(){
         $("#add").modal('show');
+    });
+
+    $('#add').on("show.bs.modal",function(){
+        $("#select-company").hide();
         $("#addusername").val("");
         $("#addfirstname").val("");
         $("#addlastname").val("");
         $("#addpassword").val("");
-        $("#addrole").val("");
+        $('#addrole').multiselect('destroy');
+        $('#addrole').multiselect({ enableFiltering: false, maxHeight: 300,buttonWidth: '100%'});
+        $('#addrole').multiselect('refresh');
+        $('#addrole').multiselect('select', 'Admin');
+        getCompany();
+    });
 
+    $(document).on("change", "#addrole", function () {
+        var vl = $(this).val();
+        if(vl == "Teacher" || vl == "Staff"){
+            if($('#container-company').is(':visible') == false){
+                $('#container-company').show();
+                $('#select-company').multiselect('destroy');
+                $('#select-company').multiselect({ enableFiltering: true, maxHeight: 300,buttonWidth: '100%'});
+                $('#select-company').multiselect('refresh');
+
+            }
+        }else{
+            $('#container-company').hide();
+        }
     });
 }
 
@@ -370,8 +355,8 @@ function deleteuser(){
 }
 
 function openEdit(){
+
     $(document).on("click","#edit", function() {
-        $("#edits").modal('show');
         $("#editRoles").empty();
         var roles;
         var idd = $(this).attr('id-column');
@@ -379,7 +364,7 @@ function openEdit(){
         var first = $(this).attr('first');
         var last=$(this).attr('last');
         var role = $(this).attr('role');
-
+        var idCompany = $(this).attr('idCompany');
         //var pass = $(this).attr('pass');
         if(role==1) {
             roles = "Admin";
@@ -402,11 +387,22 @@ function openEdit(){
                 if (data.message == "success") {
                     $("#editRoles").append(data.content);
                     $("#idedit").val(idd);
-                    $("#usernames").val(username);
+                    $("#usernames-edit").val(username);
                     $("#editfirstname").val(first);
                     $("#editlastname").val(last);
                     $("#editpassword").val("");
-                    $("#editrole").val(roles);
+                    $('#editrole').val(roles);
+                    $('#editrole').multiselect('destroy');
+                    $('#editrole').multiselect({ enableFiltering: false, maxHeight: 300,buttonWidth: '100%'});
+                    $('#editrole').multiselect('refresh');
+
+
+                    if(roles == "Staff" || roles == "Teacher"){
+                        getCompanyEdit(idCompany);
+                    }else{
+                        $('#container-company-edit').hide();
+                    }
+                    $("#edits").modal('show');
                 }
                 if (data.message == "error") {
                     swal("Error!", "User not exist.", "error");
@@ -429,13 +425,12 @@ function edituser(){
         var valide=validateFormUpdate();
         if(valide==true) {
             var id = $("#idedit").val();
-            var username=$("#usernames").val();
+            var username=$("#usernames-edit").val();
             var firstname = $("#editfirstname").val();
             var lastname = $("#editlastname").val();
             var password = $("#editpassword").val();
             var role = $("#editrole").val();
-
-            if (role == "Admin" || role == "User") {
+            var idCompany = $('#select-company-edit').val();
                 $.ajax({
                     url: "Admins",
                     type: "POST",
@@ -443,10 +438,12 @@ function edituser(){
                     data: {
                         edit: "edit",
                         id: id,
+                        username : username,
                         firstname: firstname,
                         lastname: lastname,
                         password: password,
-                        role: role
+                        role: role,
+                        idCompany : idCompany
                     },
                     success: function (data) {
                         if (data == "success") {
@@ -465,64 +462,8 @@ function edituser(){
                     }
 
                 });
-            }else{
-                $(".loading-lesson").show();
-                $("#teachers").modal('show');
-                $("#fullNamesEdit").val(username);
-                $("#firstNamesEdit").val(firstname);
-                $("#lastNamesEdits").val(lastname);
-                $("#passwordsEdit").val(password);
-                $("#rolesEdit").val(role);
-                getCompanys(role,username);
-            }
+
         }
-
-    });
-}
-
-function editMappingTeacherAndCompany(){
-    $(document).on("click","#editteacher", function(){
-        var fullName=$("#fullNamesEdit").val();
-        var firstName=$("#firstNamesEdit").val();
-        var lastName=$("#lastNamesEdits").val();
-        var password=$("#passwordsEdit").val();
-        var role=$("#rolesEdit").val();
-        var idObjects=[];
-        $('#select-company-edit option:selected').map(function(a, item){ idObjects.push({idCompany:item.value,companyName:item.text});});
-
-        var dto={
-            fullName:fullName,
-            firstName:firstName,
-            lastName:lastName,
-            password:password,
-            role:role,
-            companies:idObjects
-        }
-        console.log(dto);
-        $.ajax({
-            url: "Admins",
-            type: "POST",
-            dataType: "text",
-            data: {
-                editTeacher: "editTeacher",
-                objDto: JSON.stringify(dto)// to json word,
-            },
-            success: function (data) {
-                if (data=="success") {
-                    $("#edits").modal('hide');
-                    $("#teachers").modal('hide');
-                    swal("Success!", "You have edit success!", "success");
-                    myTable.fnDraw();
-                }else{
-                    swal("Warning!", "User name exist.", "warning");
-                    $("#teachers").modal('hide');
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
-
-        });
 
     });
 }
@@ -585,14 +526,12 @@ $(document).ready(function(){
     hideeditmessage();
     add();
     adduser();
-    //edit();
     openEdit();
     edituser();
     deletes();
     deleteuser();
     addMappingTeacherAndCompany();
-        listAdmin();
-    editMappingTeacherAndCompany();
+    listAdmin();
     searchAdvanted();
 });
 

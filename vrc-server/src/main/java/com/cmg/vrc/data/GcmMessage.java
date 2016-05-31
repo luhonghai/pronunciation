@@ -19,7 +19,7 @@ public class GcmMessage {
         if(type == TYPE_INVITE){
             this.content = "You have received a new invitation";
         }else if(type == TYPE_UPDATE_COURSE){
-            this.content = "You have received a course updated";
+            this.content = "You have received a course update";
         }
     }
 

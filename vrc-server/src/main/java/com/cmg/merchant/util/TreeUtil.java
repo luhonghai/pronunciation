@@ -7,6 +7,7 @@ import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.data.jdo.word.WordCollection;
+import com.cmg.lesson.services.course.CourseService;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.test.TMLDAO;
 import com.cmg.merchant.dao.word.WDAO;
@@ -37,6 +38,7 @@ public class TreeUtil {
         node.set_textColor(Constant.TEXT_COLOR);
         node.set_backgroundColor(Constant.BG_COLOR);
         node.setInode(true);
+        node.set_allowDragDrop(true);
         node.set_isButton(false);
         node.set_message(SUCCESS);
         node.set_actionClick(Constant.ACTION_EDIT_LEVEL);
@@ -84,9 +86,11 @@ public class TreeUtil {
             nodes.add(btnService.createBtnAddLevel());
         }
         if(list!=null){
+            CourseServices cServices = new CourseServices();
             for(Level lv : list){
                 TreeNode node = getDefaultInstance(showBtnAction);
                 node.setId(lv.getId());
+                node.set_allowDragDrop(cServices.allowLevelDragDrop(lv.getId()));
                 node.setLabel(lv.getName());
                 node.set_title(lv.getDescription());
                 node.set_targetLoad(Constant.TARGET_LOAD_LEVEL);
