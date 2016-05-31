@@ -33,6 +33,7 @@ function drawWord(data){
     $("#wordModal1").show();
     $("#wordModal2").show();
     $('#equalweight').prop("checked",checked);
+    $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
 }
 
 function drawPhonemeOfWord(data){
@@ -48,4 +49,5 @@ function drawPhonemeOfWord(data){
     });
     $('#container-equal-weight').show();
     $('#equalweight').prop("checked",true);
+    $("#addWordModal").find('#btnSaveWord').attr("disabled", false);
 }

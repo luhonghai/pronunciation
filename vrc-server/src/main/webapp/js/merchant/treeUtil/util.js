@@ -817,7 +817,7 @@ function copyAndPaste(){
 }
 function focusInput(){
     $('.modal').on('shown.bs.modal', function() {
-        $(this).find('input:first').focus();
+        $(this).find('input:not(:hidden):first').focus();
     });
 }
 function makeOnceCheckboxSelected(){
