@@ -222,7 +222,7 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
     }
     
     //select cell
-    let ipaPopupVC:IPAPopupVC = IPAPopupVC(nibName:"IPAPopupVC", bundle: nil)
+    let ipaPopupVC:IPAPopupVC! = IPAPopupVC(nibName:"IPAPopupVC", bundle: nil)
     var timer:NSTimer!
     
     func displayViewController(animationType: SLpopupViewAnimationType) {
@@ -500,6 +500,6 @@ class FSDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollection
         
     }
     func pressClosePopup(sender: IPAPopupVC?) {
-        
+        closeIPAPopup()
     }
 }

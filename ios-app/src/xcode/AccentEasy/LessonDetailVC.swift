@@ -730,6 +730,6 @@ class LessonDetailVC: BaseUIViewController, UICollectionViewDataSource, UICollec
     }
     
     func pressClosePopup(sender: IPAPopupVC?) {
-        
+        closeIPAPopup()
     }
 }

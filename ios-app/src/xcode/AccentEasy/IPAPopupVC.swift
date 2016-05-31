@@ -89,6 +89,9 @@ class IPAPopupVC: UIViewController {
     }
     
     func updateIPA() {
+        if bgView == nil {
+            return
+        }
         var cellColor:UIColor = ColorHelper.APP_LIGHT_GRAY
         if score >= 80 {
             cellColor = ColorHelper.APP_GREEN
@@ -97,9 +100,7 @@ class IPAPopupVC: UIViewController {
         } else if score >= 0 {
             cellColor = ColorHelper.APP_RED
         }
-        if bgView != nil {
-            bgView.backgroundColor = cellColor
-        }
+        self.bgView.backgroundColor = cellColor
         self.lblScore.text = score >= 0 ? "\(score)%" : ""
         self.lblIPA.text = selectedIPA.ipa
         self.btnPlayExample.tintColor = cellColor
