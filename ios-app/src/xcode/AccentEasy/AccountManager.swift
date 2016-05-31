@@ -212,7 +212,7 @@ class AccountManager {
                         userProfile.englishProficiency = result.data.englishProficiency
                         userProfile.country = result.data.country
                         userProfile.dob = result.data.dob
-                        userProfile.gender = result.data.gender
+                        //userProfile.gender = result.data.gender
                     }
                     completion(userProfile: userProfile, success: result.status, message: result.message)
                 }
@@ -580,7 +580,14 @@ class AccountManager {
                         let userData = try NSJSONSerialization.JSONObjectWithData(res.data!, options:[]) as? [String:AnyObject]
                         if let gender = userData!["gender"] as? String {
                             Logger.log("User \(userProfile.username) gender \(gender)")
-                            userProfile.gender = gender == "male"
+                            if gender.lowercaseString == "male" {
+                                userProfile.sex = 1
+                            } else if gender.lowercaseString == "female" {
+                                userProfile.sex = 2
+                            } else {
+                                userProfile.sex = 0
+                            }
+                            //userProfile.gender = gender == "male"
                         }
                     } catch {
                         NSLog("Account Information could not be loaded")

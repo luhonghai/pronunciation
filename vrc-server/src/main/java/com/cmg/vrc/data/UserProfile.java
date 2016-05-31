@@ -221,6 +221,7 @@ public class UserProfile {
     private boolean isSetup = false;
     private boolean nativeEnglish = true;
     private boolean gender = true;
+    private int sex = 0;
     private String dob = "01/01/1900";
     private String country = "GB";
     private int englishProficiency = 5;
@@ -270,6 +271,14 @@ public class UserProfile {
 
     public void setGender(boolean gender) {
         this.gender = gender;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
     public String getDob() {

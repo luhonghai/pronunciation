@@ -2,6 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -25,6 +26,10 @@ public class LoginToken implements Mirrorable {
     private String token;
 
     @Persistent
+    @Column(jdbcType = "VARCHAR", length = 10000)
+    private String additionalToken;
+
+    @Persistent
     private int appVersion;
 
     @Persistent
@@ -35,8 +40,6 @@ public class LoginToken implements Mirrorable {
 
     @Persistent
     private Date accessDate;
-
-
 
     @Override
     public String getId() {
@@ -70,6 +73,14 @@ public class LoginToken implements Mirrorable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAdditionalToken() {
+        return additionalToken;
+    }
+
+    public void setAdditionalToken(String additionalToken) {
+        this.additionalToken = additionalToken;
     }
 
     public int getAppVersion() {

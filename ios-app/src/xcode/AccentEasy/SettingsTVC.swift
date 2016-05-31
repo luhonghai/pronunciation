@@ -65,8 +65,8 @@ class SettingsTVC: BaseUITableViewController, LSPopupVCDelegate {
         lblCountry.text = arrCountry[arrCountryValue.indexOf(userProfile.country)!]
         //lblCountry.text = userProfile.country
         lblBirthday.text = userProfile.dob
-        gender = userProfile.gender
-        drawGender(gender)
+        //gender = userProfile.gender
+        //drawGender(gender)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -215,7 +215,7 @@ class SettingsTVC: BaseUITableViewController, LSPopupVCDelegate {
                 
             })
 
-        case 5:
+        /*case 5:
             Logger.log(rowMenu)
             //select male
             gender = !gender
@@ -230,7 +230,7 @@ class SettingsTVC: BaseUITableViewController, LSPopupVCDelegate {
         case 7:
             Logger.log(rowMenu)
         case 8:
-            Logger.log(rowMenu)
+            Logger.log(rowMenu)*/
         default:
             Logger.log("case default")
         }
@@ -247,8 +247,8 @@ class SettingsTVC: BaseUITableViewController, LSPopupVCDelegate {
             imgvFemale.image = UIImage(named: "checked_checkbox")
         }
         print(isMale)
-        userProfile.gender = isMale
-        updateSettings(userProfile)
+        //userProfile.gender = isMale
+        //updateSettings(userProfile)
     }
     
     func updateLanguage(language:String){

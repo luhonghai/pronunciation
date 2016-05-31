@@ -237,7 +237,14 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     let userProfile:UserProfile = AccountManager.currentUser(username! as! String)
                     if let gender = result.valueForKey("gender") {
                         Logger.log("gender \(gender)")
-                        userProfile.gender = gender as! String == "male"
+                        if gender.lowercaseString == "male" {
+                            userProfile.sex = 1
+                        } else if gender.lowercaseString == "female" {
+                            userProfile.sex = 2
+                        } else {
+                            userProfile.sex = 0
+                        }
+                        //userProfile.gender = gender as! String == "male"
                     }
                     userProfile.username = username as! String
                     userProfile.name = result.valueForKey("name") as! String

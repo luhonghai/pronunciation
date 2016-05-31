@@ -149,6 +149,8 @@ public class AuthHandler extends HttpServlet {
                                     loginToken.setAppName(deviceInfo.getAppVersion());
                                     loginToken.setAppVersion(appVersion);
                                     loginToken.setAccessDate(new Date(System.currentTimeMillis()));
+                                    //System.out.print("toke:" + user.getAdditionalToken() + "leng:"+user.getAdditionalToken().length());
+                                    loginToken.setAdditionalToken(user.getAdditionalToken());
                                     loginTokenDAO.put(loginToken);
                                     responseData.setData(loginTokenDAO.getByAccountAndDevice(user.getUsername(), deviceInfo.getEmei()));
                                 } catch (Exception e) {

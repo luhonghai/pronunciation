@@ -63,6 +63,7 @@ public class RegisterHandler extends BaseServlet {
                         cUser.setEnglishProficiency(user.getEnglishProficiency());
                         cUser.setDob(user.getDob());
                         cUser.setGender(user.isGender());
+                        cUser.setSex(user.getSex());
                         cUser.setCreatedDate(new Date(System.currentTimeMillis()));
                         cUser.setActivationLocked(false);
                         //cUser.setRawJsonData(profile);

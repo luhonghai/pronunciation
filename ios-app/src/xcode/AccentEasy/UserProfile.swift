@@ -28,7 +28,8 @@ public class UserProfile: Mappable {
     public var password:String!
     public var isSetup:Bool = false;
     public var nativeEnglish:Bool = true
-    public var gender:Bool = true
+    //sex 0 is Unknow, 1 is boy, 2 is girl
+    public var sex:Int = 0
     public var dob:String = "01/01/1900";
     public var country:String = "GB";
     public var englishProficiency:Int = 5
@@ -138,7 +139,7 @@ public class UserProfile: Mappable {
         profileImage  <= map["profileImage"]
         password     <= map["password"]
         isSetup    <= map["isSetup"]
-        gender    <= map["gender"]
+        sex    <= map["sex"]
         dob    <= map["dob"]
         country    <= map["country"]
         englishProficiency    <= map["englishProficiency"]

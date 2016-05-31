@@ -45,6 +45,9 @@ public class User implements Mirrorable {
     private boolean gender = true;
 
     @Persistent
+    private int sex = 0;
+
+    @Persistent
     private String dob = "01/01/1900";
 
     @Persistent
@@ -143,6 +146,14 @@ public class User implements Mirrorable {
 
     public void setGender(boolean gender) {
         this.gender = gender;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
     public String getDob() {
