@@ -38,7 +38,7 @@ function slideBackPreview(){
 }
 function clickCircleQuestion(){
     $(document).on('click','.circle-question',function(){
-        var isFromTest = $(this).attr('isFromTest');
+        var isFromTest = $(this).attr('isformtest');
         if(isFromTest){
             getDescriptionQuestion().find('label').html($(this).attr('description'));
         }

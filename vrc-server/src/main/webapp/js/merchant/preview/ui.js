@@ -88,7 +88,7 @@ function drawQuestionPreview(question, index, isFormTest){
     var $html = $("<div>");
     $html.addClass("circle circle-question");
     $html.attr('id',question.id);
-    $html.attr('isFormTest',isFormTest);
+    $html.attr('isformtest',isFormTest);
     $html.attr('description',question.description);
     $html.attr('words',parseList(question.words));
     $html.html("Q" + index);
