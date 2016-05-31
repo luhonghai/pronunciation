@@ -145,26 +145,11 @@ class MenuTVC: UITableViewController {
         //Logger.log(indexPath.row)
         let rowMenu:Int = indexPath.row
         switch rowMenu{
-            case 1:
-                Logger.log(rowMenu)
-            case 2:
-                Logger.log(rowMenu)
-            case 3:
-                Logger.log(rowMenu)
-            case 4:
-                Logger.log(rowMenu)
-            case 5:
-                Logger.log(rowMenu)
-            case 6:
-                Logger.log(rowMenu)
-            case 7:
-                Logger.log(rowMenu)
-            case 8:
-                Logger.log(rowMenu)
-            case 9:
+            case 10:
                 Logger.log(rowMenu)
                 DeviceManager.shareApp(self, title: "accenteasy - English pronunciation app", message: "I thought you might find this app useful to help you with English pronunciation", url: NSURL(string: "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1091441266&mt=8")!)
-            case 10:
+                break
+            case 11:
                 Logger.log(rowMenu)
                 SweetAlert().showAlert("logout account?", subTitle: "are you sure you want to logout this account?", style: AlertStyle.Warning, buttonTitle:"no", buttonColor:Multimedia.colorWithHexString("D0D0D0") , otherButtonTitle:  "logout", otherButtonColor: Multimedia.colorWithHexString("DD6B55")) { (isOtherButton) -> Void in
                     if isOtherButton == true {
@@ -172,26 +157,28 @@ class MenuTVC: UITableViewController {
                     }
                     else {
                         //logout  row
-                        if self.userProfile.loginType == UserProfile.TYPE_GOOGLE_PLUS {
-                            GIDSignIn.sharedInstance().signOut()
-                        } else if self.userProfile.loginType == UserProfile.TYPE_FACEBOOK {
-                            //Remove FB Data
-                            let fbManager = FBSDKLoginManager()
-                            fbManager.logOut()
-                            FBSDKAccessToken.setCurrentAccessToken(nil)
-                        } else {
-                        }
-                        
-                        Login.logout()
+//                        if self.userProfile.loginType == UserProfile.TYPE_GOOGLE_PLUS {
+//                            GIDSignIn.sharedInstance().signOut()
+//                        } else if self.userProfile.loginType == UserProfile.TYPE_FACEBOOK {
+//                            //Remove FB Data
+//                            let fbManager = FBSDKLoginManager()
+//                            fbManager.logOut()
+//                            FBSDKAccessToken.setCurrentAccessToken(nil)
+//                        } else {
+//                        }
+//                        
+//                        Login.logout()
                         
                         dispatch_async(dispatch_get_main_queue(),{
-                            self.performSegueWithIdentifier("MenuGoToLogin", sender: self)
+                            //self.performSegueWithIdentifier("MenuGoToLogin", sender: self)
+                            NSNotificationCenter.defaultCenter().postNotificationName("moveToProgressPage", object: nil)
                         })
                     }
                 }
-            
+                break
             default:
-                Logger.log("case default")
+                //Logger.log("case default")
+                break
         }
         
     }

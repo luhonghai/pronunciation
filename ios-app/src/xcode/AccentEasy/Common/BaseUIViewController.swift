@@ -53,6 +53,18 @@ class BaseNotification: NSObject, InvitationPopupDelegate {
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRegistrationStatus:", name: appDelegate.registrationKey, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showReceivedMessage:", name: appDelegate.messageKey, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showReceivedMessageInApp:", name: appDelegate.messageKeyInApp, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "moveToProgressPage:", name:
+        "moveToProgressPage", object: nil)
+    }
+    
+    func moveToProgressPage(notification: NSNotification) {
+        if viewController.revealViewController() != nil {
+            viewController.revealViewController().revealToggleAnimated(true)
+        }
+        let ipaChart = viewController.storyboard?.instantiateViewControllerWithIdentifier("IPAChartController") as! IPAChartController
+        ipaChart.selectedType = IPAMapArpabet.CONSONANT
+        ipaChart.menuMode = .LOGOUT
+        viewController.navigationController?.pushViewController(ipaChart, animated: false)
     }
     
     /*func updateRegistrationStatus(notification: NSNotification) {

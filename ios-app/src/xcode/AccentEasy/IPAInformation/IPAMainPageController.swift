@@ -30,12 +30,14 @@ class IPAMainPageController: BaseUIViewController {
         Logger.log("clickVowel")
         let ipaChart = self.storyboard?.instantiateViewControllerWithIdentifier("IPAChartController") as! IPAChartController
         ipaChart.selectedType = IPAMapArpabet.VOWEL
+        ipaChart.menuMode = .BACK
         self.navigationController?.pushViewController(ipaChart, animated: true)
     }
     @IBAction func clickConsonant(sender: AnyObject) {
         Logger.log("clickConsonant")
         let ipaChart = self.storyboard?.instantiateViewControllerWithIdentifier("IPAChartController") as! IPAChartController
         ipaChart.selectedType = IPAMapArpabet.CONSONANT
+        ipaChart.menuMode = .BACK
         self.navigationController?.pushViewController(ipaChart, animated: true)
     }
     

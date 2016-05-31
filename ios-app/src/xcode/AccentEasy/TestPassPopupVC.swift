@@ -19,6 +19,18 @@ class TestPassPopupVC: UIViewController {
     @IBOutlet weak var aviewScore: AnalyzingView!
     @IBOutlet weak var btnGoogleShare: UIButton!
     
+    var isShow = false
+    
+    var willMovetoIPAPage = false
+    
+    @IBAction func clickProgressButton(sender: AnyObject) {
+        willMovetoIPAPage = true
+        delegate?.closeTestPassPopup!(self)
+        let ipaChart = (delegate as! UIViewController).storyboard?.instantiateViewControllerWithIdentifier("IPAChartController") as! IPAChartController
+        ipaChart.selectedType = IPAMapArpabet.CONSONANT
+        ipaChart.menuMode = .MENU
+        (delegate as! UIViewController).navigationController?.pushViewController(ipaChart, animated: false)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,11 +80,15 @@ class TestPassPopupVC: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         print("viewDidDisappear")
+        isShow = false
+        if !willMovetoIPAPage {
         NSNotificationCenter.defaultCenter().postNotificationName("testPassMove", object: nil)
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        isShow = true
         print("viewDidAppear")
         
     }

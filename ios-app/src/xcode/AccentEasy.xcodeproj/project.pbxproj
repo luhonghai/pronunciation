@@ -216,6 +216,8 @@
 		9B72D1211C9BABD600297470 /* LessonCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B72D1201C9BABD600297470 /* LessonCollectionController.swift */; };
 		9B72D1401C9C03EB00297470 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B72D13F1C9C03EB00297470 /* Logger.swift */; };
 		9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */; };
+		9B824C7D1CFD257700784ED9 /* ic_progress.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B824C7B1CFD257700784ED9 /* ic_progress.png */; };
+		9B824C7E1CFD257700784ED9 /* p_menu_progress.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B824C7C1CFD257700784ED9 /* p_menu_progress.png */; };
 		9B83ED701CD1C1B50059288A /* menu-invitation.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B83ED6F1CD1C1B50059288A /* menu-invitation.png */; };
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
@@ -702,6 +704,8 @@
 		9B72D1201C9BABD600297470 /* LessonCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonCollectionController.swift; sourceTree = "<group>"; };
 		9B72D13F1C9C03EB00297470 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhonemeScore.swift; path = Data/Entity/PhonemeScore.swift; sourceTree = "<group>"; };
+		9B824C7B1CFD257700784ED9 /* ic_progress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_progress.png; sourceTree = "<group>"; };
+		9B824C7C1CFD257700784ED9 /* p_menu_progress.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = p_menu_progress.png; sourceTree = "<group>"; };
 		9B83ED6F1CD1C1B50059288A /* menu-invitation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-invitation.png"; sourceTree = "<group>"; };
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
@@ -1826,6 +1830,8 @@
 				9B3408281CB7663D002F80A1 /* hand-draw-arrow-5.png */,
 				9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */,
 				9B3408141CB76461002F80A1 /* hand-draw-arrow-1.png */,
+				9B824C7B1CFD257700784ED9 /* ic_progress.png */,
+				9B824C7C1CFD257700784ED9 /* p_menu_progress.png */,
 				9B3408151CB76461002F80A1 /* hand-draw-arrow-2.png */,
 				9B3408161CB76461002F80A1 /* hand-draw-arrow-3.png */,
 				C1FA8A9E1C88195600051958 /* Back-25.png */,
@@ -2258,6 +2264,7 @@
 				C16CD2CF1C44B1EC00537461 /* rounded_corner_color_orange.xml in Resources */,
 				C16CD2A71C44B1EC00537461 /* accenteasy_icon_text.png in Resources */,
 				C16CD2D61C44B1EC00537461 /* sl_dog_1.png in Resources */,
+				9B824C7D1CFD257700784ED9 /* ic_progress.png in Resources */,
 				C141C8081C3E203C001D1F9C /* Assets.xcassets in Resources */,
 				C16CD2F31C44B1EC00537461 /* th_round.png in Resources */,
 				9B5F35A61CB5FF93000A0A3F /* p_menu_lesson_gray.png in Resources */,
@@ -2337,6 +2344,7 @@
 				C16CD2F91C44B1EC00537461 /* help_content_2.png in Resources */,
 				C16CD2CE1C44B1EC00537461 /* rounded_corner_color_green_dialog.xml in Resources */,
 				9B1F081E1CC8D94100B542BD /* help-context-freestyle.png in Resources */,
+				9B824C7E1CFD257700784ED9 /* p_menu_progress.png in Resources */,
 				C16CD2E31C44B1EC00537461 /* ic_facebook_white.png in Resources */,
 				C16CD2CD1C44B1EC00537461 /* rounded_corner_color_green.xml in Resources */,
 				C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */,

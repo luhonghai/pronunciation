@@ -2138,8 +2138,30 @@ definition</string>
                                             <segue destination="7Yt-Zd-c7X" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="OtF-Ax-8Lx"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nx3-n5-YX8">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="h47-UR-cKb">
                                         <rect key="frame" x="0.0" y="330" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h47-UR-cKb" id="EwM-jc-ZRE">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Zl-y0-XY4">
+                                                    <rect key="frame" x="48" y="9" width="319" height="27"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="p_menu_progress.png" translatesAutoresizingMaskIntoConstraints="NO" id="6mU-xe-YPw">
+                                                    <rect key="frame" x="8" y="3" width="40" height="40"/>
+                                                    <color key="tintColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="aMm-Q7-b9o" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="6qY-Im-grP"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nx3-n5-YX8">
+                                        <rect key="frame" x="0.0" y="374" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nx3-n5-YX8" id="ceo-LN-eee">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2161,7 +2183,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="8sO-Rw-cKJ">
-                                        <rect key="frame" x="0.0" y="374" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="418" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8sO-Rw-cKJ" id="cT3-eM-7NN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2183,7 +2205,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="3Sg-cE-bjI">
-                                        <rect key="frame" x="0.0" y="418" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="462" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Sg-cE-bjI" id="axW-SU-DO6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2205,7 +2227,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="gxN-pz-CCd">
-                                        <rect key="frame" x="0.0" y="462" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="506" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gxN-pz-CCd" id="quT-QW-dDi">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2227,7 +2249,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="hsm-Wk-uAK">
-                                        <rect key="frame" x="0.0" y="506" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="550" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hsm-Wk-uAK" id="ySX-35-sC6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2249,7 +2271,7 @@ definition</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="SHo-sG-L7A">
-                                        <rect key="frame" x="0.0" y="550" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="594" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SHo-sG-L7A" id="dtF-fd-Jiz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2268,7 +2290,7 @@ definition</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="b7S-aU-0Qd">
-                                        <rect key="frame" x="0.0" y="594" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="638" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b7S-aU-0Qd" id="3XQ-xN-VyY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -2835,6 +2857,23 @@ definition</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fsd-1u-jqG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-945" y="3752"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="G1U-xw-Mlj">
+            <objects>
+                <navigationController id="aMm-Q7-b9o" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="D36-m1-oeI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="7VA-g0-Jci" kind="relationship" relationship="rootViewController" id="itq-gS-rlD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b9S-04-RpF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2632.5" y="1687.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sao-qJ-38H">
@@ -3788,23 +3827,21 @@ definition</string>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1QN-lf-moh">
-                        <barButtonItem key="leftBarButtonItem" image="Back-25.png" id="skK-0S-yWf">
-                            <connections>
-                                <action selector="clickBack:" destination="7VA-g0-Jci" id="HHf-WG-vqp"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" image="Back-25.png" id="skK-0S-yWf"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="btnMenu" destination="skK-0S-yWf" id="Ma8-ml-75g"/>
                         <outlet property="collectionIPA" destination="0zf-nY-AYE" id="oYh-q2-pZG"/>
                         <outlet property="lblMode" destination="jDh-iA-AoY" id="GlN-yU-BEn"/>
                         <outlet property="lblTitle" destination="49U-CG-DBr" id="gRw-YF-iLJ"/>
                         <outlet property="switchMode" destination="s5E-9I-vVD" id="PLa-jy-l3O"/>
+                        <segue destination="ULa-Ui-4qE" kind="presentation" identifier="IPAGoToLogin" id="jy3-Cs-jYy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gcX-QK-1Pl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2096.5" y="1557.5"/>
+            <point key="canvasLocation" x="2115.5" y="1605.5"/>
         </scene>
         <!--Main Page Controller-->
         <scene sceneID="bwW-gd-Jp1">
@@ -3966,7 +4003,7 @@ definition</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E8P-QU-Xwl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2624.5" y="2395.5"/>
+            <point key="canvasLocation" x="2190.5" y="2395.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Utm-Px-sAY">
@@ -3983,7 +4020,7 @@ definition</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bGw-T5-LYE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2079.5" y="2395.5"/>
+            <point key="canvasLocation" x="1653.5" y="2395.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RBC-U4-euq">
@@ -5050,6 +5087,7 @@ about this lesson</string>
         <image name="p_menu_ipa.png" width="128" height="128"/>
         <image name="p_menu_lesson.png" width="128" height="128"/>
         <image name="p_menu_license.png" width="128" height="128"/>
+        <image name="p_menu_progress.png" width="128" height="128"/>
         <image name="p_menu_setting.png" width="128" height="128"/>
         <image name="p_next.png" width="128" height="128"/>
         <image name="p_prev.png" width="128" height="128"/>
@@ -5063,11 +5101,12 @@ about this lesson</string>
         <image name="tick.png" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eFf-YZ-v5D"/>
         <segue reference="w7l-a7-zju"/>
-        <segue reference="b3j-3D-4fV"/>
+        <segue reference="jy3-Cs-jYy"/>
+        <segue reference="itq-gS-rlD"/>
         <segue reference="Udu-EY-icj"/>
+        <segue reference="y7T-RE-Gak"/>
         <segue reference="6wU-8z-TLT"/>
-        <segue reference="Ceg-og-m1t"/>
+        <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,6 +7,8 @@
 //
 import EZAudio
 import SloppySwiper
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate, LessonTipPopupVCDelegate,
  UIGestureRecognizerDelegate {
@@ -14,6 +16,12 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     enum IPAChartMode {
         case HEAR_PHONEME
         case VIEW_MY_SCORE
+    }
+    
+    enum IPAChartMenuMode {
+        case BACK
+        case MENU
+        case LOGOUT
     }
     
     @IBOutlet weak var collectionIPA: UICollectionView!
@@ -24,7 +32,7 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
     let reuseIdentifier = "ipaChartCell"
     
-    var selectedType = IPAMapArpabet.VOWEL
+    var selectedType = IPAMapArpabet.CONSONANT
     
     var selectedMode = IPAChartMode.VIEW_MY_SCORE
     
@@ -40,7 +48,10 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     
     var userProfile: UserProfile!
     
+    var menuMode = IPAChartMenuMode.MENU
+    
     var helpText = ""
+    @IBOutlet weak var btnMenu: UIBarButtonItem!
     
     @IBOutlet weak var switchMode: UISwitch!
     @IBOutlet weak var lblTitle: UILabel!
@@ -53,8 +64,29 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         collectionIPA.reloadData()
     }
     
-    @IBAction func clickBack(sender: AnyObject) {
+    func clickBack() {
+        Logger.log("click back")
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func doLogout() {
+        Logger.log("do logout")
+        if self.userProfile.loginType == UserProfile.TYPE_GOOGLE_PLUS {
+            GIDSignIn.sharedInstance().signOut()
+        } else if self.userProfile.loginType == UserProfile.TYPE_FACEBOOK {
+            //Remove FB Data
+            let fbManager = FBSDKLoginManager()
+            fbManager.logOut()
+            FBSDKAccessToken.setCurrentAccessToken(nil)
+        } else {
+        }
+        
+        Login.logout()
+        
+        dispatch_async(dispatch_get_main_queue(),{
+            self.performSegueWithIdentifier("IPAGoToLogin", sender: self)
+        })
+
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -70,11 +102,11 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
     func updateLabelMode() {
         if selectedMode == .VIEW_MY_SCORE {
             lblMode.text = "view my scores"
-            scheduleShowHelp()
         } else if selectedMode == .HEAR_PHONEME {
             lblMode.text = "hear phonemes"
-            clearTimer()
+            //clearTimer()
         }
+        scheduleShowHelp()
     }
     
     override func viewDidLoad() {
@@ -109,6 +141,24 @@ class IPAChartController: BaseUIViewController , UICollectionViewDataSource, UIC
         activateAudioSession()
         player = EZAudioPlayer(delegate: self)
         //
+        
+        if menuMode == .MENU {
+            if self.revealViewController() != nil {
+                btnMenu.target = self.revealViewController()
+                btnMenu.action = #selector(SWRevealViewController.revealToggle(_:))
+                self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            }
+            btnMenu.image = UIImage(named: "Menu-25.png")
+        } else if menuMode == .BACK {
+            btnMenu.image = UIImage(named: "Back-25.png")
+            btnMenu.target = self
+            btnMenu.action = #selector(IPAChartController.clickBack)
+        } else {
+            btnMenu.target = self
+            btnMenu.image = ImageHelper.imageWithImage(image: UIImage(named: "p_logout_red.png")!, w: 40, h: 40)
+            btnMenu.action = #selector(IPAChartController.doLogout)
+        }
+        
         setNavigationBarTransparent()
     }
     
