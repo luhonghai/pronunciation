@@ -8,9 +8,11 @@ function buildCourse(dto){
         var $lblCourse = $("<label>");
         $lblCourse.addClass("lbl_cname");
         $lblCourse.html(dto.nameCourse);
+        $lblCourse.attr("href",dto.pageLink);
         var $lblInfor = $("<label>");
         $lblInfor.addClass("lbl_cinfor");
-        $lblInfor.html(dto.state + " by " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
+        $lblInfor.html(dto.sr +" " + dto.state + " by " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
+        $lblInfor.attr("href",dto.pageLink);
         var $link = $("<a>");
         $link.addClass("btn btn-info");
         $link.css("background-color", dto.backgroundColor);

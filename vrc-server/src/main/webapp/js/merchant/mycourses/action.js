@@ -76,6 +76,15 @@ function reloadSearch(){
     });
 }
 
+function clickLbl(){
+    $(document).on("click",".lbl_cname", function(){
+        window.location.href = $(this).attr('href');
+    });
+    $(document).on("click",".lbl_cinfor", function(){
+        window.location.href = $(this).attr('href');
+    });
+}
+
 function collapseMenu(){
     //$("#li-courses").find('ul').addClass('in');
 }
@@ -86,6 +95,7 @@ function focusInput(){
 }
 $(document).ready(function(){
     initDate();
+    clickLbl();
     makeOnceCheckboxSelected();
     saveCourse();
     clickHelpAddCourse();

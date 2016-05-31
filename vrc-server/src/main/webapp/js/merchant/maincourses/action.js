@@ -84,7 +84,17 @@ function focusInput(){
         $(this).find('input:first').focus();
     });
 }
+
+function clickLbl(){
+    $(document).on("click",".lbl_cname", function(){
+        window.location.href = $(this).attr('href');
+    });
+    $(document).on("click",".lbl_cinfor", function(){
+        window.location.href = $(this).attr('href');
+    });
+}
 $(document).ready(function(){
+    clickLbl();
     initDate();
     makeOnceCheckboxSelected();
     saveCourse();
