@@ -35,7 +35,8 @@ public class SuggestionServlet extends BaseServlet {
         Gson gson = new Gson();
         if(action.equalsIgnoreCase(SUGGESTION_COURSE)){
             String query = (String)StringUtil.isNull(request.getParameter("query"), 0).toString();
-            ArrayList<String> listSuggestion = cServices.suggestionCourse(query);
+            String page = (String)StringUtil.isNull(request.getParameter("page"), 0).toString();
+            ArrayList<String> listSuggestion = cServices.suggestionCourse(request,page,query);
             String json = gson.toJson(listSuggestion);
             response.getWriter().println(json);
         }else if(action.equalsIgnoreCase(SUGGESTION_COMPANY)){

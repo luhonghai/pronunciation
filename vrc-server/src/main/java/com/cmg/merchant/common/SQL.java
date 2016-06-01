@@ -44,7 +44,7 @@ public class SQL {
             "and m.tId !='paramTeacherId' and m.cpID ='paramCompanyId' and m.sr='paramSharing'";
 
     private String SQL_GET_COURSE_CREATE_BY_TEACHER = "Select c.id,c.name, c.description, " +
-            "cp.companyName, m.state, m.dateCreated,cp.id from COURSE as c " +
+            "cp.companyName, m.state, m.dateCreated,cp.id,m.sr from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
             "where c.isDeleted=false and m.isDeleted=false and m.status='paramStatus' " +

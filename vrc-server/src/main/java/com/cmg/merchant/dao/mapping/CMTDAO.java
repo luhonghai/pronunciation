@@ -2,6 +2,7 @@ package com.cmg.merchant.dao.mapping;
 
 
 import com.cmg.lesson.data.jdo.course.Course;;
+import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.common.SQL;
 import com.cmg.merchant.common.SqlUtil;
 import com.cmg.merchant.data.dto.CourseDTO;
@@ -619,6 +620,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                     Object[] array = (Object[]) obj;
                     if(array[0]!=null){
                         dto.setIdCourse(array[0].toString());
+                        dto.setSr(Constant.SHARE_IN_COMPANY);
                     }
                     if(array[1]!=null){
                         dto.setNameCourse(array[1].toString());
@@ -704,6 +706,9 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
                     }
+                    if(array[7]!=null){
+                        dto.setSr(array[7].toString());
+                    }
                     list.add(dto);
                 }
             }
@@ -743,6 +748,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                     Object[] array = (Object[]) obj;
                     if(array[0]!=null){
                         dto.setIdCourse(array[0].toString());
+                        dto.setSr(Constant.SHARE_ALL);
                     }
                     if(array[1]!=null){
                         dto.setNameCourse(array[1].toString());

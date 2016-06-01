@@ -7,24 +7,24 @@ function buildCourse(dto){
     var $lblCourse = $("<label>");
     $lblCourse.addClass("lbl_cname");
     $lblCourse.html(dto.nameCourse);
-
+    $lblCourse.attr("href",dto.pageLink);
     var $lblInfor = $("<label>");
     $lblInfor.addClass("lbl_cinfor");
     if(dto.state == "edited"){
-        $lblInfor.html(dto.state + " from " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
+        $lblInfor.html(dto.sr +" " + dto.state + " from " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
     }else if (dto.state == "duplicated" ) {
         if(dto.cpCloneId == dto.idCompany){
-            $lblInfor.html(dto.state + " " + dto.dateCreated.split(" ")[0]);
+            $lblInfor.html(dto.sr +" " + dto.state + " " + dto.dateCreated.split(" ")[0]);
         }else{
-            $lblInfor.html(dto.state  + " from " + dto.companyName +" " + dto.dateCreated.split(" ")[0]);
+            $lblInfor.html(dto.sr +" " + dto.state  + " from " + dto.companyName +" " + dto.dateCreated.split(" ")[0]);
         }
 
     }else if (dto.state == "edited title"){
-        $lblInfor.html("duplicated"  + " from " + dto.companyName +" " + dto.dateCreated.split(" ")[0]);
+        $lblInfor.html(dto.sr +" " + "duplicated"  + " from " + dto.companyName +" " + dto.dateCreated.split(" ")[0]);
     }else {
         $lblInfor.html(dto.sr + " "  + dto.dateCreated.split(" ")[0]);
     }
-
+    $lblInfor.attr("href",dto.pageLink);
     var $link = $("<a>");
     $link.addClass("btn btn-info");
     $link.css("background-color", dto.backgroundColor);

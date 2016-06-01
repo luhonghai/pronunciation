@@ -142,14 +142,25 @@ public class CourseServices {
      * @param course
      * @return
      */
-    public ArrayList<String> suggestionCourse(String course) {
-        CMTDAO dao = new CMTDAO();
+    public ArrayList<String> suggestionCourse(HttpServletRequest request, String page, String course) {
+       // CMTDAO dao = new CMTDAO();
+        CMTSERVICES services = new CMTSERVICES();
+        SessionUtil util = new SessionUtil();
         ArrayList<String> listSuggestion = new ArrayList<>();
+        List<CourseDTO> courses = null;
         try {
-            List<CourseDTO> courses = dao.suggestCourse(Constant.STATUS_PUBLISH, course);
+            if(page.equalsIgnoreCase("mycourses")){
+                courses = services.getCoursesForMyCourses(util.getCpId(request),util.getTid(request),util.getTeacherName(request));
+            }else if(page.equalsIgnoreCase("maincourses")){
+                courses = services.getCoursesForMainPage(util.getCpId(request),util.getTid(request));
+            }
+            //List<CourseDTO> courses  = dao.suggestCourse(Constant.STATUS_PUBLISH, course);
             if (courses != null && courses.size() > 0) {
                 for (CourseDTO c : courses) {
-                    listSuggestion.add(c.getNameCourse());
+                    String nameDb = c.getNameCourse();
+                    if(nameDb.toLowerCase().startsWith(course.toLowerCase())){
+                        listSuggestion.add(c.getNameCourse());
+                    }
                 }
             }
         } catch (Exception e) {
