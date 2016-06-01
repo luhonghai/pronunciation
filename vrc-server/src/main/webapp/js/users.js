@@ -56,12 +56,21 @@ function listUsers(){
             "bSortable": true,
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
-                if(data.gender==true) {
+                if (typeof data.sex == 'undefined' || typeof data.sex == null || typeof data.sex == 0) {
+                    return "N/A"
+                } else if (data.sex == 1) {
                     return '<i class="fa fa-male fa-2x" style="color:#0088CC"></i>';
-                }
-                if(data.gender==false){
+                } else if (data.sex == 2) {
                     return '<i class="fa fa-female fa-2x" style="color:#FF3399" ></i>';
+                } else {
+                    return '<i class="fa fa-question fa-2x" style="color:#919191" ></i>';
                 }
+                //if(data.gender==true) {
+                //    return '<i class="fa fa-male fa-2x" style="color:#0088CC"></i>';
+                //}
+                //if(data.gender==false){
+                //    return '<i class="fa fa-female fa-2x" style="color:#FF3399" ></i>';
+                //}
             }
         }, {
             "sWidth": "7%",

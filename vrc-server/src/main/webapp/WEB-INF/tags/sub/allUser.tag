@@ -29,7 +29,7 @@
         <div class="form-group">
           <label class="control-label">Gender</label>
           <select name="gender" id="gender" class="form-control" required="required">
-            <option value="All">All</option>c
+            <option value="All">All</option>
             <option value="Man">Man</option>
             <option value="WoMan">Woman</option>
 
