@@ -34,6 +34,10 @@ public class UploadImgServlet extends HttpServlet {
     private static String PARA_ACTION = "action";
     private static String PARA_ID_COURSE = "idCourse";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
         String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
         String fileName = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
         CourseServices service = new CourseServices();

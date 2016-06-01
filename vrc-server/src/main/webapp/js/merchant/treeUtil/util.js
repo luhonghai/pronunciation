@@ -6,6 +6,7 @@ var currentPopup;
 var listWord=[];
 var listIdCopied=[];
 var myObject = new Object();
+var isUpdateImg = false;
 function checkIdCopied(idCheck){
     if(listIdCopied.length > 0){
         for(var i = 0 ; i < listIdCopied.length;i++){
@@ -77,6 +78,17 @@ function openPopup(itemData){
         }else{
             currentPopup.find("#arrowCourse").html(nameOfCourse);
         }
+        $('#uploadImage').val('');
+        var imgS3 = itemData._imgS3;
+        if(imgS3.trim() !== "default"){
+            $('#uploadImage').val(itemData._imgS3);
+            PreviewImage();
+        }else{
+            $('#uploadPreview').attr('src','/images/popup/no-image.png');
+            $('#uploadPreview').css('width','100%');
+            $('#uploadPreview').css('height','150px');
+        }
+        isUpdateImg = false;
 
     }else
     if (itemData._actionClick == action_add_level){

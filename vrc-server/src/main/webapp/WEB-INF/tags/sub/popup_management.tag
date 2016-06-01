@@ -82,9 +82,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="courseName">image:</label>
+                        <label class="control-label col-md-4 lbl_addForm" for="uploadImage">image:</label>
                         <div class="col-md-8">
-                            <img id="uploadPreview" style="width:100%;height: 100%;" src="/images/popup/no-image.png" /><br />
+                            <img id="uploadPreview" style="width:100%;height: 150px;" src="/images/popup/no-image.png" /><br />
                             <input id="uploadImage" type="file" name="p1" style="padding-top:10px;width:100%" onchange="PreviewImage();" />
                         </div>
                     </div>
@@ -777,11 +777,14 @@
         $("#"+id).parent().find('span').html(html);
     }
     function PreviewImage() {
+        isUpdateImg = true;
         var oFReader = new FileReader();
         oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
         oFReader.onload = function (oFREvent) {
             document.getElementById("uploadPreview").src = oFREvent.target.result;
             $("#uploadPreview").css("padding-top","10px");
+            $("#uploadPreview").css("width","100%");
+            $("#uploadPreview").css("height","100px");
         };
     }
 </script>

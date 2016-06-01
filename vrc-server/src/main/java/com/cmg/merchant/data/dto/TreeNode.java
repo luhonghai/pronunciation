@@ -84,6 +84,8 @@ public class TreeNode {
 
     private boolean _allowDragDrop;
 
+    private String _imgS3;
+
     public int getPositionQ() {
         return _positionQ;
     }
@@ -270,5 +272,13 @@ public class TreeNode {
 
     public void set_allowDragDrop(boolean _allowDragDrop) {
         this._allowDragDrop = _allowDragDrop;
+    }
+
+    public String getImgS3() {
+        return _imgS3;
+    }
+
+    public void setImgS3(String imgS3) {
+        this._imgS3 = imgS3;
     }
 }

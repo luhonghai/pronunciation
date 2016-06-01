@@ -7,6 +7,7 @@ var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 var servletCopy = "/CopyServlet";
 var servletDrapDrop = "/DragDropServlet";
+var servletUpload = "/UploadImgServlet";
 var progress;
 var state;
 /**
@@ -21,6 +22,73 @@ function isNumberKey(evt,e){
     return true;
 }
 
+
+function uploadImg(){
+    var img = $('#uploadImage').val();
+    if (isUpdateImg && img !== null && typeof img !== "undefined" && img.length > 0) {
+        var form = $("#popupCourse");
+        var formdata = false;
+        if (window.FormData){
+            formdata = new FormData(form[0]);
+        }
+        formdata.append("idCourse",idCourse);
+        formdata.append("action","uploadImg");
+        $.ajax({
+            url         : servletUpload,
+            data        : formdata ? formdata : form.serialize(),
+            cache       : false,
+            contentType : false,
+            processData : false,
+            dataType : "text",
+            type        : 'POST',
+            success     : function(data){
+                if (data.indexOf("error") !=-1) {
+                    //add false show the error
+                    currentPopup.find(".validateMsg").hide();
+                    currentPopup.find(".validateMsg").css("color","red");
+                    currentPopup.find(".validateMsg").html(data);
+                    currentPopup.find(".validateMsg").show();
+                }else{
+                    if(nameOfCourse.trim() != getCourseName().val().trim()){
+                        isEditedTitle = true;
+                        UpdateStateCourse();
+                    }
+                    currentParent = null;
+                    firstLoad = true;
+                    reloadTree();
+                    currentPopup.find(".validateMsg").css("color","red");
+                    currentPopup.modal('hide');
+                    changeHeaderCourseName(getCourseName().val());
+                    $("#listWord").empty();
+                    swalNew("", "updated successfully", "success");
+                }
+                currentPopup.find("#btnSaveCourse").removeAttr("disabled");
+            },
+            error: function () {
+                currentPopup.find(".validateMsg").hide();
+                currentPopup.find(".validateMsg").css("color","red");
+                currentPopup.find(".validateMsg").html("could not connect to server");
+                currentPopup.find(".validateMsg").show();
+                currentPopup.find("#btnSaveCourse").attr("disabled","disabled");
+            }
+        });
+    }else{
+        //reload the tree
+        if(nameOfCourse.trim() != getCourseName().val().trim()){
+            isEditedTitle = true;
+            UpdateStateCourse();
+        }
+        currentParent = null;
+        firstLoad = true;
+        reloadTree();
+        currentPopup.find(".validateMsg").css("color","red");
+        currentPopup.modal('hide');
+        changeHeaderCourseName(getCourseName().val());
+        $("#listWord").empty();
+        swalNew("", "updated successfully", "success");
+        currentPopup.find("#btnSaveCourse").attr("disabled","disabled");
+    }
+}
 function editCourse(){
     currentPopup.find(".validateMsg").html("Your course is being edited..");
     currentPopup.find(".validateMsg").css("color","#A6A6A6")
@@ -39,7 +107,7 @@ function editCourse(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                //reload the tree
+                /*//reload the tree
                 if(nameOfCourse.trim() != getCourseName().val().trim()){
                     isEditedTitle = true;
                     UpdateStateCourse();
@@ -51,7 +119,8 @@ function editCourse(){
                 currentPopup.modal('hide');
                 changeHeaderCourseName(getCourseName().val());
                 $("#listWord").empty();
-                swalNew("", "updated successfully", "success");
+                swalNew("", "updated successfully", "success");*/
+                uploadImg();
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").hide();
