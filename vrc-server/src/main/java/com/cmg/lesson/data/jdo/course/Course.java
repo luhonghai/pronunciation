@@ -30,6 +30,9 @@ public class Course implements Mirrorable {
     @Persistent
     private int version;
 
+    @Persistent
+    private String imgS3;
+
     @NotPersistent
     private String share;
 
@@ -111,5 +114,13 @@ public class Course implements Mirrorable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getImgS3() {
+        return imgS3;
+    }
+
+    public void setImgS3(String imgS3) {
+        this.imgS3 = imgS3;
     }
 }

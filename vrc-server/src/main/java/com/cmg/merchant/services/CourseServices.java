@@ -307,6 +307,24 @@ public class CourseServices {
         }
         return ERROR + ": an error has been occurred in server";
     }
+    /**
+     *
+     * @param idCourse
+     * @param imgS3
+     * @return
+     */
+    public String updateImgCourse(String idCourse, String imgS3){
+        CDAO cDao = new CDAO();
+        try {
+            boolean check = cDao.updateImgCourse(idCourse, imgS3);
+            if(check){
+                return SUCCESS;
+            }
+        } catch (Exception e) {
+            logger.error("can not get name of course : " + e);
+        }
+        return ERROR + ": an error has been occurred in server";
+    }
 
     /**
      *

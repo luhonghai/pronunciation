@@ -93,6 +93,16 @@ function focusInput(){
         $(this).find('input:first').focus();
     });
 }
+function PreviewImage() {
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+    oFReader.onload = function (oFREvent) {
+        document.getElementById("uploadPreview").src = oFREvent.target.result;
+        $("#uploadPreview").css("padding-top","10px");
+        $("#uploadPreview").css("width","100%");
+        $("#uploadPreview").css("height","100px");
+    };
+}
 $(document).ready(function(){
     initDate();
     clickLbl();

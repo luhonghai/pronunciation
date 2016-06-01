@@ -82,6 +82,13 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="courseName">image:</label>
+                        <div class="col-md-8">
+                            <img id="uploadPreview" style="width:100%;height: 100%;" src="/images/popup/no-image.png" /><br />
+                            <input id="uploadImage" type="file" name="p1" style="padding-top:10px;width:100%" onchange="PreviewImage();" />
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm" for="shareall">share all:</label>
                         <div class="col-md-6">
                             <input type="checkbox" class="form-control cbstyle"
@@ -768,5 +775,13 @@
         var span = $("#"+id).parent().find('span').html();
         var html = length + " of " + span.split("of")[1];
         $("#"+id).parent().find('span').html(html);
+    }
+    function PreviewImage() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("uploadImage").files[0]);
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview").src = oFREvent.target.result;
+            $("#uploadPreview").css("padding-top","10px");
+        };
     }
 </script>
