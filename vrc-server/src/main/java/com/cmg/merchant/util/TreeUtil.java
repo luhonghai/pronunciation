@@ -60,6 +60,11 @@ public class TreeUtil {
             node.setId(c.getId());
             node.setLabel(c.getName());
             node.set_title(c.getDescription());
+            if(c.getImgS3()!=null){
+                node.setImgS3(c.getImgS3());
+            }else{
+                node.setImgS3("default");
+            }
             node.set_targetLoad(Constant.TARGET_LOAD_COURSE);
             node.setIcon(Constant.IC_COURSE);
             node.set_popupId(Constant.POPUP_COURSE);

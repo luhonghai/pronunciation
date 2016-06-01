@@ -284,7 +284,17 @@ function clearFormAdd(){
         $(this).val('');
         $(this).attr('autocomplete','off');
     });
-
+    getPoupAdd().find("input[type=file]").each(function(){
+        //Do stuff here
+        $(this).val('');
+        $(this).attr('autocomplete','off');
+    });
+    getPoupAdd().find("img").each(function(){
+        //Do stuff here
+        $(this).attr('src','/images/popup/no-image.png');
+        $(this).css('width','100%');
+        $(this).css('height','150px');
+    });
     $('#shareall').prop('checked', true);
     $('input[type="checkbox"]').not($('#shareall')).prop('checked', false);
 }

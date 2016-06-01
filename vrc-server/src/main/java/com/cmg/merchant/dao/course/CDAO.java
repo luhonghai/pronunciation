@@ -129,6 +129,29 @@ public class CDAO extends DataAccess<Course> {
         }
         return isUpdate;
     }
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public boolean updateImgCourse(String idCourse, String imgS3){
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET imgS3=?  WHERE id=?");
+        try {
+            q.execute(idCourse,imgS3);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
 
 
     /**

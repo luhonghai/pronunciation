@@ -2,7 +2,45 @@
  * Created by lantb on 2016-03-07.
  */
 var servlet = "/MainCourseServlet";
+var servletUpload = "/UploadImgServlet";
 var progress;
+function uploadImg(idCourse){
+    var img = $('#uploadImage').val();
+    if (img !== null && typeof img !== "undefined" && img.length > 0) {
+        var form = $("#add");
+        var formdata = false;
+        if (window.FormData){
+            formdata = new FormData(form[0]);
+        }
+        formdata.append("idCourse",idCourse);
+        formdata.append("action","uploadImg");
+        $.ajax({
+            url         : servletUpload,
+            data        : formdata ? formdata : form.serialize(),
+            cache       : false,
+            contentType : false,
+            processData : false,
+            dataType : "text",
+            type        : 'POST',
+            success     : function(data){
+                if (data.indexOf("error") !=-1) {
+                    getMsgAddCourse().html("an error has been occurred in server");
+                    getMsgAddCourse().show();
+                }else{
+                    //add success will draw again the list or redirect to the new page
+                    window.location.href = "/course-details.jsp?idCourse="+idCourse;
+                }
+            },
+            error: function () {
+                getMsgAddCourse().html("an error has been occurred in server");
+                getMsgAddCourse().show();
+            }
+        });
+    }else{
+        window.location.href = "/course-details.jsp?idCourse="+idCourse;
+    }
+}
+
 function addCourse(){
     //post request to server
     $.ajax({
@@ -21,7 +59,8 @@ function addCourse(){
                 getMsgAddCourse().show();
             }else{
                 //add success will draw again the list or redirect to the new page
-                window.location.href = "/course-details.jsp?idCourse="+data;
+                 uploadImg(data);
+                //window.location.href = "/course-details.jsp?idCourse="+data;
             }
         },
         error: function () {

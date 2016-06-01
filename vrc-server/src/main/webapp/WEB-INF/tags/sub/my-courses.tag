@@ -130,6 +130,13 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-md-4 lbl_addForm" for="uploadImage">image:</label>
+                            <div class="col-md-8">
+                                <img id="uploadPreview" style="width:100%;height: 150px;" src="/images/popup/no-image.png" /><br />
+                                <input id="uploadImage" type="file" name="p1" style="padding-top:10px;width:100%" onchange="PreviewImage();" />
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-4 lbl_addForm" for="shareall">share all:</label>
 
                             <div class="col-md-6">
