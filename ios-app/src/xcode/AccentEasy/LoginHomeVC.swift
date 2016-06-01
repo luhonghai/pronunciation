@@ -242,9 +242,11 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                         } else if gender.lowercaseString == "female" {
                             userProfile.sex = 2
                         } else {
-                            userProfile.sex = 0
+                            userProfile.sex = 3
                         }
                         //userProfile.gender = gender as! String == "male"
+                    } else {
+                        userProfile.sex = 0
                     }
                     userProfile.username = username as! String
                     userProfile.name = result.valueForKey("name") as! String

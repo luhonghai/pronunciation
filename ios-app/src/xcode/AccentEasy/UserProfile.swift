@@ -28,7 +28,7 @@ public class UserProfile: Mappable {
     public var password:String!
     public var isSetup:Bool = false;
     public var nativeEnglish:Bool = true
-    //sex 0 is Unknow, 1 is boy, 2 is girl
+    //sex 0 is not set, 1 is boy, 2 is girl, 3 is Unknow
     public var sex:Int = 0
     public var dob:String = "01/01/1900";
     public var country:String = "GB";

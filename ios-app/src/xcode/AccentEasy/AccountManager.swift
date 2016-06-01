@@ -585,9 +585,11 @@ class AccountManager {
                             } else if gender.lowercaseString == "female" {
                                 userProfile.sex = 2
                             } else {
-                                userProfile.sex = 0
+                                userProfile.sex = 3
                             }
                             //userProfile.gender = gender == "male"
+                        } else {
+                            userProfile.sex = 0
                         }
                     } catch {
                         NSLog("Account Information could not be loaded")
