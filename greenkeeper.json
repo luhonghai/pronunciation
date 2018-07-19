@@ -1,0 +1,18 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "vrc-server/src/main/webapp/bower_components/AJAX_PROCESS_BAR/package.json",
+        "vrc-server/src/main/webapp/bower_components/bootstrap-colorpicker-master/package.json",
+        "vrc-server/src/main/webapp/bower_components/bootstrap-datetimepicker-master/package.json",
+        "vrc-server/src/main/webapp/bower_components/bootstrap-fileinput-master/package.json",
+        "vrc-server/src/main/webapp/bower_components/bootstrap-multiselect-master/package.json",
+        "vrc-server/src/main/webapp/bower_components/bootstrap/package.json",
+        "vrc-server/src/main/webapp/bower_components/holderjs/package.json",
+        "vrc-server/src/main/webapp/bower_components/metisMenu/package.json",
+        "vrc-server/src/main/webapp/bower_components/moment-master/package.json",
+        "vrc-server/src/main/webapp/bower_components/morrisjs/package.json"
+      ]
+    }
+  }
+}
